@@ -8,7 +8,7 @@
 - BRISSET Leo
 - OZOCAK Ibrahim
 - MENJIKOFF Noa
-- Juliette Rousselet
+- ROUSSELET Juliette
 
 ### Description du projet
 
