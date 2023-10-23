@@ -6,9 +6,9 @@
 
 - SEVELLEC Maxime (Chef de projet)
 - BRISSET Leo
-- OZOCAK Ibrahim
-- MENJIKOFF Noa
-- Juliette Rousselet
+- ÖZOCAK Ibrahim
+- MENJIKOFF-GUILLOT Noa
+- ROUSSELET Juliette
 
 ### Description du projet
 
