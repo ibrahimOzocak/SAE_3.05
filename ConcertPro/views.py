@@ -42,7 +42,8 @@ def ajout_nouvelle_salle():
 @app.route('/voir_salles')
 def voir_salles():
     return render_template(
-        "voir_salles.html"
+        "voir_salles.html",
+        salles = SALLES
     )
 
 @app.route('/historique_concert')

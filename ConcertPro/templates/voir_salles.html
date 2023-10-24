@@ -5,4 +5,12 @@
 {% endblock %}
 {% block content %}
 <h1>Voir les salles</h1>
+{% for salle in salles %}
+<a href="">
+    <img src={{ salle.photo }} alt="" width=10% height=10%/>
+    <p>
+        {{ salle.name }} 
+    </p>
+</a>
+{% endfor %}
 {% endblock %}
