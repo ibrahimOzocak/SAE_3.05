@@ -58,99 +58,22 @@
                 <th>Samedi</th>
                 <th>Dimanche</th>
             </tr>
-            </thead>
-            <tbody>
+        </thead>
+        <tbody>
+            {% for h in range(heures|length) %}
             <tr>
-                <td>8h</td>
-                <td>concert 1</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>concert 5</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>10h</td>
-                <td>concert 1</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>12h</td>
-                <td></td>
-                <td>concert 2</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>14h</td>
-                <td></td>
-                <td>concert 2</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>16h</td>
-                <td></td>
-                <td>concert 2</td>
-                <td>concert 3</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>18h</td>
-                <td></td>
-                <td></td>
-                <td>concert 3</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>20h</td>
-                <td></td>
-                <td></td>
-                <td>concert 3</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>22h</td>
-                <td></td>
-                <td></td>
-                <td>concert 3</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>concert 7</td>
-            </tr>
-            <tr>
-                <td>00h</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>concert 4</td>
-                <td></td>
-                <td>concert 6</td>
-                <td>concert 7</td>
-            </tr>
-            </tbody>
+                <th>{{ heures[h] }}h</th>
+                {% for i in range(1, 8) %}
+                <td>
+                    {% for concert in concerts %}
+                    {% if concert.jour == i and not(concert.heure_debut >= heures[h]+pas or concert.heure_fin <= heures[h]) %}
+                    <div>{{ concert.nom }}</div>
+                    {% endif %}
+                    {% endfor %}
+                </td>
+                {% endfor %}
+            {% endfor %}
+        </tbody>
     </table>
 </section>
 {% endblock %}
