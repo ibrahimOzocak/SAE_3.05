@@ -3,13 +3,15 @@
 {{ super() }}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/voir_salles.css')}}"> 
 {% endblock %}
-{% block content %}
+{% block header %}
 <h1>Voir les salles</h1>
+{% endblock %}
+{% block content %}
 {% for salle in salles %}
 <a href="">
     <img src={{ salle.photo }} alt="" width=10% height=10%/>
     <p>
-        {{ salle.name }} 
+        {{ salle.nom }} 
     </p>
 </a>
 {% endfor %}

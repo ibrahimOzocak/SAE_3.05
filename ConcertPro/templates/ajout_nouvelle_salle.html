@@ -3,8 +3,10 @@
     {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/ajout_nouvelle_salle.css') }}"> 
 {% endblock %}
-{% block content %}
+{% block header %}
 <h1>Ajout d'une nouvelle salle</h1>
+{% endblock %}
+{% block content %}
 <form>
     <section>
         <div>
