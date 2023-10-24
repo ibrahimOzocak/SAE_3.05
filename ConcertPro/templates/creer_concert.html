@@ -16,10 +16,14 @@
         <div>
             <input type="text" name="titre" required placeholder="Titre du concert"/>
             <input type="text" name="type" required placeholder="Type du concert"/>
-            <label for="start">Date de début</label>
-            <input type="date" id="start" name="date_debut"/>
-            <label for="start">Date de fin</label>
-            <input type="date" id="start" name="date_fin"/>
+            <label for="date_debut">Date de début</label>
+            <input type="date" name="date_debut"/>
+            <label for="heure_debut">Heure de début</label>
+            <input type="time" name="heure_debut" min="00:00" max="23:59" required/>
+            <label>Durée</label>
+            <div>
+                hh:mm : <input type="number" name="heure_duree" min="0" required/> : <input type="number" name="minute_duree" min="0" required/>
+            </div>
         </div>
     </section>
     <section>
@@ -44,5 +48,6 @@
         <label for="description">Description du concert</label>
         <textarea name="description"></textarea>
     </section>
+    <input type="submit" value="Enregistrer le concert">
 </form>
 {% endblock %}
