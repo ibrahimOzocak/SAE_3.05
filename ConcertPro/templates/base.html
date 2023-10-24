@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    {% block head %}
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% block styles %}
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css')}}">
+      <!-- Bootstrap CSS -->
+    {% endblock %}
+    <title>ConcertPro</title>
+    {% endblock %}
+  </head>
+  <body>
+    <header>
+      ConcertPro
+      <nav>
+        <ul>
+          <li><a href="{{url_for('accueil')}}">Accueil</a></li>
+          <li><a href="{{url_for('creer_concert')}}">Créer un concert</a></li>
+          <li><a href="{{url_for('voir_prochains_concerts')}}">Voir les prochains concerts</a></li>
+          <li><a href="{{url_for('ajout_nouvelle_salle')}}">Ajouter une nouvelle salle</a></li>
+          <li><a href="{{url_for('voir_salles')}}">Voir toutes les salles</a></li>
+          <li><a href="{{url_for('historique_concerts')}}">Historique des concerts passés</a></li>
+        </ul>
+      </nav>
+    </header>
+    {% block content %}
+    {% endblock %}
+    <footer>
+      <ul>
+        <li>SEVELLEC Maxime (Chef de projet)</li>
+        <li>BRISSET Leo</li>
+        <li>ÖZOCAK Ibrahim</li>
+        <li>MENJIKOFF-GUILLOT Noa</li>
+        <li>ROUSSELET Juliette</li>
+      </ul>
+    </footer>
+    {% block scripts %}
+      <!-- Optional JavaScript -->
+    {% endblock %}
+  </body>
+</html>
