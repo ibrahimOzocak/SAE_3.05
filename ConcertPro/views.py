@@ -32,7 +32,7 @@ def voir_salles():
     )
 
 @app.route('/historique_concert')
-def historique_concert():
+def historique_concerts():
     return render_template(
-        "historique_concert.html"
+        "historique_concerts.html"
     )
