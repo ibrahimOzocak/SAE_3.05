@@ -3,6 +3,156 @@
 {{ super() }}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/accueil.css')}}"> 
 {% endblock %}
-{% block content %}
+{% block header %}
 <h1>Accueil</h1>
+{% endblock %}
+{% block content %}
+<main>
+    <section>
+        <h2>Prochains concerts</h2>
+        <ul>
+            <li>
+                <div>
+                    <a href="#">
+                        <img src="{{ url_for('static', filename='images/test.png')}}" alt="image de test" width=10% height=10%>
+                        <p>un nom de concert</p>
+                    </a>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <a href="#">
+                        <img src="{{ url_for('static', filename='images/test.png')}}" alt="image de test" width=10% height=10%>
+                        <p>un nom de concert</p>
+                    </a>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <a href="#">
+                        <img src="{{ url_for('static', filename='images/test.png')}}" alt="image de test" width=10% height=10%>
+                        <p>un nom de concert</p>
+                    </a>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <a href="#">
+                        <img src="{{ url_for('static', filename='images/test.png')}}" alt="image de test" width=10% height=10%>
+                        <p>un nom de concert</p>
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <h2>Agenda de la semaine</h2>
+        <table>
+            <thead>
+                <tr>
+                  <th></th>
+                  <th>Lundi</th>
+                  <th>Mardi</th>
+                  <th>Mercredi</th>
+                  <th>Jeudi</th>
+                  <th>Vendredi</th>
+                  <th>Samedi</th>
+                  <th>Dimanche</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                    <td>8h</td>
+                    <td>concert 1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>concert 5</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>10h</td>
+                    <td>concert 1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>12h</td>
+                    <td></td>
+                    <td>concert 2</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>14h</td>
+                    <td></td>
+                    <td>concert 2</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>16h</td>
+                    <td></td>
+                    <td>concert 2</td>
+                    <td>concert 3</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>18h</td>
+                    <td></td>
+                    <td></td>
+                    <td>concert 3</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>20h</td>
+                    <td></td>
+                    <td></td>
+                    <td>concert 3</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>22h</td>
+                    <td></td>
+                    <td></td>
+                    <td>concert 3</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>concert 7</td>
+                </tr>
+                <tr>
+                    <td>00h</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>concert 4</td>
+                    <td></td>
+                    <td>concert 6</td>
+                    <td>concert 7</td>
+                </tr>
+              </tbody>
+        </table>
+    </section>
+</main>
 {% endblock %}

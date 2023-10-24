@@ -25,6 +25,8 @@
           <li><a href="{{url_for('historique_concerts')}}">Historique des concerts passés</a></li>
         </ul>
       </nav>
+      {% block header %}
+      {% endblock %}
     </header>
     {% block content %}
     {% endblock %}
