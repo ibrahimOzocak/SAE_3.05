@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/creer_concert.css')}}"> 
+{% endblock %}
+{% block header %}
+<h1>Créer un concert</h1>
+{% endblock %}
+{% block content %}
+<form action="">
+    <section>
+        <input type="file" name="image_concert" accept="image/png, image/jpeg"/>
+        {% if image %}
+        <img src="{{ url_for('static', filename='images/'+image_concert+'.png')}}" alt="image de test" width=10% height=10%>
+        {% endif %}
+        <div>
+            <input type="text" name="titre" required placeholder="Titre du concert"/>
+            <input type="text" name="type" required placeholder="Type du concert"/>
+            <label for="date_debut">Date de début</label>
+            <input type="date" name="date_debut"/>
+            <label for="heure_debut">Heure de début</label>
+            <input type="time" name="heure_debut" min="00:00" max="23:59" required/>
+            <label>Durée</label>
+            <div>
+                hh:mm : <input type="number" name="heure_duree" min="0" max="59" required/> : <input type="number" name="minute_duree" min="0" required/>
+            </div>
+        </div>
+    </section>
+    <section>
+        <label for="artiste">Artiste</label>
+        <select name="artiste">
+            {% for artiste in artistes %}
+            <option>{{ artiste.nom }}</option>
+            {% endfor %}
+        </select>
+        <button>Creer un nouvel artiste</button>
+    </section>
+    <section>
+        <label for="artiste">Salle</label>
+        <select name="artiste">
+            {% for salle in salles %}
+            <option>{{ salle.nom }}</option>
+            {% endfor %}
+        </select>
+        <button>Creer une nouvelle salle</button>
+    </section>
+    <section>
+        <label for="description">Description du concert</label>
+        <textarea name="description"></textarea>
+    </section>
+    <input type="submit" value="Enregistrer le concert">
+</form>
+{% endblock %}

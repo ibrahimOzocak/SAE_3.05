@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/historique_concert.css')}}"> 
+{% endblock %}
+{% block header %}
+<h1>Historique des concerts</h1>
+{% endblock %}
+{% block content %}
+{% for salle in salles %}
+<a href="">
+    <img src={{ salle.photo }} alt="" width=10% height=10%/>
+    <p>
+        {{ salle.nom }} 
+    </p>
+</a>
+{% endfor %}
+{% endblock %}

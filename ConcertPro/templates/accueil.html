@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/accueil.css')}}"> 
+{% endblock %}
+{% block header %}
+<h1>Accueil</h1>
+{% endblock %}
+{% block content %}
+<section>
+    <h2>Prochains concerts</h2>
+    <ul>
+        <li>
+            <div>
+                <a href="#">
+                    <img src="{{ url_for('static', filename='images/test.png')}}" alt="image de test" width=10% height=10%>
+                    <p>un nom de concert</p>
+                </a>
+            </div>
+        </li>
+        <li>
+            <div>
+                <a href="#">
+                    <img src="{{ url_for('static', filename='images/test.png')}}" alt="image de test" width=10% height=10%>
+                    <p>un nom de concert</p>
+                </a>
+            </div>
+        </li>
+        <li>
+            <div>
+                <a href="#">
+                    <img src="{{ url_for('static', filename='images/test.png')}}" alt="image de test" width=10% height=10%>
+                    <p>un nom de concert</p>
+                </a>
+            </div>
+        </li>
+        <li>
+            <div>
+                <a href="#">
+                    <img src="{{ url_for('static', filename='images/test.png')}}" alt="image de test" width=10% height=10%>
+                    <p>un nom de concert</p>
+                </a>
+            </div>
+        </li>
+    </ul>
+</section>
+<section>
+    <h2>Agenda de la semaine</h2>
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th>Lundi</th>
+                <th>Mardi</th>
+                <th>Mercredi</th>
+                <th>Jeudi</th>
+                <th>Vendredi</th>
+                <th>Samedi</th>
+                <th>Dimanche</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for h in range(heures|length) %}
+            <tr>
+                <th>{{ heures[h] }}h</th>
+                {% for i in range(1, 8) %}
+                <td>
+                    {% for concert in concerts %}
+                    {% if concert.jour == i and not(concert.heure_debut >= heures[h]+pas or concert.heure_fin <= heures[h]) %}
+                    <div>{{ concert.nom }}</div>
+                    {% endif %}
+                    {% endfor %}
+                </td>
+                {% endfor %}
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}
