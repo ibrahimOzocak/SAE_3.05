@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/voir_prochains_concerts.css')}}"> 
+{% endblock %}
+{% block content %}
+<h1>Voir les prochains concerts</h1>
+{% endblock %}
