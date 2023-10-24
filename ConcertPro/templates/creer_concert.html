@@ -7,7 +7,7 @@
 <h1>Créer un concert</h1>
 {% endblock %}
 {% block content %}
-<form action="">
+<form role="form" method="POST" action="{{ url_for('save_concert') }}">
     <section>
         <input type="file" name="image_concert" accept="image/png, image/jpeg"/>
         {% if image %}
@@ -36,8 +36,8 @@
         <button>Creer un nouvel artiste</button>
     </section>
     <section>
-        <label for="artiste">Salle</label>
-        <select name="artiste">
+        <label for="salle">Salle</label>
+        <select name="salle">
             {% for salle in salles %}
             <option>{{ salle.nom }}</option>
             {% endfor %}

@@ -66,7 +66,7 @@
                 {% for i in range(1, 8) %}
                 <td>
                     {% for concert in concerts %}
-                    {% if concert.jour == i and not(concert.heure_debut >= heures[h]+pas or concert.heure_fin <= heures[h]) %}
+                    {% if concert.jour|int == i and not(concert.heure_debut|int >= heures[h]|int+pas|int or concert.heure_debut|int+concert.heure_duree|int*60+concert.minute_duree|int <= heures[h]|int) %}
                     <div>{{ concert.nom }}</div>
                     {% endif %}
                     {% endfor %}
