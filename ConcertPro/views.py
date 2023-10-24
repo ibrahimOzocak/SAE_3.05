@@ -16,7 +16,8 @@ def creer_concert():
 @app.route('/voir_prochains_concerts')
 def voir_prochains_concerts():
     return render_template(
-        "voir_prochains_concerts.html"
+        "voir_prochains_concerts.html",
+        conerts=[]
     )
 
 @app.route('/ajout_nouvelle_salle')

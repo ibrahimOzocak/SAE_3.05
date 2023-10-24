@@ -3,6 +3,16 @@
 {{ super() }}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/voir_prochains_concerts.css')}}"> 
 {% endblock %}
-{% block content %}
+{% block header %}
 <h1>Voir les prochains concerts</h1>
+{% endblock %}
+{% block content %}
+{% for concert in concerts %}
+<div>
+    <a href="#">
+        <img src="{{ url_for('static', filename='images/'+concert.url+'.png')}}" alt="image de test" width=10% height=10%>
+        <p>{{ concert.nom }}</p>
+    </a>
+</div>
+{% endfor %}
 {% endblock %}
