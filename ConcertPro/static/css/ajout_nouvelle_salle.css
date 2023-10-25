@@ -1,0 +1,70 @@
+.sec1_new_salle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; /* Permet aux éléments de descendre en cas de réduction de la largeur de l'écran */
+    background-color: #f2f2f2; /* Ajoute un fond gris clair pour la section */
+    padding: 20px; /* Ajoute un peu d'espace autour de la section */
+    border-radius: 10px; /* Arrondit les coins de la section */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Ajoute une ombre douce à la section */
+    margin-top: 20px;
+}
+
+
+/* Agrandit les champs de saisie */
+.sec1_new_salle >div input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.div_sec1{
+    display: flex;
+    flex-direction: column;
+
+}
+
+
+.sec2_new_salle {
+    background-color: #f2f2f2; /* Ajoute un fond gris clair pour la section */
+    padding: 20px; /* Ajoute un peu d'espace autour de la section */
+    border-radius: 10px; /* Arrondit les coins de la section */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Ajoute une ombre douce à la section */
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sec2_new_salle > input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.sec2_new_salle>div{
+    margin-bottom: 15px;
+}
+
+
+input[type="button"]{
+    margin-top: 20px;
+    align-self: center;
+    padding: 10px;
+    border-radius: 10px;
+    color: white;
+    background-color: #007bff;
+    cursor: pointer;
+}
+
+input[type="button"]:hover{
+    scale: 1.1;
+    transition: 0.5s ease-in-out;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+}

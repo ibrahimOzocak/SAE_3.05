@@ -6,6 +6,7 @@ header{
 
 body{
     background-color: rgb(248, 248, 248);
+    margin: 0;
 }
 
 footer{
@@ -17,7 +18,9 @@ footer{
     
 }
 
-
+a{
+    text-decoration: none;
+}
 
 .ul_base{
     display: flex;
