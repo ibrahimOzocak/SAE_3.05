@@ -89,7 +89,7 @@ def historique_concerts():
 def save_concert():
     concert = {}
     concert["artiste"] = request.form['artiste']
-    concert["date_debut"] = request.form['date_debut']
+    concert["date_debut"] = datetime.datetime.strptime(request.form['date_debut'], "%Y-%m-%d")
     concert["salle"] = request.form['salle']
     concert["nom"] = request.form['titre']
     concert["heure_debut"] = request.form['heure_debut']
@@ -98,23 +98,6 @@ def save_concert():
     concert["jour"] = 7
     CONCERTS.append(concert)
     return redirect(url_for('concert', nom=concert["nom"]))
-
-# class AuthorForm(FlaskForm):
-#     id = HiddenField('id')
-#     name = StringField('name', validators=[DataRequired()])
-# def save_author():
-#     a = None
-#     f = AuthorForm()
-#     if f.validate_on_submit():
-#         id = int(f.id.data)
-#         a = get_author(id)d
-#         a.name = f.name.data
-#         db.session.commit()
-#         return redirect(url_for('one_author', id=a.id))
-#     a = get_author(int(f.id.data))
-#     return render_template(
-#         "edit-author.html",
-#         author=a, form=f)
 
 @app.route('/concert/<nom>')
 def concert(nom):

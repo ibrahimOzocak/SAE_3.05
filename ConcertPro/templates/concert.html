@@ -3,10 +3,10 @@
 {{ super() }}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/concert.css')}}"> 
 {% endblock %}
-{% block header %}
-<h1>{{ concert.nom }}</h1>
-{% endblock %}
 {% block content %}
+<h2>{{ concert.nom }}</h2>
 <p>{{ concert.description }}</p>
-<p>{{ concert.date_debut }}</p>
+<p>date : {{ concert.date_debut }}</p>
+<p>heure : {{ concert.heure_debut }}</p>
+<p>duree : {{ concert.heure_duree }}h{{ concert.minute_duree }}</p>
 {% endblock %}
