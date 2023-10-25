@@ -93,6 +93,12 @@ def salle(nom):
         salle=salle
     )
 
+@app.route('/ajout_artiste')
+def ajout_artiste():
+    return render_template(
+        "ajout_artiste.html"
+    )
+
 def get_concert(nom):
     for c in CONCERTS:
         if c["nom"] == nom:
