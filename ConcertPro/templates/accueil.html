@@ -46,6 +46,9 @@
     <h2><span>Agenda de la semaine</span> </h2>
     <table>
         <thead>
+            <th colspan="8">semaine du {{ date_lundi }} au {{ date_dimanche }}</th>
+        </thead>
+        <tbody>
             <tr>
                 <th></th>
                 <th>Lundi</th>
@@ -56,20 +59,17 @@
                 <th>Samedi</th>
                 <th>Dimanche</th>
             </tr>
-        </thead>
-        <tbody>
-            {% for h in range(heures|length) %}
+            {% for heure in heures %}
             <tr>
-                <th>{{ heures[h] }}h</th>
+                <th>{{ heure }}h</th>
                 {% for i in range(1, 8) %}
                 <td>
-                    {% for concert in concerts %}
-                    {% if concert.jour == i and not(concert.heure_debut >= heures[h]+pas or concert.heure_fin <= heures[h]) %}
-                    <div>{{ concert.nom }}</div>
-                    {% endif %}
+                    {% for concert in agenda[i][heure] %}
+                    <div>{{ concert }}</div>
                     {% endfor %}
                 </td>
                 {% endfor %}
+            </tr>
             {% endfor %}
         </tbody>
     </table>

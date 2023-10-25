@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/creer_concert.css')}}"> 
 {% endblock %}
 {% block content %}
-<form action="">
+<form role="form" method="POST" action="{{ url_for('save_concert') }}">
     <section class="section_creer sec1">
         <div class="container">
             <input type="file" name="image" id="image-input">
@@ -35,8 +35,8 @@
             <button>Créer un formulaire pour un nouvel artiste</button>
         </section>
         <section class="section_creer sec3">
-            <label for="artiste">Salle</label>
-            <select name="artiste">
+            <label for="salle">Salle</label>
+            <select name="salle">
                 {% for salle in salles %}
                 <option>{{ salle.nom }}</option>
                 {% endfor %}
