@@ -21,40 +21,12 @@ def accueil():
     dimanche = jour + datetime.timedelta(days=7-(jour.weekday()+1))
     return render_template(
         "accueil.html",
+        concerts=get_prochains_concerts(),
         agenda=agenda,
         heures=heures,
         date_lundi=lundi.strftime("%d/%m/%Y"),
         date_dimanche=dimanche.strftime("%d/%m/%Y")
     )
-
-def concerts_agenda(heures=HEURES1,pas=PAS1,jour_voulu=JOUR_VOULU):
-
-    #initialisation de l'agenda
-    agenda = {}
-    for i in range(1,8):
-        agenda[i] = {}
-        for heure in heures:
-            agenda[i][heure] = []
-    #remplissage de l'agenda
-    for concert in CONCERTS:
-        jour = jour_voulu
-        if datetime.timedelta(days=-(jour.weekday()+1))<concert["date_debut"]-jour<datetime.timedelta(days=7-(jour.weekday()+1)):
-            for h in heures:
-                fin_horaire = h+pas
-                # format 24h obligatoire
-                if fin_horaire > 23:
-                    fin_horaire = datetime.time(hour=h+pas-1, minute=59)
-                else:
-                    fin_horaire = datetime.time(hour=h+pas)
-                debut_horaire = datetime.time(hour=h)
-                minutesC = (concert["heure_debut"].minute+concert["minute_duree"])%60
-                heuresC = concert["heure_debut"].hour+concert["heure_duree"]+(concert["heure_debut"].minute+concert["minute_duree"])//60
-                fin_concert = datetime.time(hour=heuresC, minute=minutesC)
-                debut_concert = concert["heure_debut"]
-                # ajouter le concert si il est dans l'intervalle horaire
-                if not(debut_concert >= fin_horaire or fin_concert <= debut_horaire):
-                    agenda[concert["date_debut"].weekday()+1][h].append(concert["nom"])
-    return agenda
 
 @app.route('/creer_concert')
 def creer_concert():
@@ -125,6 +97,7 @@ def get_prochains_concerts():
     for c in CONCERTS:
         if datetime.datetime.combine(c["date_debut"],c["heure_debut"]) > now:
             prochains_concerts.append(c)
+    prochains_concerts = sorted(prochains_concerts, key=lambda concert: datetime.datetime.combine(concert["date_debut"],concert["heure_debut"]))
     return prochains_concerts
 
 def get_historique_concerts():
@@ -134,3 +107,31 @@ def get_historique_concerts():
         if datetime.datetime.combine(c["date_debut"],c["heure_debut"]) < now:
             prochains_concerts.append(c)
     return prochains_concerts
+
+def concerts_agenda(heures=HEURES1,pas=PAS1,jour_voulu=JOUR_VOULU):
+    #initialisation de l'agenda
+    agenda = {}
+    for i in range(1,8):
+        agenda[i] = {}
+        for heure in heures:
+            agenda[i][heure] = []
+    #remplissage de l'agenda
+    for concert in CONCERTS:
+        jour = jour_voulu
+        if datetime.timedelta(days=-(jour.weekday()+1))<concert["date_debut"]-jour<datetime.timedelta(days=7-(jour.weekday()+1)):
+            for h in heures:
+                fin_horaire = h+pas
+                # format 24h obligatoire
+                if fin_horaire > 23:
+                    fin_horaire = datetime.time(hour=h+pas-1, minute=59)
+                else:
+                    fin_horaire = datetime.time(hour=h+pas)
+                debut_horaire = datetime.time(hour=h)
+                minutesC = (concert["heure_debut"].minute+concert["minute_duree"])%60
+                heuresC = concert["heure_debut"].hour+concert["heure_duree"]+(concert["heure_debut"].minute+concert["minute_duree"])//60
+                fin_concert = datetime.time(hour=heuresC, minute=minutesC)
+                debut_concert = concert["heure_debut"]
+                # ajouter le concert si il est dans l'intervalle horaire
+                if not(debut_concert >= fin_horaire or fin_concert <= debut_horaire):
+                    agenda[concert["date_debut"].weekday()+1][h].append(concert["nom"])
+    return agenda
