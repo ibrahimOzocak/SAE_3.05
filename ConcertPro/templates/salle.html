@@ -5,7 +5,8 @@
 {% endblock %}
 {% block content %}
 <h2>{{ salle.nom }}</h2>
-<p>{{ salle.nbPlaces }}</p>
-<p>date : </p>
+<p>nombre de places : {{ salle.nbPlaces }}</p>
+{% if salle is not none %}
 <img src="{{ url_for('static', filename='images/'+salle.photo)}}" alt="photo de la salle" width=10% height=10%>
+{% endif %}
 {% endblock %}
