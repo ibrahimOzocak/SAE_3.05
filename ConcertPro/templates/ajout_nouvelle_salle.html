@@ -3,56 +3,32 @@
     {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/ajout_nouvelle_salle.css') }}"> 
 {% endblock %}
-{% block header %}
-<h1>Ajout d'une nouvelle salle</h1>
-{% endblock %}
 {% block content %}
-<form>
-    <section>
+<form action="/upload" method="POST" enctype="multipart/form-data">
+    <section class="sec1_new_salle">
         <div>
-            <form action="/upload" method="POST" enctype="multipart/form-data">
                 <input type="file" name="image" id="image-input">
                 <script src="{{ url_for('static', filename='js/charge_img.js') }}"></script>
-            </form>
             <img id="image-charge" src="" alt="Charger l'image">
         </div>
-        <div> 
+        <div>
             <input type="text" name="Entrer_titre" placeholder="Titre du concert"/> 
-        </div>
-        <div> 
             <input type="text" name="Entrer_place" placeholder="Nombre de place"/> 
-        </div>
-        <div> 
             <input type="text" name="Entrer_typeplace" placeholder="Type de place"/> 
-        </div>
-        <div> 
             <input type="text" name="Entrer_taille" placeholder="Taille de la scène (Profondeur-Longueur)"/> 
         </div>
-
-        <div> 
-            <input type="text" name="Entrer_adresse" placeholder="Adresse de la salle"/> 
-        </div>
-        <div> 
-            <input type="text" name="Entrer_postalville" placeholder="Code postal et Ville de la salle (ex : 45000 Orléans)"/> 
-        </div>
-        <div> 
-            <input type="text" name="Entrer_telephone" placeholder="Numéro de téléphone de la salle"/> 
-        </div>
-        <div> 
+    </section>
+    <section class="sec2_new_salle">
+        <input type="text" name="Entrer_adresse" placeholder="Adresse de la salle"/> 
+        <input type="text" name="Entrer_postalville" placeholder="Code postal et Ville de la salle (ex : 45000 Orléans)"/> 
+        <input type="text" name="Entrer_telephone" placeholder="Numéro de téléphone de la salle"/> 
+        <div>
             <input type="checkbox" id="accueilpmr" name="Cocher_accueilpmr"/>
             <label for="accueilpmr">Est-ce que la salle accueil les PMR (Personne à mobilité réduite) ?</label> 
         </div>
-
-        <div> 
-            <input type="text" name="Entrer_nomequipement" placeholder="Nom de l'équipement"/> 
-        </div>
-        <div> 
-            <input type="text" name="Entrer_quantitedispo" placeholder="Quantité disponible"/> 
-        </div>
-
-        <div> 
-            <input type="text" name="Entrer_description" placeholder="Description"/> 
-        </div>
+        <input type="text" name="Entrer_nomequipement" placeholder="Nom de l'équipement"/> 
+        <input type="text" name="Entrer_quantitedispo" placeholder="Quantité disponible"/> 
+        <input type="text" name="Entrer_description" placeholder="Description"/> 
     </section>
     <input type="button" id="valider" name="valider" value="Valider l'ajout de cette salle"/>
 </form>
