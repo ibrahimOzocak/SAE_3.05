@@ -12,23 +12,33 @@
             <img id="image-charge" src="" alt="Glisser/Déposer une image" width=10% height=10%>
         </div>
         <div>
-            <input type="text" name="Entrer_titre" placeholder="Titre du concert"/> 
-            <input type="text" name="Entrer_place" placeholder="Nombre de place"/> 
-            <input type="text" name="Entrer_typeplace" placeholder="Type de place"/> 
-            <input type="text" name="Entrer_taille" placeholder="Taille de la scène (Profondeur-Longueur)"/> 
+            <label for="Entrer_titre">Titre du concert</label>
+            <input type="text" name="Entrer_titre"/> 
+            <label for="Entrer_place">Nombre de place</label>
+            <input type="text" name="Entrer_place"/> 
+            <label for="Entrer_typeplace">Type de place</label>
+            <input type="text" name="Entrer_typeplace"/> 
+            <label for="Entrer_taille">Taille de la scène (Profondeur-Longueur)</label>
+            <input type="text" name="Entrer_taille"/> 
         </div>
     </section>
     <section class="sec2_new_salle">
-        <input type="text" name="Entrer_adresse" placeholder="Adresse de la salle"/> 
-        <input type="text" name="Entrer_postalville" placeholder="Code postal et Ville de la salle (ex : 45000 Orléans)"/> 
-        <input type="text" name="Entrer_telephone" placeholder="Numéro de téléphone de la salle"/> 
+        <label for="Entrer_adresse">Adresse de la salle</label>
+        <input type="text" name="Entrer_adresse"/> 
+        <label for="Entrer_postalville">Code postal et Ville de la salle (ex : 45000 Orléans)</label>
+        <input type="text" name="Entrer_postalville"/> 
+        <label for="Entrer_telephone">Numéro de téléphone de la salle</label>
+        <input type="text" name="Entrer_telephone"/> 
         <div>
             <input type="checkbox" id="accueilpmr" name="Cocher_accueilpmr"/>
-            <label for="accueilpmr">Est-ce que la salle accueil les PMR (Personne à mobilité réduite) ?</label> 
+            <label for="accueilpmr">La salle accueille les personnes à mobilité réduite</label> 
         </div>
-        <input type="text" name="Entrer_nomequipement" placeholder="Nom de l'équipement"/> 
-        <input type="text" name="Entrer_quantitedispo" placeholder="Quantité disponible"/> 
-        <input type="text" name="Entrer_description" placeholder="Description"/> 
+        <label for="Entrer_nomequipement">Nom de l'équipement</label>
+        <input type="text" name="Entrer_nomequipement"/> 
+        <label for="Entrer_quantitedispo">Quantité disponible</label>
+        <input type="text" name="Entrer_quantitedispo"/> 
+        <label for="Entrer_description">Description</label>
+        <input type="text" name="Entrer_description"/> 
     </section>
     <input type="submit" id="valider" name="valider" value="Valider l'ajout de cette salle"/>
 </form>

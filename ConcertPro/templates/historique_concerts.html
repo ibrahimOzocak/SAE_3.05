@@ -5,11 +5,11 @@
 {% endblock %}
 {% block content %}
 <div class="conteneur">
-    {% for salle in salles %}
+    {% for concert in concerts %}
     <div class="div_proc">
         <a href="">
-            <img src={{ salle.photo }} alt="" width=10% height=10%/>
-            <p>{{ salle.nom }} </p>
+            <img src={{ concert.url }} alt="" width=10% height=10%/>
+            <p>{{ concert.nom }} </p>
         </a>
     </div>
 
