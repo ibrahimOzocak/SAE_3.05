@@ -1,6 +1,5 @@
 /* Centre la section sec1 */
 .sec1 {
-    display: flex;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap; /* Permet aux éléments de descendre en cas de réduction de la largeur de l'écran */
@@ -10,6 +9,57 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Ajoute une ombre douce à la section */
     margin-top: 20px;
 }
+
+form{
+    margin: 10px;
+    padding: 10px;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  #image-charge {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+  }
+  
+  #image-input {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    opacity: 0;
+    z-index: 2;
+  }
+  
+
+.sec1 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .sec1 div:first-child {
+    grid-column: 1;
+    grid-row: 0;
+  }
+  
+  .sec1 div:last-child {
+    grid-column: 2;
+    padding: 10px;
+  }
 
 .sec1>div>div{
     display: flex;
@@ -79,6 +129,7 @@
 .sec2 label, .sec2 select, .sec2 button {
     flex: 1; /* Partage l'espace disponible de manière égale entre les éléments */
     margin: 5px; /* Ajoute une marge autour des éléments pour les espacer */
+    height: 40px;
 }
 
 
@@ -91,6 +142,7 @@
 .sec3 label, .sec3 select, .sec3 button {
     flex: 1; /* Partage l'espace disponible de manière égale entre les éléments */
     margin: 5px; /* Ajoute une marge autour des éléments pour les espacer */
+    height: 40px;
 }
 
 .sec4 {
@@ -99,15 +151,19 @@
     align-items: center; /* Centre verticalement les éléments */
 }
 
-.sec4 textarea{
-    height: 100px;
-}
 .sec4 label, .sec4 textarea{
     flex: 1; /* Partage l'espace disponible de manière égale entre les éléments */
     margin: 5px; /* Ajoute une marge autour des éléments pour les espacer */
+    resize: none; /* Prevent resizing */
+}
+
+.sec4 textarea{
+    flex: 2;
+    height: 100px;
 }
 
 input[type="submit"]{
+    font-size: 30px;
     margin-top: 20px;
     align-self: center;
     padding: 10px;

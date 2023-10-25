@@ -6,23 +6,22 @@
 {% block content %}
 <form role="form" method="POST" action="{{ url_for('save_concert') }}">
     <section class="section_creer sec1">
-        <input type="file" name="image_concert" accept="image/png, image/jpeg"/>
-        {% if image %}
-        <img src="{{ url_for('static', filename='images/'+image_concert+'.png')}}" alt="image de test" width=10% height=10%>
-        {% endif %}
+        <div class="container">
+            <input type="file" name="image" id="image-input">
+            <script src="{{ url_for('static', filename='js/charge_img.js') }}"></script>
+            <img id="image-charge" src="" alt="Glisser/Déposer une image" width=10% height=10%>
+        </div>
         <div>
-            <input type="text" name="titre" required placeholder="Titre du concert"/>
-            <input type="text" name="type" required placeholder="Type du concert"/>
+            <label for="titre">Titre du concert</label>
+            <input type="text" name="titre"/>
+            <label for="type">Type du concert</label>
+            <input type="text" name="type"/>
             <label for="date_debut">Date de début</label>
             <input type="date" name="date_debut"/>
-            <label for="heure_debut">Heure de début</label>
+            <label for="heure_debut">Heure de début (hh:mm)</label>
             <input type="time" name="heure_debut" min="00:00" max="23:59" required/>
-            <label>Durée</label>
-            <div>
-                <p>hh:mm</p>
-                <input type="number" name="heure_duree" min="0" max="59" required/><p>:</p><input type="number" name="minute_duree" min="0" required/>    
-            </div>
-
+            <label for="duree">Durée (hh:mm)</label>
+            <input type="time" name="duree" min="00:00" max="23:59" required/>
         </div>
     </section>
     <div class="part2">
@@ -33,7 +32,7 @@
                 <option>{{ artiste.nom }}</option>
                 {% endfor %}
             </select>
-            <button>Creer un nouvel artiste</button>
+            <button>Créer un formulaire pour un nouvel artiste</button>
         </section>
         <section class="section_creer sec3">
             <label for="salle">Salle</label>
@@ -42,11 +41,11 @@
                 <option>{{ salle.nom }}</option>
                 {% endfor %}
             </select>
-            <button>Creer une nouvelle salle</button>
+            <button>Créer une nouvelle salle</button>
         </section>
         <section class="section_creer sec4">
-            <label for="description">Description du concert</label>
-            <textarea name="description"></textarea>
+            <label for="description">Description du concert (max 500)</label>
+            <textarea name="description" maxlength="500"></textarea>
         </section>
     </div>
     

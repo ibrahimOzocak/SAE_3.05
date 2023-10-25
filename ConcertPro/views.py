@@ -88,7 +88,7 @@ def voir_salles():
 def historique_concerts():
     return render_template(
         "historique_concerts.html",
-        salles = SALLES
+        concerts = CONCERTS
     )
 
 @app.route('/save_concert', methods=("POST",))
