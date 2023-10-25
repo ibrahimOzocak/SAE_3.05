@@ -12,12 +12,14 @@ PAS2 = 2
 
 @app.route('/')
 def accueil():
-    agenda = concerts_agenda(CONCERTS)
+    heure = HEURES2
+    pas = PAS2
+    agenda = concerts_agenda(CONCERTS, heure, pas)
     return render_template(
         "accueil.html",
         agenda=agenda,
-        heures=HEURES2,
-        pas=PAS2
+        heures=heure,
+        pas=pas
     )
 
 def concerts_agenda(liste_concerts,heures=HEURES1,pas=PAS1):
