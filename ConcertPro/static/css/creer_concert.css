@@ -163,6 +163,7 @@ form{
 }
 
 input[type="submit"]{
+    font-size: 30px;
     margin-top: 20px;
     align-self: center;
     padding: 10px;

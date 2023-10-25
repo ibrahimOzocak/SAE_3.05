@@ -6,10 +6,10 @@
 {% block content %}
 <form action="/upload" method="POST" enctype="multipart/form-data">
     <section class="sec1_new_salle">
-        <div>
-                <input type="file" name="image" id="image-input">
-                <script src="{{ url_for('static', filename='js/charge_img.js') }}"></script>
-            <img id="image-charge" src="" alt="Charger l'image">
+        <div class="container">
+            <input type="file" name="image" id="image-input">
+            <script src="{{ url_for('static', filename='js/charge_img.js') }}"></script>
+            <img id="image-charge" src="" alt="Glisser/Déposer une image" width=10% height=10%>
         </div>
         <div>
             <input type="text" name="Entrer_titre" placeholder="Titre du concert"/> 
@@ -30,6 +30,6 @@
         <input type="text" name="Entrer_quantitedispo" placeholder="Quantité disponible"/> 
         <input type="text" name="Entrer_description" placeholder="Description"/> 
     </section>
-    <input type="button" id="valider" name="valider" value="Valider l'ajout de cette salle"/>
+    <input type="submit" id="valider" name="valider" value="Valider l'ajout de cette salle"/>
 </form>
 {% endblock %}
