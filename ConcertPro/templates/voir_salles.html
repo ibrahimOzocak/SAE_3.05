@@ -8,12 +8,10 @@
     {% for salle in salles %}
     <div class="div_proc">
         <a href="">
-            <img src={{ salle.photo }} alt="" width=10% height=10%/>
+            <img src="{{ salle.photo }}" alt="" width=10% height=10%/>
             <p>{{ salle.nom }} </p>
         </a>
     </div>
-
     {% endfor %}
 </div>
-
 {% endblock %}

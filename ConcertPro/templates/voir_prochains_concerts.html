@@ -8,11 +8,10 @@
     {% for concert in concerts %}
     <div class="div_proc">
         <a href="#">
-            <img src="{{ url_for('static', filename='images/'+concert.url+'.png')}}" alt="image de test">
+            <img src="{{ url_for('static', filename='images/'+concert.url)}}" alt="image de test">
             <p>{{ concert.nom }}</p>
         </a>
     </div>
     {% endfor %}
 </div>
-
 {% endblock %}
