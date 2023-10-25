@@ -60,7 +60,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for h in range(heures|length) %}
+            <!-- {% for h in range(heures|length) %}
             <tr>
                 <th>{{ heures[h] }}h</th>
                 {% for i in range(1, 8) %}
@@ -72,6 +72,21 @@
                     {% endfor %}
                 </td>
                 {% endfor %}
+            {% endfor %} -->
+            {% for jour in agenda %}
+            <tr>
+                <!-- <th>{{ jour[0] }}h</th> -->
+                {% for heure in jour[1] %}
+                <th>{{ heure[0] }}</th>
+                <td>
+                    {% for concerts in heure[1] %}
+                    {% for concert in concerts %}
+                        <div>{{ concert }}</div>
+                    {% endfor %}
+                    {% endfor %}
+                </td>
+                {% endfor %}
+            </tr>
             {% endfor %}
         </tbody>
     </table>
