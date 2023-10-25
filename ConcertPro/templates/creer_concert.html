@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/creer_concert.css')}}"> 
 {% endblock %}
 {% block content %}
-<form action="">
+<form role="form" method="POST" action="{{ url_for('save_concert') }}">
     <section class="section_creer sec1">
         <input type="file" name="image_concert" accept="image/png, image/jpeg"/>
         {% if image %}
@@ -20,8 +20,7 @@
             <label>Durée</label>
             <div>
                 <p>hh:mm</p>
-                <input type="number" name="heure_duree" min="0" max="59" required/>
-                <input type="number" name="minute_duree" min="0" required/>    
+                <input type="number" name="heure_duree" min="0" max="59" required/><p>:</p><input type="number" name="minute_duree" min="0" required/>    
             </div>
 
         </div>
@@ -37,8 +36,8 @@
             <button>Creer un nouvel artiste</button>
         </section>
         <section class="section_creer sec3">
-            <label for="artiste">Salle</label>
-            <select name="artiste">
+            <label for="salle">Salle</label>
+            <select name="salle">
                 {% for salle in salles %}
                 <option>{{ salle.nom }}</option>
                 {% endfor %}
