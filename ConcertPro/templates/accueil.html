@@ -48,6 +48,9 @@
     <h2>Agenda de la semaine</h2>
     <table>
         <thead>
+            <th colspan="8">semaine du {{ date_lundi }} au {{ date_dimanche }}</th>
+        </thead>
+        <tbody>
             <tr>
                 <th></th>
                 <th>Lundi</th>
@@ -58,54 +61,6 @@
                 <th>Samedi</th>
                 <th>Dimanche</th>
             </tr>
-        </thead>
-        <tbody>
-            <!-- {% for h in range(heures|length) %}
-            <tr>
-                <th>{{ heures[h] }}h</th>
-                {% for i in range(1, 8) %}
-                <td>
-                    {% for concert in concerts %}
-                    {% if concert.jour|int == i and not(concert.heure_debut|int >= heures[h]|int+pas|int or concert.heure_debut|int+concert.heure_duree|int*60+concert.minute_duree|int <= heures[h]|int) %}
-                    <div>{{ concert.nom }}</div>
-                    {% endif %}
-                    {% endfor %}
-                </td>
-                {% endfor %}
-            {% endfor %} -->
-
-            <!-- {% for jour in agenda %}
-            <tr>
-                <th>{{ jour[0] }}h</th>
-                {% for heure in jour[1] %}
-                <th>{{ heure[0] }}</th>
-                <td>
-                    {% for concerts in heure[1] %}
-                    {% for concert in concerts %}
-                        <div>{{ concert }}</div>
-                    {% endfor %}
-                    {% endfor %}
-                </td>
-                {% endfor %}
-            </tr>
-            {% endfor %} -->
-
-            <!-- {% for jour in agenda %}
-            <tr>
-                <th>{{ jour[1] }} j</th>
-                {% for heure in jour[1] %}
-                <th>{{ heure[0] }}h</th>
-                {% for i in range(1, 8) %}
-                <td>
-                    {% for concert in heure[1] %}
-                    <div>{{ concert }}</div>
-                    {% endfor %}
-                </td>
-                {% endfor %}
-                {% endfor %}
-            </tr>
-            {% endfor %} -->
-
             {% for heure in heures %}
             <tr>
                 <th>{{ heure }}h</th>
@@ -118,7 +73,6 @@
                 {% endfor %}
             </tr>
             {% endfor %}
-
         </tbody>
     </table>
 </section>

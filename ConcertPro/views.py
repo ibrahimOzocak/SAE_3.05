@@ -3,25 +3,31 @@ from .app import app
 import datetime
 
 ARTISTES = [{"nom": "Lucie"}, {"nom": "Mira"}, {"nom": "Muse"}, {"nom": "Daft Punk"}, {"nom": "Beyoncé"}, {"nom": "The Beatles"}, {"nom": "Ed Sheeran"}, {"nom": "Adele"}, {"nom": "Michael Jackson"}, {"nom": "Taylor Swift"}, {"nom": "Coldplay"}, {"nom": "Kanye West"}]
-CONCERTS = [{"artiste": "Lucie", "date_debut": datetime.datetime.strptime("2023-10-26", "%Y-%m-%d"), "heure_debut":10, "salle": "Bercy", "url": "test", "nom": "yaaa", "heure_duree":2, "minute_duree":25, "jour":4}, {"artiste": "Mira", "date_debut": datetime.datetime.strptime("2023-10-24", "%Y-%m-%d"), "heure_debut":8, "salle": "Bercy", "url": "test", "nom": "test", "heure_duree":3, "minute_duree":00, "jour":1}, {"artiste": "Muse", "date_debut": datetime.datetime.strptime("2023-10-29", "%Y-%m-%d"), "heure_debut":10, "salle": "Bercy", "url": "test", "nom": "concert 1", "heure_duree":1, "minute_duree":35, "jour":6}, {"artiste": "Daft Punk", "date_debut": datetime.datetime.strptime("2023-10-23", "%Y-%m-%d"), "heure_debut":14, "salle": "Stade de France", "url": "test", "nom": "concert 2", "heure_duree":4, "minute_duree":00, "jour":1}, {"artiste": "Beyoncé", "date_debut": datetime.datetime.strptime("2023-10-24", "%Y-%m-%d"), "heure_debut":11, "salle": "Madison Square Garden", "url": "test", "nom": "concert 3", "heure_duree":1, "minute_duree":30, "jour":4}, {"artiste": "The Beatles", "date_debut": datetime.datetime.strptime("2019-04-10", "%Y-%m-%d"), "heure_debut":12, "salle": "Royal Albert Hall", "url": "test", "nom": "concert 4", "heure_duree":00, "minute_duree":45, "jour":1}, {"artiste": "Ed Sheeran", "date_debut": datetime.datetime.strptime("2019-05-05", "%Y-%m-%d"), "heure_debut":9, "salle": "Wembley Stadium", "url": "test", "nom": "concert 5", "heure_duree":3, "minute_duree":30, "jour":3}, {"artiste": "Adele", "date_debut": datetime.datetime.strptime("2019-06-12", "%Y-%m-%d"), "heure_debut":22, "salle": "The O2 Arena", "url": "test", "nom": "concert 6", "heure_duree":1, "minute_duree":25, "jour":7}, {"artiste": "Michael Jackson", "date_debut": datetime.datetime.strptime("2019-07-08", "%Y-%m-%d"), "heure_debut":8, "salle": "Tokyo Dome", "url": "test", "nom": "concert 7", "heure_duree":2, "minute_duree":00, "jour":1}, {"artiste": "Taylor Swift", "date_debut": datetime.datetime.strptime("2019-08-25", "%Y-%m-%d"), "heure_debut":15, "salle": "Arrowhead Stadium", "url": "test", "nom": "concert 8", "heure_duree":2, "minute_duree":25, "jour":3}, {"artiste": "Coldplay", "date_debut": datetime.datetime.strptime("2019-09-14", "%Y-%m-%d"), "heure_debut":11, "salle": "Estadio Wanda Metropolitano", "url": "test", "nom": "concert 9", "heure_duree":5, "minute_duree":00, "jour":5}, {"artiste": "Kanye West", "date_debut": datetime.datetime.strptime("2023-10-23", "%Y-%m-%d"), "heure_debut":13, "salle": "American Airlines Center", "url": "test", "nom": "concert 10", "heure_duree":1, "minute_duree":30, "jour":2}]
+CONCERTS = [{"artiste": "Lucie", "date_debut": datetime.datetime.strptime("2023-10-26", "%Y-%m-%d"), "heure_debut":10, "salle": "Bercy", "url": "test", "nom": "yaaa", "heure_duree":2, "minute_duree":25, "jour":4}, {"artiste": "Mira", "date_debut": datetime.datetime.strptime("2023-10-24", "%Y-%m-%d"), "heure_debut":8, "salle": "Bercy", "url": "test", "nom": "test", "heure_duree":3, "minute_duree":00, "jour":1}, {"artiste": "Muse", "date_debut": datetime.datetime.strptime("2023-10-29", "%Y-%m-%d"), "heure_debut":10, "salle": "Bercy", "url": "test", "nom": "concert 1", "heure_duree":1, "minute_duree":35, "jour":6}, {"artiste": "Daft Punk", "date_debut": datetime.datetime.strptime("2023-10-23", "%Y-%m-%d"), "heure_debut":14, "salle": "Stade de France", "url": "test", "nom": "concert 2", "heure_duree":4, "minute_duree":00, "jour":1}, {"artiste": "Beyoncé", "date_debut": datetime.datetime.strptime("2023-10-24", "%Y-%m-%d"), "heure_debut":11, "salle": "Madison Square Garden", "url": "test", "nom": "concert 3", "heure_duree":1, "minute_duree":30, "jour":4}, {"artiste": "The Beatles", "date_debut": datetime.datetime.strptime("2019-04-10", "%Y-%m-%d"), "heure_debut":12, "salle": "Royal Albert Hall", "url": "test", "nom": "concert 4", "heure_duree":00, "minute_duree":45, "jour":1}, {"artiste": "Ed Sheeran", "date_debut": datetime.datetime.strptime("2019-05-05", "%Y-%m-%d"), "heure_debut":9, "salle": "Wembley Stadium", "url": "test", "nom": "concert 5", "heure_duree":3, "minute_duree":30, "jour":3}, {"artiste": "Adele", "date_debut": datetime.datetime.strptime("2019-06-12", "%Y-%m-%d"), "heure_debut":22, "salle": "The O2 Arena", "url": "test", "nom": "concert 6", "heure_duree":1, "minute_duree":25, "jour":7}, {"artiste": "Michael Jackson", "date_debut": datetime.datetime.strptime("2023-10-18", "%Y-%m-%d"), "heure_debut":8, "salle": "Tokyo Dome", "url": "test", "nom": "concert 7", "heure_duree":2, "minute_duree":00, "jour":1}, {"artiste": "Taylor Swift", "date_debut": datetime.datetime.strptime("2019-08-25", "%Y-%m-%d"), "heure_debut":15, "salle": "Arrowhead Stadium", "url": "test", "nom": "concert 8", "heure_duree":2, "minute_duree":25, "jour":3}, {"artiste": "Coldplay", "date_debut": datetime.datetime.strptime("2019-09-14", "%Y-%m-%d"), "heure_debut":11, "salle": "Estadio Wanda Metropolitano", "url": "test", "nom": "concert 9", "heure_duree":5, "minute_duree":00, "jour":5}, {"artiste": "Kanye West", "date_debut": datetime.datetime.strptime("2023-10-23", "%Y-%m-%d"), "heure_debut":13, "salle": "American Airlines Center", "url": "test", "nom": "concert 10", "heure_duree":1, "minute_duree":30, "jour":2}]
 SALLES = [{"nom": "Bercy", "nbPlaces": 130, "photo":"static/images/test.png"}, {"nom": "Stade de France", "nbPlaces": 80000, "photo":"static/images/test.png"}, {"nom": "Madison Square Garden", "nbPlaces": 20000, "photo":"static/images/test.png"}, {"nom": "Royal Albert Hall", "nbPlaces": 5000, "photo":"static/images/test.png"}, {"nom": "Wembley Stadium", "nbPlaces": 90000, "photo":"static/images/test.png"}, {"nom": "The O2 Arena", "nbPlaces": 20000, "photo":"static/images/test.png"}, {"nom": "Tokyo Dome", "nbPlaces": 55000, "photo":"static/images/test.png"}, {"nom": "Arrowhead Stadium", "nbPlaces": 80000, "photo":"static/images/test.png"}, {"nom": "Estadio Wanda Metropolitano", "nbPlaces": 68000, "photo":"static/images/test.png"}, {"nom": "American Airlines Center", "nbPlaces": 21000, "photo":"static/images/test.png"}]
 HEURES1 = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
 PAS1 = 1
 HEURES2 = [8, 10, 12, 14, 16, 18, 20, 22]
 PAS2 = 2
+JOUR_VOULU = datetime.datetime.now() # -datetime.timedelta(days=7) ou +datetime.timedelta(days=7) --> pour changer de semaine (- ou + 1 semaine)
 
 @app.route('/')
 def accueil():
     heures = HEURES2
     pas = PAS2
+    jour = JOUR_VOULU
     agenda = concerts_agenda(CONCERTS, heures, pas)
+    lundi = jour + datetime.timedelta(days=-(jour.weekday()+1)) + datetime.timedelta(days=1)
+    dimanche = jour + datetime.timedelta(days=7-(jour.weekday()+1))
     return render_template(
         "accueil.html",
         agenda=agenda,
-        heures=heures
+        heures=heures,
+        date_lundi=lundi.strftime("%d/%m/%Y"),
+        date_dimanche=dimanche.strftime("%d/%m/%Y")
     )
 
-def concerts_agenda(liste_concerts,heures=HEURES1,pas=PAS1):
+def concerts_agenda(liste_concerts,heures=HEURES1,pas=PAS1,jour_voulu=JOUR_VOULU):
     #initialisation de l'agenda
     agenda = {}
     for i in range(1,8):
@@ -30,8 +36,8 @@ def concerts_agenda(liste_concerts,heures=HEURES1,pas=PAS1):
             agenda[i][heure] = []
     #remplissage de l'agenda
     for concert in liste_concerts:
-        today = datetime.datetime.now()
-        if datetime.timedelta(days=-(today.weekday()+1))<concert["date_debut"]-today<datetime.timedelta(days=7-(today.weekday()+1)):
+        jour = jour_voulu
+        if datetime.timedelta(days=-(jour.weekday()+1))<concert["date_debut"]-jour<datetime.timedelta(days=7-(jour.weekday()+1)):
             for h in heures:
                 fin_horaire = h+pas
                 # format 24h obligatoire
