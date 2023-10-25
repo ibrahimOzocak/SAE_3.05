@@ -7,8 +7,8 @@
 <div class="conteneur">
     {% for salle in salles %}
     <div class="div_proc">
-        <a href="">
-            <img src="{{ salle.photo }}" alt="" width=10% height=10%/>
+        <a href="{{ url_for('salle', nom=salle.nom) }}">
+            <img src="{{ url_for('static', filename='images/'+salle.photo)}}" alt="" width=10% height=10%/>
             <p>{{ salle.nom }} </p>
         </a>
     </div>
