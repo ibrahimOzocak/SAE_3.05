@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/logement.css')}}"> 
+{% endblock %}
+{% block content %}
+<h2>{{ logement.nom_etablissement }}</h2>
+<div>
+    <p>{{ logement.nb_etoile }} Étoiles</p>
+    <p>adresse : {{ logement.adresse_ville_codepostal }}</p>
+</div>
+{% endblock %}

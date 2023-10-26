@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/voir_logements.css')}}"> 
+{% endblock %}
+{% block content %}
+<div class="conteneur">
+    <div>
+        <p><a href="{{ url_for('ajout_logement') }}">ajouter un logement</a></p>
+    </div>
+    {% for logement in logements %}
+    <div>
+        <p><a href="{{ url_for('logement', nom_etablissement=logement.nom_etablissement) }}">{{ logement.nom_etablissement }}</a></p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
