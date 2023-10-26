@@ -17,4 +17,7 @@
     <p>date_expiration_cni : {{ artiste.date_expiration_cni }}</p>
     <p>carte_reduction : {{ artiste.carte_reduction }}</p>
 </div>
+<div>
+    <a href="{{ url_for('supprimer_artiste', nom_artiste=artiste.nom_artiste) }}">supprimer l'artiste</a>
+</div>
 {% endblock %}
