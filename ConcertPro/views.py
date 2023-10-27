@@ -15,14 +15,15 @@ HEURES2 = [8, 10, 12, 14, 16, 18, 20, 22]
 PAS2 = 2
 JOUR_VOULU = datetime.datetime.now() # -datetime.timedelta(days=7) ou +datetime.timedelta(days=7) --> pour changer de semaine (- ou + 1 semaine)
 
+# accueil
 @app.route('/')
 def accueil():
     heures = HEURES2
     pas = PAS2
     jour = JOUR_VOULU
     agenda = concerts_agenda(heures, pas)
-    lundi = jour + datetime.timedelta(days=-(jour.weekday()+1)) + datetime.timedelta(days=1)
-    dimanche = jour + datetime.timedelta(days=7-(jour.weekday()+1))
+    lundi = (jour + datetime.timedelta(days=-(jour.weekday()+1)) + datetime.timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
+    dimanche = (jour + datetime.timedelta(days=7-(jour.weekday()+1))).replace(hour=23, minute=59, second=59, microsecond=0)
     return render_template(
         "accueil.html",
         concerts=get_prochains_concerts(),
@@ -208,8 +209,8 @@ def calendrier(jour=JOUR_VOULU):
     if type(jour) == str:
         jour = datetime.datetime.strptime(jour, "%d-%m-%Y")
     agenda = concerts_agenda(heures, pas, jour)
-    lundi = (jour + datetime.timedelta(days=-(jour.weekday()+1)) + datetime.timedelta(days=1))
-    dimanche = (jour + datetime.timedelta(days=7-(jour.weekday()+1)))
+    lundi = (jour + datetime.timedelta(days=-(jour.weekday()+1)) + datetime.timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
+    dimanche = (jour + datetime.timedelta(days=7-(jour.weekday()+1))).replace(hour=23, minute=59, second=59, microsecond=0)
     return render_template(
         "calendrier.html",
         concerts=get_prochains_concerts(),
@@ -312,7 +313,7 @@ def concerts_agenda(heures=HEURES1,pas=PAS1,jour_voulu=JOUR_VOULU):
     if type(jour) == str:
         jour = datetime.datetime.strptime(jour, "%d-%m-%Y")
     for concert in CONCERTS:
-        if datetime.timedelta(days=-(jour.weekday()+1))<concert["date_debut"]-jour<datetime.timedelta(days=7-(jour.weekday()+1)):
+        if datetime.timedelta(days=-(jour.weekday()+1))<concert["date_debut"]-jour<datetime.timedelta(days=7-(jour.weekday()+1)+1):
             for h in heures:
                 fin_horaire = h+pas
                 # format 24h obligatoire
