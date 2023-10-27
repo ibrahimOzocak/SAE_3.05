@@ -12,7 +12,7 @@
     </form>
     <table>
         <thead>
-            <th colspan="8">semaine du {{ date_lundi }} au {{ date_dimanche }}</th>
+            <th colspan="8"><a href="{{ url_for('calendrier_semaine_precedente', jour_actuel=date_lundi)}}"><</a>semaine du {{ date_lundi }} au {{ date_dimanche }}<a href="{{ url_for('calendrier_semaine_suivante', jour_actuel=date_lundi)}}">></a></th>
         </thead>
         <tbody>
             <tr>

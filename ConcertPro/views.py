@@ -210,6 +210,9 @@ def calendrier(jour=JOUR_VOULU):
     agenda = concerts_agenda(heures, pas, jour)
     lundi = (jour + datetime.timedelta(days=-(jour.weekday()+1)) + datetime.timedelta(days=1))
     dimanche = (jour + datetime.timedelta(days=7-(jour.weekday()+1)))
+    print(lundi)
+    print(dimanche)
+    print(jour)
     return render_template(
         "calendrier.html",
         concerts=get_prochains_concerts(),
@@ -222,6 +225,20 @@ def calendrier(jour=JOUR_VOULU):
 @app.route('/calendrier/redirection', methods=("POST",))
 def calendrier_redirection():
     jour = datetime.datetime.strptime(request.form['date'], "%Y-%m-%d")
+    return redirect(url_for('calendrier', jour=jour.strftime("%d-%m-%Y")))
+
+@app.route('/calendrier/semaine_precedente/<jour_actuel>')
+def calendrier_semaine_precedente(jour_actuel=JOUR_VOULU):
+    if type(jour_actuel) == str:
+        jour_actuel = datetime.datetime.strptime(jour_actuel, "%d-%m-%Y")
+    jour = jour_actuel + datetime.timedelta(days=-7)
+    return redirect(url_for('calendrier', jour=jour.strftime("%d-%m-%Y")))
+
+@app.route('/calendrier/semaine_suivante/<jour_actuel>')
+def calendrier_semaine_suivante(jour_actuel=JOUR_VOULU):
+    if type(jour_actuel) == str:
+        jour_actuel = datetime.datetime.strptime(jour_actuel, "%d-%m-%Y")
+    jour = jour_actuel + datetime.timedelta(days=7)
     return redirect(url_for('calendrier', jour=jour.strftime("%d-%m-%Y")))
 
 # fonctions utiles pour les templates
