@@ -28,8 +28,8 @@ def accueil():
         concerts=get_prochains_concerts(),
         agenda=agenda,
         heures=heures,
-        date_lundi=lundi.strftime("%d/%m/%Y"),
-        date_dimanche=dimanche.strftime("%d/%m/%Y")
+        date_lundi=lundi.strftime("%d-%m-%Y"),
+        date_dimanche=dimanche.strftime("%d-%m-%Y")
     )
 
 # concert
@@ -63,9 +63,10 @@ def save_concert():
     concert["salle"] = request.form['salle']
     concert["nom"] = request.form['titre']
     concert["heure_debut"] = datetime.datetime.strptime(request.form['heure_debut'], "%H:%M").time()
-    concert["heure_duree"] = int(request.form['heure_duree'])
-    concert["minute_duree"] = int(request.form['minute_duree'])
+    concert["heure_duree"] = datetime.datetime.strptime(request.form['duree'], "%H:%M").time().hour
+    concert["minute_duree"] = datetime.datetime.strptime(request.form['duree'], "%H:%M").time().minute
     concert["jour"] = 7
+    concert["url"] = "test.png"
     CONCERTS.append(concert)
     return redirect(url_for('concert', nom=concert["nom"]))
 
@@ -199,6 +200,30 @@ def supprimer_logement(nom_etablissement):
     remove_logement(nom_etablissement)
     return redirect(url_for('accueil'))
 
+# calendrier
+@app.route('/calendrier/<jour>')
+def calendrier(jour=JOUR_VOULU):
+    heures = HEURES1
+    pas = PAS1
+    if type(jour) == str:
+        jour = datetime.datetime.strptime(jour, "%d-%m-%Y")
+    agenda = concerts_agenda(heures, pas, jour)
+    lundi = (jour + datetime.timedelta(days=-(jour.weekday()+1)) + datetime.timedelta(days=1))
+    dimanche = (jour + datetime.timedelta(days=7-(jour.weekday()+1)))
+    return render_template(
+        "calendrier.html",
+        concerts=get_prochains_concerts(),
+        agenda=agenda,
+        heures=heures,
+        date_lundi=lundi.strftime("%d-%m-%Y"),
+        date_dimanche=dimanche.strftime("%d-%m-%Y")
+    )
+
+@app.route('/calendrier/redirection', methods=("POST",))
+def calendrier_redirection():
+    jour = datetime.datetime.strptime(request.form['date'], "%Y-%m-%d")
+    return redirect(url_for('calendrier', jour=jour.strftime("%d-%m-%Y")))
+
 # fonctions utiles pour les templates
 def get_concert(nom):
     for c in CONCERTS:
@@ -269,8 +294,10 @@ def concerts_agenda(heures=HEURES1,pas=PAS1,jour_voulu=JOUR_VOULU):
         for heure in heures:
             agenda[i][heure] = []
     #remplissage de l'agenda
+    jour = jour_voulu
+    if type(jour) == str:
+        jour = datetime.datetime.strptime(jour, "%d-%m-%Y")
     for concert in CONCERTS:
-        jour = jour_voulu
         if datetime.timedelta(days=-(jour.weekday()+1))<concert["date_debut"]-jour<datetime.timedelta(days=7-(jour.weekday()+1)):
             for h in heures:
                 fin_horaire = h+pas

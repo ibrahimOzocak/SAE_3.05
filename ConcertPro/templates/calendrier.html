@@ -4,36 +4,15 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/accueil.css')}}"> 
 {% endblock %}
 {% block content %}
-<section>
-    <h2><span>Prochains concerts</span> </h2>
-    <ul class="ul_acc">
-        {% if concerts|length == 0 %}
-        <li class="li_acc">
-            <div>
-                <p>Aucun concert n'est prévu pour le moment</p>
-            </div>
-        </li>
-        {% else %}
-        {% for i in range(4) %}
-        {% if i < concerts|length %}
-        <li class="li_acc">
-            <div>
-                <a href="{{ url_for('concert', nom=concerts[i].nom) }}">
-                    <img class="img_acc" src="{{ url_for('static', filename='images/'+concerts[i].url)}}" alt="image de test" width=10% height=10%>
-                    <p>{{ concerts[i].nom }}</p>
-                </a>
-            </div>
-        </li>
-        {% endif %}
-        {% endfor %}
-        {% endif %}
-    </ul>
-</section>
 <section id="Agenda">
-    <h2><span>Agenda de la semaine</span></h2>
+    <h2><span>Agenda de la semaine</span> </h2>
+    <form method="POST" action="{{ url_for('calendrier_redirection') }}">
+        <input type="date" name="date">
+        <input type="submit" value="Valider">
+    </form>
     <table>
         <thead>
-            <th colspan="8"><a href="{{ url_for('calendrier', jour=date_lundi) }}">semaine du {{ date_lundi }} au {{ date_dimanche }}</a></th>
+            <th colspan="8">semaine du {{ date_lundi }} au {{ date_dimanche }}</th>
         </thead>
         <tbody>
             <tr>
