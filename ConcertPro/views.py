@@ -210,9 +210,6 @@ def calendrier(jour=JOUR_VOULU):
     agenda = concerts_agenda(heures, pas, jour)
     lundi = (jour + datetime.timedelta(days=-(jour.weekday()+1)) + datetime.timedelta(days=1))
     dimanche = (jour + datetime.timedelta(days=7-(jour.weekday()+1)))
-    print(lundi)
-    print(dimanche)
-    print(jour)
     return render_template(
         "calendrier.html",
         concerts=get_prochains_concerts(),
