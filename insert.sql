@@ -20,8 +20,8 @@ INSERT INTO Logement (id_logement, adresse_ville_codepostal, nom_etablissement, 
 
 -- Insertion dans la table Artiste
 INSERT INTO Artiste (id_artiste, telephone, mail, nom_artiste, prenom_artiste, date_de_naissance, lieu_naissance, adresse, securite_social, conge_spectacle, cni, date_delivrance_cni, date_expiration_cni, carte_reduction, id_style_musique) VALUES
-(1, '555-123-4567', 'artiste1@example.com', 'John', 'Doe', '1990-05-15', 'New York', '123 Main St', '123-45-6789', 'Oui', 'ABC123456', '2020-01-15', '2025-01-15', 'Réduction1', 1, NULL, "SHO"),
-(2, '555-987-6543', 'artiste2@example.com', 'Jane', 'Smith', '1985-08-20', 'Los Angeles', '456 Elm St', '987-65-4321', 'Non', 'XYZ987654', '2019-06-10', '2024-06-10', 'Réduction2', 2, NULL, "BLUD");
+(1, '555-123-4567', 'artiste1@example.com', 'John', 'Doe', '1990-05-15', 'New York', '123 Main St', '123-45-6789', 'Oui', 'ABC123456', '2020-01-15', '2025-01-15', 'Réduction1', 1),
+(2, '555-987-6543', 'artiste2@example.com', 'Jane', 'Smith', '1985-08-20', 'Los Angeles', '456 Elm St', '987-65-4321', 'Non', 'XYZ987654', '2019-06-10', '2024-06-10', 'Réduction2', 2);
 
 -- Insertion dans la table Jouer
 INSERT INTO Jouer (id_artiste, id_style_musique) VALUES
@@ -41,10 +41,10 @@ INSERT INTO Salle (id_salle, id_type_salle, loge, nom_salle, nb_places, profonde
 (2, 2, 'Non', 'Théâtre B', 300, 8, 15, 'Théâtre classique', '456 Elm St, Marseille', '555-333-4444', NULL);
 
 -- Insertion dans la table Concert
-INSERT INTO Concert (id_concert, nom_concert, date_heure_concert, duree_concert, id_artiste, id_salle, photo) VALUES
-(1, 'Concert Rock', '2023-11-15 20:00:00', 120, 1, 1, NULL),
-(2, 'Concert Pop', '2023-12-10 19:30:00', 90, 2, 2, NULL),
-(3, 'Concert Rap', '2022-12-10 19:30:00', 100, 2, 2, NULL);
+INSERT INTO Concert (id_concert, nom_concert, date_heure_concert, duree_concert, id_artiste, id_salle, description_concert, photo) VALUES
+(1, 'Concert Rock', '2023-11-15 20:00:00', 120, 1, 1, "concert", NULL),
+(2, 'Concert Pop', '2023-12-10 19:30:00', 90, 2, 2, "concert", NULL),
+(3, 'Concert Rap', '2022-12-10 19:30:00', 100, 2, 2, "concert", NULL);
 
 -- Insertion dans la table Avoir
 INSERT INTO Avoir (id_salle, id_concert, plan_feu, installation, FOH, backline, retour) VALUES

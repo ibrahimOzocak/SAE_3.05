@@ -41,8 +41,8 @@ def creer_concert():
     """page de création de concert"""
     return render_template(
         "creer_concert.html",
-        artistes=ARTISTES,
-        salles=SALLES
+        artistes=artistes(),
+        salles=salles()
     )
 
 @app.route('/voir_prochains_concerts')
@@ -61,8 +61,8 @@ def historique_concerts():
         concerts = historique_concerts()
     )
 
-@app.route('/save_concert', methods=("POST",))
-def save_concert():
+@app.route('/save_concert1', methods=("POST",))
+def save_concert1():
     """sauvegarde d'un concert"""
     concert = {}
     concert["artiste"] = request.form['artiste']
@@ -76,6 +76,28 @@ def save_concert():
     concert["url"] = "test.png"
     CONCERTS.append(concert)
     return redirect(url_for('concert', nom=concert["nom"]))
+
+@app.route('/save_concert', methods=("POST",))
+def save_concert():
+    """sauvegarde d'un concert"""
+    nom_concert = request.form['titre']
+    date_debut = datetime.datetime.strptime(request.form['date_debut'], "%Y-%m-%d")
+    heure_debut = datetime.datetime.strptime(request.form['heure_debut'], "%H:%M").time()
+    date_heure_concert = datetime.datetime.combine(date_debut, heure_debut)
+    heure_duree = datetime.datetime.strptime(request.form['duree'], "%H:%M").time().hour
+    minute_duree = datetime.datetime.strptime(request.form['duree'], "%H:%M").time().minute
+    duree_concert = heure_duree*60 + minute_duree
+    id_artiste = get_artiste(request.form['artiste'])[0]
+    id_salle = get_salle(request.form['salle'])[0]
+    description_concert = request.form['description']
+    photo = "test.png"
+    concert = (nom_concert, date_heure_concert, duree_concert, id_artiste, id_salle, description_concert, photo)
+    try:
+        req = "INSERT INTO Concert (id_concert, nom_concert, date_heure_concert, duree_concert, id_artiste, id_salle, description_concert, photo) VALUES("+str(get_id_concert_max()+1)+", '" + str(nom_concert) + "', '" + str(date_heure_concert) + "', " + str(duree_concert) + ", " + str(id_artiste) + ", " + str(id_salle) + ", '" + str(description_concert) + "', '" + str(photo) + "')"
+        cursor.execute(req)
+    except Exception as e:
+        print(e.args)
+    return redirect(url_for('concert', nom=nom_concert))
 
 @app.route('/concert/<nom>')
 def concert(nom):
@@ -266,7 +288,7 @@ def calendrier(jour=JOUR_VOULU):
     dimanche = (jour + datetime.timedelta(days=7-(jour.weekday()+1))).replace(hour=23, minute=59, second=59, microsecond=0)
     return render_template(
         "calendrier.html",
-        concerts=get_prochains_concerts(),
+        concerts=prochains_concerts(),
         agenda=agenda,
         heures=heures,
         date_lundi=lundi.strftime("%d-%m-%Y"),
@@ -296,12 +318,6 @@ def calendrier_semaine_suivante(jour_actuel=JOUR_VOULU):
     return redirect(url_for('calendrier', jour=jour.strftime("%d-%m-%Y")))
 
 # fonctions utiles pour les templates
-def get_concert1(nom):
-    for c in CONCERTS:
-        if c["nom"] == nom:
-            return c
-    return None
-
 def get_concert(nom):
     try:
         requete = "SELECT * FROM Concert where nom_concert='"+nom+"'"
@@ -343,33 +359,24 @@ def get_artiste(nom):
     return None
 
 def remove_concert(nom):
-    for c in CONCERTS:
+    for c in concerts():
         if c["nom"] == nom:
-            CONCERTS.remove(c)
+            concerts().remove(c)
 
 def remove_salle(nom):
-    for s in SALLES:
+    for s in salles():
         if s["nom"] == nom:
             SALLES.remove(s)
 
 def remove_logement(nom_etablissement):
-    for e in LOGEMENTS:
+    for e in logements():
         if e["nom_etablissement"] == nom_etablissement:
             LOGEMENTS.remove(e)
 
 def remove_artiste(nom):
-    for a in ARTISTES:
+    for a in artistes():
         if a["nom_artiste"] == nom:
             ARTISTES.remove(a)
-
-def get_prochains_concerts():
-    prochains_concerts = []
-    now = datetime.datetime.now()
-    for c in CONCERTS:
-        if datetime.datetime.combine(c["date_debut"],c["heure_debut"]) > now:
-            prochains_concerts.append(c)
-    prochains_concerts = sorted(prochains_concerts, key=lambda concert: datetime.datetime.combine(concert["date_debut"],concert["heure_debut"]))
-    return prochains_concerts
 
 def prochains_concerts():
     prochains_concerts = []
@@ -381,14 +388,6 @@ def prochains_concerts():
             prochains_concerts.append(i)
     except Exception as e:
         print(e.args)
-    return prochains_concerts
-
-def get_historique_concerts():
-    prochains_concerts = []
-    now = datetime.datetime.now()
-    for c in CONCERTS:
-        if datetime.datetime.combine(c["date_debut"],c["heure_debut"]) < now:
-            prochains_concerts.append(c)
     return prochains_concerts
 
 def historique_concerts():
@@ -403,6 +402,93 @@ def historique_concerts():
         print(e.args)
     return prochains_concerts
 
+def concerts():
+    concerts = []
+    try:
+        requete = "SELECT * FROM Concert"
+        cursor.execute(requete)
+        info = cursor.fetchall()
+        for i in info:
+            concerts.append(i)
+    except Exception as e:
+        print(e.args)
+    return concerts
+
+def salles():
+    salles = []
+    try:
+        requete = "SELECT * FROM Salle"
+        cursor.execute(requete)
+        info = cursor.fetchall()
+        for i in info:
+            salles.append(i)
+    except Exception as e:
+        print(e.args)
+    return salles
+
+def artistes():
+    artistes = []
+    try:
+        requete = "SELECT * FROM Artiste"
+        cursor.execute(requete)
+        info = cursor.fetchall()
+        for i in info:
+            artistes.append(i)
+    except Exception as e:
+        print(e.args)
+    return artistes
+
+def logements():
+    logements = []
+    try:
+        requete = "SELECT * FROM Logement"
+        cursor.execute(requete)
+        info = cursor.fetchall()
+        for i in info:
+            logements.append(i)
+    except Exception as e:
+        print(e.args)
+    return logements
+
+def get_id_concert_max():
+    try:
+        requete = "SELECT MAX(id_concert) FROM Concert"
+        cursor.execute(requete)
+        info = cursor.fetchall()
+        return info[0][0]
+    except Exception as e:
+        print(e.args)
+    return None
+
+def get_id_artiste_max():
+    try:
+        requete = "SELECT MAX(id_artiste) FROM Artiste"
+        cursor.execute(requete)
+        info = cursor.fetchall()
+        return info[0][0]
+    except Exception as e:
+        print(e.args)
+    return None
+
+def get_id_salle_max():
+    try:
+        requete = "SELECT MAX(id_salle) FROM Salle"
+        cursor.execute(requete)
+        info = cursor.fetchall()
+        return info[0][0]
+    except Exception as e:
+        print(e.args)
+    return None
+
+def get_id_logement_max():
+    try:
+        requete = "SELECT MAX(id_logement) FROM Logement"
+        cursor.execute(requete)
+        info = cursor.fetchall()
+        return info[0][0]
+    except Exception as e:
+        print(e.args)
+    return None
 
 def concerts_agenda(heures=HEURES1,pas=PAS1,jour_voulu=JOUR_VOULU):
     """renvoie un agenda des concerts de la semaine du jour voulu"""
@@ -416,21 +502,22 @@ def concerts_agenda(heures=HEURES1,pas=PAS1,jour_voulu=JOUR_VOULU):
     jour = jour_voulu
     if type(jour) == str:
         jour = datetime.datetime.strptime(jour, "%d-%m-%Y")
-    for concert in CONCERTS:
-        if datetime.timedelta(days=-(jour.weekday()+1))<concert["date_debut"]-jour<datetime.timedelta(days=7-(jour.weekday()+1)+1):
-            for h in heures:
-                fin_horaire = h+pas
-                # format 24h obligatoire
-                if fin_horaire > 23:
-                    fin_horaire = datetime.time(hour=h+pas-1, minute=59)
-                else:
-                    fin_horaire = datetime.time(hour=h+pas)
-                debut_horaire = datetime.time(hour=h)
-                minutesC = (concert["heure_debut"].minute+concert["minute_duree"])%60
-                heuresC = concert["heure_debut"].hour+concert["heure_duree"]+(concert["heure_debut"].minute+concert["minute_duree"])//60
-                fin_concert = datetime.time(hour=heuresC, minute=minutesC)
-                debut_concert = concert["heure_debut"]
-                # ajouter le concert si il est dans l'intervalle horaire
-                if not(debut_concert >= fin_horaire or fin_concert <= debut_horaire):
-                    agenda[concert["date_debut"].weekday()+1][h].append(concert["nom"])
+    for concert in concerts():
+        # if datetime.timedelta(days=-(jour.weekday()+1))<concert["date_debut"]-jour<datetime.timedelta(days=7-(jour.weekday()+1)+1):
+        #     for h in heures:
+        #         fin_horaire = h+pas
+        #         # format 24h obligatoire
+        #         if fin_horaire > 23:
+        #             fin_horaire = datetime.time(hour=h+pas-1, minute=59)
+        #         else:
+        #             fin_horaire = datetime.time(hour=h+pas)
+        #         debut_horaire = datetime.time(hour=h)
+        #         minutesC = (concert["heure_debut"].minute+concert["minute_duree"])%60
+        #         heuresC = concert["heure_debut"].hour+concert["heure_duree"]+(concert["heure_debut"].minute+concert["minute_duree"])//60
+        #         fin_concert = datetime.time(hour=heuresC, minute=minutesC)
+        #         debut_concert = concert["heure_debut"]
+        #         # ajouter le concert si il est dans l'intervalle horaire
+        #         if not(debut_concert >= fin_horaire or fin_concert <= debut_horaire):
+        #             agenda[concert["date_debut"].weekday()+1][h].append(concert["nom"])
+        pass
     return agenda
