@@ -91,7 +91,6 @@ def save_concert():
     id_salle = get_salle(request.form['salle'])[0]
     description_concert = request.form['description']
     photo = "test.png"
-    concert = (nom_concert, date_heure_concert, duree_concert, id_artiste, id_salle, description_concert, photo)
     try:
         req = "INSERT INTO Concert (id_concert, nom_concert, date_heure_concert, duree_concert, id_artiste, id_salle, description_concert, photo) VALUES("+str(get_id_concert_max()+1)+", '" + str(nom_concert) + "', '" + str(date_heure_concert) + "', " + str(duree_concert) + ", " + str(id_artiste) + ", " + str(id_salle) + ", '" + str(description_concert) + "', '" + str(photo) + "')"
         cursor.execute(req)
