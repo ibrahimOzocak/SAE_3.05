@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/artiste.css')}}"> 
+{% endblock %}
+{% block content %}
+<h2>{{ artiste.prenom_artiste }} {{ artiste.nom_artiste }}</h2>
+<div>
+    <p>mail : {{ artiste.mail }}</p>
+    <p>telephone : {{ artiste.telephone }}</p>
+    <p>date_de_naissance : {{ artiste.date_de_naissance }}</p>
+    <p>lieu_de_naissance : {{ artiste.lieu_de_naissance }}</p>
+    <p>adresse : {{ artiste.adresse }}</p>
+    <p>securite_sociale : {{ artiste.securite_sociale }}</p>
+    <p>cni : {{ artiste.cni }}</p>
+    <p>date_delivrance_cni : {{ artiste.date_delivrance_cni }}</p>
+    <p>date_expiration_cni : {{ artiste.date_expiration_cni }}</p>
+    <p>carte_reduction : {{ artiste.carte_reduction }}</p>
+</div>
+<div>
+    <a href="{{ url_for('supprimer_artiste', nom_artiste=artiste.nom_artiste) }}">supprimer l'artiste</a>
+</div>
+{% endblock %}

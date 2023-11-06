@@ -30,10 +30,10 @@
     </ul>
 </section>
 <section id="Agenda">
-    <h2><span>Agenda de la semaine</span> </h2>
+    <h2><span>Agenda de la semaine</span></h2>
     <table>
         <thead>
-            <th colspan="8"><a href="{{ url_for('concert', nom=nom_concert) }}">semaine du {{ date_lundi }} au {{ date_dimanche }}</a></th>
+            <th colspan="8"><a href="{{ url_for('calendrier', jour=date_lundi) }}">semaine du {{ date_lundi }} au {{ date_dimanche }}</a></th>
         </thead>
         <tbody>
             <tr>

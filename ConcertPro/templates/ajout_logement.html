@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/ajout_logement.css') }}"> 
+{% endblock %}
+{% block content %}
+<form action="{{ url_for('save_logement') }}" method="POST" enctype="multipart/form-data">
+    <section class="nouveau_logement">
+        <label for="Entrer_nometablissement">Nom de l'établissement</label>
+        <input type="text" name="Entrer_nometablissement"/> 
+        <label for="Entrer_nbetoiles">Nombre d'étoiles</label>
+        <input type="number" min="0" max="5" name="Entrer_nbetoiles"/> 
+        <label for="Entrer_adresse">Adresse</label>
+        <input type="text" name="Entrer_adresse"/>
+    </section>
+    <input type="submit" id="valider" name="valider" value="Valider l'ajout de cette salle"/>
+</form>
+{% endblock %}

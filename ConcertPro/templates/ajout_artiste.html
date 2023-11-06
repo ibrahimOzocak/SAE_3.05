@@ -6,7 +6,7 @@
 {% block content %}
 <div class="container">
     <h2>Formulaire d'Information</h2>
-    <form id="myForm">
+    <form action="{{ url_for('save_artiste') }}" method="POST">
         <label for="prenom">Prénom:</label>
         <input type="text" id="prenom" name="prenom" required>
 
@@ -52,7 +52,7 @@
         <label for="comment">Commentaire (max. 500 caractères):</label>
         <textarea id="comment" name="comment" rows="4" maxlength="500"></textarea>
 
-        <button type="button" id="submitBtn">Valider</button>
+        <button type="submit" id="submitBtn">Valider</button>
     </form>
 </div>
 

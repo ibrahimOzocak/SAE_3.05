@@ -9,4 +9,7 @@
 {% if salle is not none %}
 <img src="{{ url_for('static', filename='images/'+salle.photo)}}" alt="photo de la salle" width=10% height=10%>
 {% endif %}
+<div>
+    <a href="{{ url_for('supprimer_salle', nom=salle.nom) }}">supprimer l'salle</a>
+</div>
 {% endblock %}

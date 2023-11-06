@@ -15,5 +15,8 @@
 <div>
     <img src="{{ url_for('static', filename='images/'+concert.url)}}" alt="l'image d'un concert" width=10% height=10%/>
 </div>
+<div>
+    <a href="{{ url_for('supprimer_concert', nom=concert.nom) }}">supprimer le concert</a>
+</div>
 {% endif %}
 {% endblock %}
