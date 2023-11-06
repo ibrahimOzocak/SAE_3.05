@@ -4,19 +4,20 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/concert.css')}}"> 
 {% endblock %}
 {% block content %}
-<h2>{{ concert.nom }}</h2>
+<h2>{{ concert[1] }}</h2>
 <div>
-    <p>{{ concert.description }}</p>
-    <p>date : {{ concert.date_debut }}</p>
-    <p>heure : {{ concert.heure_debut }}</p>
-    <p>duree : {{ concert.heure_duree }}h{{ concert.minute_duree }}</p>
+    <p>id : {{ concert[0] }}</p>
+    <p>date : {{ concert[2] }}</p>
+    <p>duree : {{ concert[3] }} minutes</p>
+    <p>id artiste : {{ concert[4] }}</p>
+    <p>id salle : {{ concert[5] }}</p>
 </div>
 {% if concert is not none %}
 <div>
-    <img src="{{ url_for('static', filename='images/'+concert.url)}}" alt="l'image d'un concert" width=10% height=10%/>
+    <img src="{{ url_for('static', filename='images/banniere.jpeg')}}" alt="l'image d'un concert" width=10% height=10%/>
 </div>
 <div>
-    <a href="{{ url_for('supprimer_concert', nom=concert.nom) }}">supprimer le concert</a>
+    <a href="{{ url_for('supprimer_concert', nom=concert[1]) }}">supprimer le concert</a>
 </div>
 {% endif %}
 {% endblock %}

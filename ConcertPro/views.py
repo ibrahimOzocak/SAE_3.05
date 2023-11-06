@@ -28,7 +28,7 @@ def accueil():
     dimanche = (jour + datetime.timedelta(days=7-(jour.weekday()+1))).replace(hour=23, minute=59, second=59, microsecond=0)
     return render_template(
         "accueil.html",
-        concerts=get_prochains_concerts(),
+        concerts=prochains_concerts(),
         agenda=agenda,
         heures=heures,
         date_lundi=lundi.strftime("%d-%m-%Y"),
@@ -50,7 +50,7 @@ def voir_prochains_concerts():
     """page qui affiche les concerts à venir"""
     return render_template(
         "voir_prochains_concerts.html",
-        concerts=get_prochains_concerts()
+        concerts=prochains_concerts()
     )
 
 @app.route('/historique_concert')
@@ -267,10 +267,20 @@ def calendrier_semaine_suivante(jour_actuel=JOUR_VOULU):
     return redirect(url_for('calendrier', jour=jour.strftime("%d-%m-%Y")))
 
 # fonctions utiles pour les templates
-def get_concert(nom):
+def get_concert1(nom):
     for c in CONCERTS:
         if c["nom"] == nom:
             return c
+    return None
+
+def get_concert(nom):
+    try:
+        requete = "SELECT * FROM Concert where nom_concert='"+nom+"'"
+        cursor.execute(requete)
+        info = cursor.fetchall()
+        return info[0]
+    except Exception as e:
+        print(e.args)
     return None
 
 def get_salle(nom):
@@ -320,7 +330,7 @@ def get_prochains_concerts():
     prochains_concerts = sorted(prochains_concerts, key=lambda concert: datetime.datetime.combine(concert["date_debut"],concert["heure_debut"]))
     return prochains_concerts
 
-def get_prochains_concerts():
+def prochains_concerts():
     prochains_concerts = []
     try:
         requete = "SELECT * FROM Concert where date_heure_concert >= CURDATE()"
