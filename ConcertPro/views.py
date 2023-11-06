@@ -103,10 +103,20 @@ def ajout_nouvelle_salle():
 @app.route('/voir_salles')
 def voir_salles():
     """page qui affiche les salles"""
-    return render_template(
-        "voir_salles.html",
-        salles = SALLES
-    )
+    try:
+        request = "SELECT * FROM Salle"
+        cursor.execute(request)
+        info = cursor.fetchall()
+        return render_template(
+            "voir_salles.html",
+            salles=info
+        )
+    except Exception as e:
+        print(e.args)
+        return render_template(
+            "error.html",
+            error_message="An error occurred while retrieving data from the database."
+        )
 
 @app.route('/salle/<nom>')
 def salle(nom):
@@ -284,9 +294,13 @@ def get_concert(nom):
     return None
 
 def get_salle(nom):
-    for s in SALLES:
-        if s["nom"] == nom:
-            return s
+    try:
+        request = "SELECT * FROM Salle where nom_salle='"+nom+"'"
+        cursor.execute(request)
+        info = cursor.fetchall()
+        return info[0]
+    except Exception as e:
+        print(e.args)
     return None
 
 def get_logement(nom_etablissement):

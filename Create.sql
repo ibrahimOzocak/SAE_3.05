@@ -58,6 +58,7 @@ CREATE TABLE Salle (
   description_salle VARCHAR(42),
   adresse_salle VARCHAR(42),
   telephone_salle VARCHAR(42),
+  photo_salle LONGBLOB,
   FOREIGN KEY (id_type_salle) REFERENCES Type_Salle (id_type)
 );
 
