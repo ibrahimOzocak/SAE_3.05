@@ -18,6 +18,7 @@ JOUR_VOULU = datetime.datetime.now() # -datetime.timedelta(days=7) ou +datetime.
 # accueil
 @app.route('/')
 def accueil():
+    """page d'accueil"""
     heures = HEURES2
     pas = PAS2
     jour = JOUR_VOULU
@@ -36,6 +37,7 @@ def accueil():
 # concert
 @app.route('/creer_concert')
 def creer_concert():
+    """page de création de concert"""
     return render_template(
         "creer_concert.html",
         artistes=ARTISTES,
@@ -44,6 +46,7 @@ def creer_concert():
 
 @app.route('/voir_prochains_concerts')
 def voir_prochains_concerts():
+    """page qui affiche les concerts à venir"""
     return render_template(
         "voir_prochains_concerts.html",
         concerts=get_prochains_concerts()
@@ -51,6 +54,7 @@ def voir_prochains_concerts():
 
 @app.route('/historique_concert')
 def historique_concerts():
+    """page qui affiche les concerts passés"""
     return render_template(
         "historique_concerts.html",
         concerts = get_historique_concerts()
@@ -58,6 +62,7 @@ def historique_concerts():
 
 @app.route('/save_concert', methods=("POST",))
 def save_concert():
+    """sauvegarde d'un concert"""
     concert = {}
     concert["artiste"] = request.form['artiste']
     concert["date_debut"] = datetime.datetime.strptime(request.form['date_debut'], "%Y-%m-%d")
@@ -73,6 +78,7 @@ def save_concert():
 
 @app.route('/concert/<nom>')
 def concert(nom):
+    """page pour le concert <nom>"""
     concert = get_concert(nom)
     return render_template(
         "concert.html",
@@ -81,18 +87,21 @@ def concert(nom):
 
 @app.route('/concert/<nom>/supprimer')
 def supprimer_concert(nom):
+    """supprime le concert <nom>"""
     remove_concert(nom)
     return redirect(url_for('accueil'))
 
 # salle
 @app.route('/ajout_nouvelle_salle')
 def ajout_nouvelle_salle():
+    """page de création de salle"""
     return render_template(
         "ajout_nouvelle_salle.html"
     )
 
 @app.route('/voir_salles')
 def voir_salles():
+    """page qui affiche les salles"""
     return render_template(
         "voir_salles.html",
         salles = SALLES
@@ -100,6 +109,7 @@ def voir_salles():
 
 @app.route('/salle/<nom>')
 def salle(nom):
+    """page pour la salle <nom>"""
     salle = get_salle(nom)
     return render_template(
         "salle.html",
@@ -108,6 +118,7 @@ def salle(nom):
 
 @app.route('/save_salle', methods=("POST",))
 def save_salle():
+    """sauvegarde d'une salle"""
     salle = {}
     salle["nom"] = request.form['nom']
     salle["nbPlaces"] = request.form['nbPlaces']
@@ -117,26 +128,30 @@ def save_salle():
 
 @app.route('/salle/<nom>/supprimer')
 def supprimer_salle(nom):
+    """supprime la salle <nom>"""
     remove_salle(nom)
     return redirect(url_for('accueil'))
 
 # artiste
 @app.route('/ajout_artiste')
 def ajout_artiste():
+    """page d'ajout d'un artiste"""
     return render_template(
         "ajout_artiste.html"
     )
 
 @app.route('/voir_artistes')
 def voir_artistes():
+    """page qui affiche les artistes"""
     return render_template(
         "voir_artistes.html",
         artistes = ARTISTES
     )
 
-@app.route('/artiste/<nom>')
-def artiste(nom):
-    artiste = get_artiste(nom)
+@app.route('/artiste/<nom_artiste>')
+def artiste(nom_artiste):
+    """page de l'artiste <nom_artiste>"""
+    artiste = get_artiste(nom_artiste)
     return render_template(
         "artiste.html",
         artiste=artiste
@@ -144,6 +159,7 @@ def artiste(nom):
 
 @app.route('/save_artiste', methods=("POST",))
 def save_artiste():
+    """sauvegarde d'un artiste"""
     artiste = {}
     artiste["nom_artiste"] = request.form['nom']
     artiste["prenom_artiste"] = request.form['prenom']
@@ -162,12 +178,14 @@ def save_artiste():
 
 @app.route('/artiste/<nom_artiste>/supprimer')
 def supprimer_artiste(nom_artiste):
+    """supprime l'artiste <nom_artiste>"""
     remove_artiste(nom_artiste)
     return redirect(url_for('accueil'))
 
 # logement
 @app.route('/logement/<nom_etablissement>')
 def logement(nom_etablissement):
+    """page du logement <nom_etablissement>"""
     logement = get_logement(nom_etablissement)
     return render_template(
         "logement.html",
@@ -176,12 +194,14 @@ def logement(nom_etablissement):
 
 @app.route('/ajout_logement')
 def ajout_logement():
+    """page d'ajout de logement"""
     return render_template(
         "ajout_logement.html"
     )
 
 @app.route('/voir_logements')
 def voir_logements():
+    """page qui affiche les logements"""
     return render_template(
         "voir_logements.html",
         logements = LOGEMENTS
@@ -189,6 +209,7 @@ def voir_logements():
 
 @app.route('/save_logement', methods=("POST",))
 def save_logement():
+    """sauvegarde d'un logement"""
     logement = {}
     logement["nom_etablissement"] = request.form['Entrer_nometablissement']
     logement["adresse_ville_codepostal"] = request.form['Entrer_adresse']
@@ -198,12 +219,14 @@ def save_logement():
 
 @app.route('/logement/<nom_etablissement>/supprimer')
 def supprimer_logement(nom_etablissement):
+    """supprime le logement >nom_etablissement>"""
     remove_logement(nom_etablissement)
     return redirect(url_for('accueil'))
 
 # calendrier
 @app.route('/calendrier/<jour>')
 def calendrier(jour=JOUR_VOULU):
+    """page du calendrier au jour <jour>"""
     heures = HEURES1
     pas = PAS1
     if type(jour) == str:
@@ -222,11 +245,13 @@ def calendrier(jour=JOUR_VOULU):
 
 @app.route('/calendrier/redirection', methods=("POST",))
 def calendrier_redirection():
+    """redirige vers le calendrier du jour"""
     jour = datetime.datetime.strptime(request.form['date'], "%Y-%m-%d")
     return redirect(url_for('calendrier', jour=jour.strftime("%d-%m-%Y")))
 
 @app.route('/calendrier/semaine_precedente/<jour_actuel>')
 def calendrier_semaine_precedente(jour_actuel=JOUR_VOULU):
+    """page du calendrier de la semaine précédent <jour_actuel>"""
     if type(jour_actuel) == str:
         jour_actuel = datetime.datetime.strptime(jour_actuel, "%d-%m-%Y")
     jour = jour_actuel + datetime.timedelta(days=-7)
@@ -234,6 +259,7 @@ def calendrier_semaine_precedente(jour_actuel=JOUR_VOULU):
 
 @app.route('/calendrier/semaine_suivante/<jour_actuel>')
 def calendrier_semaine_suivante(jour_actuel=JOUR_VOULU):
+    """page du calendrier de la semaine suivant <jour_actuel>"""
     if type(jour_actuel) == str:
         jour_actuel = datetime.datetime.strptime(jour_actuel, "%d-%m-%Y")
     jour = jour_actuel + datetime.timedelta(days=7)
@@ -302,6 +328,7 @@ def get_historique_concerts():
     return prochains_concerts
 
 def concerts_agenda(heures=HEURES1,pas=PAS1,jour_voulu=JOUR_VOULU):
+    """renvoie un agenda des concerts de la semaine du jour voulu"""
     #initialisation de l'agenda
     agenda = {}
     for i in range(1,8):
