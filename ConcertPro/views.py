@@ -1,6 +1,7 @@
 from flask import redirect, render_template, request, url_for
 from .app import app
 import datetime
+from .models import *
 
 ARTISTES = [{"nom": "Lucie"}, {"nom": "Mira"}, {"nom": "Muse"}, {"nom": "Daft Punk"}, {"nom": "Beyoncé"}, {"nom": "The Beatles"}, {"nom": "Ed Sheeran"}, {"nom": "Adele"}, {"nom": "Michael Jackson"}, {"nom": "Taylor Swift"}, {"nom": "Coldplay"}, {"nom": "Kanye West"}]
 CONCERTS = [{"artiste": "Lucie", "date_debut": datetime.datetime.strptime("2023-10-26", "%Y-%m-%d"), "heure_debut": datetime.datetime.strptime("10:00", "%H:%M").time(), "salle": "Bercy", "url": "test.png", "nom": "yaaa", "heure_duree":2, "minute_duree":25, "jour":4}, {"artiste": "Mira", "date_debut": datetime.datetime.strptime("2023-10-24", "%Y-%m-%d"), "heure_debut": datetime.datetime.strptime("8:30", "%H:%M").time(), "salle": "Bercy", "url": "test.png", "nom": "test", "heure_duree":3, "minute_duree":00, "jour":1}, {"artiste": "Muse", "date_debut": datetime.datetime.strptime("2023-10-29", "%Y-%m-%d"), "heure_debut": datetime.datetime.strptime("10:00", "%H:%M").time(), "salle": "Bercy", "url": "test.png", "nom": "concert 1", "heure_duree":1, "minute_duree":35, "jour":6}, {"artiste": "Daft Punk", "date_debut": datetime.datetime.strptime("2023-10-23", "%Y-%m-%d"), "heure_debut": datetime.datetime.strptime("14:20", "%H:%M").time(), "salle": "Stade de France", "url": "test.png", "nom": "concert 2", "heure_duree":4, "minute_duree":00, "jour":1}, {"artiste": "Beyoncé", "date_debut": datetime.datetime.strptime("2023-10-24", "%Y-%m-%d"), "heure_debut": datetime.datetime.strptime("11:00", "%H:%M").time(), "salle": "Madison Square Garden", "url": "test.png", "nom": "concert 3", "heure_duree":1, "minute_duree":30, "jour":4}, {"artiste": "The Beatles", "date_debut": datetime.datetime.strptime("2019-04-10", "%Y-%m-%d"), "heure_debut": datetime.datetime.strptime("12:30", "%H:%M").time(), "salle": "Royal Albert Hall", "url": "test.png", "nom": "concert 4", "heure_duree":00, "minute_duree":45, "jour":1}, {"artiste": "Ed Sheeran", "date_debut": datetime.datetime.strptime("2019-05-05", "%Y-%m-%d"), "heure_debut": datetime.datetime.strptime("9:00", "%H:%M").time(), "salle": "Wembley Stadium", "url": "test.png", "nom": "concert 5", "heure_duree":3, "minute_duree":30, "jour":3}, {"artiste": "Adele", "date_debut": datetime.datetime.strptime("2019-06-12", "%Y-%m-%d"), "heure_debut": datetime.datetime.strptime("22:00", "%H:%M").time(), "salle": "The O2 Arena", "url": "test.png", "nom": "concert 6", "heure_duree":1, "minute_duree":25, "jour":7}, {"artiste": "Michael Jackson", "date_debut": datetime.datetime.strptime("2023-10-18", "%Y-%m-%d"), "heure_debut": datetime.datetime.strptime("8:45", "%H:%M").time(), "salle": "Tokyo Dome", "url": "test.png", "nom": "concert 7", "heure_duree":2, "minute_duree":00, "jour":1}, {"artiste": "Taylor Swift", "date_debut": datetime.datetime.strptime("2019-08-25", "%Y-%m-%d"), "heure_debut": datetime.datetime.strptime("15:30", "%H:%M").time(), "salle": "Arrowhead Stadium", "url": "test.png", "nom": "concert 8", "heure_duree":2, "minute_duree":25, "jour":3}, {"artiste": "Coldplay", "date_debut": datetime.datetime.strptime("2019-09-14", "%Y-%m-%d"), "heure_debut": datetime.datetime.strptime("11:11", "%H:%M").time(), "salle": "Estadio Wanda Metropolitano", "url": "test.png", "nom": "concert 9", "heure_duree":5, "minute_duree":00, "jour":5}, {"artiste": "Kanye West", "date_debut": datetime.datetime.strptime("2023-10-23", "%Y-%m-%d"), "heure_debut": datetime.datetime.strptime("13:30", "%H:%M").time(), "salle": "American Airlines Center", "url": "test.png", "nom": "concert 10", "heure_duree":1, "minute_duree":30, "jour":2}]
@@ -60,7 +61,7 @@ def voir_salles():
 def historique_concerts():
     return render_template(
         "historique_concerts.html",
-        concerts = get_historique_concerts()
+        concerts = historique_concerts()
     )
 
 @app.route('/save_concert', methods=("POST",))
@@ -111,13 +112,25 @@ def get_salle(nom):
             return s
     return None
 
-def get_prochains_concerts():
+def get_prochains_concerts1():
     prochains_concerts = []
     now = datetime.datetime.now()
     for c in CONCERTS:
         if datetime.datetime.combine(c["date_debut"],c["heure_debut"]) > now:
             prochains_concerts.append(c)
     prochains_concerts = sorted(prochains_concerts, key=lambda concert: datetime.datetime.combine(concert["date_debut"],concert["heure_debut"]))
+    return prochains_concerts
+
+def get_prochains_concerts():
+    prochains_concerts = []
+    try:
+        requete = "SELECT * FROM Concert where date_heure_concert >= CURDATE()"
+        cursor.execute(requete)
+        info = cursor.fetchall()
+        for i in info:
+            prochains_concerts.append(i)
+    except Exception as e:
+        print(e.args)
     return prochains_concerts
 
 def get_historique_concerts():
@@ -127,6 +140,19 @@ def get_historique_concerts():
         if datetime.datetime.combine(c["date_debut"],c["heure_debut"]) < now:
             prochains_concerts.append(c)
     return prochains_concerts
+
+def historique_concerts():
+    prochains_concerts = []
+    try:
+        requete = "SELECT * FROM Concert where date_heure_concert < CURDATE()"
+        cursor.execute(requete)
+        info = cursor.fetchall()
+        for i in info:
+            prochains_concerts.append(i)
+    except Exception as e:
+        print(e.args)
+    return prochains_concerts
+
 
 def concerts_agenda(heures=HEURES1,pas=PAS1,jour_voulu=JOUR_VOULU):
     #initialisation de l'agenda

@@ -7,9 +7,9 @@
 <div class="conteneur">
     {% for concert in concerts %}
     <div class="div_proc">
-        <a href="{{ url_for('concert', nom=concert.nom) }}">
-            <img src="{{ url_for('static', filename='images/'+concert.url)}}" alt="" width=10% height=10%/>
-            <p>{{ concert.nom }} </p>
+        <a href="{{ url_for('concert', nom=concert[1]) }}">
+            <img src="{{ url_for('static', filename='images/banniere.jpeg')}}" alt="" width=10% height=10%/>
+            <p>{{ concert[1] }} </p>
         </a>
     </div>
     {% endfor %}

@@ -8,7 +8,7 @@ cursor = db.cursor()
 
 def test():
     try:
-        req1 = "SELECT * FROM Artiste"
+        req1 = "SELECT * FROM Concert"
         cursor.execute(req1)
         info = cursor.fetchall()
         for i in info:
