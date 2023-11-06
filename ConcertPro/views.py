@@ -153,11 +153,21 @@ def ajout_artiste():
 
 @app.route('/voir_artistes')
 def voir_artistes():
-    """page qui affiche les artistes"""
-    return render_template(
-        "voir_artistes.html",
-        artistes = ARTISTES
-    )
+    try:
+        request = "SELECT * FROM Artiste"
+        cursor.execute(request)
+        info = cursor.fetchall()
+        return render_template(
+            "voir_artistes.html",
+            artistes=info
+        )
+    except Exception as e:
+        print(e.args)
+        return render_template(
+            "error.html",
+            error_message="An error occurred while retrieving data from the database."
+        )
+
 
 @app.route('/artiste/<nom_artiste>')
 def artiste(nom_artiste):
@@ -212,10 +222,19 @@ def ajout_logement():
 
 @app.route('/voir_logements')
 def voir_logements():
-    """page qui affiche les logements"""
-    return render_template(
-        "voir_logements.html",
-        logements = LOGEMENTS
+    try:
+        request = "SELECT * FROM Logement"
+        cursor.execute(request)
+        info = cursor.fetchall()
+        return render_template(
+            "voir_logements.html",
+            logements=info
+        )
+    except Exception as e:
+        print(e.args)
+        return render_template(
+            "error.html",
+            error_message="An error occurred while retrieving data from the database."
     )
 
 @app.route('/save_logement', methods=("POST",))
@@ -304,15 +323,23 @@ def get_salle(nom):
     return None
 
 def get_logement(nom_etablissement):
-    for e in LOGEMENTS:
-        if e["nom_etablissement"] == nom_etablissement:
-            return e
+    try:
+        request = "SELECT * FROM Logement where nom_etablissement='"+nom_etablissement+"'"
+        cursor.execute(request)
+        info = cursor.fetchall()
+        return info[0]
+    except Exception as e:
+        print(e.args)
     return None
 
 def get_artiste(nom):
-    for a in ARTISTES:
-        if a["nom_artiste"] == nom:
-            return a
+    try:
+        request = "SELECT * FROM Artiste where nom_artiste='"+nom+"'"
+        cursor.execute(request)
+        info = cursor.fetchall()
+        return info[0]
+    except Exception as e:
+        print(e.args)
     return None
 
 def remove_concert(nom):
