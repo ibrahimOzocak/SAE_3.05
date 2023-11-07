@@ -4,12 +4,20 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/salle.css')}}"> 
 {% endblock %}
 {% block content %}
-<h2>{{ salle.nom }}</h2>
-<p>nombre de places : {{ salle.nbPlaces }}</p>
+<h2>{{ salle[3] }}</h2>
+<div>
+    <p>description : {{ salle[7] }}</p>
+    <p>loge : {{ salle[2] }}</p>
+    <p>nombres places : {{ salle[4] }}</p>
+    <p>adresse : {{ salle[8] }}</p>
+    <p>telephone : {{ salle[9] }}</p>
+    <p>profondeur scene : {{ salle[5] }}</p>
+    <p>longeur scene : {{ salle[6] }} </p>
+</div>
 {% if salle is not none %}
-<img src="{{ url_for('static', filename='images/'+salle.photo)}}" alt="photo de la salle" width=10% height=10%>
+<img src="{{ url_for('static', filename='images/banniere.jpeg')}}" alt="photo de la salle" width=10% height=10%>
 {% endif %}
 <div>
-    <a href="{{ url_for('supprimer_salle', nom=salle.nom) }}">supprimer l'salle</a>
+    <a href="{{ url_for('supprimer_salle', nom=salle[3]) }}">supprimer la salle</a>
 </div>
 {% endblock %}

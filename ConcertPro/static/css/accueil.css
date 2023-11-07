@@ -9,6 +9,10 @@ body{
     align-items: center;
 }
 
+.concert img{
+    width: 20vw;
+}
+
 .li_acc{
     width: 25vw;
     margin-left: 30px;

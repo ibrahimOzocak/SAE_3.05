@@ -3,10 +3,12 @@ CREATE TABLE Style_musique (
   nom_style_musique VARCHAR(42)
 );
 
+
 CREATE TABLE Equipement (
   id_equipement INT PRIMARY KEY NOT NULL,
   nom_equipement VARCHAR(42)
 );
+
 
 CREATE TABLE Logement (
   id_logement INT PRIMARY KEY NOT NULL,
@@ -14,6 +16,7 @@ CREATE TABLE Logement (
   nom_etablissement VARCHAR(42),
   nb_etoile INT
 );
+
 
 CREATE TABLE Artiste (
   id_artiste INT PRIMARY KEY NOT NULL,
@@ -31,8 +34,11 @@ CREATE TABLE Artiste (
   date_expiration_cni DATE,
   carte_reduction VARCHAR(42),
   id_style_musique INT,
+  photo_artiste LONGBLOB,
+  nom_scene VARCHAR(42),
   FOREIGN KEY (id_style_musique) REFERENCES Style_musique (id_style_musique)
 );
+
 
 CREATE TABLE Jouer (
   id_artiste INT NOT NULL,
@@ -41,11 +47,14 @@ CREATE TABLE Jouer (
   FOREIGN KEY (id_style_musique) REFERENCES Style_musique (id_style_musique),
   FOREIGN KEY (id_artiste) REFERENCES Artiste (id_artiste)
 );
+
+
 CREATE TABLE Type_Salle (
   id_type INT PRIMARY KEY NOT NULL,
   type_place_s VARCHAR(42),
   accueil_pmr BOOLEAN
 );
+
 
 CREATE TABLE Salle (
   id_salle INT PRIMARY KEY NOT NULL,
@@ -58,6 +67,7 @@ CREATE TABLE Salle (
   description_salle VARCHAR(42),
   adresse_salle VARCHAR(42),
   telephone_salle VARCHAR(42),
+  photo_salle LONGBLOB,
   FOREIGN KEY (id_type_salle) REFERENCES Type_Salle (id_type)
 );
 
@@ -68,6 +78,7 @@ CREATE TABLE Concert (
   duree_concert INT,
   id_artiste INT,
   id_salle INT,
+  description_concert VARCHAR(100),
   photo LONGBLOB,
   FOREIGN KEY (id_artiste) REFERENCES Artiste (id_artiste),
   FOREIGN KEY (id_salle) REFERENCES Salle (id_salle)
@@ -96,7 +107,6 @@ CREATE TABLE Posseder (
   FOREIGN KEY (id_equipement) REFERENCES Equipement (id_equipement),
   FOREIGN KEY (id_salle) REFERENCES Salle (id_salle)
 );
-
 
 
 CREATE TABLE Besoin_equipement_artiste (
@@ -132,9 +142,4 @@ CREATE TABLE Participer (
   FOREIGN KEY (id_artiste) REFERENCES Artiste (id_artiste),
   FOREIGN KEY (id_concert) REFERENCES Concert (id_concert)
 );
-
-
-
-
-
 

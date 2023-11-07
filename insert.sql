@@ -36,14 +36,15 @@ INSERT INTO Type_Salle (id_type, type_place_s, accueil_pmr) VALUES
 (3, 'Salle polyvalente', true);
 
 -- Insertion dans la table Salle
-INSERT INTO Salle (id_salle, id_type_salle, loge, nom_salle, nb_places, profondeur_scene, longueur_scene, description_salle, adresse_salle, telephone_salle) VALUES
-(1, 1, 'Oui', 'Salle de Concert A', 500, 10, 20, 'Salle de concert moderne', '123 Main St, Paris', '555-111-2222'),
-(2, 2, 'Non', 'Théâtre B', 300, 8, 15, 'Théâtre classique', '456 Elm St, Marseille', '555-333-4444');
+INSERT INTO Salle (id_salle, id_type_salle, loge, nom_salle, nb_places, profondeur_scene, longueur_scene, description_salle, adresse_salle, telephone_salle, photo_salle) VALUES
+(1, 1, 'Oui', 'Salle de Concert A', 500, 10, 20, 'Salle de concert moderne', '123 Main St, Paris', '555-111-2222', NULL),
+(2, 2, 'Non', 'Théâtre B', 300, 8, 15, 'Théâtre classique', '456 Elm St, Marseille', '555-333-4444', NULL);
 
 -- Insertion dans la table Concert
-INSERT INTO Concert (id_concert, nom_concert, date_heure_concert, duree_concert, id_artiste, id_salle, photo) VALUES
-(1, 'Concert Rock', '2023-11-15 20:00:00', 120, 1, 1, NULL),
-(2, 'Concert Pop', '2023-12-10 19:30:00', 90, 2, 2, NULL);
+INSERT INTO Concert (id_concert, nom_concert, date_heure_concert, duree_concert, id_artiste, id_salle, description_concert, photo) VALUES
+(1, 'Concert Rock', '2023-11-15 20:00:00', 120, 1, 1, "concert", NULL),
+(2, 'Concert Pop', '2023-12-10 19:30:00', 90, 2, 2, "concert", NULL),
+(3, 'Concert Rap', '2022-12-10 19:30:00', 100, 2, 2, "concert", NULL);
 
 -- Insertion dans la table Avoir
 INSERT INTO Avoir (id_salle, id_concert, plan_feu, installation, FOH, backline, retour) VALUES

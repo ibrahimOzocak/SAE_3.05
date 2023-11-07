@@ -17,10 +17,14 @@
         {% for i in range(4) %}
         {% if i < concerts|length %}
         <li class="li_acc">
-            <div>
-                <a href="{{ url_for('concert', nom=concerts[i].nom) }}">
-                    <img class="img_acc" src="{{ url_for('static', filename='images/'+concerts[i].url)}}" alt="image de test" width=10% height=10%>
-                    <p>{{ concerts[i].nom }}</p>
+            <div class="concert">
+                <a href="{{ url_for('concert', nom=concerts[i][1]) }}">
+                    {% if concerts[i][-1] is none %}
+                    <img class="img_acc"  src="{{ url_for('static', filename='images/aucune_image.png') }}" alt="img">
+                    {% else %}
+                    <img class="img_acc" src="{{ url_for('static', filename='images/' + concerts[i][0]|str + '.jpg') }}" alt="img">
+                    {% endif %}
+                    <p>{{ concerts[i][1] }}</p>
                 </a>
             </div>
         </li>
