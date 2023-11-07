@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/ajout_nouvelle_salle.css') }}"> 
 {% endblock %}
 {% block content %}
-<form action="/upload" method="POST" enctype="multipart/form-data">
+<form role="form" method="POST" action="{{ url_for('save_salle') }}">
     <section class="sec1_new_salle">
         <div class="container">
             <input type="file" name="image" id="image-input">
@@ -12,33 +12,41 @@
             <img id="image-charge" src="" alt="Glisser/Déposer une image" width=10% height=10%>
         </div>
         <div>
-            <label for="Entrer_titre">Titre du concert</label>
-            <input type="text" name="Entrer_titre"/> 
-            <label for="Entrer_place">Nombre de place</label>
-            <input type="text" name="Entrer_place"/> 
-            <label for="Entrer_typeplace">Type de place</label>
-            <input type="text" name="Entrer_typeplace"/> 
-            <label for="Entrer_taille">Taille de la scène (Profondeur-Longueur)</label>
-            <input type="text" name="Entrer_taille"/> 
+            <label for="titre">Nom de la salle</label>
+            <input type="text" name="titre"/> 
+            <label for="place">Nombre de place</label>
+            <input type="text" name="place"/> 
+            <label for="typeplace">Type de place</label>
+            <input type="text" name="typeplace"/> 
+            <label for="profondeur">Profondeur de la scene</label>
+            <input type="text" name="profondeur"/> 
+            <label for="largeur">Longeur de la scene</label>
+            <input type="text" name="longueur"/>
+            
         </div>
+        
     </section>
     <section class="sec2_new_salle">
-        <label for="Entrer_adresse">Adresse de la salle</label>
-        <input type="text" name="Entrer_adresse"/> 
-        <label for="Entrer_postalville">Code postal et Ville de la salle (ex : 45000 Orléans)</label>
-        <input type="text" name="Entrer_postalville"/> 
-        <label for="Entrer_telephone">Numéro de téléphone de la salle</label>
-        <input type="text" name="Entrer_telephone"/> 
+        <label for="adresse">Adresse de la salle</label>
+        <input type="text" name="adresse"/> 
+        <label for="postalville">Code postal et Ville de la salle (ex : 45000 Orléans)</label>
+        <input type="text" name="postalville"/> 
+        <label for="telephone">Numéro de téléphone de la salle</label>
+        <input type="text" name="telephone"/> 
         <div>
-            <input type="checkbox" id="accueilpmr" name="Cocher_accueilpmr"/>
-            <label for="accueilpmr">La salle accueille les personnes à mobilité réduite</label> 
+            <input type="checkbox" id="accueilpmr" name="accueilpmr"/>
+            <label for="accueilpmr">La salle accueille les personnes à mobilité réduite</label>
+        </div>  
+        <div>
+            <input type="checkbox" id="loge" name="loge"/>
+            <label for="loge">La salle possede une loge</label>  
         </div>
-        <label for="Entrer_nomequipement">Nom de l'équipement</label>
-        <input type="text" name="Entrer_nomequipement"/> 
-        <label for="Entrer_quantitedispo">Quantité disponible</label>
-        <input type="text" name="Entrer_quantitedispo"/> 
-        <label for="Entrer_description">Description</label>
-        <input type="text" name="Entrer_description"/> 
+        <label for="nomequipement">Nom de l'équipement</label>
+        <input type="text" name="nomequipement"/> 
+        <label for="quantitedispo">Quantité disponible</label>
+        <input type="text" name="quantitedispo"/> 
+        <label for="description">Description</label>
+        <input type="text" name="description"/> 
     </section>
     <input type="submit" id="valider" name="valider" value="Valider l'ajout de cette salle"/>
 </form>

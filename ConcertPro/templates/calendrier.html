@@ -30,8 +30,8 @@
                 <th>{{ heure }}h</th>
                 {% for i in range(1, 8) %}
                 <td>
-                    {% for concert in agenda[i][heure] %}
-                    <div><a href="{{ url_for('concert', nom=concert) }}">{{ concert }}</a></div>
+                    {% for nom_concert in agenda[i][heure] %}
+                    <div><a href="{{ url_for('concert', nom=nom_concert) }}">{{ nom_concert }}</a></div>
                     {% endfor %}
                 </td>
                 {% endfor %}
