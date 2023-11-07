@@ -51,8 +51,7 @@ CREATE TABLE Jouer (
 
 CREATE TABLE Type_Salle (
   id_type INT PRIMARY KEY NOT NULL,
-  type_place_s VARCHAR(42),
-  accueil_pmr BOOLEAN
+  type_place_s VARCHAR(42) UNIQUE
 );
 
 
@@ -68,6 +67,7 @@ CREATE TABLE Salle (
   adresse_salle VARCHAR(42),
   telephone_salle VARCHAR(42),
   photo_salle LONGBLOB,
+  accueil_pmr VARCHAR(42),
   FOREIGN KEY (id_type_salle) REFERENCES Type_Salle (id_type)
 );
 
