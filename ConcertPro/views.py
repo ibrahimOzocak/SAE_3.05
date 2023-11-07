@@ -289,12 +289,18 @@ def voir_logements():
 @app.route('/save_logement', methods=("POST",))
 def save_logement():
     """sauvegarde d'un logement"""
-    logement = {}
-    logement["nom_etablissement"] = request.form['Entrer_nometablissement']
-    logement["adresse_ville_codepostal"] = request.form['Entrer_adresse']
-    logement["nb_etoile"] = request.form['Entrer_nbetoiles']
-    LOGEMENTS.append(logement)
-    return redirect(url_for('logement', nom_etablissement=logement["nom_etablissement"]))
+    nom_etablissement = request.form['nom_etablissement']
+    adresse = request.form['adresse']
+    nb_etoile = request.form['nb_etoiles']
+    try:
+        cursor = mo.get_cursor()
+        req = "INSERT INTO Logement (id_logement, adresse_ville_codepostal, nom_etablissement, nb_etoile) VALUES ("+str(mo.get_id_logement_max()+1)+", '" + str(adresse) + "', '" + str(nom_etablissement) + "', " + str(nb_etoile) + ")"
+        cursor.execute(req)
+        db.commit()
+        mo.close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+    return redirect(url_for('logement', nom_etablissement=nom_etablissement))
 
 @app.route('/logement/<nom_etablissement>/supprimer')
 def supprimer_logement(nom_etablissement):
