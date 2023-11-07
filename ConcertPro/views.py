@@ -63,7 +63,7 @@ def historique_concerts():
     """page qui affiche les concerts passés"""
     return render_template(
         "historique_concerts.html",
-        concerts = historique_concerts()
+        concerts = mo.historique_concerts()
     )
 
 @app.route('/save_concert1', methods=("POST",))
@@ -132,21 +132,22 @@ def ajout_nouvelle_salle():
 @app.route('/voir_salles')
 def voir_salles():
     """page qui affiche les salles"""
-    # try:
-    #     request = "SELECT * FROM Salle"
-    #     cursor.execute(request)
-    #     info = cursor.fetchall()
-    #     return render_template(
-    #         "voir_salles.html",
-    #         salles=info
-    #     )
-    # except Exception as e:
-    #     print(e.args)
-    #     return render_template(
-    #         "error.html",
-    #         error_message="An error occurred while retrieving data from the database."
-    #     )
-    pass
+    try:
+        cursor = mo.get_cursor()
+        request = "SELECT * FROM Salle"
+        cursor.execute(request)
+        info = cursor.fetchall()
+        mo.close_cursor(cursor)
+        return render_template(
+            "voir_salles.html",
+            salles=info
+        )
+    except Exception as e:
+        print(e.args)
+        return render_template(
+            "error.html",
+            error_message="An error occurred while retrieving data from the database."
+        )
 
 @app.route('/salle/<nom>')
 def salle(nom):
@@ -200,21 +201,22 @@ def ajout_artiste():
 
 @app.route('/voir_artistes')
 def voir_artistes():
-    # try:
-    #     request = "SELECT * FROM Artiste"
-    #     cursor.execute(request)
-    #     info = cursor.fetchall()
-    #     return render_template(
-    #         "voir_artistes.html",
-    #         artistes=info
-    #     )
-    # except Exception as e:
-    #     print(e.args)
-    #     return render_template(
-    #         "error.html",
-    #         error_message="An error occurred while retrieving data from the database."
-    #     )
-    pass
+    try:
+        cursor = mo.get_cursor()
+        request = "SELECT * FROM Artiste"
+        cursor.execute(request)
+        info = cursor.fetchall()
+        mo.close_cursor(cursor)
+        return render_template(
+            "voir_artistes.html",
+            artistes=info
+        )
+    except Exception as e:
+        print(e.args)
+        return render_template(
+            "error.html",
+            error_message="An error occurred while retrieving data from the database."
+        )
 
 
 @app.route('/artiste/<nom_artiste>')
@@ -293,21 +295,22 @@ def ajout_logement():
 
 @app.route('/voir_logements')
 def voir_logements():
-    # try:
-    #     request = "SELECT * FROM Logement"
-    #     cursor.execute(request)
-    #     info = cursor.fetchall()
-    #     return render_template(
-    #         "voir_logements.html",
-    #         logements=info
-    #     )
-    # except Exception as e:
-    #     print(e.args)
-    #     return render_template(
-    #         "error.html",
-    #         error_message="An error occurred while retrieving data from the database."
-    # )
-    pass
+    try:
+        cursor = mo.get_cursor()
+        request = "SELECT * FROM Logement"
+        cursor.execute(request)
+        info = cursor.fetchall()
+        mo.close_cursor(cursor)
+        return render_template(
+            "voir_logements.html",
+            logements=info
+        )
+    except Exception as e:
+        print(e.args)
+        return render_template(
+            "error.html",
+            error_message="An error occurred while retrieving data from the database."
+    )
 
 @app.route('/save_logement', methods=("POST",))
 def save_logement():
@@ -368,38 +371,46 @@ def calendrier_semaine_suivante(jour_actuel=JOUR_VOULU):
     return redirect(url_for('calendrier', jour=jour.strftime("%d-%m-%Y")))
 
 def remove_concert(nom):
-    concert = get_concert(nom)
+    concert = mo.get_concert(nom)
     try:
+        cursor = mo.get_cursor()
         req = "DELETE FROM Concert where id_concert="+str(concert[0])
         cursor.execute(req)
         db.commit()
+        mo.close_cursor(cursor)
     except Exception as e:
         print(e.args)
 
 def remove_salle(nom):
-    salle = get_salle(nom)
+    salle = mo.get_salle(nom)
     try:
+        cursor = mo.get_cursor()
         req = "DELETE FROM Salle where id_salle="+str(salle[0])
         cursor.execute(req)
         db.commit()
+        mo.close_cursor(cursor)
     except Exception as e:
         print(e.args)
 
 def remove_logement(nom_etablissement):
-    logement = get_logement(nom_etablissement)
+    logement = mo.get_logement(nom_etablissement)
     try:
+        cursor = mo.get_cursor()
         req = "DELETE FROM Logement where id_logement="+str(logement[0])
         cursor.execute(req)
         db.commit()
+        mo.close_cursor(cursor)
     except Exception as e:
         print(e.args)
 
 def remove_artiste(nom):
-    artiste = get_artiste(nom)
+    artiste = mo.get_artiste(nom)
     try:
+        cursor = mo.get_cursor()
         req = "DELETE FROM Artiste where id_artiste="+str(artiste[0])
         cursor.execute(req)
         db.commit()
+        mo.close_cursor(cursor)
     except Exception as e:
         print(e.args)
 
