@@ -12,7 +12,7 @@ HEURES_DECALAGE_2 = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22]
 def accueil():
     """page d'accueil"""
     jour = datetime.datetime.now()
-    agenda = concerts_agenda(HEURES_DECALAGE_2,jour)
+    agenda = mo.concerts_agenda(HEURES_DECALAGE_2,jour)
     lundi = (jour + datetime.timedelta(days=-(jour.weekday()+1)) + datetime.timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
     dimanche = (jour + datetime.timedelta(days=7-(jour.weekday()+1))).replace(hour=23, minute=59, second=59, microsecond=0)
     return render_template(
@@ -297,7 +297,7 @@ def calendrier(jour = datetime.datetime.now()):
     heures = HEURES_DECALAGE_2
     if type(jour) == str:
         jour = datetime.datetime.strptime(jour, "%d-%m-%Y")
-    agenda = concerts_agenda(heures, jour)
+    agenda = mo.concerts_agenda(heures, jour)
     lundi = (jour + datetime.timedelta(days=-(jour.weekday()+1)) + datetime.timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
     dimanche = (jour + datetime.timedelta(days=7-(jour.weekday()+1))).replace(hour=23, minute=59, second=59, microsecond=0)
     return render_template(
@@ -330,80 +330,3 @@ def calendrier_semaine_suivante(jour_actuel = datetime.datetime.now()):
         jour_actuel = datetime.datetime.strptime(jour_actuel, "%d-%m-%Y")
     jour = jour_actuel + datetime.timedelta(days=7)
     return redirect(url_for('calendrier', jour=jour.strftime("%d-%m-%Y")))
-
-def remove_concert(nom):
-    concert = mo.get_concert(nom)
-    try:
-        cursor = mo.get_cursor()
-        req = "DELETE FROM Concert where id_concert="+str(concert[0])
-        cursor.execute(req)
-        db.commit()
-        mo.close_cursor(cursor)
-    except Exception as e:
-        print(e.args)
-
-def remove_salle(nom):
-    salle = mo.get_salle(nom)
-    try:
-        cursor = mo.get_cursor()
-        req = "DELETE FROM Salle where id_salle="+str(salle[0])
-        cursor.execute(req)
-        db.commit()
-        mo.close_cursor(cursor)
-    except Exception as e:
-        print(e.args)
-
-def remove_logement(nom_etablissement):
-    logement = mo.get_logement(nom_etablissement)
-    try:
-        cursor = mo.get_cursor()
-        req = "DELETE FROM Logement where id_logement="+str(logement[0])
-        cursor.execute(req)
-        db.commit()
-        mo.close_cursor(cursor)
-    except Exception as e:
-        print(e.args)
-
-def remove_artiste(nom):
-    artiste = mo.get_artiste(nom)
-    try:
-        cursor = mo.get_cursor()
-        req = "DELETE FROM Artiste where id_artiste="+str(artiste[0])
-        cursor.execute(req)
-        db.commit()
-        mo.close_cursor(cursor)
-    except Exception as e:
-        print(e.args)
-
-def concerts_agenda(heures, jour_voulu):
-    agenda = {}
-
-    for i in range(1,8):
-        agenda[i] = {}
-        for heure in heures:
-            agenda[i][heure] = []
-
-    date_deb_semaine = jour_voulu - datetime.timedelta(days=jour_voulu.weekday())
-    date_fin_semaine = date_deb_semaine + datetime.timedelta(days=6)
-
-    for concert in mo.concerts():
-        date_deb = concert[2]
-        date_fin = date_deb
-        duree = concert[3]
-        
-        while date_deb.minute+duree > 59:
-            date_fin += datetime.timedelta(hours=1)  
-            duree -= 60
-        
-        date_fin = date_fin.replace(minute=date_deb.minute+duree)
-        
-        if date_deb_semaine <= date_deb <= date_fin_semaine:
-            a = agenda[date_deb.weekday()+1]
-            hour = date_deb.hour
-            while hour not in a.keys():
-                hour -= 1
-            a[date_deb.hour].append(concert[1])
-        elif date_deb_semaine <= date_fin <= date_fin_semaine:
-            pass
-
-    return agenda
