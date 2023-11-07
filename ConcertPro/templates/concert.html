@@ -5,8 +5,8 @@
 {% endblock %}
 {% block content %}
 
-<div class="container-concert">
-    <div class="concert">
+<div class="container">
+    <div class="sous-container">
         <h2>{{ concert[1] }}</h2>
         {% if concert[-1] is none %}
         <img class="img_acc"  src="{{ url_for('static', filename='images/aucune_image.png') }}" alt="img">
@@ -14,7 +14,7 @@
         <img class="img_acc" src="{{ url_for('static', filename='images/concerts/' + concert[0]|str + '.jpg') }}" alt="img">
         {% endif %}
     </div>
-    <div class="infos-concert">
+    <div class="infos">
         <p>id : {{ concert[0] }}</p>
         <p>date : {{ concert[2] }}</p>
         <p>duree : {{ concert[3] }} minutes</p>
@@ -22,7 +22,7 @@
         <p>id salle : {{ concert[5] }}</p>
     </div>
 </div>
-<div class="test">
+<div class="bouton">
     {% if concert is not none %}
         <a href="{{ url_for('supprimer_concert', nom=concert[1]) }}" class="supprimer">supprimer le concert</a>
     {% endif %}

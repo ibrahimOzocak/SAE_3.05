@@ -1,23 +1,28 @@
 {% extends 'base.html' %}
 {% block styles %}
 {{ super() }}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/salle.css')}}"> 
+<link rel="stylesheet" href="{{ url_for('static', filename='css/concert.css')}}"> 
 {% endblock %}
 {% block content %}
-<h2>{{ salle[3] }}</h2>
-<div>
-    <p>description : {{ salle[7] }}</p>
-    <p>loge : {{ salle[2] }}</p>
-    <p>nombres places : {{ salle[4] }}</p>
-    <p>adresse : {{ salle[8] }}</p>
-    <p>telephone : {{ salle[9] }}</p>
-    <p>profondeur scene : {{ salle[5] }}</p>
-    <p>longeur scene : {{ salle[6] }} </p>
+
+<div class="container">
+    <div class="sous-container">
+        <h2>{{ salle[3] }}</h2>
+        {% if salle is not none %}
+            <img src="{{ url_for('static', filename='images/banniere.jpeg')}}" alt="photo de la salle" width=10% height=10%>
+        {% endif %}
+    </div>    
+    <div class="infos">
+        <p>description : {{ salle[7] }}</p>
+        <p>loge : {{ salle[2] }}</p>
+        <p>nombres places : {{ salle[4] }}</p>
+        <p>adresse : {{ salle[8] }}</p>
+        <p>telephone : {{ salle[9] }}</p>
+        <p>profondeur scene : {{ salle[5] }}</p>
+        <p>longeur scene : {{ salle[6] }} </p>
+    </div>
 </div>
-{% if salle is not none %}
-<img src="{{ url_for('static', filename='images/banniere.jpeg')}}" alt="photo de la salle" width=10% height=10%>
-{% endif %}
-<div>
-    <a href="{{ url_for('supprimer_salle', nom=salle[3]) }}">supprimer la salle</a>
+<div class="bouton">
+    <a href="{{ url_for('supprimer_salle', nom=salle[3]) }}" class="supprimer">supprimer la salle</a>
 </div>
 {% endblock %}
