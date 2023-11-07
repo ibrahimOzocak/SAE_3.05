@@ -142,7 +142,7 @@ def historique_concerts():
     prochains_concerts = []
     try:
         cursor = get_cursor()
-        requete = "SELECT * FROM Concert where date_heure_concert < CURDATE()"
+        requete = "SELECT * FROM Concert where date_heure_concert < NOW()"
         cursor.execute(requete)
         info = cursor.fetchall()
         for i in info:
@@ -259,6 +259,27 @@ def get_id_logement_max():
 def remove_concert(nom):
     concert = get_concert(nom)
     try:
+        # suppression dans avoir
+        cursor = get_cursor()
+        req = "DELETE FROM Avoir where id_concert="+str(concert[0])
+        cursor.execute(req)
+        close_cursor(cursor)
+        # suppression dans besoin_equipement_artiste
+        cursor = get_cursor()
+        req = "DELETE FROM Besoin_equipement_artiste where id_concert="+str(concert[0])
+        cursor.execute(req)
+        close_cursor(cursor)
+        # suppression dans loger
+        cursor = get_cursor()
+        req = "DELETE FROM Loger where id_concert="+str(concert[0])
+        cursor.execute(req)
+        close_cursor(cursor)
+        # suppression dans participer
+        cursor = get_cursor()
+        req = "DELETE FROM Participer where id_concert="+str(concert[0])
+        cursor.execute(req)
+        close_cursor(cursor)
+        # suppression du concert
         cursor = get_cursor()
         req = "DELETE FROM Concert where id_concert="+str(concert[0])
         cursor.execute(req)
