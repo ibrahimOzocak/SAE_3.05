@@ -99,7 +99,8 @@ def supprimer_concert(nom):
 def ajout_nouvelle_salle():
     """page de création de salle"""
     return render_template(
-        "ajout_nouvelle_salle.html"
+        "ajout_nouvelle_salle.html",
+        types = mo.type_salle()
     )
 
 @app.route('/voir_salles')

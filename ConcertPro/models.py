@@ -326,3 +326,16 @@ def concerts_agenda(heures, jour_voulu):
             pass
 
     return agenda
+
+def type_salle():
+    try:
+        cursor = get_cursor()
+        requete = "SELECT type_place_s FROM Type_Salle"
+        cursor.execute(requete)
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        return info
+    except Exception as e:
+        print(e.args)
+    return None
+
