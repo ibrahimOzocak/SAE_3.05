@@ -91,7 +91,7 @@ def concert(nom):
 @app.route('/concert/<nom>/supprimer')
 def supprimer_concert(nom):
     """supprime le concert <nom>"""
-    remove_concert(nom)
+    mo.remove_concert(nom)
     return redirect(url_for('accueil'))
 
 # salle
@@ -169,7 +169,7 @@ def save_salle():
 @app.route('/salle/<nom>/supprimer')
 def supprimer_salle(nom):
     """supprime la salle <nom>"""
-    remove_salle(nom)
+    mo.remove_salle(nom)
     return redirect(url_for('accueil'))
 
 # artiste
@@ -236,7 +236,7 @@ def save_artiste():
 @app.route('/artiste/<nom_artiste>/supprimer')
 def supprimer_artiste(nom_artiste):
     """supprime l'artiste <nom_artiste>"""
-    remove_artiste(nom_artiste)
+    mo.remove_artiste(nom_artiste)
     return redirect(url_for('accueil'))
 
 # logement
@@ -287,7 +287,7 @@ def save_logement():
 @app.route('/logement/<nom_etablissement>/supprimer')
 def supprimer_logement(nom_etablissement):
     """supprime le logement >nom_etablissement>"""
-    remove_logement(nom_etablissement)
+    mo.remove_logement(nom_etablissement)
     return redirect(url_for('accueil'))
 
 # calendrier
