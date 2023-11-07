@@ -156,18 +156,20 @@ def save_salle():
     type_place = request.form['typeplace']
     photo = "test.png"
     adresse_salle = adresse_salle + ", " + code_postal_salle
-    if request.form['loge']:
-        loge = "oui"
-    else:
+    loge = ""
+    acces_pmr = ""
+    for elem in request.form:
+        if elem == "loge":
+            loge = "oui"
+        elif elem == "accueilpmr":
+            acces_pmr = "oui"
+    if loge == "":
         loge = "non"
-
-    # if request.form['accueilpmr']:
-    #     acces_pmr = "oui"
-    # else:
-    #     acces_pmr = "non"
+    if acces_pmr == "":
+        acces_pmr = "non"
     try:
         cursor = mo.get_cursor()
-        req = "INSERT INTO Salle (id_salle, id_type_salle, loge, nom_salle, nb_places, profondeur_scene, longueur_scene, description_salle,adresse_salle,telephone_salle, accueil_pmr) VALUES("+str(mo.get_id_salle_max()+1) + "," + str(mo.get_id_type_salles(type_place)) + ", '" + str(loge) + "', '" + str(nom_salle) + "', " + str(nb_places) + ", " + str(profondeur_scene) + ", " + str(longueur_scene) + ", '" + str(description_salle) + "', '" + str(adresse_salle) + "', '" + str(telephone_salle) +  "', '" + str("oui") + "')"
+        req = "INSERT INTO Salle (id_salle, id_type_salle, loge, nom_salle, nb_places, profondeur_scene, longueur_scene, description_salle,adresse_salle,telephone_salle, accueil_pmr) VALUES("+str(mo.get_id_salle_max()+1) + "," + str(mo.get_id_type_salles(type_place)) + ", '" + str(loge) + "', '" + str(nom_salle) + "', " + str(nb_places) + ", " + str(profondeur_scene) + ", " + str(longueur_scene) + ", '" + str(description_salle) + "', '" + str(adresse_salle) + "', '" + str(telephone_salle) +  "', '" + str(acces_pmr) + "')"
         cursor.execute(req)
         mo.db.commit()
         mo.close_cursor(cursor)

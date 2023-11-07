@@ -124,6 +124,9 @@ def get_id_type_salles(nom):
         cursor.execute(request)
         info = cursor.fetchall()
         close_cursor(cursor)
+        if info == []:
+            # à la place rajouter le type dans la base de données
+            return 1
         return info[0][0]
     except Exception as e:
         print(e.args)
