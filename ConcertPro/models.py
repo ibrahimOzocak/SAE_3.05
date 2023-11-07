@@ -249,3 +249,79 @@ def get_id_logement_max():
     except Exception as e:
         print(e.args)
     return None
+
+def remove_concert(nom):
+    concert = mo.get_concert(nom)
+    try:
+        cursor = mo.get_cursor()
+        req = "DELETE FROM Concert where id_concert="+str(concert[0])
+        cursor.execute(req)
+        db.commit()
+        mo.close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+
+def remove_salle(nom):
+    salle = mo.get_salle(nom)
+    try:
+        cursor = mo.get_cursor()
+        req = "DELETE FROM Salle where id_salle="+str(salle[0])
+        cursor.execute(req)
+        db.commit()
+        mo.close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+
+def remove_logement(nom_etablissement):
+    logement = mo.get_logement(nom_etablissement)
+    try:
+        cursor = mo.get_cursor()
+        req = "DELETE FROM Logement where id_logement="+str(logement[0])
+        cursor.execute(req)
+        db.commit()
+        mo.close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+
+def remove_artiste(nom):
+    artiste = mo.get_artiste(nom)
+    try:
+        cursor = mo.get_cursor()
+        req = "DELETE FROM Artiste where id_artiste="+str(artiste[0])
+        cursor.execute(req)
+        db.commit()
+        mo.close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+
+def concerts_agenda(heures=HEURES1,pas=PAS1,jour_voulu=JOUR_VOULU):
+    """renvoie un agenda des concerts de la semaine du jour voulu"""
+    #initialisation de l'agenda
+    agenda = {}
+    for i in range(1,8):
+        agenda[i] = {}
+        for heure in heures:
+            agenda[i][heure] = []
+    #remplissage de l'agenda
+    jour = jour_voulu
+    if type(jour) == str:
+        jour = datetime.datetime.strptime(jour, "%d-%m-%Y")
+    for concert in mo.concerts():
+        # if datetime.timedelta(days=-(jour.weekday()+1))<concert["date_debut"]-jour<datetime.timedelta(days=7-(jour.weekday()+1)+1):
+        #     for h in heures:
+        #         fin_horaire = h+pas
+        #         # format 24h obligatoire
+        #         if fin_horaire > 23:
+        #             fin_horaire = datetime.time(hour=h+pas-1, minute=59)
+        #         else:
+        #             fin_horaire = datetime.time(hour=h+pas)
+        #         debut_horaire = datetime.time(hour=h)
+        #         minutesC = (concert["heure_debut"].minute+concert["minute_duree"])%60
+        #         heuresC = concert["heure_debut"].hour+concert["heure_duree"]+(concert["heure_debut"].minute+concert["minute_duree"])//60
+        #         fin_concert = datetime.time(hour=heuresC, minute=minutesC)
+        #         debut_concert = concert["heure_debut"]
+        #         # ajouter le concert si il est dans l'intervalle horaire
+        #         if not(debut_concert >= fin_horaire or fin_concert <= debut_horaire):
+        #             agenda[concert["date_debut"].weekday()+1][h].append(concert["nom"])
+        pass
+    return agenda

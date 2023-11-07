@@ -23,7 +23,7 @@ def accueil():
     heures = HEURES2
     pas = PAS2
     jour = JOUR_VOULU
-    agenda = concerts_agenda(heures, pas)
+    agenda = mo.concerts_agenda(heures, pas)
     lundi = (jour + datetime.timedelta(days=-(jour.weekday()+1)) + datetime.timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
     dimanche = (jour + datetime.timedelta(days=7-(jour.weekday()+1))).replace(hour=23, minute=59, second=59, microsecond=0)
     return render_template(
@@ -102,7 +102,7 @@ def concert(nom):
 @app.route('/concert/<nom>/supprimer')
 def supprimer_concert(nom):
     """supprime le concert <nom>"""
-    remove_concert(nom)
+    mo.remove_concert(nom)
     return redirect(url_for('accueil'))
 
 # salle
@@ -180,7 +180,7 @@ def save_salle():
 @app.route('/salle/<nom>/supprimer')
 def supprimer_salle(nom):
     """supprime la salle <nom>"""
-    remove_salle(nom)
+    mo.remove_salle(nom)
     return redirect(url_for('accueil'))
 
 # artiste
@@ -247,7 +247,7 @@ def save_artiste():
 @app.route('/artiste/<nom_artiste>/supprimer')
 def supprimer_artiste(nom_artiste):
     """supprime l'artiste <nom_artiste>"""
-    remove_artiste(nom_artiste)
+    mo.remove_artiste(nom_artiste)
     return redirect(url_for('accueil'))
 
 # logement
@@ -305,7 +305,7 @@ def save_logement():
 @app.route('/logement/<nom_etablissement>/supprimer')
 def supprimer_logement(nom_etablissement):
     """supprime le logement >nom_etablissement>"""
-    remove_logement(nom_etablissement)
+    mo.remove_logement(nom_etablissement)
     return redirect(url_for('accueil'))
 
 # calendrier
@@ -316,7 +316,7 @@ def calendrier(jour=JOUR_VOULU):
     pas = PAS1
     if type(jour) == str:
         jour = datetime.datetime.strptime(jour, "%d-%m-%Y")
-    agenda = concerts_agenda(heures, pas, jour)
+    agenda = mo.concerts_agenda(heures, pas, jour)
     lundi = (jour + datetime.timedelta(days=-(jour.weekday()+1)) + datetime.timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
     dimanche = (jour + datetime.timedelta(days=7-(jour.weekday()+1))).replace(hour=23, minute=59, second=59, microsecond=0)
     return render_template(
@@ -349,79 +349,3 @@ def calendrier_semaine_suivante(jour_actuel=JOUR_VOULU):
         jour_actuel = datetime.datetime.strptime(jour_actuel, "%d-%m-%Y")
     jour = jour_actuel + datetime.timedelta(days=7)
     return redirect(url_for('calendrier', jour=jour.strftime("%d-%m-%Y")))
-
-def remove_concert(nom):
-    concert = mo.get_concert(nom)
-    try:
-        cursor = mo.get_cursor()
-        req = "DELETE FROM Concert where id_concert="+str(concert[0])
-        cursor.execute(req)
-        db.commit()
-        mo.close_cursor(cursor)
-    except Exception as e:
-        print(e.args)
-
-def remove_salle(nom):
-    salle = mo.get_salle(nom)
-    try:
-        cursor = mo.get_cursor()
-        req = "DELETE FROM Salle where id_salle="+str(salle[0])
-        cursor.execute(req)
-        db.commit()
-        mo.close_cursor(cursor)
-    except Exception as e:
-        print(e.args)
-
-def remove_logement(nom_etablissement):
-    logement = mo.get_logement(nom_etablissement)
-    try:
-        cursor = mo.get_cursor()
-        req = "DELETE FROM Logement where id_logement="+str(logement[0])
-        cursor.execute(req)
-        db.commit()
-        mo.close_cursor(cursor)
-    except Exception as e:
-        print(e.args)
-
-def remove_artiste(nom):
-    artiste = mo.get_artiste(nom)
-    try:
-        cursor = mo.get_cursor()
-        req = "DELETE FROM Artiste where id_artiste="+str(artiste[0])
-        cursor.execute(req)
-        db.commit()
-        mo.close_cursor(cursor)
-    except Exception as e:
-        print(e.args)
-
-def concerts_agenda(heures=HEURES1,pas=PAS1,jour_voulu=JOUR_VOULU):
-    """renvoie un agenda des concerts de la semaine du jour voulu"""
-    #initialisation de l'agenda
-    agenda = {}
-    for i in range(1,8):
-        agenda[i] = {}
-        for heure in heures:
-            agenda[i][heure] = []
-    #remplissage de l'agenda
-    jour = jour_voulu
-    if type(jour) == str:
-        jour = datetime.datetime.strptime(jour, "%d-%m-%Y")
-    for concert in mo.concerts():
-        # if datetime.timedelta(days=-(jour.weekday()+1))<concert["date_debut"]-jour<datetime.timedelta(days=7-(jour.weekday()+1)+1):
-        #     for h in heures:
-        #         fin_horaire = h+pas
-        #         # format 24h obligatoire
-        #         if fin_horaire > 23:
-        #             fin_horaire = datetime.time(hour=h+pas-1, minute=59)
-        #         else:
-        #             fin_horaire = datetime.time(hour=h+pas)
-        #         debut_horaire = datetime.time(hour=h)
-        #         minutesC = (concert["heure_debut"].minute+concert["minute_duree"])%60
-        #         heuresC = concert["heure_debut"].hour+concert["heure_duree"]+(concert["heure_debut"].minute+concert["minute_duree"])//60
-        #         fin_concert = datetime.time(hour=heuresC, minute=minutesC)
-        #         debut_concert = concert["heure_debut"]
-        #         # ajouter le concert si il est dans l'intervalle horaire
-        #         if not(debut_concert >= fin_horaire or fin_concert <= debut_horaire):
-        #             agenda[concert["date_debut"].weekday()+1][h].append(concert["nom"])
-        pass
-    return agenda
