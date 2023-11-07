@@ -1,6 +1,6 @@
 import random
 from flask import redirect, render_template, request, url_for
-from .app import app
+from .app import app, db
 import datetime
 from .models import *
 
@@ -94,6 +94,7 @@ def save_concert():
     try:
         req = "INSERT INTO Concert (id_concert, nom_concert, date_heure_concert, duree_concert, id_artiste, id_salle, description_concert, photo) VALUES("+str(get_id_concert_max()+1)+", '" + str(nom_concert) + "', '" + str(date_heure_concert) + "', " + str(duree_concert) + ", " + str(id_artiste) + ", " + str(id_salle) + ", '" + str(description_concert) + "', '" + str(photo) + "')"
         cursor.execute(req)
+        db.commit()
     except Exception as e:
         print(e.args)
     return redirect(url_for('concert', nom=nom_concert))
