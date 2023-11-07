@@ -17,9 +17,13 @@
         {% for i in range(4) %}
         {% if i < concerts|length %}
         <li class="li_acc">
-            <div>
+            <div class="concert">
                 <a href="{{ url_for('concert', nom=concerts[i][1]) }}">
-                    <img class="img_acc" src="{{ url_for('static', filename='images/banniere.jpeg')}}" alt="image de test" width=10% height=10%>
+                    {% if concerts[i][-1] is none %}
+                    <img class="img_acc"  src="{{ url_for('static', filename='images/aucune_image.png') }}" alt="img">
+                    {% else %}
+                    <img class="img_acc" src="{{ url_for('static', filename='images/' + concerts[i][0]|str + '.jpg') }}" alt="img">
+                    {% endif %}
                     <p>{{ concerts[i][1] }}</p>
                 </a>
             </div>
@@ -51,8 +55,8 @@
                 <th>{{ heure }}h</th>
                 {% for i in range(1, 8) %}
                 <td>
-                    {% for nom_concert in agenda[i][heure] %}
-                    <div><a href="{{ url_for('concert', nom=nom_concert) }}">{{ nom_concert }}</a></div>
+                    {% for concert in agenda[i][heure] %}
+                    <div><a href="{{ url_for('concert', nom=concert) }}">{{ concert }}</a></div>
                     {% endfor %}
                 </td>
                 {% endfor %}

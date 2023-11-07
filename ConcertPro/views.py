@@ -2,7 +2,7 @@ import random
 from flask import redirect, render_template, request, url_for
 from .app import app, db
 import datetime
-from .models import *
+from . import models as mo
 
 IMAGES = ["banniere.jpeg", "logo-black.png", "logo-white.png", "test.png", "logo-no-background.png", "logo-color.png"]
 ARTISTES = [{"telephone": "0795351865", "mail": "nom@prenom.gmail.com", "nom_artiste": "a", "prenom_artiste": "b", "date_de_naissance": "10/10/2000", "lieu_de_naissance": "Orly", "adresse": "everglen", "securite_sociale": "non", "cni": "jsp", "date_delivrance_cni": "jamais", "date_expiration_cni": "toujours", "carte_reduction": "oui", "id_style_musique": 1}, {"telephone": "0795351865", "mail": "nom@prenom.gmail.com", "nom_artiste": "a", "prenom_artiste": "b", "date_de_naissance": "10/10/2000", "lieu_de_naissance": "Orly", "adresse": "everglen", "securite_sociale": "non", "cni": "jsp", "date_delivrance_cni": "jamais", "date_expiration_cni": "toujours", "carte_reduction": "oui", "id_style_musique": 1}, {"telephone": "0795351865", "mail": "nom@prenom.gmail.com", "nom_artiste": "a", "prenom_artiste": "b", "date_de_naissance": "10/10/2000", "lieu_de_naissance": "Orly", "adresse": "everglen", "securite_sociale": "non", "cni": "jsp", "date_delivrance_cni": "jamais", "date_expiration_cni": "toujours", "carte_reduction": "oui", "id_style_musique": 1}, {"telephone": "0795351865", "mail": "nom@prenom.gmail.com", "nom_artiste": "a", "prenom_artiste": "b", "date_de_naissance": "10/10/2000", "lieu_de_naissance": "Orly", "adresse": "everglen", "securite_sociale": "non", "cni": "jsp", "date_delivrance_cni": "jamais", "date_expiration_cni": "toujours", "carte_reduction": "oui", "id_style_musique": 1}, {"telephone": "0795351865", "mail": "nom@prenom.gmail.com", "nom_artiste": "a", "prenom_artiste": "b", "date_de_naissance": "10/10/2000", "lieu_de_naissance": "Orly", "adresse": "everglen", "securite_sociale": "non", "cni": "jsp", "date_delivrance_cni": "jamais", "date_expiration_cni": "toujours", "carte_reduction": "oui", "id_style_musique": 1}, {"telephone": "0795351865", "mail": "nom@prenom.gmail.com", "nom_artiste": "a", "prenom_artiste": "b", "date_de_naissance": "10/10/2000", "lieu_de_naissance": "Orly", "adresse": "everglen", "securite_sociale": "non", "cni": "jsp", "date_delivrance_cni": "jamais", "date_expiration_cni": "toujours", "carte_reduction": "oui", "id_style_musique": 1}, {"telephone": "0795351865", "mail": "nom@prenom.gmail.com", "nom_artiste": "a", "prenom_artiste": "b", "date_de_naissance": "10/10/2000", "lieu_de_naissance": "Orly", "adresse": "everglen", "securite_sociale": "non", "cni": "jsp", "date_delivrance_cni": "jamais", "date_expiration_cni": "toujours", "carte_reduction": "oui", "id_style_musique": 1}, {"telephone": "0795351865", "mail": "nom@prenom.gmail.com", "nom_artiste": "a", "prenom_artiste": "b", "date_de_naissance": "10/10/2000", "lieu_de_naissance": "Orly", "adresse": "everglen", "securite_sociale": "non", "cni": "jsp", "date_delivrance_cni": "jamais", "date_expiration_cni": "toujours", "carte_reduction": "oui", "id_style_musique": 1}, {"telephone": "0795351865", "mail": "nom@prenom.gmail.com", "nom_artiste": "a", "prenom_artiste": "b", "date_de_naissance": "10/10/2000", "lieu_de_naissance": "Orly", "adresse": "everglen", "securite_sociale": "non", "cni": "jsp", "date_delivrance_cni": "jamais", "date_expiration_cni": "toujours", "carte_reduction": "oui", "id_style_musique": 1}, {"telephone": "0795351865", "mail": "nom@prenom.gmail.com", "nom_artiste": "a", "prenom_artiste": "b", "date_de_naissance": "10/10/2000", "lieu_de_naissance": "Orly", "adresse": "everglen", "securite_sociale": "non", "cni": "jsp", "date_delivrance_cni": "jamais", "date_expiration_cni": "toujours", "carte_reduction": "oui", "id_style_musique": 1}, {"telephone": "0795351865", "mail": "nom@prenom.gmail.com", "nom_artiste": "a", "prenom_artiste": "b", "date_de_naissance": "10/10/2000", "lieu_de_naissance": "Orly", "adresse": "everglen", "securite_sociale": "non", "cni": "jsp", "date_delivrance_cni": "jamais", "date_expiration_cni": "toujours", "carte_reduction": "oui", "id_style_musique": 1}]
@@ -28,12 +28,16 @@ def accueil():
     dimanche = (jour + datetime.timedelta(days=7-(jour.weekday()+1))).replace(hour=23, minute=59, second=59, microsecond=0)
     return render_template(
         "accueil.html",
-        concerts=prochains_concerts(),
+        concerts=mo.prochains_concerts(),
         agenda=agenda,
         heures=heures,
         date_lundi=lundi.strftime("%d-%m-%Y"),
         date_dimanche=dimanche.strftime("%d-%m-%Y")
     )
+    
+@app.template_filter('str')
+def string_filter(value):
+    return str(value)
 
 # concert
 @app.route('/creer_concert')
@@ -41,8 +45,8 @@ def creer_concert():
     """page de création de concert"""
     return render_template(
         "creer_concert.html",
-        artistes=artistes(),
-        salles=salles()
+        artistes=mo.artistes(),
+        salles=mo.salles()
     )
 
 @app.route('/voir_prochains_concerts')
@@ -50,8 +54,9 @@ def voir_prochains_concerts():
     """page qui affiche les concerts à venir"""
     return render_template(
         "voir_prochains_concerts.html",
-        concerts=prochains_concerts()
+        concerts=mo.prochains_concerts()
     )
+    
 
 @app.route('/historique_concert')
 def historique_concerts():
@@ -87,14 +92,16 @@ def save_concert():
     heure_duree = datetime.datetime.strptime(request.form['duree'], "%H:%M").time().hour
     minute_duree = datetime.datetime.strptime(request.form['duree'], "%H:%M").time().minute
     duree_concert = heure_duree*60 + minute_duree
-    id_artiste = get_artiste(request.form['artiste'])[0]
-    id_salle = get_salle(request.form['salle'])[0]
+    id_artiste = mo.get_artiste(request.form['artiste'])[0]
+    id_salle = mo.get_salle(request.form['salle'])[0]
     description_concert = request.form['description']
     photo = "test.png"
     try:
+        cursor = mo.get_cursor()
         req = "INSERT INTO Concert (id_concert, nom_concert, date_heure_concert, duree_concert, id_artiste, id_salle, description_concert, photo) VALUES("+str(get_id_concert_max()+1)+", '" + str(nom_concert) + "', '" + str(date_heure_concert) + "', " + str(duree_concert) + ", " + str(id_artiste) + ", " + str(id_salle) + ", '" + str(description_concert) + "', '" + str(photo) + "')"
         cursor.execute(req)
-        db.commit()
+        mo.db.commit()
+        mo.close_cursor(cursor)
     except Exception as e:
         print(e.args)
     return redirect(url_for('concert', nom=nom_concert))
@@ -102,7 +109,7 @@ def save_concert():
 @app.route('/concert/<nom>')
 def concert(nom):
     """page pour le concert <nom>"""
-    concert = get_concert(nom)
+    concert = mo.get_concert(nom)
     return render_template(
         "concert.html",
         concert=concert
@@ -125,25 +132,26 @@ def ajout_nouvelle_salle():
 @app.route('/voir_salles')
 def voir_salles():
     """page qui affiche les salles"""
-    try:
-        request = "SELECT * FROM Salle"
-        cursor.execute(request)
-        info = cursor.fetchall()
-        return render_template(
-            "voir_salles.html",
-            salles=info
-        )
-    except Exception as e:
-        print(e.args)
-        return render_template(
-            "error.html",
-            error_message="An error occurred while retrieving data from the database."
-        )
+    # try:
+    #     request = "SELECT * FROM Salle"
+    #     cursor.execute(request)
+    #     info = cursor.fetchall()
+    #     return render_template(
+    #         "voir_salles.html",
+    #         salles=info
+    #     )
+    # except Exception as e:
+    #     print(e.args)
+    #     return render_template(
+    #         "error.html",
+    #         error_message="An error occurred while retrieving data from the database."
+    #     )
+    pass
 
 @app.route('/salle/<nom>')
 def salle(nom):
     """page pour la salle <nom>"""
-    salle = get_salle(nom)
+    salle = mo.get_salle(nom)
     return render_template(
         "salle.html",
         salle=salle
@@ -152,13 +160,30 @@ def salle(nom):
 @app.route('/save_salle', methods=("POST",))
 def save_salle():
     """sauvegarde d'une salle"""
-    salle = {}
-    salle["nom"] = request.form['nom']
-    salle["nbPlaces"] = request.form['nbPlaces']
-    salle["photo"] = request.form['photo']
-    SALLES.append(salle)
-    return redirect(url_for('salle', nom=salle["nom"]))
-
+    nom_salle = request.form['titre']
+    nb_places = request.form['place']
+    profondeur_scene = request.form['profondeur']
+    longueur_scene = request.form['longueur']
+    description_salle = request.form['description']
+    adresse_salle = request.form['adresse']
+    telephone_salle = request.form['telephone']
+    adresse_salle = request.form['adresse']
+    code_postal_salle = request.form['code_postal']
+    photo = "test.png"
+    adresse_salle = adresse_salle + ", " + code_postal_salle
+    if request.form['loge']:
+        loge = "oui"
+    else:
+        loge = "non"
+    try:
+        cursor = mo.get_cursor()
+        req = "INSERT INTO Salle (id_salle, id_type_salle, loge, nom_salle, nb_places, prfondeur_scene, longueur_scene, description_salle,adresse_salle,telephone_salle,photo_salle) VALUES("+str(get_id_salle_max()+1) + ", '" + str(loge) + ", '" + str(nom_salle) + "', '" + str(nb_places) + "', " + str(profondeur_scene) + ", " + str(longueur_scene) + ", " + str(description_salle) + ", '" + str(adresse_salle) + "', '" + str(telephone_salle) + "', '" +  str(photo) + "')"
+        cursor.execute(req)
+        mo.db.commit()
+        mo.close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+    return redirect(url_for('concert', nom=nom_salle))
 @app.route('/salle/<nom>/supprimer')
 def supprimer_salle(nom):
     """supprime la salle <nom>"""
@@ -175,26 +200,27 @@ def ajout_artiste():
 
 @app.route('/voir_artistes')
 def voir_artistes():
-    try:
-        request = "SELECT * FROM Artiste"
-        cursor.execute(request)
-        info = cursor.fetchall()
-        return render_template(
-            "voir_artistes.html",
-            artistes=info
-        )
-    except Exception as e:
-        print(e.args)
-        return render_template(
-            "error.html",
-            error_message="An error occurred while retrieving data from the database."
-        )
+    # try:
+    #     request = "SELECT * FROM Artiste"
+    #     cursor.execute(request)
+    #     info = cursor.fetchall()
+    #     return render_template(
+    #         "voir_artistes.html",
+    #         artistes=info
+    #     )
+    # except Exception as e:
+    #     print(e.args)
+    #     return render_template(
+    #         "error.html",
+    #         error_message="An error occurred while retrieving data from the database."
+    #     )
+    pass
 
 
 @app.route('/artiste/<nom_artiste>')
 def artiste(nom_artiste):
     """page de l'artiste <nom_artiste>"""
-    artiste = get_artiste(nom_artiste)
+    artiste = mo.get_artiste(nom_artiste)
     return render_template(
         "artiste.html",
         artiste=artiste
@@ -252,7 +278,7 @@ def supprimer_artiste(nom_artiste):
 @app.route('/logement/<nom_etablissement>')
 def logement(nom_etablissement):
     """page du logement <nom_etablissement>"""
-    logement = get_logement(nom_etablissement)
+    logement = mo.get_logement(nom_etablissement)
     return render_template(
         "logement.html",
         logement=logement
@@ -267,20 +293,21 @@ def ajout_logement():
 
 @app.route('/voir_logements')
 def voir_logements():
-    try:
-        request = "SELECT * FROM Logement"
-        cursor.execute(request)
-        info = cursor.fetchall()
-        return render_template(
-            "voir_logements.html",
-            logements=info
-        )
-    except Exception as e:
-        print(e.args)
-        return render_template(
-            "error.html",
-            error_message="An error occurred while retrieving data from the database."
-    )
+    # try:
+    #     request = "SELECT * FROM Logement"
+    #     cursor.execute(request)
+    #     info = cursor.fetchall()
+    #     return render_template(
+    #         "voir_logements.html",
+    #         logements=info
+    #     )
+    # except Exception as e:
+    #     print(e.args)
+    #     return render_template(
+    #         "error.html",
+    #         error_message="An error occurred while retrieving data from the database."
+    # )
+    pass
 
 @app.route('/save_logement', methods=("POST",))
 def save_logement():
@@ -311,7 +338,7 @@ def calendrier(jour=JOUR_VOULU):
     dimanche = (jour + datetime.timedelta(days=7-(jour.weekday()+1))).replace(hour=23, minute=59, second=59, microsecond=0)
     return render_template(
         "calendrier.html",
-        concerts=prochains_concerts(),
+        concerts=mo.prochains_concerts(),
         agenda=agenda,
         heures=heures,
         date_lundi=lundi.strftime("%d-%m-%Y"),
@@ -339,47 +366,6 @@ def calendrier_semaine_suivante(jour_actuel=JOUR_VOULU):
         jour_actuel = datetime.datetime.strptime(jour_actuel, "%d-%m-%Y")
     jour = jour_actuel + datetime.timedelta(days=7)
     return redirect(url_for('calendrier', jour=jour.strftime("%d-%m-%Y")))
-
-# fonctions utiles pour les templates
-def get_concert(nom):
-    try:
-        requete = "SELECT * FROM Concert where nom_concert='"+nom+"'"
-        cursor.execute(requete)
-        info = cursor.fetchall()
-        return info[0]
-    except Exception as e:
-        print(e.args)
-    return None
-
-def get_salle(nom):
-    try:
-        request = "SELECT * FROM Salle where nom_salle='"+nom+"'"
-        cursor.execute(request)
-        info = cursor.fetchall()
-        return info[0]
-    except Exception as e:
-        print(e.args)
-    return None
-
-def get_logement(nom_etablissement):
-    try:
-        request = "SELECT * FROM Logement where nom_etablissement='"+nom_etablissement+"'"
-        cursor.execute(request)
-        info = cursor.fetchall()
-        return info[0]
-    except Exception as e:
-        print(e.args)
-    return None
-
-def get_artiste(nom):
-    try:
-        request = "SELECT * FROM Artiste where nom_artiste='"+nom+"'"
-        cursor.execute(request)
-        info = cursor.fetchall()
-        return info[0]
-    except Exception as e:
-        print(e.args)
-    return None
 
 def remove_concert(nom):
     concert = get_concert(nom)
@@ -417,118 +403,6 @@ def remove_artiste(nom):
     except Exception as e:
         print(e.args)
 
-def prochains_concerts():
-    prochains_concerts = []
-    try:
-        requete = "SELECT * FROM Concert where date_heure_concert >= CURDATE()"
-        cursor.execute(requete)
-        info = cursor.fetchall()
-        for i in info:
-            prochains_concerts.append(i)
-    except Exception as e:
-        print(e.args)
-    return prochains_concerts
-
-def historique_concerts():
-    prochains_concerts = []
-    try:
-        requete = "SELECT * FROM Concert where date_heure_concert < CURDATE()"
-        cursor.execute(requete)
-        info = cursor.fetchall()
-        for i in info:
-            prochains_concerts.append(i)
-    except Exception as e:
-        print(e.args)
-    return prochains_concerts
-
-def concerts():
-    concerts = []
-    try:
-        requete = "SELECT * FROM Concert"
-        cursor.execute(requete)
-        info = cursor.fetchall()
-        for i in info:
-            concerts.append(i)
-    except Exception as e:
-        print(e.args)
-    return concerts
-
-def salles():
-    salles = []
-    try:
-        requete = "SELECT * FROM Salle"
-        cursor.execute(requete)
-        info = cursor.fetchall()
-        for i in info:
-            salles.append(i)
-    except Exception as e:
-        print(e.args)
-    return salles
-
-def artistes():
-    artistes = []
-    try:
-        requete = "SELECT * FROM Artiste"
-        cursor.execute(requete)
-        info = cursor.fetchall()
-        for i in info:
-            artistes.append(i)
-    except Exception as e:
-        print(e.args)
-    return artistes
-
-def logements():
-    logements = []
-    try:
-        requete = "SELECT * FROM Logement"
-        cursor.execute(requete)
-        info = cursor.fetchall()
-        for i in info:
-            logements.append(i)
-    except Exception as e:
-        print(e.args)
-    return logements
-
-def get_id_concert_max():
-    try:
-        requete = "SELECT MAX(id_concert) FROM Concert"
-        cursor.execute(requete)
-        info = cursor.fetchall()
-        return info[0][0]
-    except Exception as e:
-        print(e.args)
-    return None
-
-def get_id_artiste_max():
-    try:
-        requete = "SELECT MAX(id_artiste) FROM Artiste"
-        cursor.execute(requete)
-        info = cursor.fetchall()
-        return info[0][0]
-    except Exception as e:
-        print(e.args)
-    return None
-
-def get_id_salle_max():
-    try:
-        requete = "SELECT MAX(id_salle) FROM Salle"
-        cursor.execute(requete)
-        info = cursor.fetchall()
-        return info[0][0]
-    except Exception as e:
-        print(e.args)
-    return None
-
-def get_id_logement_max():
-    try:
-        requete = "SELECT MAX(id_logement) FROM Logement"
-        cursor.execute(requete)
-        info = cursor.fetchall()
-        return info[0][0]
-    except Exception as e:
-        print(e.args)
-    return None
-
 def concerts_agenda(heures=HEURES1,pas=PAS1,jour_voulu=JOUR_VOULU):
     """renvoie un agenda des concerts de la semaine du jour voulu"""
     #initialisation de l'agenda
@@ -541,7 +415,7 @@ def concerts_agenda(heures=HEURES1,pas=PAS1,jour_voulu=JOUR_VOULU):
     jour = jour_voulu
     if type(jour) == str:
         jour = datetime.datetime.strptime(jour, "%d-%m-%Y")
-    for concert in concerts():
+    for concert in mo.concerts():
         # if datetime.timedelta(days=-(jour.weekday()+1))<concert["date_debut"]-jour<datetime.timedelta(days=7-(jour.weekday()+1)+1):
         #     for h in heures:
         #         fin_horaire = h+pas
