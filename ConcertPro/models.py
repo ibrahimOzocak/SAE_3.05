@@ -117,6 +117,18 @@ def get_artiste(nom):
         print(e.args)
     return None
 
+def get_id_type_salles(nom):
+    try:
+        cursor = get_cursor()
+        request = "SELECT id_type FROM Type_Salle where type_place_s='"+nom+"'"
+        cursor.execute(request)
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        return info[0][0]
+    except Exception as e:
+        print(e.args)
+    return None
+
 def historique_concerts():
     prochains_concerts = []
     try:

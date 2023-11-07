@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/ajout_nouvelle_salle.css') }}"> 
 {% endblock %}
 {% block content %}
-<form action="/upload" method="POST" enctype="multipart/form-data">
+<form role="form" method="POST" action="{{ url_for('save_salle') }}">
     <section class="sec1_new_salle">
         <div class="container">
             <input type="file" name="image" id="image-input">
@@ -20,8 +20,8 @@
             <input type="text" name="typeplace"/> 
             <label for="profondeur">Profondeur de la scene</label>
             <input type="text" name="profondeur"/> 
-            <label for="largeur">Largeur de la scene</label>
-            <input type="text" name="largeur"/>
+            <label for="largeur">Longeur de la scene</label>
+            <input type="text" name="longueur"/>
             
         </div>
         
@@ -34,7 +34,7 @@
         <label for="telephone">Numéro de téléphone de la salle</label>
         <input type="text" name="telephone"/> 
         <div>
-            <input type="checkbox" id="accueilpmr" name="Cocher_accueilpmr"/>
+            <input type="checkbox" id="accueilpmr" name="accueilpmr"/>
             <label for="accueilpmr">La salle accueille les personnes à mobilité réduite</label>
         </div>  
         <div>

@@ -27,7 +27,7 @@ CREATE TABLE Artiste (
   date_de_naissance VARCHAR(42),
   lieu_naissance VARCHAR(42),
   adresse VARCHAR(42),
-  securite_social VARCHAR(42),
+  securite_sociale VARCHAR(42),
   conge_spectacle VARCHAR(42),
   cni VARCHAR(42),
   date_delivrance_cni DATE,

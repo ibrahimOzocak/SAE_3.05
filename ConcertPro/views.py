@@ -152,23 +152,29 @@ def save_salle():
     description_salle = request.form['description']
     adresse_salle = request.form['adresse']
     telephone_salle = request.form['telephone']
-    adresse_salle = request.form['adresse']
-    code_postal_salle = request.form['code_postal']
+    code_postal_salle = request.form['postalville']
+    type_place = request.form['typeplace']
     photo = "test.png"
     adresse_salle = adresse_salle + ", " + code_postal_salle
     if request.form['loge']:
         loge = "oui"
     else:
         loge = "non"
+
+    # if request.form['accueilpmr']:
+    #     acces_pmr = "oui"
+    # else:
+    #     acces_pmr = "non"
     try:
         cursor = mo.get_cursor()
-        req = "INSERT INTO Salle (id_salle, id_type_salle, loge, nom_salle, nb_places, profondeur_scene, longueur_scene, description_salle, adresse_salle, telephone_salle, photo_salle) VALUES("+str(mo.get_id_salle_max()+1) + ", '" + str(loge) + ", '" + str(nom_salle) + "', '" + str(nb_places) + "', " + str(profondeur_scene) + ", " + str(longueur_scene) + ", " + str(description_salle) + ", '" + str(adresse_salle) + "', '" + str(telephone_salle) + "', '" +  str(photo) + "')"
+        req = "INSERT INTO Salle (id_salle, id_type_salle, loge, nom_salle, nb_places, profondeur_scene, longueur_scene, description_salle,adresse_salle,telephone_salle, accueil_pmr) VALUES("+str(mo.get_id_salle_max()+1) + "," + str(mo.get_id_type_salles(type_place)) + ", '" + str(loge) + "', '" + str(nom_salle) + "', " + str(nb_places) + ", " + str(profondeur_scene) + ", " + str(longueur_scene) + ", '" + str(description_salle) + "', '" + str(adresse_salle) + "', '" + str(telephone_salle) +  "', '" + str("oui") + "')"
         cursor.execute(req)
         mo.db.commit()
         mo.close_cursor(cursor)
     except Exception as e:
         print(e.args)
-    return redirect(url_for('concert', nom=nom_salle))
+    return redirect(url_for('salle', nom=nom_salle))
+
 @app.route('/salle/<nom>/supprimer')
 def supprimer_salle(nom):
     """supprime la salle <nom>"""
