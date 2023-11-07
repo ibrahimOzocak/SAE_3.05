@@ -13,8 +13,12 @@
     <p>id salle : {{ concert[5] }}</p>
 </div>
 {% if concert is not none %}
-<div>
-    <img src="{{ url_for('static', filename='images/banniere.jpeg')}}" alt="l'image d'un concert" width=10% height=10%/>
+<div class="concert">
+    {% if concert[-1] is none %}
+    <img class="img_acc"  src="{{ url_for('static', filename='images/aucune_image.png') }}" alt="img">
+    {% else %}
+    <img class="img_acc" src="{{ url_for('static', filename='images/' + concert[0]|str + '.jpg') }}" alt="img">
+    {% endif %}
 </div>
 <div>
     <a href="{{ url_for('supprimer_concert', nom=concert[1]) }}">supprimer le concert</a>
