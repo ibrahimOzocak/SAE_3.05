@@ -294,7 +294,7 @@ def supprimer_logement(nom_etablissement):
 @app.route('/calendrier/<jour>')
 def calendrier(jour = datetime.datetime.now()):
     """page du calendrier au jour <jour>"""
-    heures = HEURES_DECALAGE_2
+    heures = HEURES_DECALAGE_1
     if type(jour) == str:
         jour = datetime.datetime.strptime(jour, "%d-%m-%Y")
     agenda = mo.concerts_agenda(heures, jour)
