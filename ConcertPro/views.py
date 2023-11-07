@@ -66,22 +66,6 @@ def historique_concerts():
         concerts = mo.historique_concerts()
     )
 
-@app.route('/save_concert1', methods=("POST",))
-def save_concert1():
-    """sauvegarde d'un concert"""
-    concert = {}
-    concert["artiste"] = request.form['artiste']
-    concert["date_debut"] = datetime.datetime.strptime(request.form['date_debut'], "%Y-%m-%d")
-    concert["salle"] = request.form['salle']
-    concert["nom"] = request.form['titre']
-    concert["heure_debut"] = datetime.datetime.strptime(request.form['heure_debut'], "%H:%M").time()
-    concert["heure_duree"] = datetime.datetime.strptime(request.form['duree'], "%H:%M").time().hour
-    concert["minute_duree"] = datetime.datetime.strptime(request.form['duree'], "%H:%M").time().minute
-    concert["jour"] = 7
-    concert["url"] = "test.png"
-    CONCERTS.append(concert)
-    return redirect(url_for('concert', nom=concert["nom"]))
-
 @app.route('/save_concert', methods=("POST",))
 def save_concert():
     """sauvegarde d'un concert"""
@@ -98,7 +82,7 @@ def save_concert():
     photo = "test.png"
     try:
         cursor = mo.get_cursor()
-        req = "INSERT INTO Concert (id_concert, nom_concert, date_heure_concert, duree_concert, id_artiste, id_salle, description_concert, photo) VALUES("+str(get_id_concert_max()+1)+", '" + str(nom_concert) + "', '" + str(date_heure_concert) + "', " + str(duree_concert) + ", " + str(id_artiste) + ", " + str(id_salle) + ", '" + str(description_concert) + "', '" + str(photo) + "')"
+        req = "INSERT INTO Concert (id_concert, nom_concert, date_heure_concert, duree_concert, id_artiste, id_salle, description_concert, photo) VALUES("+str(mo.get_id_concert_max()+1)+", '" + str(nom_concert) + "', '" + str(date_heure_concert) + "', " + str(duree_concert) + ", " + str(id_artiste) + ", " + str(id_salle) + ", '" + str(description_concert) + "', '" + str(photo) + "')"
         cursor.execute(req)
         mo.db.commit()
         mo.close_cursor(cursor)
@@ -178,7 +162,7 @@ def save_salle():
         loge = "non"
     try:
         cursor = mo.get_cursor()
-        req = "INSERT INTO Salle (id_salle, id_type_salle, loge, nom_salle, nb_places, prfondeur_scene, longueur_scene, description_salle,adresse_salle,telephone_salle,photo_salle) VALUES("+str(get_id_salle_max()+1) + ", '" + str(loge) + ", '" + str(nom_salle) + "', '" + str(nb_places) + "', " + str(profondeur_scene) + ", " + str(longueur_scene) + ", " + str(description_salle) + ", '" + str(adresse_salle) + "', '" + str(telephone_salle) + "', '" +  str(photo) + "')"
+        req = "INSERT INTO Salle (id_salle, id_type_salle, loge, nom_salle, nb_places, profondeur_scene, longueur_scene, description_salle, adresse_salle, telephone_salle, photo_salle) VALUES("+str(mo.get_id_salle_max()+1) + ", '" + str(loge) + ", '" + str(nom_salle) + "', '" + str(nb_places) + "', " + str(profondeur_scene) + ", " + str(longueur_scene) + ", " + str(description_salle) + ", '" + str(adresse_salle) + "', '" + str(telephone_salle) + "', '" +  str(photo) + "')"
         cursor.execute(req)
         mo.db.commit()
         mo.close_cursor(cursor)
@@ -218,7 +202,6 @@ def voir_artistes():
             error_message="An error occurred while retrieving data from the database."
         )
 
-
 @app.route('/artiste/<nom_artiste>')
 def artiste(nom_artiste):
     """page de l'artiste <nom_artiste>"""
@@ -227,25 +210,6 @@ def artiste(nom_artiste):
         "artiste.html",
         artiste=artiste
     )
-
-@app.route('/save_artiste1', methods=("POST",))
-def save_artiste1():
-    """sauvegarde d'un artiste"""
-    artiste = {}
-    artiste["nom_artiste"] = request.form['nom']
-    artiste["prenom_artiste"] = request.form['prenom']
-    artiste["mail"] = request.form['mail']
-    artiste["telephone"] = request.form['telephone']
-    artiste["date_de_naissance"] = request.form['date_naissance']
-    artiste["lieu_de_naissance"] = request.form['lieu_naissance']
-    artiste["adresse"] = request.form['adresse']
-    artiste["securite_sociale"] = request.form['num_secu_sociale']
-    artiste["cni"] = request.form['cni']
-    artiste["date_delivrance_cni"] = request.form['date_delivrance']
-    artiste["date_expiration_cni"] = request.form['date_expiration']
-    artiste["carte_reduction"] = request.form['carte_train']
-    ARTISTES.append(artiste)
-    return redirect(url_for('artiste', nom=artiste["nom_artiste"]))
 
 @app.route('/save_artiste', methods=("POST",))
 def save_artiste():
@@ -263,9 +227,11 @@ def save_artiste():
     date_expiration_cni = datetime.datetime.strptime(request.form['date_expiration'], "%Y-%m-%d")
     carte_reduction = request.form['carte_train']
     try:
-        req = "INSERT INTO Artiste (id_artiste, nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_naissance, adresse, securite_social, cni, date_delivrance_cni, date_expiration_cni, carte_reduction) VALUES("+str(get_id_artiste_max()+1)+", '" + str(nom_artiste) + "', '" + str(prenom_artiste) + "', '" + str(mail) + "', '" + str(telephone) + "', '" + str(date_de_naissance) + "', '" + str(lieu_de_naissance) + "', '" + str(adresse) + "', '" + str(securite_sociale) + "', '" + str(cni) + "', '" + str(date_delivrance_cni) + "', '" + str(date_expiration_cni) + "', '" + str(carte_reduction) + "')"
+        cursor = mo.get_cursor()
+        req = "INSERT INTO Artiste (id_artiste, nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_naissance, adresse, securite_social, cni, date_delivrance_cni, date_expiration_cni, carte_reduction) VALUES("+str(mo.get_id_artiste_max()+1)+", '" + str(nom_artiste) + "', '" + str(prenom_artiste) + "', '" + str(mail) + "', '" + str(telephone) + "', '" + str(date_de_naissance) + "', '" + str(lieu_de_naissance) + "', '" + str(adresse) + "', '" + str(securite_sociale) + "', '" + str(cni) + "', '" + str(date_delivrance_cni) + "', '" + str(date_expiration_cni) + "', '" + str(carte_reduction) + "')"
         cursor.execute(req)
         db.commit()
+        mo.close_cursor(cursor)
     except Exception as e:
         print(e.args)
     return redirect(url_for('artiste', nom_artiste=nom_artiste))
