@@ -315,9 +315,7 @@ def concerts_agenda(heures, jour_voulu):
             duree -= 60
         
         date_fin = date_fin.replace(minute=date_deb.minute+duree)
-        
-        print(date_deb, date_deb_semaine, date_fin_semaine)
-        
+                
         if date_deb_semaine.date() <= date_deb.date() <= date_fin_semaine.date():
             a = agenda[date_deb.weekday()+1]
             hour = date_deb.hour
