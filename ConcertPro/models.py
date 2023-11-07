@@ -62,7 +62,7 @@ def get_image(id_concert):
             return
         image = Image.open(BytesIO(image_data))
         image = image.convert('RGB')
-        nom_fichier = "ConcertPro/static/images/"+str(id_concert)+".jpg"
+        nom_fichier = "ConcertPro/static/images/concerts/"+str(id_concert)+".jpg"
         image.save(nom_fichier)
         close_cursor(cursor)
     except Exception as e:

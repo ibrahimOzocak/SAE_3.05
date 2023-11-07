@@ -4,33 +4,22 @@ from .app import app, db
 import datetime
 from . import models as mo
 
-IMAGES = ["banniere.jpeg", "logo-black.png", "logo-white.png", "test.png", "logo-no-background.png", "logo-color.png"]
-ARTISTES = [{"telephone": "0795351865", "mail": "nom@prenom.gmail.com", "nom_artiste": "a", "prenom_artiste": "b", "date_de_naissance": "10/10/2000", "lieu_de_naissance": "Orly", "adresse": "everglen", "securite_sociale": "non", "cni": "jsp", "date_delivrance_cni": "jamais", "date_expiration_cni": "toujours", "carte_reduction": "oui", "id_style_musique": 1}, {"telephone": "0795351865", "mail": "nom@prenom.gmail.com", "nom_artiste": "a", "prenom_artiste": "b", "date_de_naissance": "10/10/2000", "lieu_de_naissance": "Orly", "adresse": "everglen", "securite_sociale": "non", "cni": "jsp", "date_delivrance_cni": "jamais", "date_expiration_cni": "toujours", "carte_reduction": "oui", "id_style_musique": 1}, {"telephone": "0795351865", "mail": "nom@prenom.gmail.com", "nom_artiste": "a", "prenom_artiste": "b", "date_de_naissance": "10/10/2000", "lieu_de_naissance": "Orly", "adresse": "everglen", "securite_sociale": "non", "cni": "jsp", "date_delivrance_cni": "jamais", "date_expiration_cni": "toujours", "carte_reduction": "oui", "id_style_musique": 1}, {"telephone": "0795351865", "mail": "nom@prenom.gmail.com", "nom_artiste": "a", "prenom_artiste": "b", "date_de_naissance": "10/10/2000", "lieu_de_naissance": "Orly", "adresse": "everglen", "securite_sociale": "non", "cni": "jsp", "date_delivrance_cni": "jamais", "date_expiration_cni": "toujours", "carte_reduction": "oui", "id_style_musique": 1}, {"telephone": "0795351865", "mail": "nom@prenom.gmail.com", "nom_artiste": "a", "prenom_artiste": "b", "date_de_naissance": "10/10/2000", "lieu_de_naissance": "Orly", "adresse": "everglen", "securite_sociale": "non", "cni": "jsp", "date_delivrance_cni": "jamais", "date_expiration_cni": "toujours", "carte_reduction": "oui", "id_style_musique": 1}, {"telephone": "0795351865", "mail": "nom@prenom.gmail.com", "nom_artiste": "a", "prenom_artiste": "b", "date_de_naissance": "10/10/2000", "lieu_de_naissance": "Orly", "adresse": "everglen", "securite_sociale": "non", "cni": "jsp", "date_delivrance_cni": "jamais", "date_expiration_cni": "toujours", "carte_reduction": "oui", "id_style_musique": 1}, {"telephone": "0795351865", "mail": "nom@prenom.gmail.com", "nom_artiste": "a", "prenom_artiste": "b", "date_de_naissance": "10/10/2000", "lieu_de_naissance": "Orly", "adresse": "everglen", "securite_sociale": "non", "cni": "jsp", "date_delivrance_cni": "jamais", "date_expiration_cni": "toujours", "carte_reduction": "oui", "id_style_musique": 1}, {"telephone": "0795351865", "mail": "nom@prenom.gmail.com", "nom_artiste": "a", "prenom_artiste": "b", "date_de_naissance": "10/10/2000", "lieu_de_naissance": "Orly", "adresse": "everglen", "securite_sociale": "non", "cni": "jsp", "date_delivrance_cni": "jamais", "date_expiration_cni": "toujours", "carte_reduction": "oui", "id_style_musique": 1}, {"telephone": "0795351865", "mail": "nom@prenom.gmail.com", "nom_artiste": "a", "prenom_artiste": "b", "date_de_naissance": "10/10/2000", "lieu_de_naissance": "Orly", "adresse": "everglen", "securite_sociale": "non", "cni": "jsp", "date_delivrance_cni": "jamais", "date_expiration_cni": "toujours", "carte_reduction": "oui", "id_style_musique": 1}, {"telephone": "0795351865", "mail": "nom@prenom.gmail.com", "nom_artiste": "a", "prenom_artiste": "b", "date_de_naissance": "10/10/2000", "lieu_de_naissance": "Orly", "adresse": "everglen", "securite_sociale": "non", "cni": "jsp", "date_delivrance_cni": "jamais", "date_expiration_cni": "toujours", "carte_reduction": "oui", "id_style_musique": 1}, {"telephone": "0795351865", "mail": "nom@prenom.gmail.com", "nom_artiste": "a", "prenom_artiste": "b", "date_de_naissance": "10/10/2000", "lieu_de_naissance": "Orly", "adresse": "everglen", "securite_sociale": "non", "cni": "jsp", "date_delivrance_cni": "jamais", "date_expiration_cni": "toujours", "carte_reduction": "oui", "id_style_musique": 1}]
-CONCERTS = [{"artiste": "Lucie", "date_debut": datetime.datetime.strptime("2023-10-26", "%Y-%m-%d"), "heure_debut": datetime.datetime.strptime("10:00", "%H:%M").time(), "salle": "Bercy", "url": IMAGES[random.randint(0,len(IMAGES)-1)], "nom": "yaaa", "heure_duree":2, "minute_duree":25, "jour":4}, {"artiste": "Mira", "date_debut": datetime.datetime.strptime("2023-10-24", "%Y-%m-%d"), "heure_debut": datetime.datetime.strptime("8:30", "%H:%M").time(), "salle": "Bercy", "url": IMAGES[random.randint(0,len(IMAGES)-1)], "nom": "test", "heure_duree":3, "minute_duree":00, "jour":1}, {"artiste": "Muse", "date_debut": datetime.datetime.strptime("2023-10-29", "%Y-%m-%d"), "heure_debut": datetime.datetime.strptime("10:00", "%H:%M").time(), "salle": "Bercy", "url": IMAGES[random.randint(0,len(IMAGES)-1)], "nom": "concert 1", "heure_duree":1, "minute_duree":35, "jour":6}, {"artiste": "Daft Punk", "date_debut": datetime.datetime.strptime("2023-10-23", "%Y-%m-%d"), "heure_debut": datetime.datetime.strptime("14:20", "%H:%M").time(), "salle": "Stade de France", "url": IMAGES[random.randint(0,len(IMAGES)-1)], "nom": "concert 2", "heure_duree":4, "minute_duree":00, "jour":1}, {"artiste": "Beyoncé", "date_debut": datetime.datetime.strptime("2023-10-24", "%Y-%m-%d"), "heure_debut": datetime.datetime.strptime("11:00", "%H:%M").time(), "salle": "Madison Square Garden", "url": IMAGES[random.randint(0,len(IMAGES)-1)], "nom": "concert 3", "heure_duree":1, "minute_duree":30, "jour":4}, {"artiste": "The Beatles", "date_debut": datetime.datetime.strptime("2019-04-10", "%Y-%m-%d"), "heure_debut": datetime.datetime.strptime("12:30", "%H:%M").time(), "salle": "Royal Albert Hall", "url": IMAGES[random.randint(0,len(IMAGES)-1)], "nom": "concert 4", "heure_duree":00, "minute_duree":45, "jour":1}, {"artiste": "Ed Sheeran", "date_debut": datetime.datetime.strptime("2019-05-05", "%Y-%m-%d"), "heure_debut": datetime.datetime.strptime("9:00", "%H:%M").time(), "salle": "Wembley Stadium", "url": IMAGES[random.randint(0,len(IMAGES)-1)], "nom": "concert 5", "heure_duree":3, "minute_duree":30, "jour":3}, {"artiste": "Adele", "date_debut": datetime.datetime.strptime("2019-06-12", "%Y-%m-%d"), "heure_debut": datetime.datetime.strptime("22:00", "%H:%M").time(), "salle": "The O2 Arena", "url": IMAGES[random.randint(0,len(IMAGES)-1)], "nom": "concert 6", "heure_duree":1, "minute_duree":25, "jour":7}, {"artiste": "Michael Jackson", "date_debut": datetime.datetime.strptime("2023-10-18", "%Y-%m-%d"), "heure_debut": datetime.datetime.strptime("8:45", "%H:%M").time(), "salle": "Tokyo Dome", "url": IMAGES[random.randint(0,len(IMAGES)-1)], "nom": "concert 7", "heure_duree":2, "minute_duree":00, "jour":1}, {"artiste": "Taylor Swift", "date_debut": datetime.datetime.strptime("2019-08-25", "%Y-%m-%d"), "heure_debut": datetime.datetime.strptime("15:30", "%H:%M").time(), "salle": "Arrowhead Stadium", "url": IMAGES[random.randint(0,len(IMAGES)-1)], "nom": "concert 8", "heure_duree":2, "minute_duree":25, "jour":3}, {"artiste": "Coldplay", "date_debut": datetime.datetime.strptime("2019-09-14", "%Y-%m-%d"), "heure_debut": datetime.datetime.strptime("11:11", "%H:%M").time(), "salle": "Estadio Wanda Metropolitano", "url": IMAGES[random.randint(0,len(IMAGES)-1)], "nom": "concert 9", "heure_duree":5, "minute_duree":00, "jour":5}, {"artiste": "Kanye West", "date_debut": datetime.datetime.strptime("2023-10-23", "%Y-%m-%d"), "heure_debut": datetime.datetime.strptime("13:30", "%H:%M").time(), "salle": "American Airlines Center", "url": IMAGES[random.randint(0,len(IMAGES)-1)], "nom": "concert 10", "heure_duree":1, "minute_duree":30, "jour":2}]
-SALLES = [{"nom": "Bercy", "nbPlaces": 130, "photo":"test.png"}, {"nom": "Stade de France", "nbPlaces": 80000, "photo":"test.png"}, {"nom": "Madison Square Garden", "nbPlaces": 20000, "photo":"test.png"}, {"nom": "Royal Albert Hall", "nbPlaces": 5000, "photo":"test.png"}, {"nom": "Wembley Stadium", "nbPlaces": 90000, "photo":"test.png"}, {"nom": "The O2 Arena", "nbPlaces": 20000, "photo":"test.png"}, {"nom": "Tokyo Dome", "nbPlaces": 55000, "photo":"test.png"}, {"nom": "Arrowhead Stadium", "nbPlaces": 80000, "photo":"test.png"}, {"nom": "Estadio Wanda Metropolitano", "nbPlaces": 68000, "photo":"test.png"}, {"nom": "American Airlines Center", "nbPlaces": 21000, "photo":"test.png"}]
-LOGEMENTS = [{"nom_etablissement":"yaaaa", "adresse_ville_codepostal":"rue du yaaa", "nb_etoile": 3}]
-
-HEURES1 = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
-PAS1 = 1
-HEURES2 = [8, 10, 12, 14, 16, 18, 20, 22]
-PAS2 = 2
-JOUR_VOULU = datetime.datetime.now() # -datetime.timedelta(days=7) ou +datetime.timedelta(days=7) --> pour changer de semaine (- ou + 1 semaine)
+HEURES_DECALAGE_1 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
+HEURES_DECALAGE_2 = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22]
 
 # accueil
 @app.route('/')
 def accueil():
     """page d'accueil"""
-    heures = HEURES2
-    pas = PAS2
-    jour = JOUR_VOULU
-    agenda = concerts_agenda(heures, pas)
+    jour = datetime.datetime.now()
+    agenda = concerts_agenda(HEURES_DECALAGE_2,jour)
     lundi = (jour + datetime.timedelta(days=-(jour.weekday()+1)) + datetime.timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
     dimanche = (jour + datetime.timedelta(days=7-(jour.weekday()+1))).replace(hour=23, minute=59, second=59, microsecond=0)
     return render_template(
         "accueil.html",
         concerts=mo.prochains_concerts(),
         agenda=agenda,
-        heures=heures,
+        heures=HEURES_DECALAGE_2,
         date_lundi=lundi.strftime("%d-%m-%Y"),
         date_dimanche=dimanche.strftime("%d-%m-%Y")
     )
@@ -293,7 +282,6 @@ def save_logement():
     logement["nom_etablissement"] = request.form['Entrer_nometablissement']
     logement["adresse_ville_codepostal"] = request.form['Entrer_adresse']
     logement["nb_etoile"] = request.form['Entrer_nbetoiles']
-    LOGEMENTS.append(logement)
     return redirect(url_for('logement', nom_etablissement=logement["nom_etablissement"]))
 
 @app.route('/logement/<nom_etablissement>/supprimer')
@@ -304,13 +292,12 @@ def supprimer_logement(nom_etablissement):
 
 # calendrier
 @app.route('/calendrier/<jour>')
-def calendrier(jour=JOUR_VOULU):
+def calendrier(jour = datetime.datetime.now()):
     """page du calendrier au jour <jour>"""
-    heures = HEURES1
-    pas = PAS1
+    heures = HEURES_DECALAGE_2
     if type(jour) == str:
         jour = datetime.datetime.strptime(jour, "%d-%m-%Y")
-    agenda = concerts_agenda(heures, pas, jour)
+    agenda = concerts_agenda(heures, jour)
     lundi = (jour + datetime.timedelta(days=-(jour.weekday()+1)) + datetime.timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
     dimanche = (jour + datetime.timedelta(days=7-(jour.weekday()+1))).replace(hour=23, minute=59, second=59, microsecond=0)
     return render_template(
@@ -329,7 +316,7 @@ def calendrier_redirection():
     return redirect(url_for('calendrier', jour=jour.strftime("%d-%m-%Y")))
 
 @app.route('/calendrier/semaine_precedente/<jour_actuel>')
-def calendrier_semaine_precedente(jour_actuel=JOUR_VOULU):
+def calendrier_semaine_precedente(jour_actuel = datetime.datetime.now()):
     """page du calendrier de la semaine précédent <jour_actuel>"""
     if type(jour_actuel) == str:
         jour_actuel = datetime.datetime.strptime(jour_actuel, "%d-%m-%Y")
@@ -337,7 +324,7 @@ def calendrier_semaine_precedente(jour_actuel=JOUR_VOULU):
     return redirect(url_for('calendrier', jour=jour.strftime("%d-%m-%Y")))
 
 @app.route('/calendrier/semaine_suivante/<jour_actuel>')
-def calendrier_semaine_suivante(jour_actuel=JOUR_VOULU):
+def calendrier_semaine_suivante(jour_actuel = datetime.datetime.now()):
     """page du calendrier de la semaine suivant <jour_actuel>"""
     if type(jour_actuel) == str:
         jour_actuel = datetime.datetime.strptime(jour_actuel, "%d-%m-%Y")
@@ -388,34 +375,35 @@ def remove_artiste(nom):
     except Exception as e:
         print(e.args)
 
-def concerts_agenda(heures=HEURES1,pas=PAS1,jour_voulu=JOUR_VOULU):
-    """renvoie un agenda des concerts de la semaine du jour voulu"""
-    #initialisation de l'agenda
+def concerts_agenda(heures, jour_voulu):
     agenda = {}
+
     for i in range(1,8):
         agenda[i] = {}
         for heure in heures:
             agenda[i][heure] = []
-    #remplissage de l'agenda
-    jour = jour_voulu
-    if type(jour) == str:
-        jour = datetime.datetime.strptime(jour, "%d-%m-%Y")
+
+    date_deb_semaine = jour_voulu - datetime.timedelta(days=jour_voulu.weekday())
+    date_fin_semaine = date_deb_semaine + datetime.timedelta(days=6)
+
     for concert in mo.concerts():
-        # if datetime.timedelta(days=-(jour.weekday()+1))<concert["date_debut"]-jour<datetime.timedelta(days=7-(jour.weekday()+1)+1):
-        #     for h in heures:
-        #         fin_horaire = h+pas
-        #         # format 24h obligatoire
-        #         if fin_horaire > 23:
-        #             fin_horaire = datetime.time(hour=h+pas-1, minute=59)
-        #         else:
-        #             fin_horaire = datetime.time(hour=h+pas)
-        #         debut_horaire = datetime.time(hour=h)
-        #         minutesC = (concert["heure_debut"].minute+concert["minute_duree"])%60
-        #         heuresC = concert["heure_debut"].hour+concert["heure_duree"]+(concert["heure_debut"].minute+concert["minute_duree"])//60
-        #         fin_concert = datetime.time(hour=heuresC, minute=minutesC)
-        #         debut_concert = concert["heure_debut"]
-        #         # ajouter le concert si il est dans l'intervalle horaire
-        #         if not(debut_concert >= fin_horaire or fin_concert <= debut_horaire):
-        #             agenda[concert["date_debut"].weekday()+1][h].append(concert["nom"])
-        pass
+        date_deb = concert[2]
+        date_fin = date_deb
+        duree = concert[3]
+        
+        while date_deb.minute+duree > 59:
+            date_fin += datetime.timedelta(hours=1)  
+            duree -= 60
+        
+        date_fin = date_fin.replace(minute=date_deb.minute+duree)
+        
+        if date_deb_semaine <= date_deb <= date_fin_semaine:
+            a = agenda[date_deb.weekday()+1]
+            hour = date_deb.hour
+            while hour not in a.keys():
+                hour -= 1
+            a[date_deb.hour].append(concert[1])
+        elif date_deb_semaine <= date_fin <= date_fin_semaine:
+            pass
+
     return agenda
