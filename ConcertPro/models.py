@@ -3,6 +3,12 @@ from PIL import Image
 from io import BytesIO
 import datetime
 
+HEURES1 = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
+PAS1 = 1
+JOUR_VOULU = datetime.datetime.now()
+HEURES2 = [8, 10, 12, 14, 16, 18, 20, 22]
+PAS2 = 2
+
 db = mysql.connector.connect(
     host="servinfo-maria",user = "sevellec", password = "sevellec", database = "DBsevellec"
 )
@@ -294,7 +300,7 @@ def remove_artiste(nom):
     except Exception as e:
         print(e.args)
 
-def concerts_agenda(heures, jour_voulu):
+def concerts_agenda1(heures, jour_voulu):
     agenda = {}
 
     for i in range(1,8):
@@ -325,6 +331,43 @@ def concerts_agenda(heures, jour_voulu):
         elif date_deb_semaine <= date_fin <= date_fin_semaine:
             pass
 
+    return agenda
+
+def concerts_agenda(heures=HEURES1, jour=JOUR_VOULU):
+    """renvoie un agenda des concerts de la semaine du jour voulu"""
+    #initialisation de l'agenda
+    agenda = {}
+    for i in range(1,8):
+        agenda[i] = {}
+        for heure in heures:
+            agenda[i][heure] = []
+    #remplissage de l'agenda
+    if len(heures) < 1:
+        pas = heures[1]-heures[0]
+    else:
+        pas = 1
+    if type(jour) == str:
+        jour = datetime.datetime.strptime(jour, "%d-%m-%Y")
+    for concert in concerts():
+        date_debut = concert[2]
+        if datetime.timedelta(days=-(jour.weekday()+1))<date_debut.replace(hour=0, minute=0)-jour<datetime.timedelta(days=7-(jour.weekday())):
+            for h in heures:
+                # format 24h obligatoire
+                if h+pas > 23:
+                    fin_horaire = datetime.time(hour=h+pas-1, minute=59)
+                else:
+                    fin_horaire = datetime.time(hour=h+pas)
+                debut_horaire = datetime.time(hour=h)
+                minutesC = date_debut.minute+concert[3]%60
+                trop = minutesC//60
+                minutesC-=trop*60
+                heuresC = date_debut.hour+concert[3]//60+trop
+
+                fin_concert = datetime.time(hour=heuresC, minute=minutesC)
+                debut_concert = date_debut.time()
+                # ajouter le concert si il est dans l'intervalle horaire
+                if not(debut_concert >= fin_horaire or fin_concert <= debut_horaire):
+                    agenda[date_debut.weekday()+1][h].append(concert[1])
     return agenda
 
 def type_salle():
