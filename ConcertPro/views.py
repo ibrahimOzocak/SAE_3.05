@@ -200,8 +200,8 @@ def artiste(nom_artiste):
         artiste=artiste
     )
 
-@app.route('/save_artiste', methods=("POST",))
-def save_artiste():
+@app.route('/save_artiste1', methods=("POST",))
+def save_artiste1():
     """sauvegarde d'un artiste"""
     artiste = {}
     artiste["nom_artiste"] = request.form['nom']
@@ -218,6 +218,29 @@ def save_artiste():
     artiste["carte_reduction"] = request.form['carte_train']
     ARTISTES.append(artiste)
     return redirect(url_for('artiste', nom=artiste["nom_artiste"]))
+
+@app.route('/save_artiste', methods=("POST",))
+def save_artiste():
+    """sauvegarde d'un artiste"""
+    nom_artiste = request.form['nom']
+    prenom_artiste = request.form['prenom']
+    mail = request.form['mail']
+    telephone = request.form['telephone']
+    date_de_naissance = datetime.datetime.strptime(request.form['date_naissance'], "%Y-%m-%d")
+    lieu_de_naissance = request.form['lieu_naissance']
+    adresse = request.form['adresse']
+    securite_sociale = request.form['num_secu_sociale']
+    cni = request.form['cni']
+    date_delivrance_cni = datetime.datetime.strptime(request.form['date_delivrance'], "%Y-%m-%d")
+    date_expiration_cni = datetime.datetime.strptime(request.form['date_expiration'], "%Y-%m-%d")
+    carte_reduction = request.form['carte_train']
+    try:
+        req = "INSERT INTO Artiste (id_artiste, nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_naissance, adresse, securite_social, cni, date_delivrance_cni, date_expiration_cni, carte_reduction) VALUES("+str(get_id_artiste_max()+1)+", '" + str(nom_artiste) + "', '" + str(prenom_artiste) + "', '" + str(mail) + "', '" + str(telephone) + "', '" + str(date_de_naissance) + "', '" + str(lieu_de_naissance) + "', '" + str(adresse) + "', '" + str(securite_sociale) + "', '" + str(cni) + "', '" + str(date_delivrance_cni) + "', '" + str(date_expiration_cni) + "', '" + str(carte_reduction) + "')"
+        cursor.execute(req)
+        db.commit()
+    except Exception as e:
+        print(e.args)
+    return redirect(url_for('artiste', nom_artiste=nom_artiste))
 
 @app.route('/artiste/<nom_artiste>/supprimer')
 def supprimer_artiste(nom_artiste):
@@ -359,24 +382,40 @@ def get_artiste(nom):
     return None
 
 def remove_concert(nom):
-    for c in concerts():
-        if c["nom"] == nom:
-            concerts().remove(c)
+    concert = get_concert(nom)
+    try:
+        req = "DELETE FROM Concert where id_concert="+str(concert[0])
+        cursor.execute(req)
+        db.commit()
+    except Exception as e:
+        print(e.args)
 
 def remove_salle(nom):
-    for s in salles():
-        if s["nom"] == nom:
-            SALLES.remove(s)
+    salle = get_salle(nom)
+    try:
+        req = "DELETE FROM Salle where id_salle="+str(salle[0])
+        cursor.execute(req)
+        db.commit()
+    except Exception as e:
+        print(e.args)
 
 def remove_logement(nom_etablissement):
-    for e in logements():
-        if e["nom_etablissement"] == nom_etablissement:
-            LOGEMENTS.remove(e)
+    logement = get_logement(nom_etablissement)
+    try:
+        req = "DELETE FROM Logement where id_logement="+str(logement[0])
+        cursor.execute(req)
+        db.commit()
+    except Exception as e:
+        print(e.args)
 
 def remove_artiste(nom):
-    for a in artistes():
-        if a["nom_artiste"] == nom:
-            ARTISTES.remove(a)
+    artiste = get_artiste(nom)
+    try:
+        req = "DELETE FROM Artiste where id_artiste="+str(artiste[0])
+        cursor.execute(req)
+        db.commit()
+    except Exception as e:
+        print(e.args)
 
 def prochains_concerts():
     prochains_concerts = []
