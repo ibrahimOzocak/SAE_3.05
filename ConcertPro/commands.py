@@ -1,4 +1,4 @@
-from .models import *
+from . import models as mo
 import click
 from .app import app
 
@@ -9,8 +9,10 @@ from .app import app
 @click.argument('req')
 def requete(req):
     try:
+        cursor = mo.get_cursor()
         cursor.execute(req)
         info = cursor.fetchall()
+        mo.close_cursor(cursor)
         for i in info:
             print(i)
     except Exception as e:
