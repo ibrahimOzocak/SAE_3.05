@@ -1,3 +1,53 @@
 .concert img{
     width: 20vw;
+    margin-left: 50px;
+}
+
+.container-concert {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Centre verticalement tout le contenu */
+}
+
+
+
+h2{
+    margin-top: 100px;
+    margin-left: 50px;
+}
+
+.infos-concert{
+    background-color: #f0f0f0; /* Couleur de fond */
+    padding: 20px; /* Espacement intérieur */
+    border: 1px solid #ccc; /* Bordure */
+    border-radius: 10px; /* Coins arrondis */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Ombre légère */
+    margin-right: 20vw;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    width: 30vw;
+    height: 40vh;
+}
+
+.supprimer{
+    border: solid 1px;
+    background-color: red;
+    color: white;
+    padding: 20px;
+    border-radius: 20px;
+    font-size: 20px;
+    margin-left: 50px;
+}
+
+.supprimer:hover{
+    opacity: 0.7;
+    transition: ease-in-out 0.3s;
+}
+
+.test{
+    display: flex;
+    justify-content: center;
+    margin: 50px;
 }
