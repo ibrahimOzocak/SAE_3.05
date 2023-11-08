@@ -3,12 +3,10 @@ CREATE TABLE Style_musique (
   nom_style_musique VARCHAR(42)
 );
 
-
 CREATE TABLE Equipement (
   id_equipement INT PRIMARY KEY NOT NULL,
   nom_equipement VARCHAR(42)
 );
-
 
 CREATE TABLE Logement (
   id_logement INT PRIMARY KEY NOT NULL,
@@ -16,7 +14,6 @@ CREATE TABLE Logement (
   nom_etablissement VARCHAR(42),
   nb_etoile INT
 );
-
 
 CREATE TABLE Artiste (
   id_artiste INT PRIMARY KEY NOT NULL,
@@ -39,7 +36,6 @@ CREATE TABLE Artiste (
   FOREIGN KEY (id_style_musique) REFERENCES Style_musique (id_style_musique)
 );
 
-
 CREATE TABLE Jouer (
   id_artiste INT NOT NULL,
   id_style_musique INT NOT NULL,
@@ -48,12 +44,10 @@ CREATE TABLE Jouer (
   FOREIGN KEY (id_artiste) REFERENCES Artiste (id_artiste)
 );
 
-
 CREATE TABLE Type_Salle (
   id_type INT PRIMARY KEY NOT NULL,
   type_place_s VARCHAR(42) UNIQUE
 );
-
 
 CREATE TABLE Salle (
   id_salle INT PRIMARY KEY NOT NULL,
@@ -84,7 +78,6 @@ CREATE TABLE Concert (
   FOREIGN KEY (id_salle) REFERENCES Salle (id_salle)
 );
 
-
 CREATE TABLE Avoir (
   id_salle INT NOT NULL,
   id_concert INT NOT NULL,
@@ -98,7 +91,6 @@ CREATE TABLE Avoir (
   FOREIGN KEY (id_salle) REFERENCES Salle (id_salle)
 );
 
-
 CREATE TABLE Posseder (
   id_salle INT NOT NULL,
   id_equipement INT NOT NULL,
@@ -107,7 +99,6 @@ CREATE TABLE Posseder (
   FOREIGN KEY (id_equipement) REFERENCES Equipement (id_equipement),
   FOREIGN KEY (id_salle) REFERENCES Salle (id_salle)
 );
-
 
 CREATE TABLE Besoin_equipement_artiste (
   id_concert INT NOT NULL,
