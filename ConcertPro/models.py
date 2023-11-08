@@ -363,7 +363,7 @@ def concerts_agenda(heures=HEURES1, jour=JOUR_VOULU):
         for heure in heures:
             agenda[i][heure] = []
     #remplissage de l'agenda
-    if len(heures) < 1:
+    if len(heures) > 1:
         pas = heures[1]-heures[0]
     else:
         pas = 1
@@ -372,6 +372,16 @@ def concerts_agenda(heures=HEURES1, jour=JOUR_VOULU):
     for concert in concerts():
         date_debut = concert[2]
         if datetime.timedelta(days=-(jour.weekday()+1))<date_debut.replace(hour=0, minute=0)-jour<datetime.timedelta(days=7-(jour.weekday())):
+            minutesC = date_debut.minute+concert[3]%60
+            trop = minutesC//60
+            minutesC-=trop*60
+            heuresC = date_debut.hour+concert[3]//60+trop
+            depassement = 0
+            if heuresC > 23:
+                depassement = heuresC-23
+                heuresC = 23
+            fin_concert = datetime.time(hour=heuresC, minute=minutesC)
+            debut_concert = date_debut.time()
             for h in heures:
                 # format 24h obligatoire
                 if h+pas > 23:
@@ -379,16 +389,40 @@ def concerts_agenda(heures=HEURES1, jour=JOUR_VOULU):
                 else:
                     fin_horaire = datetime.time(hour=h+pas)
                 debut_horaire = datetime.time(hour=h)
-                minutesC = date_debut.minute+concert[3]%60
-                trop = minutesC//60
-                minutesC-=trop*60
-                heuresC = date_debut.hour+concert[3]//60+trop
-
-                fin_concert = datetime.time(hour=heuresC, minute=minutesC)
-                debut_concert = date_debut.time()
                 # ajouter le concert si il est dans l'intervalle horaire
-                if not(debut_concert >= fin_horaire or fin_concert <= debut_horaire):
+                if not(debut_concert >= fin_horaire or fin_concert < debut_horaire):
                     agenda[date_debut.weekday()+1][h].append((concert[0],concert[1]))
+            if depassement > 0:
+                fin_depassement = datetime.time(hour=depassement, minute=minutesC)
+                for h in heures:
+                    if h+pas > 23:
+                        fin_horaire = datetime.time(hour=h+pas-1, minute=59)
+                    else:
+                        fin_horaire = datetime.time(hour=h+pas)
+                    debut_horaire = datetime.time(hour=h)
+                    if fin_depassement > fin_horaire:
+                        j = date_debut.weekday()+2
+                        if j < 8:
+                            agenda[j][h].append((concert[0],concert[1]))
+        elif datetime.timedelta(days=-(jour.weekday()+1))==date_debut.replace(hour=0, minute=0)-jour:
+            minutesC = date_debut.minute+concert[3]%60
+            trop = minutesC//60
+            minutesC-=trop*60
+            heuresC = date_debut.hour+concert[3]//60+trop
+            depassement = 0
+            if heuresC > 23:
+                depassement = heuresC-23
+            fin_depassement = datetime.time(hour=depassement, minute=minutesC)
+            for h in heures:
+                # format 24h obligatoire
+                if h+pas > 23:
+                    fin_horaire = datetime.time(hour=h+pas-1, minute=59)
+                else:
+                    fin_horaire = datetime.time(hour=h+pas)
+                debut_horaire = datetime.time(hour=h)
+                # ajouter le concert si il est dans l'intervalle horaire
+                if fin_depassement > fin_horaire:
+                    agenda[1][h].append((concert[0],concert[1]))
     return agenda
 
 def type_salle():

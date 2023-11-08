@@ -68,11 +68,18 @@ def save_concert():
     id_artiste = request.form['artiste']
     id_salle = request.form['salle']
     description_concert = request.form['description']
-    photo = "test.png"
     id = mo.get_id_concert_max()+1
+    i = 0
+    chaine_description = ""
+    while i < len(description_concert):
+        if description_concert[i] == "'":
+            chaine_description += "\\'"
+        else:
+            chaine_description += description_concert[i]
+        i += 1
     try:
         cursor = mo.get_cursor()
-        req = "INSERT INTO Concert (id_concert, nom_concert, date_heure_concert, duree_concert, id_artiste, id_salle, description_concert, photo) VALUES("+str(id)+", '" + str(nom_concert) + "', '" + str(date_heure_concert) + "', " + str(duree_concert) + ", " + str(id_artiste) + ", " + str(id_salle) + ", '" + str(description_concert) + "', '" + str(photo) + "')"
+        req = "INSERT INTO Concert (id_concert, nom_concert, date_heure_concert, duree_concert, id_artiste, id_salle, description_concert) VALUES("+str(id)+", '" + str(nom_concert) + "', '" + str(date_heure_concert) + "', " + str(duree_concert) + ", " + str(id_artiste) + ", " + str(id_salle) + ", '" + str(chaine_description) + "')"
         cursor.execute(req)
         mo.db.commit()
         mo.close_cursor(cursor)
@@ -133,6 +140,7 @@ def salle(id):
         salle=salle
     )
 
+
 @app.route('/save_salle', methods=("POST",))
 def save_salle():
     """sauvegarde d'une salle"""
@@ -145,7 +153,6 @@ def save_salle():
     telephone_salle = request.form['telephone']
     code_postal_salle = request.form['postalville']
     type_place = request.form['typeplace']
-    photo = "test.png"
     adresse_salle = adresse_salle + ", " + code_postal_salle
     loge = ""
     acces_pmr = ""
