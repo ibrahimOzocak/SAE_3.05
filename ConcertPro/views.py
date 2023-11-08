@@ -232,9 +232,6 @@ def confirmer_modif_salle(id_salle, nom_salle):
     profondeur_scene = request.form['profondeur_scene']
     longueur_scene = request.form['longueur_scene']
     
-    mo.confirmer_modif_artiste(id_salle, nom_salle, description, loge, nombre_place, adresse, telephone,
-        profondeur_scene, longueur_scene)
-    
     return redirect(url_for('salle', nom_salle=nom_salle))
     
 @app.route('/artiste/<nom_artiste>/modifier')
@@ -382,7 +379,6 @@ def confirmer_modif_logement(id_logement, nom_etablissement):
     
     adresse = request.form['adresse_ville_codepostal']
     nb_etoile = request.form['nb_etoile']
-    
-    mo.confirmer_modif_artiste(id_logement, nom_etablissement,adresse, nb_etoile)
+
     
     return redirect(url_for('logement', nom_etablissement=nom_etablissement))
