@@ -219,6 +219,23 @@ def confirmer_modif_artiste(id_artiste, nom_artiste):
         adresse, numero_secu_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction)
     
     return redirect(url_for('artiste', nom_artiste=nom_artiste))
+
+@app.route('/traiter_formulaire/<id_salle>/<nom_salle>', methods=("POST",))
+def confirmer_modif_salle(id_salle, nom_salle):
+    """sauvegarde d'un artiste"""
+    
+    description = request.form['description_salle']
+    loge = request.form['loge']
+    nombre_place = request.form['nb_places']
+    adresse = request.form['adresse_salle']
+    telephone = request.form['telephone_salle']
+    profondeur_scene = request.form['profondeur_scene']
+    longueur_scene = request.form['longueur_scene']
+    
+    mo.confirmer_modif_artiste(id_salle, nom_salle, description, loge, nombre_place, adresse, telephone,
+        profondeur_scene, longueur_scene)
+    
+    return redirect(url_for('salle', nom_salle=nom_salle))
     
 @app.route('/artiste/<nom_artiste>/modifier')
 def modifier_artiste(nom_artiste):
@@ -227,6 +244,15 @@ def modifier_artiste(nom_artiste):
     return render_template(
         "modifier_artiste.html",
         artiste=artiste
+    )
+
+@app.route('/salle/<nom_salle>/modifier')
+def modifier_salle(nom_salle):
+    """page de la salle <nom_salle>"""
+    salle = mo.get_salle(nom_salle)
+    return render_template(
+        "modifier_salle.html",
+        salle=salle
     )
 
 @app.route('/save_artiste', methods=("POST",))

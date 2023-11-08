@@ -29,4 +29,7 @@
 <div class="bouton">
     <a href="{{ url_for('supprimer_salle', nom=salle[3]) }}" class="supprimer">supprimer la salle</a>
 </div>
+<div>
+    <a href="{{ url_for('modifier_salle', nom_salle=salle[3]) }}">modifier la salle</a>
+</div>
 {% endblock %}
