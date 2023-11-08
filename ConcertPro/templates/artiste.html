@@ -1,27 +1,33 @@
 {% extends 'base.html' %}
 {% block styles %}
 {{ super() }}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/artiste.css')}}"> 
+<link rel="stylesheet" href="{{ url_for('static', filename='css/concert.css')}}"> 
 {% endblock %}
 {% block content %}
-<h2>{{ artiste[4] }} {{ artiste[3] }}</h2>
-<div>
-    {% if artiste[-1] is none %}
-    <img class="img_acc"  src="{{ url_for('static', filename='images/aucune_image.png') }}" alt="aucune image">
-    {% else %}
-    <img class="img_acc" src="{{ url_for('static', filename='images/artiste/' + artiste[0]|str + '.jpg') }}" alt="image pas réussi à charger">
-    {% endif %}
-    <p>nom de scene : {{ artiste[16] }}</p>
-    <p>mail : {{ artiste[2] }}</p>
-    <p>telephone : {{ artiste[1] }}</p>
-    <p>date de naissance : {{ artiste[5] }}</p>
-    <p>lieu de naissance : {{ artiste[6] }}</p>
-    <p>adresse : {{ artiste[7] }}</p>
-    <p>numéro de securite sociale : {{ artiste[8] }}</p>
-    <p>cni : {{ artiste[10] }}</p>
-    <p>date de delivrance du cni : {{ artiste[11] }}</p>
-    <p>date expiration_cni : {{ artiste[12] }}</p>
-    <p>carte reduction : {{ artiste[13] }}</p>
+<div class="container">
+    <div class="sous-container">
+        <h2>{{ artiste[4] }} {{ artiste[3] }}</h2>
+        {% if artiste[-1] is none %}
+        <img class="img_acc"  src="{{ url_for('static', filename='images/aucune_image.png') }}" alt="aucune image">
+        {% else %}
+        <img class="img_acc" src="{{ url_for('static', filename='images/artiste/' + artiste[0]|str + '.jpg') }}" alt="image pas réussi à charger">
+        {% endif %}
+    </div>
+
+    <div class="infos">
+        <p>nom de scene : {{ artiste[16] }}</p>
+        <p>mail : {{ artiste[2] }}</p>
+        <p>telephone : {{ artiste[1] }}</p>
+        <p>date de naissance : {{ artiste[5] }}</p>
+        <p>lieu de naissance : {{ artiste[6] }}</p>
+        <p>adresse : {{ artiste[7] }}</p>
+        <p>numéro de securite sociale : {{ artiste[8] }}</p>
+        <p>cni : {{ artiste[10] }}</p>
+        <p>date de delivrance du cni : {{ artiste[11] }}</p>
+        <p>date expiration_cni : {{ artiste[12] }}</p>
+        <p>carte reduction : {{ artiste[13] }}</p>
+    </div>
+
 </div>
 <div>
     <a href="{{ url_for('supprimer_artiste', nom_artiste=artiste[3]) }}">supprimer l'artiste</a>
