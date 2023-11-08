@@ -14,7 +14,8 @@ CREATE TABLE Logement (
   id_logement INT PRIMARY KEY NOT NULL,
   adresse_ville_codepostal VARCHAR(42),
   nom_etablissement VARCHAR(42),
-  nb_etoile INT
+  nb_etoile INT,
+  photo LONGBLOB
 );
 
 
@@ -36,6 +37,7 @@ CREATE TABLE Artiste (
   id_style_musique INT,
   photo_artiste LONGBLOB,
   nom_scene VARCHAR(42),
+  photo LONGBLOB,
   FOREIGN KEY (id_style_musique) REFERENCES Style_musique (id_style_musique)
 );
 
@@ -48,12 +50,10 @@ CREATE TABLE Jouer (
   FOREIGN KEY (id_artiste) REFERENCES Artiste (id_artiste)
 );
 
-
 CREATE TABLE Type_Salle (
   id_type INT PRIMARY KEY NOT NULL,
   type_place_s VARCHAR(42) UNIQUE
 );
-
 
 CREATE TABLE Salle (
   id_salle INT PRIMARY KEY NOT NULL,
@@ -66,7 +66,7 @@ CREATE TABLE Salle (
   description_salle VARCHAR(42),
   adresse_salle VARCHAR(42),
   telephone_salle VARCHAR(42),
-  photo_salle LONGBLOB,
+  photo LONGBLOB,
   accueil_pmr VARCHAR(42),
   FOREIGN KEY (id_type_salle) REFERENCES Type_Salle (id_type)
 );
