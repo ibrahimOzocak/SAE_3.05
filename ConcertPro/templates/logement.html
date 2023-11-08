@@ -17,4 +17,7 @@
 <div>
     <a href="{{ url_for('supprimer_logement', id_logement=logement[0]) }}">supprimer le logement</a>
 </div>
+<div>
+    <a href="{{ url_for('modifier_logement', nom_etablissement=logement[2]) }}">modifier le logement</a>
+</div>
 {% endblock %}

@@ -103,6 +103,27 @@ def supprimer_concert(id):
     mo.remove_concert(id)
     return redirect(url_for('accueil'))
 
+@app.route('/concert/<nom>/modifier')
+def modifier_concert(nom):
+    """modifier le concert <nom>"""
+    concert = mo.get_logement(nom)
+    return render_template(
+        "modifier_concert.html",
+        concert=concert
+    )
+
+@app.route('/traiter_formulaire/<id_concert>/<nom_concert>', methods=("POST",))
+def confirmer_modif_concert(id_concert, nom_concert):
+    """sauvegarde d'un concert"""
+    nom_concert= request.form['nom_concert']
+    date_heure_concert = request.form['date_heure_concert']
+    duree_concert = request.form['duree_concert']
+    description_concert = request.form['description_concert']
+    
+    mo.confirmer_modif_concert(nom_concert, date_heure_concert, duree_concert, description_concert)
+    
+    return redirect(url_for('concert', nom=nom_concert))
+
 # salle
 @app.route('/ajout_nouvelle_salle')
 def ajout_nouvelle_salle():
@@ -197,6 +218,7 @@ def voir_artistes():
             "error.html",
             error_message="An error occurred while retrieving data from the database."
         )
+    
 
 @app.route('/artiste/<id_artiste>')
 def artiste(id_artiste):
@@ -205,6 +227,59 @@ def artiste(id_artiste):
     return render_template(
         "artiste.html",
         artiste=artiste
+    )
+
+@app.route('/traiter_formulaire/<id_artiste>/<nom_artiste>', methods=("POST",))
+def confirmer_modif_artiste(id_artiste, nom_artiste):
+    """sauvegarde d'un artiste"""
+    
+    nom_de_scene = request.form['nom_de_scene']
+    mail = request.form['mail']
+    telephone = request.form['telephone']
+    date_de_naissance = request.form['date_de_naissance']
+    lieu_de_naissance = request.form['lieu_de_naissance']
+    adresse = request.form['adresse']
+    numero_secu_sociale = request.form['numero_secu_sociale']
+    cni = request.form['cni']
+    date_delivrance_cni = request.form['date_delivrance_cni']
+    date_expiration_cni = request.form['date_expiration_cni']
+    carte_reduction = request.form['carte_de_reduction']
+    
+    mo.confirmer_modif_artiste(id_artiste, nom_artiste, nom_de_scene, mail, telephone, date_de_naissance, lieu_de_naissance,
+        adresse, numero_secu_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction)
+    
+    return redirect(url_for('artiste', nom_artiste=nom_artiste))
+
+@app.route('/traiter_formulaire/<id_salle>/<nom_salle>', methods=("POST",))
+def confirmer_modif_salle(id_salle, nom_salle):
+    """sauvegarde d'un artiste"""
+    
+    description = request.form['description_salle']
+    loge = request.form['loge']
+    nombre_place = request.form['nb_places']
+    adresse = request.form['adresse_salle']
+    telephone = request.form['telephone_salle']
+    profondeur_scene = request.form['profondeur_scene']
+    longueur_scene = request.form['longueur_scene']
+    
+    return redirect(url_for('salle', nom_salle=nom_salle))
+    
+@app.route('/artiste/<nom_artiste>/modifier')
+def modifier_artiste(nom_artiste):
+    """page de l'artiste <nom_artiste>"""
+    artiste = mo.get_artiste(nom_artiste)
+    return render_template(
+        "modifier_artiste.html",
+        artiste=artiste
+    )
+
+@app.route('/salle/<nom_salle>/modifier')
+def modifier_salle(nom_salle):
+    """page de la salle <nom_salle>"""
+    salle = mo.get_salle(nom_salle)
+    return render_template(
+        "modifier_salle.html",
+        salle=salle
     )
 
 @app.route('/save_artiste', methods=("POST",))
@@ -318,3 +393,22 @@ def calendrier_semaine_suivante(jour_actuel = datetime.datetime.now()):
         jour_actuel = datetime.datetime.strptime(jour_actuel, "%d-%m-%Y")
     jour = jour_actuel + datetime.timedelta(days=7)
     return redirect(url_for('calendrier', jour=jour.strftime("%d-%m-%Y")))
+
+@app.route('/logement/<nom_etablissement>/modifier')
+def modifier_logement(nom_etablissement):
+    """page de l'artiste <nom_etablissement>"""
+    logement = mo.get_logement(nom_etablissement)
+    return render_template(
+        "modifier_logement.html",
+        logement=logement
+    )
+
+@app.route('/modif_logement/<id_logement>/<nom_etablissement>', methods=("POST",))
+def confirmer_modif_logement(id_logement, nom_etablissement):
+    """sauvegarde d'un logement"""
+    adresse = request.form['adresse']
+    nb_etoile = request.form['nb_etoiles']
+
+    mo.confirmer_modif_logement(id_logement, nom_etablissement, adresse, nb_etoile)
+    
+    return redirect(url_for('logement', nom_etablissement=nom_etablissement))

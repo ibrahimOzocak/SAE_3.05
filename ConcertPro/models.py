@@ -270,6 +270,29 @@ def get_id_logement_max():
         print(e.args)
     return None
 
+def confirmer_modif_artiste(id_artiste, nom_artiste, nom_de_scene, mail, telephone, date_de_naissance, lieu_de_naissance,
+        adresse, numero_secu_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction):
+    try:
+        cursor = get_cursor()
+        requete = f"UPDATE Artiste SET telephone = %s, mail = %s,nom_artiste = %s,date_de_naissance = %s,lieu_naissance = %s,adresse = %s,securite_sociale = %s,cni = %s,date_delivrance_cni = %s,date_expiration_cni = %s,carte_reduction = %s,nom_scene = %s WHERE id_artiste = %s"
+        execute_query(cursor, requete, (telephone, mail, nom_artiste, date_de_naissance, lieu_de_naissance, adresse, numero_secu_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction, nom_de_scene,id_artiste))
+        db.commit()
+        close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+    return None
+
+def confirmer_modif_logement(id_logement, nom_etablissement, adresse, nb_etoile):
+    try:
+        cursor = get_cursor()
+        requete = f"UPDATE Logement SET nom_etablissement = %s,adresse_ville_codepostal = %s,nb_etoile = %s WHERE id_logement = %s"
+        execute_query(cursor, requete, (nom_etablissement, adresse, nb_etoile, id_logement))
+        db.commit()
+        close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+    return None
+
 def remove_concert(id):
     try:
         # suppression dans avoir
