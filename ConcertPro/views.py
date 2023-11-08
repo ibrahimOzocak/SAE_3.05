@@ -365,3 +365,24 @@ def calendrier_semaine_suivante(jour_actuel = datetime.datetime.now()):
         jour_actuel = datetime.datetime.strptime(jour_actuel, "%d-%m-%Y")
     jour = jour_actuel + datetime.timedelta(days=7)
     return redirect(url_for('calendrier', jour=jour.strftime("%d-%m-%Y")))
+
+@app.route('/logement/<nom_etablissement>/modifier')
+def modifier_logement(nom_etablissement):
+    """page de l'artiste <nom_etablissement>"""
+    logement = mo.get_logement(nom_etablissement)
+    return render_template(
+        "modifier_logement.html",
+        logement=logement
+    )
+
+@app.route('/traiter_formulaire/<id_logement>/<nom_etablissement>', methods=("POST",))
+def confirmer_modif_logement(id_logement, nom_etablissement):
+    """sauvegarde d'un logement"""
+    
+    
+    adresse = request.form['adresse_ville_codepostal']
+    nb_etoile = request.form['nb_etoile']
+    
+    mo.confirmer_modif_artiste(id_logement, nom_etablissement,adresse, nb_etoile)
+    
+    return redirect(url_for('logement', nom_etablissement=nom_etablissement))
