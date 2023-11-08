@@ -32,19 +32,20 @@
         </li>
       </ul>
     </header>
-    <main>
+    <main class="main">
       {% block content %}
       {% endblock %}
+      <footer>
+        <ul>
+          <li>SEVELLEC Maxime (Chef de projet)</li>
+          <li>BRISSET Leo</li>
+          <li>ÖZOCAK Ibrahim</li>
+          <li>MENJIKOFF-GUILLOT Noa</li>
+          <li>ROUSSELET Juliette</li>
+        </ul>
+      </footer >
     </main>
-    <footer>
-      <ul class="ul_base">
-        <li class="li_base">SEVELLEC Maxime (Chef de projet)</li>
-        <li class="li_base">BRISSET Leo</li>
-        <li class="li_base">ÖZOCAK Ibrahim</li>
-        <li class="li_base">MENJIKOFF-GUILLOT Noa</li>
-        <li class="li_base">ROUSSELET Juliette</li>
-      </ul>
-    </footer>
+
     {% block scripts %}
       <!-- Optional JavaScript -->
     {% endblock %}

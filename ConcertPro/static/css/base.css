@@ -11,6 +11,7 @@ body{
 
 footer{
     background-color: gray;
+
 }
 
 #navbar{
@@ -18,21 +19,59 @@ footer{
     
 }
 
+
+
+.deroulant{
+    width: 50px;
+    margin: 20px;
+}
+
+.animation{
+    rotate: 180deg;
+    transition: all 0.5s ease-in-out;
+}
+
+.animationr{
+    rotate: -180deg;
+    transition: all 0.5s ease-in-out;
+}
+
 a{
     text-decoration: none;
 }
 
 .ul_base{
-    display: flex;
     list-style: none;
+    padding: 0;
+}
+
+.flex{
+    transform: translateX(0%);
+    transition: all 0.5s ease-in-out;
+}
+
+.mobile-menu{
+    transform: translateX(-110%);
+    transition: all 0.5s ease-in-out;
+}
+
+.logo{
     position: absolute;
     right: 0;
-    margin-right: 20px;
+}
 
+.nav{
+    position: absolute;
+    width: 50vw;
+    backdrop-filter: blur(7px);
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    display: flex;
 }
 
 .li_base{
-    margin-left: 50px;
+    margin: 50px;
     position: relative;
 }
 
@@ -41,19 +80,9 @@ a{
     font-weight: bold;
 }
 
-
-.ul_base{
-    list-style: none;
-    display: flex;
-    position: absolute;
-    right: 0;
-    margin-top: 20px;
-  }
-  
   .li_base a{
     color: black;
   }
-  
 
 #navbar>img{
     width: 100px;
@@ -66,7 +95,6 @@ header{
     color: black;
     padding: 100;
 }
-
 
 #menu-demo2, #menu-demo2 ul{
     padding:0;
