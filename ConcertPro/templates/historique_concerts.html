@@ -5,11 +5,15 @@
 {% endblock %}
 {% block content %}
 <div class="conteneur">
-    {% for concert in concerts %}
+    {% for i in range (concerts|length) %}
     <div class="div_proc">
-        <a href="{{ url_for('concert', nom=concert[1]) }}">
-            <img src="{{ url_for('static', filename='images/banniere.jpeg')}}" alt="" width=10% height=10%/>
-            <p>{{ concert[1] }} </p>
+        <a href="{{ url_for('concert', nom=concerts[i][1]) }}">
+            {% if concerts[i][-1] is none %}
+            <img class="img_acc"  src="{{ url_for('static', filename='images/aucune_image.png') }}" alt="img">
+            {% else %}
+            <img class="img_acc" src="{{ url_for('static', filename='images/concerts/' + concerts[i][0]|str + '.jpg') }}" alt="img">
+            {% endif %}
+            <p>{{ concerts[i][1] }}</p>
         </a>
     </div>
     {% endfor %}

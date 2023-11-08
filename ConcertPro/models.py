@@ -39,14 +39,14 @@ def prochains_concerts():
     except Exception as e:
         print(e.args)
 
-def save_image(chemin_img):
+def save_image(chemin_img, id_value, table):
     try:
         cursor = get_cursor()
         with open(chemin_img, 'rb') as image_file:
             image_data = image_file.read()
 
-        update_query = "UPDATE Concert SET photo = %s WHERE id_concert = %s"
-        execute_query(cursor, update_query, (image_data, 1))
+        update_query = f"UPDATE {table} SET photo = {image_data} WHERE id_concert = {id_value}"
+        execute_query(cursor, update_query)
         close_cursor(cursor)
         db.commit()
         return "Image sauvegardée avec succès"
@@ -54,7 +54,9 @@ def save_image(chemin_img):
         return "Erreur lors de la sauvegarde de l'image"
 
 if __name__ == '__main__':
-    save_image("/home/iut45/Etudiants/o22202357/WinHome/analyse/Diagramme_de_cas_dutilisations.png")
+    save_image("/home/iut45/Etudiants/o22202357/Bureau/images.jpeg", 1, "Concert")
+    save_image("/home/iut45/Etudiants/o22202357/Bureau/images2.jpeg", 2, "Concert")
+    save_image("/home/iut45/Etudiants/o22202357/Bureau/images4.png", 3, "Concert")
 
 def get_image(id_concert):
     if id_concert is None:
@@ -139,18 +141,20 @@ def get_id_type_salles(nom):
     return None
 
 def historique_concerts():
-    prochains_concerts = []
+    historique_concerts = []
     try:
         cursor = get_cursor()
         requete = "SELECT * FROM Concert where date_heure_concert < NOW()"
         cursor.execute(requete)
         info = cursor.fetchall()
         for i in info:
-            prochains_concerts.append(i)
+            historique_concerts.append(i)
+            if i[-1] is not None:
+                get_image(int(i[0]))
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
-    return prochains_concerts
+    return historique_concerts
 
 def concerts():
     concerts = []
