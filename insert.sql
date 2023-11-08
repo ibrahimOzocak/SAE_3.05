@@ -47,9 +47,9 @@ INSERT INTO Salle (id_salle, id_type_salle, loge, nom_salle, nb_places, profonde
 
 -- Insertion dans la table Concert
 INSERT INTO Concert (id_concert, nom_concert, date_heure_concert, duree_concert, id_artiste, id_salle, description_concert, photo) VALUES
-(1, 'Concert Rock', '2023-11-15 20:00:00', 120, 1, 1, "concert", NULL),
-(2, 'Concert Pop', '2023-12-10 19:30:00', 90, 2, 2, "concert", NULL),
-(3, 'Concert Rap', '2022-12-10 19:30:00', 100, 2, 2, "concert", NULL);
+(1, 'Concert Rock', '2023-11-15 20:00:00', 120, 1, 1, "Un festival de sons électrisants vous attend. Joignez-vous à nous pour une nuit de musique inoubliable !", NULL),
+(2, 'Concert Pop', '2023-12-10 19:30:00', 90, 2, 2, "Plongez dans un océan de mélodies envoûtantes lors de notre concert exceptionnel. Réservez vos billets dès maintenant !", NULL),
+(3, 'Concert Rap', '2022-12-10 19:30:00', 100, 2, 2, "Soyez prêt à vibrer au rythme des hits avec une line-up exceptionnelle. Un concert incontournable pour les amoureux de la musique !", NULL);
 
 -- Insertion dans la table Avoir
 INSERT INTO Avoir (id_salle, id_concert, plan_feu, installation, FOH, backline, retour) VALUES
