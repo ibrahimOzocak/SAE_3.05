@@ -16,8 +16,15 @@
             <input type="text" name="titre"/> 
             <label for="place">Nombre de place</label>
             <input type="text" name="place"/> 
-            <label for="typeplace">Type de place</label>
-            <input type="text" name="typeplace"/> 
+            <section class="section_creer sec3">
+                <label for="typeplace">Type de salle</label>
+                <select name="artiste">
+                    {% for type_salle in types %}
+                    <option>{{ type_salle[0] }}</option>
+                    {% endfor %}
+                </select>
+                <a><button type="button">Creer un nouveau type</button></a>
+            </section> 
             <label for="profondeur">Profondeur de la scene</label>
             <input type="text" name="profondeur"/> 
             <label for="largeur">Longeur de la scene</label>
