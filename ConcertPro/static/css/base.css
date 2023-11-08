@@ -11,6 +11,7 @@ body{
 
 footer{
     background-color: gray;
+
 }
 
 #navbar{
@@ -18,21 +19,59 @@ footer{
     
 }
 
+
+
+.deroulant{
+    width: 50px;
+    margin: 20px;
+}
+
+.animation{
+    rotate: 180deg;
+    transition: all 0.5s ease-in-out;
+}
+
+.animationr{
+    rotate: -180deg;
+    transition: all 0.5s ease-in-out;
+}
+
 a{
     text-decoration: none;
 }
 
 .ul_base{
-    display: flex;
     list-style: none;
+    padding: 0;
+}
+
+.flex{
+    transform: translateX(0%);
+    transition: all 0.5s ease-in-out;
+}
+
+.mobile-menu{
+    transform: translateX(-110%);
+    transition: all 0.5s ease-in-out;
+}
+
+.logo{
     position: absolute;
     right: 0;
-    margin-right: 20px;
+}
 
+.nav{
+    position: absolute;
+    width: 50vw;
+    backdrop-filter: blur(7px);
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    display: flex;
 }
 
 .li_base{
-    margin-left: 50px;
+    margin: 50px;
     position: relative;
 }
 
@@ -41,32 +80,9 @@ a{
     font-weight: bold;
 }
 
-
-.ul_base{
-    list-style: none;
-    display: flex;
-    position: absolute;
-    right: 0;
-    margin-top: 20px;
-  }
-  
   .li_base a{
     color: black;
   }
-  
-   .li_base::before {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    height: 2px;
-    width: 100%;
-    background: black;
-    transform: scale(0, 0);
-    transition: 0.5s ease;
-  } 
-  .li_base:hover::before {
-    transform: scale(1, 1);
-  } 
 
 #navbar>img{
     width: 100px;
@@ -79,3 +95,95 @@ header{
     color: black;
     padding: 100;
 }
+
+#menu-demo2, #menu-demo2 ul{
+    padding:0;
+    margin:0;
+    list-style:none;
+    text-align:center;
+    }
+    #menu-demo2 li{
+    display:inline-block;
+    position:relative;
+    }
+    #menu-demo2 ul li{
+    display:inherit;
+    border-radius:0;
+    }
+    #menu-demo2 ul li:hover{
+    border-radius:0;
+    }
+    #menu-demo2 ul li:last-child{
+    border-radius:0 0 8px 8px;
+    }
+    #menu-demo2 ul{
+    position:absolute;
+    z-index: 1000;
+    max-height:0;
+    left: 0;
+    right: 0;
+    overflow:hidden;
+    -moz-transition: .8s all .3s;
+    -webkit-transition: .8s all .3s;
+    transition: .8s all .3s;
+    }
+    #menu-demo2 li:hover ul{
+    max-height:15em;
+    }
+    /* background des liens menus
+    #menu-demo2 li:first-child{
+    background-color: #65537A;
+    background-image:-webkit-linear-gradient(top, #65537A 0%, #2A2333 100%);
+    background-image:linear-gradient(to bottom, #65537A 0%, #2A2333 100%);
+    }
+    #menu-demo2 li:nth-child(2){
+    background-color: #729EBF;
+    background-image: -webkit-linear-gradient(top, #729EBF 0%, #333A40 100%);
+    background-image:linear-gradient(to bottom, #729EBF 0%, #333A40 100%);
+    }
+
+    #menu-demo2 li:last-child{
+    background-color: #CFFF6A;
+    background-image:-webkit-linear-gradient(top, #CFFF6A 0%, #677F35 100%);
+    background-image:linear-gradient(to bottom, #CFFF6A 0%, #677F35 100%);
+    } */
+    /* background des liens sous menus */
+    #menu-demo2 li:first-child li{
+    background:black;
+    }
+    #menu-demo2 li:nth-child(2) li{
+    background:black;
+    }
+
+    #menu-demo2 li:last-child li{
+    background:black;
+    }
+    /* background des liens menus et sous menus au survol */
+    #menu-demo2 li:first-child:hover, #menu-demo2 li:first-child li:hover{
+    background:grey;
+    }
+    #menu-demo2 li:nth-child(2):hover, #menu-demo2 li:nth-child(2) li:hover{
+    background:grey;
+    }
+
+    #menu-demo2 li:last-child:hover, #menu-demo2 li:last-child li:hover{
+    background:grey;
+    }
+    /* les a href */
+    #menu-demo2 a{
+    text-decoration:none;
+    display:block;
+    padding:8px 70px;
+    color:black;
+    font-family:arial;
+    }
+    #menu-demo2 ul a{
+    padding:8px 0;
+    }
+    #menu-demo2 li:hover li a{
+    color:#fff;
+    text-transform:inherit;
+    }
+    #menu-demo2 li:hover a, #menu-demo2 li li:hover a{
+    color:#000;
+    }

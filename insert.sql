@@ -33,12 +33,17 @@ INSERT INTO Jouer (id_artiste, id_style_musique) VALUES
 INSERT INTO Type_Salle (id_type, type_place_s) VALUES
 (1, 'Salle de concert'),
 (2, 'Théâtre'),
-(3, 'Salle polyvalente');
+(3, 'Salle polyvalente'),
+(4, 'Scéne de musique');
 
 -- Insertion dans la table Salle
-INSERT INTO Salle (id_salle, id_type_salle, loge, nom_salle, nb_places, profondeur_scene, longueur_scene, description_salle, adresse_salle, telephone_salle, photo, accueil_pmr) VALUES
-(1, 1, 'Oui', 'Salle de Concert A', 500, 10, 20, 'Salle de concert moderne', '123 Main St, Paris', '555-111-2222', NULL, 'Oui'),
-(2, 2, 'Non', 'Théâtre B', 300, 8, 15, 'Théâtre classique', '456 Elm St, Marseille', '555-333-4444', NULL, 'Non');
+INSERT INTO Salle (id_salle, id_type_salle, loge, nom_salle, nb_places, profondeur_scene, longueur_scene, description_salle, adresse_salle, telephone_salle, photo_salle, accueil_pmr) VALUES
+(1, 1, 'Oui', 'Marché Gare', 414, NULL, NULL, 'Le Marché Gare à Lyon est une salle de concert et un lieu culturel de taille plus modeste et intime.', '4 Place Hubert Mounier Lyon', '04 72 40 97 13', NULL, 'Oui'),
+(2, 3, 'Non', 'Halle Tony Garnier', 20000, NULL, NULL, "La Halle Tony Garnier à Lyon est l'une des plus grandes salles de spectacles polyvalentes en France.", '20 Place Dr Charles et Christophe Mérieu 69007 Lyon', '04 72 76 85 85', NULL, 'Oui'),
+(3, 3, 'Non', 'Toï ToÏ le Zinc', 200, NULL, NULL, "Toï Toï le Zinc à Villeurbanne est un espace culturel polyvalent qui peut accueillir une variété d'événements artistiques et culturels", '17-19 rue Marcel Dutartre 69100 Villeurbanne', '09 51 90 85 04', NULL, NULL),
+(4, 3, 'Oui', "L'amphithéatre (Salle 3000)", 4500, NULL, NULL, "L'Amphithéâtre (Salle 3000) à Lyon est une salle de concert et un espace événementiel de grande envergure.", '80 Quai Charles de Gaulle, 69006 Lyon', '04 72 82 26 26', NULL, NULL),
+(5, 4, 'Oui', 'Epicerie Moderne', 750, NULL, NULL, 'Gérée par une association, cette salle modulable accueille des concerts variés et propose des expositions.', 'place René Lescot 69320 Feyzin', '04 72 89 98 70', NULL, NULL);
+
 
 -- Insertion dans la table Concert
 INSERT INTO Concert (id_concert, nom_concert, date_heure_concert, duree_concert, id_artiste, id_salle, description_concert, photo) VALUES
