@@ -393,13 +393,12 @@ def modifier_logement(nom_etablissement):
         logement=logement
     )
 
-@app.route('/traiter_formulaire/<id_logement>/<nom_etablissement>', methods=("POST",))
+@app.route('/modif_logement/<id_logement>/<nom_etablissement>', methods=("POST",))
 def confirmer_modif_logement(id_logement, nom_etablissement):
     """sauvegarde d'un logement"""
-    
-    
-    adresse = request.form['adresse_ville_codepostal']
-    nb_etoile = request.form['nb_etoile']
+    adresse = request.form['adresse']
+    nb_etoile = request.form['nb_etoiles']
 
+    mo.confirmer_modif_logement(id_logement, nom_etablissement, adresse, nb_etoile)
     
     return redirect(url_for('logement', nom_etablissement=nom_etablissement))

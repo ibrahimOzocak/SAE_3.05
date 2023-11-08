@@ -282,6 +282,17 @@ def confirmer_modif_artiste(id_artiste, nom_artiste, nom_de_scene, mail, telepho
         print(e.args)
     return None
 
+def confirmer_modif_logement(id_logement, nom_etablissement, adresse, nb_etoile):
+    try:
+        cursor = get_cursor()
+        requete = f"UPDATE Logement SET nom_etablissement = %s,adresse_ville_codepostal = %s,nb_etoile = %s WHERE id_logement = %s"
+        execute_query(cursor, requete, (nom_etablissement, adresse, nb_etoile, id_logement))
+        db.commit()
+        close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+    return None
+
 def remove_concert(nom):
     concert = get_concert(nom)
     try:
