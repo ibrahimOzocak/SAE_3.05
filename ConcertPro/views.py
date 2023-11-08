@@ -35,7 +35,8 @@ def creer_concert():
     return render_template(
         "creer_concert.html",
         artistes=mo.artistes(),
-        salles=mo.salles()
+        salles=mo.salles(),
+        types=mo.type_salle()
     )
 
 @app.route('/voir_prochains_concerts')
@@ -44,8 +45,7 @@ def voir_prochains_concerts():
     return render_template(
         "voir_prochains_concerts.html",
         concerts=mo.prochains_concerts()
-    )
-    
+    ) 
 
 @app.route('/historique_concert')
 def historique_concerts():
