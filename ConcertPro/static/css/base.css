@@ -140,25 +140,25 @@ header{
     } */
     /* background des liens sous menus */
     #menu-demo2 li:first-child li{
-    background:#2A2333;
+    background:black;
     }
     #menu-demo2 li:nth-child(2) li{
-    background:#333A40;
+    background:black;
     }
 
     #menu-demo2 li:last-child li{
-    background:#677F35;
+    background:black;
     }
     /* background des liens menus et sous menus au survol */
     #menu-demo2 li:first-child:hover, #menu-demo2 li:first-child li:hover{
-    background:#65537A;
+    background:grey;
     }
     #menu-demo2 li:nth-child(2):hover, #menu-demo2 li:nth-child(2) li:hover{
-    background:#729EBF;
+    background:grey;
     }
 
     #menu-demo2 li:last-child:hover, #menu-demo2 li:last-child li:hover{
-    background:#CFFF6A;
+    background:grey;
     }
     /* les a href */
     #menu-demo2 a{
