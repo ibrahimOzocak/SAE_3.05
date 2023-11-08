@@ -19,13 +19,17 @@
         <p>date : {{ concert[2] }}</p>
         <p>duree : {{ concert[3] }} minutes</p>
         <p>id artiste : {{ concert[4] }}</p>
-        <p>id salle : {{ concert[5] }}</p>
+        <p>Nom de la salle : {{ concert[5] }}</p>
+        <p>Description : {{ concert[6] }}</p>
     </div>
 </div>
 <div class="bouton">
     {% if concert is not none %}
         <a href="{{ url_for('supprimer_concert', nom=concert[1]) }}" class="supprimer">supprimer le concert</a>
     {% endif %}
+</div>
+<div>
+    <a href="{{ url_for('modifier_concert', nom=concert[1]) }}">modifier le concert</a>
 </div>
 
 {% endblock %}
