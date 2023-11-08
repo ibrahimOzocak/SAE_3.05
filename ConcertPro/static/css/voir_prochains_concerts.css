@@ -18,3 +18,9 @@
     border-radius: 10px;
     height: 30vh;
 }
+
+a{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
