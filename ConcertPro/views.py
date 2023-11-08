@@ -66,33 +66,41 @@ def save_concert():
     heure_duree = datetime.datetime.strptime(request.form['duree'], "%H:%M").time().hour
     minute_duree = datetime.datetime.strptime(request.form['duree'], "%H:%M").time().minute
     duree_concert = heure_duree*60 + minute_duree
-    id_artiste = mo.get_artiste(request.form['artiste'])[0]
-    id_salle = mo.get_salle(request.form['salle'])[0]
+    id_artiste = request.form['artiste']
+    id_salle = request.form['salle']
     description_concert = request.form['description']
-    photo = "test.png"
+    id = mo.get_id_concert_max()+1
+    i = 0
+    chaine_description = ""
+    while i < len(description_concert):
+        if description_concert[i] == "'":
+            chaine_description += "\\'"
+        else:
+            chaine_description += description_concert[i]
+        i += 1
     try:
         cursor = mo.get_cursor()
-        req = "INSERT INTO Concert (id_concert, nom_concert, date_heure_concert, duree_concert, id_artiste, id_salle, description_concert, photo) VALUES("+str(mo.get_id_concert_max()+1)+", '" + str(nom_concert) + "', '" + str(date_heure_concert) + "', " + str(duree_concert) + ", " + str(id_artiste) + ", " + str(id_salle) + ", '" + str(description_concert) + "', '" + str(photo) + "')"
+        req = "INSERT INTO Concert (id_concert, nom_concert, date_heure_concert, duree_concert, id_artiste, id_salle, description_concert) VALUES("+str(id)+", '" + str(nom_concert) + "', '" + str(date_heure_concert) + "', " + str(duree_concert) + ", " + str(id_artiste) + ", " + str(id_salle) + ", '" + str(chaine_description) + "')"
         cursor.execute(req)
         mo.db.commit()
         mo.close_cursor(cursor)
     except Exception as e:
         print(e.args)
-    return redirect(url_for('concert', nom=nom_concert))
+    return redirect(url_for('concert', id=id))
 
-@app.route('/concert/<nom>')
-def concert(nom):
-    """page pour le concert <nom>"""
-    concert = mo.get_concert(nom)
+@app.route('/concert/<id>')
+def concert(id):
+    """page pour le concert <id>"""
+    concert = mo.get_concert(id)
     return render_template(
         "concert.html",
         concert=concert
     )
 
-@app.route('/concert/<nom>/supprimer')
-def supprimer_concert(nom):
-    """supprime le concert <nom>"""
-    mo.remove_concert(nom)
+@app.route('/concert/<id>/supprimer')
+def supprimer_concert(id):
+    """supprime le concert <id>"""
+    mo.remove_concert(id)
     return redirect(url_for('accueil'))
 
 @app.route('/concert/<nom>/modifier')
@@ -133,14 +141,15 @@ def voir_salles():
             salles=mo.salles()
         )
 
-@app.route('/salle/<nom>')
-def salle(nom):
-    """page pour la salle <nom>"""
-    salle = mo.get_salle(nom)
+@app.route('/salle/<id>')
+def salle(id):
+    """page pour la salle <id>"""
+    salle = mo.get_salle(id)
     return render_template(
         "salle.html",
         salle=salle
     )
+
 
 @app.route('/save_salle', methods=("POST",))
 def save_salle():
@@ -154,7 +163,6 @@ def save_salle():
     telephone_salle = request.form['telephone']
     code_postal_salle = request.form['postalville']
     type_place = request.form['typeplace']
-    photo = "test.png"
     adresse_salle = adresse_salle + ", " + code_postal_salle
     loge = ""
     acces_pmr = ""
@@ -167,20 +175,21 @@ def save_salle():
         loge = "non"
     if acces_pmr == "":
         acces_pmr = "non"
+    id = mo.get_id_salle_max()+1
     try:
         cursor = mo.get_cursor()
-        req = "INSERT INTO Salle (id_salle, id_type_salle, loge, nom_salle, nb_places, profondeur_scene, longueur_scene, description_salle,adresse_salle,telephone_salle, accueil_pmr) VALUES("+str(mo.get_id_salle_max()+1) + "," + str(mo.get_id_type_salles(type_place)) + ", '" + str(loge) + "', '" + str(nom_salle) + "', " + str(nb_places) + ", " + str(profondeur_scene) + ", " + str(longueur_scene) + ", '" + str(description_salle) + "', '" + str(adresse_salle) + "', '" + str(telephone_salle) +  "', '" + str(acces_pmr) + "')"
+        req = "INSERT INTO Salle (id_salle, id_type_salle, loge, nom_salle, nb_places, profondeur_scene, longueur_scene, description_salle,adresse_salle,telephone_salle, accueil_pmr) VALUES("+str(id) + "," + str(mo.get_id_type_salles(type_place)) + ", '" + str(loge) + "', '" + str(nom_salle) + "', " + str(nb_places) + ", " + str(profondeur_scene) + ", " + str(longueur_scene) + ", '" + str(description_salle) + "', '" + str(adresse_salle) + "', '" + str(telephone_salle) +  "', '" + str(acces_pmr) + "')"
         cursor.execute(req)
         mo.db.commit()
         mo.close_cursor(cursor)
     except Exception as e:
         print(e.args)
-    return redirect(url_for('salle', nom=nom_salle))
+    return redirect(url_for('salle', id=id))
 
-@app.route('/salle/<nom>/supprimer')
-def supprimer_salle(nom):
-    """supprime la salle <nom>"""
-    mo.remove_salle(nom)
+@app.route('/salle/<id>/supprimer')
+def supprimer_salle(id):
+    """supprime la salle <id>"""
+    mo.remove_salle(id)
     return redirect(url_for('accueil'))
 
 # artiste
@@ -211,10 +220,10 @@ def voir_artistes():
         )
     
 
-@app.route('/artiste/<nom_artiste>')
-def artiste(nom_artiste):
-    """page de l'artiste <nom_artiste>"""
-    artiste = mo.get_artiste(nom_artiste)
+@app.route('/artiste/<id_artiste>')
+def artiste(id_artiste):
+    """page de l'artiste <id_artiste>"""
+    artiste = mo.get_artiste(id_artiste)
     return render_template(
         "artiste.html",
         artiste=artiste
@@ -288,27 +297,28 @@ def save_artiste():
     date_delivrance_cni = datetime.datetime.strptime(request.form['date_delivrance'], "%Y-%m-%d")
     date_expiration_cni = datetime.datetime.strptime(request.form['date_expiration'], "%Y-%m-%d")
     carte_reduction = request.form['carte_train']
+    id_artiste = mo.get_id_artiste_max()+1
     try:
         cursor = mo.get_cursor()
-        req = "INSERT INTO Artiste (id_artiste, nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_naissance, adresse, securite_social, cni, date_delivrance_cni, date_expiration_cni, carte_reduction) VALUES("+str(mo.get_id_artiste_max()+1)+", '" + str(nom_artiste) + "', '" + str(prenom_artiste) + "', '" + str(mail) + "', '" + str(telephone) + "', '" + str(date_de_naissance) + "', '" + str(lieu_de_naissance) + "', '" + str(adresse) + "', '" + str(securite_sociale) + "', '" + str(cni) + "', '" + str(date_delivrance_cni) + "', '" + str(date_expiration_cni) + "', '" + str(carte_reduction) + "')"
+        req = "INSERT INTO Artiste (id_artiste, nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_naissance, adresse, securite_social, cni, date_delivrance_cni, date_expiration_cni, carte_reduction) VALUES("+str(id_artiste)+", '" + str(nom_artiste) + "', '" + str(prenom_artiste) + "', '" + str(mail) + "', '" + str(telephone) + "', '" + str(date_de_naissance) + "', '" + str(lieu_de_naissance) + "', '" + str(adresse) + "', '" + str(securite_sociale) + "', '" + str(cni) + "', '" + str(date_delivrance_cni) + "', '" + str(date_expiration_cni) + "', '" + str(carte_reduction) + "')"
         cursor.execute(req)
         db.commit()
         mo.close_cursor(cursor)
     except Exception as e:
         print(e.args)
-    return redirect(url_for('artiste', nom_artiste=nom_artiste))
+    return redirect(url_for('artiste', id_artiste=id_artiste))
 
-@app.route('/artiste/<nom_artiste>/supprimer')
-def supprimer_artiste(nom_artiste):
-    """supprime l'artiste <nom_artiste>"""
-    mo.remove_artiste(nom_artiste)
+@app.route('/artiste/<id_artiste>/supprimer')
+def supprimer_artiste(id_artiste):
+    """supprime l'artiste <id_artiste>"""
+    mo.remove_artiste(id_artiste)
     return redirect(url_for('accueil'))
 
 # logement
-@app.route('/logement/<nom_etablissement>')
-def logement(nom_etablissement):
-    """page du logement <nom_etablissement>"""
-    logement = mo.get_logement(nom_etablissement)
+@app.route('/logement/<id_logement>')
+def logement(id_logement):
+    """page du logement <id_logement>"""
+    logement = mo.get_logement(id_logement)
     return render_template(
         "logement.html",
         logement=logement
@@ -337,10 +347,10 @@ def save_logement():
     logement["nb_etoile"] = request.form['Entrer_nbetoiles']
     return redirect(url_for('logement', nom_etablissement=logement["nom_etablissement"]))
 
-@app.route('/logement/<nom_etablissement>/supprimer')
-def supprimer_logement(nom_etablissement):
-    """supprime le logement >nom_etablissement>"""
-    mo.remove_logement(nom_etablissement)
+@app.route('/logement/<id_logement>/supprimer')
+def supprimer_logement(id_logement):
+    """supprime le logement <id_logement>"""
+    mo.remove_logement(id_logement)
     return redirect(url_for('accueil'))
 
 # calendrier

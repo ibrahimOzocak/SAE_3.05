@@ -74,7 +74,7 @@ CREATE TABLE Concert (
   duree_concert INT,
   id_artiste INT,
   id_salle INT,
-  description_concert VARCHAR(100),
+  description_concert VARCHAR(500),
   photo LONGBLOB,
   FOREIGN KEY (id_artiste) REFERENCES Artiste (id_artiste),
   FOREIGN KEY (id_salle) REFERENCES Salle (id_salle)

@@ -19,9 +19,9 @@ INSERT INTO Logement (id_logement, adresse_ville_codepostal, nom_etablissement, 
 (3, 'Lyon 69001', 'Grand Hôtel Lyonnais', 4, NULL);
 
 -- Insertion dans la table Artiste
-INSERT INTO Artiste (id_artiste, telephone, mail, nom_artiste, prenom_artiste, date_de_naissance, lieu_naissance, adresse, securite_sociale, conge_spectacle, cni, date_delivrance_cni, date_expiration_cni, carte_reduction, id_style_musique, photo) VALUES
-(1, '555-123-4567', 'artiste1@example.com', 'John', 'Doe', '1990-05-15', 'New York', '123 Main St', '123-45-6789', 'Oui', 'ABC123456', '2020-01-15', '2025-01-15', 'Réduction1', 1, NULL),
-(2, '555-987-6543', 'artiste2@example.com', 'Jane', 'Smith', '1985-08-20', 'Los Angeles', '456 Elm St', '987-65-4321', 'Non', 'XYZ987654', '2019-06-10', '2024-06-10', 'Réduction2', 2, NULL);
+INSERT INTO Artiste (id_artiste, telephone, mail, nom_artiste, prenom_artiste, date_de_naissance, lieu_naissance, adresse, securite_sociale, conge_spectacle, cni, date_delivrance_cni, date_expiration_cni, carte_reduction, id_style_musique,photo_artiste,nom_scene) VALUES
+(1, '555-123-4567', 'artiste1@example.com', 'John', 'Doe', '1990-05-15', 'New York', '123 Main St', '123-45-6789', 'Oui', 'ABC123456', '2020-01-15', '2025-01-15', 'Réduction1', 1, NULL,'LeoN'),
+(2, '555-987-6543', 'artiste2@example.com', 'Jane', 'Smith', '1985-08-20', 'Los Angeles', '456 Elm St', '987-65-4321', 'Non', 'XYZ987654', '2019-06-10', '2024-06-10', 'Réduction2', 2, NULL, 'MyG');
 
 -- Insertion dans la table Jouer
 INSERT INTO Jouer (id_artiste, id_style_musique) VALUES
@@ -47,9 +47,9 @@ INSERT INTO Salle (id_salle, id_type_salle, loge, nom_salle, nb_places, profonde
 
 -- Insertion dans la table Concert
 INSERT INTO Concert (id_concert, nom_concert, date_heure_concert, duree_concert, id_artiste, id_salle, description_concert, photo) VALUES
-(1, 'Concert Rock', '2023-11-15 20:00:00', 120, 1, 1, "concert", NULL),
-(2, 'Concert Pop', '2023-12-10 19:30:00', 90, 2, 2, "concert", NULL),
-(3, 'Concert Rap', '2022-12-10 19:30:00', 100, 2, 2, "concert", NULL);
+(1, 'Concert Rock', '2023-11-15 20:00:00', 120, 1, 1, "Un festival de sons électrisants vous attend. Joignez-vous à nous pour une nuit de musique inoubliable !", NULL),
+(2, 'Concert Pop', '2023-12-10 19:30:00', 90, 2, 2, "Plongez dans un océan de mélodies envoûtantes lors de notre concert exceptionnel. Réservez vos billets dès maintenant !", NULL),
+(3, 'Concert Rap', '2022-12-10 19:30:00', 100, 2, 2, "Soyez prêt à vibrer au rythme des hits avec une line-up exceptionnelle. Un concert incontournable pour les amoureux de la musique !", NULL);
 
 -- Insertion dans la table Avoir
 INSERT INTO Avoir (id_salle, id_concert, plan_feu, installation, FOH, backline, retour) VALUES
