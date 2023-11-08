@@ -34,19 +34,19 @@ def prochains_concerts():
         close_cursor(cursor)
         for i in infos:
             if i[-1] is not None:
-                get_image(int(i[0]))
+                get_image(int(i[0]),"concert")
         return infos
     except Exception as e:
         print(e.args)
 
-def save_image(chemin_img, id_value, table):
+def save_image(chemin_img, id_value, table, nom_attribute):
     try:
         cursor = get_cursor()
         with open(chemin_img, 'rb') as image_file:
             image_data = image_file.read()
 
-        update_query = f"UPDATE {table} SET photo = {image_data} WHERE id_concert = {id_value}"
-        execute_query(cursor, update_query)
+        update_query = f"UPDATE {table} SET photo = %s WHERE {nom_attribute} = %s"
+        execute_query(cursor, update_query, (image_data, id_value))
         close_cursor(cursor)
         db.commit()
         return "Image sauvegardée avec succès"
@@ -54,23 +54,27 @@ def save_image(chemin_img, id_value, table):
         return "Erreur lors de la sauvegarde de l'image"
 
 if __name__ == '__main__':
-    save_image("/home/iut45/Etudiants/o22202357/Bureau/images.jpeg", 1, "Concert")
-    save_image("/home/iut45/Etudiants/o22202357/Bureau/images2.jpeg", 2, "Concert")
-    save_image("/home/iut45/Etudiants/o22202357/Bureau/images4.png", 3, "Concert")
+    # save_image("/home/iut45/Etudiants/o22202357/Bureau/images.jpeg", 1, "Concert", "id_concert")
+    # save_image("/home/iut45/Etudiants/o22202357/Bureau/images2.jpeg", 2, "Concert", "id_concert")
+    # save_image("/home/iut45/Etudiants/o22202357/Bureau/images4.png", 3, "Concert", "id_concert")
+    
+    save_image("/home/iut45/Etudiants/o22202357/Bureau/images.jpeg", 1, "Logement", "id_logement")
+    save_image("/home/iut45/Etudiants/o22202357/Bureau/images2.jpeg", 2, "Logement", "id_logement")
+    save_image("/home/iut45/Etudiants/o22202357/Bureau/images4.png", 3, "Logement", "id_logement")
 
-def get_image(id_concert):
-    if id_concert is None:
+def get_image(id_value, repesitory_name):
+    if id_value is None:
         return
     try:
         cursor = get_cursor()
         select_query = "SELECT photo FROM Concert WHERE id_concert = %s"
-        cursor.execute(select_query, (id_concert,))
+        cursor.execute(select_query, (id_value,))
         image_data = cursor.fetchone()[0]
         if image_data is None:
             return
         image = Image.open(BytesIO(image_data))
         image = image.convert('RGB')
-        nom_fichier = "ConcertPro/static/images/concerts/"+str(id_concert)+".jpg"
+        nom_fichier = "ConcertPro/static/images/"+repesitory_name+"/"+str(id_value)+".jpg"
         image.save(nom_fichier)
         close_cursor(cursor)
     except Exception as e:
@@ -150,7 +154,7 @@ def historique_concerts():
         for i in info:
             historique_concerts.append(i)
             if i[-1] is not None:
-                get_image(int(i[0]))
+                get_image(int(i[0]), "concert")
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
@@ -165,6 +169,8 @@ def concerts():
         info = cursor.fetchall()
         for i in info:
             concerts.append(i)
+            if i[-1] is not None:
+                get_image(int(i[0]), "concert")
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
@@ -179,6 +185,8 @@ def salles():
         info = cursor.fetchall()
         for i in info:
             salles.append(i)
+            if i[-1] is not None:
+                get_image(int(i[0]), "salle")
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
@@ -207,6 +215,8 @@ def logements():
         info = cursor.fetchall()
         for i in info:
             logements.append(i)
+            if i[-1] is not None:
+                get_image(i[0], "logement")
         close_cursor(cursor)
     except Exception as e:
         print(e.args)

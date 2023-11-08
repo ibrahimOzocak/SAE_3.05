@@ -19,9 +19,9 @@ INSERT INTO Logement (id_logement, adresse_ville_codepostal, nom_etablissement, 
 (3, 'Lyon 69001', 'Grand Hôtel Lyonnais', 4, NULL);
 
 -- Insertion dans la table Artiste
-INSERT INTO Artiste (id_artiste, telephone, mail, nom_artiste, prenom_artiste, date_de_naissance, lieu_naissance, adresse, securite_sociale, conge_spectacle, cni, date_delivrance_cni, date_expiration_cni, carte_reduction, id_style_musique, photo) VALUES
-(1, '555-123-4567', 'artiste1@example.com', 'John', 'Doe', '1990-05-15', 'New York', '123 Main St', '123-45-6789', 'Oui', 'ABC123456', '2020-01-15', '2025-01-15', 'Réduction1', 1, NULL),
-(2, '555-987-6543', 'artiste2@example.com', 'Jane', 'Smith', '1985-08-20', 'Los Angeles', '456 Elm St', '987-65-4321', 'Non', 'XYZ987654', '2019-06-10', '2024-06-10', 'Réduction2', 2, NULL);
+INSERT INTO Artiste (id_artiste, telephone, mail, nom_artiste, prenom_artiste, date_de_naissance, lieu_naissance, adresse, securite_sociale, conge_spectacle, cni, date_delivrance_cni, date_expiration_cni, carte_reduction, id_style_musique,photo_artiste,nom_scene) VALUES
+(1, '555-123-4567', 'artiste1@example.com', 'John', 'Doe', '1990-05-15', 'New York', '123 Main St', '123-45-6789', 'Oui', 'ABC123456', '2020-01-15', '2025-01-15', 'Réduction1', 1, NULL,'LeoN'),
+(2, '555-987-6543', 'artiste2@example.com', 'Jane', 'Smith', '1985-08-20', 'Los Angeles', '456 Elm St', '987-65-4321', 'Non', 'XYZ987654', '2019-06-10', '2024-06-10', 'Réduction2', 2, NULL, 'MyG');
 
 -- Insertion dans la table Jouer
 INSERT INTO Jouer (id_artiste, id_style_musique) VALUES
@@ -33,18 +33,23 @@ INSERT INTO Jouer (id_artiste, id_style_musique) VALUES
 INSERT INTO Type_Salle (id_type, type_place_s) VALUES
 (1, 'Salle de concert'),
 (2, 'Théâtre'),
-(3, 'Salle polyvalente');
+(3, 'Salle polyvalente'),
+(4, 'Scéne de musique');
 
 -- Insertion dans la table Salle
-INSERT INTO Salle (id_salle, id_type_salle, loge, nom_salle, nb_places, profondeur_scene, longueur_scene, description_salle, adresse_salle, telephone_salle, photo, accueil_pmr) VALUES
-(1, 1, 'Oui', 'Salle de Concert A', 500, 10, 20, 'Salle de concert moderne', '123 Main St, Paris', '555-111-2222', NULL, 'Oui'),
-(2, 2, 'Non', 'Théâtre B', 300, 8, 15, 'Théâtre classique', '456 Elm St, Marseille', '555-333-4444', NULL, 'Non');
+INSERT INTO Salle (id_salle, id_type_salle, loge, nom_salle, nb_places, profondeur_scene, longueur_scene, description_salle, adresse_salle, telephone_salle, photo_salle, accueil_pmr) VALUES
+(1, 1, 'Oui', 'Marché Gare', 414, NULL, NULL, 'Le Marché Gare à Lyon est une salle de concert et un lieu culturel de taille plus modeste et intime.', '4 Place Hubert Mounier Lyon', '04 72 40 97 13', NULL, 'Oui'),
+(2, 3, 'Non', 'Halle Tony Garnier', 20000, NULL, NULL, "La Halle Tony Garnier à Lyon est l'une des plus grandes salles de spectacles polyvalentes en France.", '20 Place Dr Charles et Christophe Mérieu 69007 Lyon', '04 72 76 85 85', NULL, 'Oui'),
+(3, 3, 'Non', 'Toï ToÏ le Zinc', 200, NULL, NULL, "Toï Toï le Zinc à Villeurbanne est un espace culturel polyvalent qui peut accueillir une variété d'événements artistiques et culturels", '17-19 rue Marcel Dutartre 69100 Villeurbanne', '09 51 90 85 04', NULL, NULL),
+(4, 3, 'Oui', "L'amphithéatre (Salle 3000)", 4500, NULL, NULL, "L'Amphithéâtre (Salle 3000) à Lyon est une salle de concert et un espace événementiel de grande envergure.", '80 Quai Charles de Gaulle, 69006 Lyon', '04 72 82 26 26', NULL, NULL),
+(5, 4, 'Oui', 'Epicerie Moderne', 750, NULL, NULL, 'Gérée par une association, cette salle modulable accueille des concerts variés et propose des expositions.', 'place René Lescot 69320 Feyzin', '04 72 89 98 70', NULL, NULL);
+
 
 -- Insertion dans la table Concert
 INSERT INTO Concert (id_concert, nom_concert, date_heure_concert, duree_concert, id_artiste, id_salle, description_concert, photo) VALUES
-(1, 'Concert Rock', '2023-11-15 20:00:00', 120, 1, 1, "concert", NULL),
-(2, 'Concert Pop', '2023-12-10 19:30:00', 90, 2, 2, "concert", NULL),
-(3, 'Concert Rap', '2022-12-10 19:30:00', 100, 2, 2, "concert", NULL);
+(1, 'Concert Rock', '2023-11-15 20:00:00', 120, 1, 1, "Un festival de sons électrisants vous attend. Joignez-vous à nous pour une nuit de musique inoubliable !", NULL),
+(2, 'Concert Pop', '2023-12-10 19:30:00', 90, 2, 2, "Plongez dans un océan de mélodies envoûtantes lors de notre concert exceptionnel. Réservez vos billets dès maintenant !", NULL),
+(3, 'Concert Rap', '2022-12-10 19:30:00', 100, 2, 2, "Soyez prêt à vibrer au rythme des hits avec une line-up exceptionnelle. Un concert incontournable pour les amoureux de la musique !", NULL);
 
 -- Insertion dans la table Avoir
 INSERT INTO Avoir (id_salle, id_concert, plan_feu, installation, FOH, backline, retour) VALUES
