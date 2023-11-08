@@ -169,6 +169,8 @@ def concerts():
         info = cursor.fetchall()
         for i in info:
             concerts.append(i)
+            if i[-1] is not None:
+                get_image(int(i[0]), "concert")
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
@@ -183,6 +185,8 @@ def salles():
         info = cursor.fetchall()
         for i in info:
             salles.append(i)
+            if i[-1] is not None:
+                get_image(int(i[0]), "salle")
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
