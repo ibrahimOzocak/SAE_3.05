@@ -95,6 +95,27 @@ def supprimer_concert(nom):
     mo.remove_concert(nom)
     return redirect(url_for('accueil'))
 
+@app.route('/concert/<nom>/modifier')
+def modifier_concert(nom):
+    """modifier le concert <nom>"""
+    concert = mo.get_logement(nom)
+    return render_template(
+        "modifier_concert.html",
+        concert=concert
+    )
+
+@app.route('/traiter_formulaire/<id_concert>/<nom_concert>', methods=("POST",))
+def confirmer_modif_concert(id_concert, nom_concert):
+    """sauvegarde d'un concert"""
+    nom_concert= request.form['nom_concert']
+    date_heure_concert = request.form['date_heure_concert']
+    duree_concert = request.form['duree_concert']
+    description_concert = request.form['description_concert']
+    
+    mo.confirmer_modif_concert(nom_concert, date_heure_concert, duree_concert, description_concert)
+    
+    return redirect(url_for('concert', nom=nom_concert))
+
 # salle
 @app.route('/ajout_nouvelle_salle')
 def ajout_nouvelle_salle():
