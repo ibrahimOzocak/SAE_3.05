@@ -198,6 +198,15 @@ def artiste(nom_artiste):
         artiste=artiste
     )
 
+@app.route('/artiste/<nom_artiste>/modifier')
+def modifier_artiste(nom_artiste):
+    """page de l'artiste <nom_artiste>"""
+    artiste = mo.get_artiste(nom_artiste)
+    return render_template(
+        "modifier_artiste.html",
+        artiste=artiste
+    )
+
 @app.route('/save_artiste', methods=("POST",))
 def save_artiste():
     """sauvegarde d'un artiste"""
