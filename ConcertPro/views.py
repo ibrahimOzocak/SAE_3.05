@@ -188,6 +188,7 @@ def voir_artistes():
             "error.html",
             error_message="An error occurred while retrieving data from the database."
         )
+    
 
 @app.route('/artiste/<nom_artiste>')
 def artiste(nom_artiste):
@@ -198,6 +199,27 @@ def artiste(nom_artiste):
         artiste=artiste
     )
 
+@app.route('/traiter_formulaire/<id_artiste>/<nom_artiste>', methods=("POST",))
+def confirmer_modif_artiste(id_artiste, nom_artiste):
+    """sauvegarde d'un artiste"""
+    
+    nom_de_scene = request.form['nom_de_scene']
+    mail = request.form['mail']
+    telephone = request.form['telephone']
+    date_de_naissance = request.form['date_de_naissance']
+    lieu_de_naissance = request.form['lieu_de_naissance']
+    adresse = request.form['adresse']
+    numero_secu_sociale = request.form['numero_secu_sociale']
+    cni = request.form['cni']
+    date_delivrance_cni = request.form['date_delivrance_cni']
+    date_expiration_cni = request.form['date_expiration_cni']
+    carte_reduction = request.form['carte_de_reduction']
+    
+    mo.confirmer_modif_artiste(id_artiste, nom_artiste, nom_de_scene, mail, telephone, date_de_naissance, lieu_de_naissance,
+        adresse, numero_secu_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction)
+    
+    return redirect(url_for('artiste', nom_artiste=nom_artiste))
+    
 @app.route('/artiste/<nom_artiste>/modifier')
 def modifier_artiste(nom_artiste):
     """page de l'artiste <nom_artiste>"""

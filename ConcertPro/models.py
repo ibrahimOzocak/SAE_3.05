@@ -270,6 +270,10 @@ def get_id_logement_max():
         print(e.args)
     return None
 
+def confirmer_modif_artiste(id_artiste, nom_artiste, nom_de_scene, mail, telephone, date_de_naissance, lieu_de_naissance,
+        adresse, numero_secu_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction):
+    pass
+
 def remove_concert(nom):
     concert = get_concert(nom)
     try:

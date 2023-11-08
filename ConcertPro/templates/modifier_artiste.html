@@ -11,43 +11,44 @@
     {% else %}
     <img class="img_acc" src="{{ url_for('static', filename='images/artiste/' + artiste[0]|str + '.jpg') }}" alt="image pas réussi à charger">
     {% endif %}
-    <label for="cni">nom de scene :</label>
-    <input type="textfield" id="cni" name="cni" required value="{{ artiste[16] }}">
+    <form method="POST" action="{{ url_for('confirmer_modif_artiste', id_artiste=artiste[0], nom_artiste=artiste[3]) }}">
+        <label for="nom_de_scene">nom de scene :</label>
+        <input type="textfield" id="nom_de_scene" name="nom_de_scene" required value="{{ artiste[16] }}">
 
-    <label for="cni">mail :</label>
-    <input type="textfield" id="cni" name="cni" required value="{{ artiste[2] }}">
+        <label for="mail">mail :</label>
+        <input type="textfield" id="mail" name="mail" required value="{{ artiste[2] }}">
 
-    <label for="cni">téléphone :</label>
-    <input type="textfield" id="cni" name="cni" required value="{{ artiste[1] }}">
+        <label for="telephone">téléphone :</label>
+        <input type="textfield" id="telephone" name="telephone" required value="{{ artiste[1] }}">
 
-    <label for="cni">date de naissance :</label>
-    <input type="textfield" id="cni" name="cni" required value="{{ artiste[5] }}">
+        <label for="date_de_naissance">date de naissance :</label>
+        <input type="textfield" id="date_de_naissance" name="date_de_naissance" required value="{{ artiste[5] }}">
 
-    <label for="cni">lieu de naissance :</label>
-    <input type="textfield" id="cni" name="cni" required value="{{ artiste[6] }}">
+        <label for="lieu_de_naissance">lieu de naissance :</label>
+        <input type="textfield" id="lieu_de_naissance" name="lieu_de_naissance" required value="{{ artiste[6] }}">
 
-    <label for="cni">adresse :</label>
-    <input type="textfield" id="cni" name="cni" required value="{{ artiste[7] }}">
+        <label for="adresse">adresse :</label>
+        <input type="textfield" id="adresse" name="adresse" required value="{{ artiste[7] }}">
 
-    <label for="cni">numéro de sécurité sociale :</label>
-    <input type="textfield" id="cni" name="cni" required value="{{ artiste[8] }}">
+        <label for="numero_secu_sociale">numéro de sécurité sociale :</label>
+        <input type="textfield" id="numero_secu_sociale" name="numero_secu_sociale" required value="{{ artiste[8] }}">
 
-    <label for="cni">cni :</label>
-    <input type="textfield" id="cni" name="cni" required value="{{ artiste[10] }}">
+        <label for="cni">cni :</label>
+        <input type="textfield" id="cni" name="cni" required value="{{ artiste[10] }}">
 
-    <label for="cni">date de délivrance du cni :</label>
-    <input type="textfield" id="cni" name="cni" required value="{{ artiste[11] }}">
+        <label for="date_delivrance_cni">date de délivrance du cni :</label>
+        <input type="textfield" id="date_delivrance_cni" name="date_delivrance_cni" required value="{{ artiste[11] }}">
 
-    <label for="cni">date d'expiration cni :</label>
-    <input type="textfield" id="cni" name="cni" required value="{{ artiste[12] }}">
+        <label for="date_expiration_cni">date d'expiration cni :</label>
+        <input type="textfield" id="date_expiration_cni" name="date_expiration_cni" required value="{{ artiste[12] }}">
 
-    <label for="cni">carte de réduction :</label>
-    <input type="textfield" id="cni" name="cni" required value="{{ artiste[13] }}">
+        <label for="carte_de_reduction">carte de réduction :</label>
+        <input type="textfield" id="carte_de_reduction" name="carte_de_reduction" required value="{{ artiste[13] }}">
+
+        <button type="submit">Appliquer la modification</button>
+    </form>
 </div>
 <div>
-    <a href="{{ url_for('supprimer_artiste', nom_artiste=artiste[3]) }}">supprimer l'artiste</a>
-</div>
-<div>
-    <a href="{{ url_for('modifier_artiste', nom_artiste=artiste[3]) }}">modifier l'artiste</a>
+    <a href="{{ url_for('artiste', nom_artiste=artiste[3]) }}">Annuler la modification</a>
 </div>
 {% endblock %}
