@@ -4,8 +4,8 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/voir_prochains_concerts.css')}}"> 
 {% endblock %}
 {% block content %}
-<div>
-    <p><a href="{{ url_for('ajout_logement') }}">ajouter un logement</a></p>
+<div class="ajout">
+    <a href="{{ url_for('ajout_logement') }}" class="ajouter-log">ajouter un logement</a>
 </div>
 <div class="conteneur">
     {% for logement in logements %}
