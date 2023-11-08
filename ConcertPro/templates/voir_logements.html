@@ -10,7 +10,17 @@
     </div>
     {% for logement in logements %}
     <div>
-        <p><a href="{{ url_for('logement', nom_etablissement=logement[2]) }}">{{ logement[2] }}</a></p>
+        <div class="div_proc">
+            <a href="{{ url_for('concert', nom=logement[1]) }}">
+                {% if logement[-1] is none %}
+                <img class="img_acc"  src="{{ url_for('static', filename='images/aucune_image.png') }}" alt="aucune image">
+                {% else %}
+                <img class="img_acc" src="{{ url_for('static', filename='images/logement/' + logement[0]|str + '.jpg') }}" alt="image pas réussi à charger">
+                {% endif %}
+                <p>{{ logement[1] }}</p>
+            </a>
+        </div>
+        <a href="{{ url_for('logement', nom_etablissement=logement[2]) }}">{{ logement[2] }}</a>
     </div>
     {% endfor %}
 </div>

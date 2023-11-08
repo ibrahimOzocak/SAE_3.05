@@ -35,8 +35,7 @@ def creer_concert():
     return render_template(
         "creer_concert.html",
         artistes=mo.artistes(),
-        salles=mo.salles(),
-        types=mo.type_salle()
+        salles=mo.salles()
     )
 
 @app.route('/voir_prochains_concerts')
@@ -45,7 +44,8 @@ def voir_prochains_concerts():
     return render_template(
         "voir_prochains_concerts.html",
         concerts=mo.prochains_concerts()
-    ) 
+    )
+    
 
 @app.route('/historique_concert')
 def historique_concerts():
@@ -259,21 +259,9 @@ def ajout_logement():
 
 @app.route('/voir_logements')
 def voir_logements():
-    try:
-        cursor = mo.get_cursor()
-        request = "SELECT * FROM Logement"
-        cursor.execute(request)
-        info = cursor.fetchall()
-        mo.close_cursor(cursor)
-        return render_template(
-            "voir_logements.html",
-            logements=info
-        )
-    except Exception as e:
-        print(e.args)
-        return render_template(
-            "error.html",
-            error_message="An error occurred while retrieving data from the database."
+    return render_template(
+        "voir_logements.html",
+        logements=mo.logements()
     )
 
 @app.route('/save_logement', methods=("POST",))
