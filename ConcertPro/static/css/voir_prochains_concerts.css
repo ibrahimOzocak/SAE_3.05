@@ -2,18 +2,34 @@
 .conteneur {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
     padding: 20px;
+    justify-content: space-evenly;
 }
 
 /* Ajustez la largeur des images */
-.div_proc {
+.sous-conteneur{
     max-width: calc(25% - 20px); /* 25% pour 4 images par ligne avec espacement */
     text-align: center; /* Centrez le contenu horizontalement */
 }
 
 /* Ajustez la largeur et la hauteur des images */
-.div_proc img {
-    width: 100%;
-    height: auto;
+.sous-conteneur img {
+    width: 20vw;
+    border-radius: 10px;
+    height: 30vh;
+}
+
+a{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ajouter-log{
+    border: solid 1px;
+    border-radius: 20px;
+    background-color: blue;
+    color: white;
+    width: 200px;
+    padding: 50px;
 }

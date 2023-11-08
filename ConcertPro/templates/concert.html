@@ -4,24 +4,28 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/concert.css')}}"> 
 {% endblock %}
 {% block content %}
-<h2>{{ concert[1] }}</h2>
-<div>
-    <p>id : {{ concert[0] }}</p>
-    <p>date : {{ concert[2] }}</p>
-    <p>duree : {{ concert[3] }} minutes</p>
-    <p>id artiste : {{ concert[4] }}</p>
-    <p>id salle : {{ concert[5] }}</p>
+
+<div class="container">
+    <div class="sous-container">
+        <h2>{{ concert[1] }}</h2>
+        {% if concert[-1] is none %}
+        <img class="img_acc"  src="{{ url_for('static', filename='images/aucune_image.png') }}" alt="img">
+        {% else %}
+        <img class="img_acc" src="{{ url_for('static', filename='images/concerts/' + concert[0]|str + '.jpg') }}" alt="img">
+        {% endif %}
+    </div>
+    <div class="infos">
+        <p>id : {{ concert[0] }}</p>
+        <p>date : {{ concert[2] }}</p>
+        <p>duree : {{ concert[3] }} minutes</p>
+        <p>id artiste : {{ concert[4] }}</p>
+        <p>id salle : {{ concert[5] }}</p>
+    </div>
 </div>
-{% if concert is not none %}
-<div class="concert">
-    {% if concert[-1] is none %}
-    <img class="img_acc"  src="{{ url_for('static', filename='images/aucune_image.png') }}" alt="img">
-    {% else %}
-    <img class="img_acc" src="{{ url_for('static', filename='images/concerts/' + concert[0]|str + '.jpg') }}" alt="img">
+<div class="bouton">
+    {% if concert is not none %}
+        <a href="{{ url_for('supprimer_concert', nom=concert[1]) }}" class="supprimer">supprimer le concert</a>
     {% endif %}
 </div>
-<div>
-    <a href="{{ url_for('supprimer_concert', nom=concert[1]) }}">supprimer le concert</a>
-</div>
-{% endif %}
+
 {% endblock %}

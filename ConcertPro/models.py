@@ -3,6 +3,12 @@ from PIL import Image
 from io import BytesIO
 import datetime
 
+HEURES1 = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
+PAS1 = 1
+JOUR_VOULU = datetime.datetime.now()
+HEURES2 = [8, 10, 12, 14, 16, 18, 20, 22]
+PAS2 = 2
+
 db = mysql.connector.connect(
     host="servinfo-maria",user = "sevellec", password = "sevellec", database = "DBsevellec"
 )
@@ -28,19 +34,19 @@ def prochains_concerts():
         close_cursor(cursor)
         for i in infos:
             if i[-1] is not None:
-                get_image(int(i[0]))
+                get_image(int(i[0]),"concert")
         return infos
     except Exception as e:
         print(e.args)
 
-def save_image(chemin_img):
+def save_image(chemin_img, id_value, table, nom_attribute):
     try:
         cursor = get_cursor()
         with open(chemin_img, 'rb') as image_file:
             image_data = image_file.read()
 
-        update_query = "UPDATE Concert SET photo = %s WHERE id_concert = %s"
-        execute_query(cursor, update_query, (image_data, 1))
+        update_query = f"UPDATE {table} SET photo = %s WHERE {nom_attribute} = %s"
+        execute_query(cursor, update_query, (image_data, id_value))
         close_cursor(cursor)
         db.commit()
         return "Image sauvegardée avec succès"
@@ -48,21 +54,27 @@ def save_image(chemin_img):
         return "Erreur lors de la sauvegarde de l'image"
 
 if __name__ == '__main__':
-    save_image("/home/iut45/Etudiants/o22202357/WinHome/analyse/Diagramme_de_cas_dutilisations.png")
+    # save_image("/home/iut45/Etudiants/o22202357/Bureau/images.jpeg", 1, "Concert", "id_concert")
+    # save_image("/home/iut45/Etudiants/o22202357/Bureau/images2.jpeg", 2, "Concert", "id_concert")
+    # save_image("/home/iut45/Etudiants/o22202357/Bureau/images4.png", 3, "Concert", "id_concert")
+    
+    save_image("/home/iut45/Etudiants/o22202357/Bureau/images.jpeg", 1, "Logement", "id_logement")
+    save_image("/home/iut45/Etudiants/o22202357/Bureau/images2.jpeg", 2, "Logement", "id_logement")
+    save_image("/home/iut45/Etudiants/o22202357/Bureau/images4.png", 3, "Logement", "id_logement")
 
-def get_image(id_concert):
-    if id_concert is None:
+def get_image(id_value, repesitory_name):
+    if id_value is None:
         return
     try:
         cursor = get_cursor()
         select_query = "SELECT photo FROM Concert WHERE id_concert = %s"
-        cursor.execute(select_query, (id_concert,))
+        cursor.execute(select_query, (id_value,))
         image_data = cursor.fetchone()[0]
         if image_data is None:
             return
         image = Image.open(BytesIO(image_data))
         image = image.convert('RGB')
-        nom_fichier = "ConcertPro/static/images/concerts/"+str(id_concert)+".jpg"
+        nom_fichier = "ConcertPro/static/images/"+repesitory_name+"/"+str(id_value)+".jpg"
         image.save(nom_fichier)
         close_cursor(cursor)
     except Exception as e:
@@ -133,18 +145,20 @@ def get_id_type_salles(nom):
     return None
 
 def historique_concerts():
-    prochains_concerts = []
+    historique_concerts = []
     try:
         cursor = get_cursor()
-        requete = "SELECT * FROM Concert where date_heure_concert < CURDATE()"
+        requete = "SELECT * FROM Concert where date_heure_concert < NOW()"
         cursor.execute(requete)
         info = cursor.fetchall()
         for i in info:
-            prochains_concerts.append(i)
+            historique_concerts.append(i)
+            if i[-1] is not None:
+                get_image(int(i[0]), "concert")
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
-    return prochains_concerts
+    return historique_concerts
 
 def concerts():
     concerts = []
@@ -155,6 +169,8 @@ def concerts():
         info = cursor.fetchall()
         for i in info:
             concerts.append(i)
+            if i[-1] is not None:
+                get_image(int(i[0]), "concert")
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
@@ -169,6 +185,8 @@ def salles():
         info = cursor.fetchall()
         for i in info:
             salles.append(i)
+            if i[-1] is not None:
+                get_image(int(i[0]), "salle")
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
@@ -197,6 +215,8 @@ def logements():
         info = cursor.fetchall()
         for i in info:
             logements.append(i)
+            if i[-1] is not None:
+                get_image(i[0], "logement")
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
@@ -253,6 +273,27 @@ def get_id_logement_max():
 def remove_concert(nom):
     concert = get_concert(nom)
     try:
+        # suppression dans avoir
+        cursor = get_cursor()
+        req = "DELETE FROM Avoir where id_concert="+str(concert[0])
+        cursor.execute(req)
+        close_cursor(cursor)
+        # suppression dans besoin_equipement_artiste
+        cursor = get_cursor()
+        req = "DELETE FROM Besoin_equipement_artiste where id_concert="+str(concert[0])
+        cursor.execute(req)
+        close_cursor(cursor)
+        # suppression dans loger
+        cursor = get_cursor()
+        req = "DELETE FROM Loger where id_concert="+str(concert[0])
+        cursor.execute(req)
+        close_cursor(cursor)
+        # suppression dans participer
+        cursor = get_cursor()
+        req = "DELETE FROM Participer where id_concert="+str(concert[0])
+        cursor.execute(req)
+        close_cursor(cursor)
+        # suppression du concert
         cursor = get_cursor()
         req = "DELETE FROM Concert where id_concert="+str(concert[0])
         cursor.execute(req)
@@ -294,7 +335,7 @@ def remove_artiste(nom):
     except Exception as e:
         print(e.args)
 
-def concerts_agenda(heures, jour_voulu):
+def concerts_agenda1(heures, jour_voulu):
     agenda = {}
 
     for i in range(1,8):
@@ -326,3 +367,53 @@ def concerts_agenda(heures, jour_voulu):
             pass
 
     return agenda
+
+def concerts_agenda(heures=HEURES1, jour=JOUR_VOULU):
+    """renvoie un agenda des concerts de la semaine du jour voulu"""
+    #initialisation de l'agenda
+    agenda = {}
+    for i in range(1,8):
+        agenda[i] = {}
+        for heure in heures:
+            agenda[i][heure] = []
+    #remplissage de l'agenda
+    if len(heures) < 1:
+        pas = heures[1]-heures[0]
+    else:
+        pas = 1
+    if type(jour) == str:
+        jour = datetime.datetime.strptime(jour, "%d-%m-%Y")
+    for concert in concerts():
+        date_debut = concert[2]
+        if datetime.timedelta(days=-(jour.weekday()+1))<date_debut.replace(hour=0, minute=0)-jour<datetime.timedelta(days=7-(jour.weekday())):
+            for h in heures:
+                # format 24h obligatoire
+                if h+pas > 23:
+                    fin_horaire = datetime.time(hour=h+pas-1, minute=59)
+                else:
+                    fin_horaire = datetime.time(hour=h+pas)
+                debut_horaire = datetime.time(hour=h)
+                minutesC = date_debut.minute+concert[3]%60
+                trop = minutesC//60
+                minutesC-=trop*60
+                heuresC = date_debut.hour+concert[3]//60+trop
+
+                fin_concert = datetime.time(hour=heuresC, minute=minutesC)
+                debut_concert = date_debut.time()
+                # ajouter le concert si il est dans l'intervalle horaire
+                if not(debut_concert >= fin_horaire or fin_concert <= debut_horaire):
+                    agenda[date_debut.weekday()+1][h].append(concert[1])
+    return agenda
+
+def type_salle():
+    try:
+        cursor = get_cursor()
+        requete = "SELECT type_place_s FROM Type_Salle"
+        cursor.execute(requete)
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        return info
+    except Exception as e:
+        print(e.args)
+    return None
+

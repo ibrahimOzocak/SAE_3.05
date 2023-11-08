@@ -1,15 +1,19 @@
 {% extends 'base.html' %}
 {% block styles %}
 {{ super() }}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/voir_salles.css')}}"> 
+<link rel="stylesheet" href="{{ url_for('static', filename='css/voir_prochains_concerts.css')}}"> 
 {% endblock %}
 {% block content %}
 <div class="conteneur">
     {% for salle in salles %}
-    <div class="div_proc">
+    <div class="sous-conteneur">
         <a href="{{ url_for('salle', nom=salle[3]) }}">
-            <img src="{{ url_for('static', filename='images/banniere.jpeg')}}" alt="" width=10% height=10%/>
-            <p>{{ salle[3] }} </p>
+            {% if salle[-2] is none %}
+            <img class="img_acc"  src="{{ url_for('static', filename='images/aucune_image.png') }}" alt="aucune image">
+            {% else %}
+            <img class="img_acc" src="{{ url_for('static', filename='images/salle/' + salle[0]|str + '.jpg') }}" alt="image pas réussi à charger">
+            {% endif %}
+            <p>{{ salle[3] }}</p>
         </a>
     </div>
     {% endfor %}
