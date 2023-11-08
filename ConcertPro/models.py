@@ -77,10 +77,10 @@ def get_image(id_concert):
         return "Erreur lors de la récupération de l'image"
     
 # fonctions utiles pour les templates
-def get_concert(nom):
+def get_concert(id):
     try:
         cursor = get_cursor()
-        requete = "SELECT * FROM Concert where nom_concert='"+nom+"'"
+        requete = "SELECT * FROM Concert where id_concert='"+id+"'"
         cursor.execute(requete)
         info = cursor.fetchall()
         close_cursor(cursor)
@@ -89,10 +89,10 @@ def get_concert(nom):
         print(e.args)
     return None
 
-def get_salle(nom):
+def get_salle(id):
     try:
         cursor = get_cursor()
-        request = "SELECT * FROM Salle where nom_salle='"+nom+"'"
+        request = "SELECT * FROM Salle where id_salle='"+id+"'"
         cursor.execute(request)
         info = cursor.fetchall()
         close_cursor(cursor)
@@ -101,10 +101,10 @@ def get_salle(nom):
         print(e.args)
     return None
 
-def get_logement(nom_etablissement):
+def get_logement(id_logement):
     try:
         cursor = get_cursor()
-        request = "SELECT * FROM Logement where nom_etablissement='"+nom_etablissement+"'"
+        request = "SELECT * FROM Logement where id_logement='"+id_logement+"'"
         cursor.execute(request)
         info = cursor.fetchall()
         close_cursor(cursor)
@@ -113,10 +113,10 @@ def get_logement(nom_etablissement):
         print(e.args)
     return None
 
-def get_artiste(nom):
+def get_artiste(id):
     try:
         cursor = get_cursor()
-        request = "SELECT * FROM Artiste where nom_artiste='"+nom+"'"
+        request = "SELECT * FROM Artiste where id_artiste='"+id+"'"
         cursor.execute(request)
         info = cursor.fetchall()
         close_cursor(cursor)
@@ -260,65 +260,61 @@ def get_id_logement_max():
         print(e.args)
     return None
 
-def remove_concert(nom):
-    concert = get_concert(nom)
+def remove_concert(id):
     try:
         # suppression dans avoir
         cursor = get_cursor()
-        req = "DELETE FROM Avoir where id_concert="+str(concert[0])
+        req = "DELETE FROM Avoir where id_concert="+str(id)
         cursor.execute(req)
         close_cursor(cursor)
         # suppression dans besoin_equipement_artiste
         cursor = get_cursor()
-        req = "DELETE FROM Besoin_equipement_artiste where id_concert="+str(concert[0])
+        req = "DELETE FROM Besoin_equipement_artiste where id_concert="+str(id)
         cursor.execute(req)
         close_cursor(cursor)
         # suppression dans loger
         cursor = get_cursor()
-        req = "DELETE FROM Loger where id_concert="+str(concert[0])
+        req = "DELETE FROM Loger where id_concert="+str(id)
         cursor.execute(req)
         close_cursor(cursor)
         # suppression dans participer
         cursor = get_cursor()
-        req = "DELETE FROM Participer where id_concert="+str(concert[0])
+        req = "DELETE FROM Participer where id_concert="+str(id)
         cursor.execute(req)
         close_cursor(cursor)
         # suppression du concert
         cursor = get_cursor()
-        req = "DELETE FROM Concert where id_concert="+str(concert[0])
+        req = "DELETE FROM Concert where id_concert="+str(id)
         cursor.execute(req)
         db.commit()
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
 
-def remove_salle(nom):
-    salle = get_salle(nom)
+def remove_salle(id):
     try:
         cursor = get_cursor()
-        req = "DELETE FROM Salle where id_salle="+str(salle[0])
+        req = "DELETE FROM Salle where id_salle="+str(id)
         cursor.execute(req)
         db.commit()
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
 
-def remove_logement(nom_etablissement):
-    logement = get_logement(nom_etablissement)
+def remove_logement(id_logement):
     try:
         cursor = get_cursor()
-        req = "DELETE FROM Logement where id_logement="+str(logement[0])
+        req = "DELETE FROM Logement where id_logement="+str(id_logement)
         cursor.execute(req)
         db.commit()
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
 
-def remove_artiste(nom):
-    artiste = get_artiste(nom)
+def remove_artiste(id):
     try:
         cursor = get_cursor()
-        req = "DELETE FROM Artiste where id_artiste="+str(artiste[0])
+        req = "DELETE FROM Artiste where id_artiste="+str(id)
         cursor.execute(req)
         db.commit()
         close_cursor(cursor)
@@ -392,7 +388,7 @@ def concerts_agenda(heures=HEURES1, jour=JOUR_VOULU):
                 debut_concert = date_debut.time()
                 # ajouter le concert si il est dans l'intervalle horaire
                 if not(debut_concert >= fin_horaire or fin_concert <= debut_horaire):
-                    agenda[date_debut.weekday()+1][h].append(concert[1])
+                    agenda[date_debut.weekday()+1][h].append((concert[0],concert[1]))
     return agenda
 
 def type_salle():

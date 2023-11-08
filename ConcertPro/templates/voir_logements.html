@@ -10,7 +10,7 @@
     </div>
     {% for logement in logements %}
     <div>
-        <p><a href="{{ url_for('logement', nom_etablissement=logement[2]) }}">{{ logement[2] }}</a></p>
+        <p><a href="{{ url_for('logement', id_logement=logement[0]) }}">{{ logement[2] }}</a></p>
     </div>
     {% endfor %}
 </div>

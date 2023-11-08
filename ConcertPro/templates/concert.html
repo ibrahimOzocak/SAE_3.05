@@ -24,7 +24,7 @@
 </div>
 <div class="bouton">
     {% if concert is not none %}
-        <a href="{{ url_for('supprimer_concert', nom=concert[1]) }}" class="supprimer">supprimer le concert</a>
+        <a href="{{ url_for('supprimer_concert', id=concert[0]) }}" class="supprimer">supprimer le concert</a>
     {% endif %}
 </div>
 
