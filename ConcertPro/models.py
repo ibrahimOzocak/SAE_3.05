@@ -270,12 +270,34 @@ def get_id_logement_max():
         print(e.args)
     return None
 
+def confirmer_modif_concert(id_concert, nom_concert, date_heure_concert, duree_concert, description_concert):
+    try:
+        cursor = get_cursor()
+        requete = f"UPDATE Concert SET nom_concert = %s, date_heure_concert = %s, duree_concert = %s, description_concert = %s WHERE id_concert = %s"
+        execute_query(cursor, requete, (nom_concert, date_heure_concert, duree_concert, description_concert, id_concert))
+        db.commit()
+        close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+    return None
+
 def confirmer_modif_artiste(id_artiste, nom_artiste, nom_de_scene, mail, telephone, date_de_naissance, lieu_de_naissance,
         adresse, numero_secu_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction):
     try:
         cursor = get_cursor()
         requete = f"UPDATE Artiste SET telephone = %s, mail = %s,nom_artiste = %s,date_de_naissance = %s,lieu_naissance = %s,adresse = %s,securite_sociale = %s,cni = %s,date_delivrance_cni = %s,date_expiration_cni = %s,carte_reduction = %s,nom_scene = %s WHERE id_artiste = %s"
         execute_query(cursor, requete, (telephone, mail, nom_artiste, date_de_naissance, lieu_de_naissance, adresse, numero_secu_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction, nom_de_scene,id_artiste))
+        db.commit()
+        close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+    return None
+
+def confirmer_modif_salle(id_salle, nom, description, loge, nombre_place, adresse, telephone, profondeur_scene, longueur_scene):
+    try:
+        cursor = get_cursor()
+        requete = f"UPDATE Salle SET nom_salle = %s, description_salle = %s, loge = %s, nb_places = %s, adresse_salle = %s, telephone_salle = %s, profondeur_scene = %s, longueur_scene = %s WHERE id_salle = %s"
+        execute_query(cursor, requete, (nom, description, loge, nombre_place, adresse, telephone, profondeur_scene, longueur_scene, id_salle))
         db.commit()
         close_cursor(cursor)
     except Exception as e:

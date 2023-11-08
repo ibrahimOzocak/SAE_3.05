@@ -25,6 +25,6 @@
     </form>
 </div>
 <div class="annuler">
-    <a href="{{ url_for('logement', nom_etablissement=logement[2]) }}">Annuler la modification</a>
+    <a href="{{ url_for('logement', id_logement=logement[0]) }}">Annuler la modification</a>
 </div>
 {% endblock %}

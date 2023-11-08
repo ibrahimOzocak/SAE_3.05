@@ -13,6 +13,9 @@
     {% endif %}
     <form method="POST" action="{{ url_for('confirmer_modif_salle', id_salle=salle[0], nom_salle=salle[3]) }}">
 
+        <label for="nom">Nom de la salle :</label>
+        <input type="textarea" id="nom" name="nom" required value="{{ salle[3] }}">
+
         <label for="description">description :</label>
         <input type="textarea" id="description" name="description" required value="{{ salle[7] }}">
 
@@ -38,6 +41,6 @@
     </form>
 </div>
 <div class="annuler">
-    <a href="{{ url_for('salle', nom=salle[3]) }}">Annuler la modification</a>
+    <a href="{{ url_for('salle', id=salle[0]) }}">Annuler la modification</a>
 </div>
 {% endblock %}

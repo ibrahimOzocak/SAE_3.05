@@ -103,16 +103,16 @@ def supprimer_concert(id):
     mo.remove_concert(id)
     return redirect(url_for('accueil'))
 
-@app.route('/concert/<nom>/modifier')
-def modifier_concert(nom):
-    """modifier le concert <nom>"""
-    concert = mo.get_logement(nom)
+@app.route('/concert/<id_concert>/modifier')
+def modifier_concert(id_concert):
+    """modifier le concert <id_concert>"""
+    concert = mo.get_concert(id_concert)
     return render_template(
         "modifier_concert.html",
         concert=concert
     )
 
-@app.route('/traiter_formulaire/<id_concert>/<nom_concert>', methods=("POST",))
+@app.route('/modifier_concert/<id_concert>/<nom_concert>', methods=("POST",))
 def confirmer_modif_concert(id_concert, nom_concert):
     """sauvegarde d'un concert"""
     nom_concert= request.form['nom_concert']
@@ -120,9 +120,9 @@ def confirmer_modif_concert(id_concert, nom_concert):
     duree_concert = request.form['duree_concert']
     description_concert = request.form['description_concert']
     
-    mo.confirmer_modif_concert(nom_concert, date_heure_concert, duree_concert, description_concert)
+    mo.confirmer_modif_concert(id_concert,nom_concert, date_heure_concert, duree_concert, description_concert)
     
-    return redirect(url_for('concert', nom=nom_concert))
+    return redirect(url_for('concert', id=id_concert))
 
 # salle
 @app.route('/ajout_nouvelle_salle')
@@ -186,10 +186,10 @@ def save_salle():
         print(e.args)
     return redirect(url_for('salle', id=id))
 
-@app.route('/salle/<id>/supprimer')
-def supprimer_salle(id):
-    """supprime la salle <id>"""
-    mo.remove_salle(id)
+@app.route('/salle/<id_salle>/supprimer')
+def supprimer_salle(id_salle):
+    """supprime la salle <id_salle>"""
+    mo.remove_salle(id_salle)
     return redirect(url_for('accueil'))
 
 # artiste
@@ -229,7 +229,7 @@ def artiste(id_artiste):
         artiste=artiste
     )
 
-@app.route('/traiter_formulaire/<id_artiste>/<nom_artiste>', methods=("POST",))
+@app.route('/confirmer_artiste/<id_artiste>/<nom_artiste>', methods=("POST",))
 def confirmer_modif_artiste(id_artiste, nom_artiste):
     """sauvegarde d'un artiste"""
     
@@ -248,35 +248,38 @@ def confirmer_modif_artiste(id_artiste, nom_artiste):
     mo.confirmer_modif_artiste(id_artiste, nom_artiste, nom_de_scene, mail, telephone, date_de_naissance, lieu_de_naissance,
         adresse, numero_secu_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction)
     
-    return redirect(url_for('artiste', nom_artiste=nom_artiste))
+    return redirect(url_for('artiste', id_artiste=id_artiste))
 
-@app.route('/traiter_formulaire/<id_salle>/<nom_salle>', methods=("POST",))
+@app.route('/confirmer_salle/<id_salle>/<nom_salle>', methods=("POST",))
 def confirmer_modif_salle(id_salle, nom_salle):
     """sauvegarde d'un artiste"""
     
-    description = request.form['description_salle']
+    nom = request.form["nom"]
+    description = request.form['description']
     loge = request.form['loge']
-    nombre_place = request.form['nb_places']
-    adresse = request.form['adresse_salle']
-    telephone = request.form['telephone_salle']
-    profondeur_scene = request.form['profondeur_scene']
-    longueur_scene = request.form['longueur_scene']
+    nombre_place = request.form['nombre de places']
+    adresse = request.form['adresse']
+    telephone = request.form['telephone']
+    profondeur_scene = request.form['profondeur scene']
+    longueur_scene = request.form['longueur scene']
+
+    mo.confirmer_modif_salle(id_salle, nom, description, loge, nombre_place, adresse, telephone, profondeur_scene, longueur_scene)
     
-    return redirect(url_for('salle', nom_salle=nom_salle))
+    return redirect(url_for('salle', id=id_salle))
     
-@app.route('/artiste/<nom_artiste>/modifier')
-def modifier_artiste(nom_artiste):
-    """page de l'artiste <nom_artiste>"""
-    artiste = mo.get_artiste(nom_artiste)
+@app.route('/artiste/<id_artiste>/modifier')
+def modifier_artiste(id_artiste):
+    """page de l'artiste <id_artiste>"""
+    artiste = mo.get_artiste(id_artiste)
     return render_template(
         "modifier_artiste.html",
         artiste=artiste
     )
 
-@app.route('/salle/<nom_salle>/modifier')
-def modifier_salle(nom_salle):
-    """page de la salle <nom_salle>"""
-    salle = mo.get_salle(nom_salle)
+@app.route('/salle/<id_salle>/modifier')
+def modifier_salle(id_salle):
+    """page de la salle <id_salle>"""
+    salle = mo.get_salle(id_salle)
     return render_template(
         "modifier_salle.html",
         salle=salle
@@ -394,10 +397,10 @@ def calendrier_semaine_suivante(jour_actuel = datetime.datetime.now()):
     jour = jour_actuel + datetime.timedelta(days=7)
     return redirect(url_for('calendrier', jour=jour.strftime("%d-%m-%Y")))
 
-@app.route('/logement/<nom_etablissement>/modifier')
-def modifier_logement(nom_etablissement):
-    """page de l'artiste <nom_etablissement>"""
-    logement = mo.get_logement(nom_etablissement)
+@app.route('/logement/<id_logement>/modifier')
+def modifier_logement(id_logement):
+    """page de l'artiste <id_logement>"""
+    logement = mo.get_logement(id_logement)
     return render_template(
         "modifier_logement.html",
         logement=logement
@@ -406,9 +409,10 @@ def modifier_logement(nom_etablissement):
 @app.route('/modif_logement/<id_logement>/<nom_etablissement>', methods=("POST",))
 def confirmer_modif_logement(id_logement, nom_etablissement):
     """sauvegarde d'un logement"""
+    nom = request.form['nom_etablissement']
     adresse = request.form['adresse']
     nb_etoile = request.form['nb_etoiles']
 
-    mo.confirmer_modif_logement(id_logement, nom_etablissement, adresse, nb_etoile)
+    mo.confirmer_modif_logement(id_logement, nom, adresse, nb_etoile)
     
-    return redirect(url_for('logement', nom_etablissement=nom_etablissement))
+    return redirect(url_for('logement', id_logement=id_logement))

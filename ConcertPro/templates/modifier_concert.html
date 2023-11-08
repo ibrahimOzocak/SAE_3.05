@@ -28,6 +28,6 @@
     </form>
 </div>
 <div class="annuler">
-    <a href="{{ url_for('concert', nom=concert[1]) }}">Annuler la modification</a>
+    <a href="{{ url_for('concert', id=concert[0]) }}">Annuler la modification</a>
 </div>
 {% endblock %}

@@ -30,7 +30,7 @@
     {% endif %}
 </div>
 <div>
-    <a href="{{ url_for('modifier_concert', nom=concert[1]) }}">modifier le concert</a>
+    <a href="{{ url_for('modifier_concert', id_concert=concert[0]) }}">modifier le concert</a>
 </div>
 
 {% endblock %}
