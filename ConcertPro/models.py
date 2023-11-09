@@ -615,3 +615,38 @@ def equipements():
     except Exception as e:
         print(e.args)
     return equipements
+
+def get_equipements_concert(id_concert):
+    try:
+        cursor = get_cursor()
+        requete = "SELECT id_equipement,nom_equipement,quantite,possede_equipement FROM Concert NATURAL JOIN Besoin_equipement_artiste NATURAL JOIN Equipement WHERE id_concert = %s;"
+        execute_query(cursor, requete, (id_concert,))
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        return info
+    except Exception as e:
+        print(e.args)
+    return None
+
+def get_equipements_disponible(id_concert, id_salle):
+    equipements_concert = get_equipements_concert(id_concert)
+    try:
+        cursor = get_cursor()
+        requete = "SELECT id_equipement,nom_equipement,quantite FROM Salle NATURAL JOIN Posseder NATURAL JOIN Equipement WHERE id_salle = %s;"
+        execute_query(cursor, requete, (id_salle,))
+        infos = cursor.fetchall()
+        close_cursor(cursor)
+        equipements = []
+        deja_vu = []
+        for e in infos:
+            if e[1] not in deja_vu:
+                equipements.append(e)
+                deja_vu.append(e[1])
+        for e in equipements_concert:
+            if e[1] not in deja_vu:
+                equipements.append(e)
+                deja_vu.append(e[1])      
+        return equipements
+    except Exception as e:
+        print(e.args)
+    return None

@@ -1,11 +1,105 @@
 {% extends 'base.html' %}
 {% block styles %}
 {{ super() }}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/concert.css')}}"> 
+<link rel="stylesheet" href="{{ url_for('static', filename='css/rider.css')}}"> 
 {% endblock %}
 {% block content %}
 
+<div>
 
+    <h1> <input type="text" id="nomPrenom" name="nomPrenom" placeholder="DIJOUD Victor"> – Rider & Fiche Technique</h1>
 
+    <p>Ce rider fait partie intégrante du contrat.</p>
+
+    <p>Merci de le respecter et de le prendre en considération. Afin que tout le monde passe une bonne journée et gagne du temps, lisez-le attentivement et communiquez-nous par avance toute objection, question ou impossibilité relative à nos demandes.</p>
+
+    <p>Toute modification devra faire l’objet d’un accord préalable des deux parties.</p>
+
+    <p>Merci d’avance.</p>
+
+    <h2>PERSONNEL TECHNIQUE À PRÉVOIR PAR L’ORGANISATEUR :</h2>
+
+    <textarea id="comment" name="comment" rows="4" cols="100"></textarea>
+
+    <h2>INFOS ARTISTE :</h2>
+
+    <form>
+        <label for="nomPrenom">Nom et prénom :</label>
+        <input type="text" id="nomPrenom" name="nomPrenom" placeholder="DIJOUD Victor"><br>
+    
+        <label for="dateNaissance">Date de naissance :</label>
+        <input type="text" id="dateNaissance" name="dateNaissance" placeholder="05/10/1993"><br>
+    
+        <label for="lieuNaissance">Lieu de naissance :</label>
+        <input type="text" id="lieuNaissance" name="lieuNaissance" placeholder="Saint Chamond (42)"><br>
+    
+        <label for="adresse">Adresse :</label>
+        <input type="text" id="adresse" name="adresse" placeholder="4A Chemin des Giraudières, 42800 Rive De Gier, France"><br>
+    
+        <label for="secuSociale">N° Sécurité Sociale :</label>
+        <input type="text" id="secuSociale" name="secuSociale" placeholder="1 93 10 42 207 040 03"><br>
+    
+        <label for="congeSpectacle">N° Congé Spectacle :</label>
+        <input type="text" id="congeSpectacle" name="congeSpectacle" placeholder="T 527177"><br>
+    
+        <label for="cni">N° CNI :</label>
+        <input type="text" id="cni" name="cni" placeholder="W9GJJTMM3"><br>
+    
+        <label for="delivranceCNI">Date de délivrance :</label>
+        <input type="text" id="delivranceCNI" name="delivranceCNI" placeholder="04/08/2022"><br>
+    
+        <label for="expirationCNI">Date d'expiration :</label>
+        <input type="text" id="expirationCNI" name="expirationCNI" placeholder="03/08/2032"><br>
+    
+        <label for="reductionTrainCarteVoyageur">Réduction Train - Carte Voyageur :</label>
+        <input type="text" id="reductionTrainCarteVoyageur" name="reductionTrainCarteVoyageur" placeholder="29090109 320175531"><br>
+    
+        <label for="carteAdulte">Carte Adulte :</label>
+        <input type="text" id="carteAdulte" name="carteAdulte" placeholder="29090108356522616"><br>
+    </form>
+    
+
+    <h2>RIDER :</h2>
+
+    <h3>ACCÈS ET FEUILLE DE ROUTE :</h3>
+
+    <textarea id="acces_feuille_route" name="acces_feuille_route" rows="4" cols="100"></textarea>
+
+    <h3>TRANSPORTS :</h3>
+
+    <textarea id="transport" name="transport" rows="4" cols="100"></textarea>
+
+    <h3>HÉBERGEMENT :</h3>
+    
+    <textarea id="hebergement" name="hebergement" rows="4" cols="100"></textarea>
+
+    <h3>LOGES :</h3>
+
+    <textarea id="loge" name="loge" rows="4" cols="100"></textarea>
+
+    <h3>CATERING :</h3>
+
+    <textarea id="catering" name="catering" rows="4" cols="100"></textarea>
+
+    <h3>INVITATIONS :</h3>
+
+    <textarea id="invitation" name="invitation" rows="4" cols="100"></textarea>
+
+    <p>TOUTE ADAPTATION PEUT ÊTRE ENVISAGÉE, MERCI DE PRENDRE CONTACT AVEC L’ARTISTE.</p>
+
+    <h5><input type="text" id="nomPrenom" name="nomPrenom" placeholder="DIJOUD Victor"> – MAJ <input type="date" id="date" name="date"> - Contact : <input type="email" id="email" name="email" placeholder="exemple@gmail.com"><br> – Téléphone : <input type="tel" name="tel" placeholder="(0)6 04 41 55 82"/></h5>
+    <script>
+    // Obtenir la date actuelle au format ISO (AAAA-MM-JJ)
+    var today = new Date().toISOString().split('T')[0];
+    
+    // Remplir le champ de date avec la date du jour
+    document.getElementById('date').value = today;
+    </script>
+
+</div>
+
+<div>
+    <a href=""> Télécharger (en pdf) le rider. </a>
+</div>
 
 {% endblock %}

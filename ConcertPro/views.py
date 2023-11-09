@@ -487,9 +487,8 @@ def save_type_salle():
         print(e.args)
     return redirect(url_for('accueil'))
 
-@app.route("/concert/<id_concert>/fiche_rider")
-def afficher_rider(id_concert):
+@app.route("/fiche_rider")
+def afficher_rider():
     return render_template(
-        "afficher_rider.html",
-        concert = mo.get_concert(id_concert)
+        "afficher_rider.html"
     )
