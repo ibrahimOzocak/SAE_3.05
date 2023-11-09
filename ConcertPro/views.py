@@ -68,15 +68,11 @@ def save_concert():
     id_artiste = request.form['artiste']
     id_salle = request.form['salle']
     description_concert = request.form['description']
+    photo = request.files['image']
     id = mo.get_id_concert_max()+1
-    try:
-        cursor = mo.get_cursor()
-        req = "INSERT INTO Concert (id_concert, nom_concert, date_heure_concert, duree_concert, id_artiste, id_salle, description_concert) VALUES(%s, %s, %s, %s, %s, %s, %s)"
-        cursor.execute(req, (id, nom_concert, date_heure_concert, duree_concert, id_artiste, id_salle, description_concert))
-        mo.db.commit()
-        mo.close_cursor(cursor)
-    except Exception as e:
-        print(e.args)
+    
+    mo.save_concert(id, nom_concert, date_heure_concert, duree_concert, id_artiste, id_salle, description_concert,photo)
+    
     return redirect(url_for('concert', id=id))
 
 @app.route('/concert/<id>')
@@ -156,14 +152,21 @@ def save_salle():
     nb_places = request.form['place']
     profondeur_scene = request.form['profondeur']
     longueur_scene = request.form['longueur']
-    description_salle = request.form['description']
     adresse_salle = request.form['adresse']
     telephone_salle = request.form['telephone']
     code_postal_salle = request.form['postalville']
-    type_place = request.form['typeplace']
+    type_place = request.form['type_salle']
+    description_salle = request.form['description']
+    photo = request.files['image']
+    
+    # nomequipement 
+    # quantitedispo 
+    
+    
     adresse_salle = adresse_salle + ", " + code_postal_salle
     loge = ""
     acces_pmr = ""
+    
     for elem in request.form:
         if elem == "loge":
             loge = "oui"
@@ -174,14 +177,9 @@ def save_salle():
     if acces_pmr == "":
         acces_pmr = "non"
     id = mo.get_id_salle_max()+1
-    try:
-        cursor = mo.get_cursor()
-        req = "INSERT INTO Salle (id_salle, id_type_salle, loge, nom_salle, nb_places, profondeur_scene, longueur_scene, description_salle,adresse_salle,telephone_salle, accueil_pmr) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-        cursor.execute(req, (id, nom_salle, nb_places, profondeur_scene, longueur_scene, description_salle, adresse_salle, telephone_salle, acces_pmr))
-        mo.db.commit()
-        mo.close_cursor(cursor)
-    except Exception as e:
-        print(e.args)
+    
+    mo.save_salle(id, nom_salle,nb_places,profondeur_scene,longueur_scene,telephone_salle,type_place,description_salle,photo,adresse_salle,loge,acces_pmr)
+    
     return redirect(url_for('salle', id=id))
 
 @app.route('/salle/<id_salle>/supprimer')
