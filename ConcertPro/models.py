@@ -81,10 +81,10 @@ def get_image(id_value, repesitory_name):
         return "Erreur lors de la récupération de l'image"
     
 # fonctions utiles pour les templates
-def get_concert(nom):
+def get_concert(id):
     try:
         cursor = get_cursor()
-        requete = "SELECT * FROM Concert where nom_concert='"+nom+"'"
+        requete = "SELECT * FROM Concert where id_concert='"+id+"'"
         cursor.execute(requete)
         info = cursor.fetchall()
         close_cursor(cursor)
@@ -93,10 +93,10 @@ def get_concert(nom):
         print(e.args)
     return None
 
-def get_salle(nom):
+def get_salle(id):
     try:
         cursor = get_cursor()
-        request = "SELECT * FROM Salle where nom_salle='"+nom+"'"
+        request = "SELECT * FROM Salle where id_salle='"+id+"'"
         cursor.execute(request)
         info = cursor.fetchall()
         close_cursor(cursor)
@@ -105,10 +105,10 @@ def get_salle(nom):
         print(e.args)
     return None
 
-def get_logement(nom_etablissement):
+def get_logement(id_logement):
     try:
         cursor = get_cursor()
-        request = "SELECT * FROM Logement where nom_etablissement='"+nom_etablissement+"'"
+        request = "SELECT * FROM Logement where id_logement='"+id_logement+"'"
         cursor.execute(request)
         info = cursor.fetchall()
         close_cursor(cursor)
@@ -117,10 +117,10 @@ def get_logement(nom_etablissement):
         print(e.args)
     return None
 
-def get_artiste(nom):
+def get_artiste(id):
     try:
         cursor = get_cursor()
-        request = "SELECT * FROM Artiste where nom_artiste='"+nom+"'"
+        request = "SELECT * FROM Artiste where id_artiste='"+id+"'"
         cursor.execute(request)
         info = cursor.fetchall()
         close_cursor(cursor)
@@ -270,65 +270,106 @@ def get_id_logement_max():
         print(e.args)
     return None
 
-def remove_concert(nom):
-    concert = get_concert(nom)
+def confirmer_modif_concert(id_concert, nom_concert, date_heure_concert, duree_concert, description_concert):
+    try:
+        cursor = get_cursor()
+        requete = f"UPDATE Concert SET nom_concert = %s, date_heure_concert = %s, duree_concert = %s, description_concert = %s WHERE id_concert = %s"
+        execute_query(cursor, requete, (nom_concert, date_heure_concert, duree_concert, description_concert, id_concert))
+        db.commit()
+        close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+    return None
+
+def confirmer_modif_artiste(id_artiste, nom_artiste, nom_de_scene, mail, telephone, date_de_naissance, lieu_de_naissance,
+        adresse, numero_secu_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction):
+    try:
+        cursor = get_cursor()
+        requete = f"UPDATE Artiste SET telephone = %s, mail = %s,nom_artiste = %s,date_de_naissance = %s,lieu_naissance = %s,adresse = %s,securite_sociale = %s,cni = %s,date_delivrance_cni = %s,date_expiration_cni = %s,carte_reduction = %s,nom_scene = %s WHERE id_artiste = %s"
+        execute_query(cursor, requete, (telephone, mail, nom_artiste, date_de_naissance, lieu_de_naissance, adresse, numero_secu_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction, nom_de_scene,id_artiste))
+        db.commit()
+        close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+    return None
+
+def confirmer_modif_salle(id_salle, nom, description, loge, nombre_place, adresse, telephone, profondeur_scene, longueur_scene):
+    try:
+        cursor = get_cursor()
+        requete = f"UPDATE Salle SET nom_salle = %s, description_salle = %s, loge = %s, nb_places = %s, adresse_salle = %s, telephone_salle = %s, profondeur_scene = %s, longueur_scene = %s WHERE id_salle = %s"
+        execute_query(cursor, requete, (nom, description, loge, nombre_place, adresse, telephone, profondeur_scene, longueur_scene, id_salle))
+        db.commit()
+        close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+    return None
+
+def confirmer_modif_logement(id_logement, nom_etablissement, adresse, nb_etoile):
+    try:
+        cursor = get_cursor()
+        requete = f"UPDATE Logement SET nom_etablissement = %s,adresse_ville_codepostal = %s,nb_etoile = %s WHERE id_logement = %s"
+        execute_query(cursor, requete, (nom_etablissement, adresse, nb_etoile, id_logement))
+        db.commit()
+        close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+    return None
+
+def remove_concert(id):
     try:
         # suppression dans avoir
         cursor = get_cursor()
-        req = "DELETE FROM Avoir where id_concert="+str(concert[0])
+        req = "DELETE FROM Avoir where id_concert="+str(id)
         cursor.execute(req)
         close_cursor(cursor)
         # suppression dans besoin_equipement_artiste
         cursor = get_cursor()
-        req = "DELETE FROM Besoin_equipement_artiste where id_concert="+str(concert[0])
+        req = "DELETE FROM Besoin_equipement_artiste where id_concert="+str(id)
         cursor.execute(req)
         close_cursor(cursor)
         # suppression dans loger
         cursor = get_cursor()
-        req = "DELETE FROM Loger where id_concert="+str(concert[0])
+        req = "DELETE FROM Loger where id_concert="+str(id)
         cursor.execute(req)
         close_cursor(cursor)
         # suppression dans participer
         cursor = get_cursor()
-        req = "DELETE FROM Participer where id_concert="+str(concert[0])
+        req = "DELETE FROM Participer where id_concert="+str(id)
         cursor.execute(req)
         close_cursor(cursor)
         # suppression du concert
         cursor = get_cursor()
-        req = "DELETE FROM Concert where id_concert="+str(concert[0])
+        req = "DELETE FROM Concert where id_concert="+str(id)
         cursor.execute(req)
         db.commit()
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
 
-def remove_salle(nom):
-    salle = get_salle(nom)
+def remove_salle(id):
     try:
         cursor = get_cursor()
-        req = "DELETE FROM Salle where id_salle="+str(salle[0])
+        req = "DELETE FROM Salle where id_salle="+str(id)
         cursor.execute(req)
         db.commit()
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
 
-def remove_logement(nom_etablissement):
-    logement = get_logement(nom_etablissement)
+def remove_logement(id_logement):
     try:
         cursor = get_cursor()
-        req = "DELETE FROM Logement where id_logement="+str(logement[0])
+        req = "DELETE FROM Logement where id_logement="+str(id_logement)
         cursor.execute(req)
         db.commit()
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
 
-def remove_artiste(nom):
-    artiste = get_artiste(nom)
+def remove_artiste(id):
     try:
         cursor = get_cursor()
-        req = "DELETE FROM Artiste where id_artiste="+str(artiste[0])
+        req = "DELETE FROM Artiste where id_artiste="+str(id)
         cursor.execute(req)
         db.commit()
         close_cursor(cursor)
@@ -377,7 +418,7 @@ def concerts_agenda(heures=HEURES1, jour=JOUR_VOULU):
         for heure in heures:
             agenda[i][heure] = []
     #remplissage de l'agenda
-    if len(heures) < 1:
+    if len(heures) > 1:
         pas = heures[1]-heures[0]
     else:
         pas = 1
@@ -386,6 +427,16 @@ def concerts_agenda(heures=HEURES1, jour=JOUR_VOULU):
     for concert in concerts():
         date_debut = concert[2]
         if datetime.timedelta(days=-(jour.weekday()+1))<date_debut.replace(hour=0, minute=0)-jour<datetime.timedelta(days=7-(jour.weekday())):
+            minutesC = date_debut.minute+concert[3]%60
+            trop = minutesC//60
+            minutesC-=trop*60
+            heuresC = date_debut.hour+concert[3]//60+trop
+            depassement = 0
+            if heuresC > 23:
+                depassement = heuresC-23
+                heuresC = 23
+            fin_concert = datetime.time(hour=heuresC, minute=minutesC)
+            debut_concert = date_debut.time()
             for h in heures:
                 # format 24h obligatoire
                 if h+pas > 23:
@@ -393,16 +444,40 @@ def concerts_agenda(heures=HEURES1, jour=JOUR_VOULU):
                 else:
                     fin_horaire = datetime.time(hour=h+pas)
                 debut_horaire = datetime.time(hour=h)
-                minutesC = date_debut.minute+concert[3]%60
-                trop = minutesC//60
-                minutesC-=trop*60
-                heuresC = date_debut.hour+concert[3]//60+trop
-
-                fin_concert = datetime.time(hour=heuresC, minute=minutesC)
-                debut_concert = date_debut.time()
                 # ajouter le concert si il est dans l'intervalle horaire
-                if not(debut_concert >= fin_horaire or fin_concert <= debut_horaire):
-                    agenda[date_debut.weekday()+1][h].append(concert[1])
+                if not(debut_concert >= fin_horaire or fin_concert < debut_horaire):
+                    agenda[date_debut.weekday()+1][h].append((concert[0],concert[1]))
+            if depassement > 0:
+                fin_depassement = datetime.time(hour=depassement, minute=minutesC)
+                for h in heures:
+                    if h+pas > 23:
+                        fin_horaire = datetime.time(hour=h+pas-1, minute=59)
+                    else:
+                        fin_horaire = datetime.time(hour=h+pas)
+                    debut_horaire = datetime.time(hour=h)
+                    if fin_depassement > fin_horaire:
+                        j = date_debut.weekday()+2
+                        if j < 8:
+                            agenda[j][h].append((concert[0],concert[1]))
+        elif datetime.timedelta(days=-(jour.weekday()+1))==date_debut.replace(hour=0, minute=0)-jour:
+            minutesC = date_debut.minute+concert[3]%60
+            trop = minutesC//60
+            minutesC-=trop*60
+            heuresC = date_debut.hour+concert[3]//60+trop
+            depassement = 0
+            if heuresC > 23:
+                depassement = heuresC-23
+            fin_depassement = datetime.time(hour=depassement, minute=minutesC)
+            for h in heures:
+                # format 24h obligatoire
+                if h+pas > 23:
+                    fin_horaire = datetime.time(hour=h+pas-1, minute=59)
+                else:
+                    fin_horaire = datetime.time(hour=h+pas)
+                debut_horaire = datetime.time(hour=h)
+                # ajouter le concert si il est dans l'intervalle horaire
+                if fin_depassement > fin_horaire:
+                    agenda[1][h].append((concert[0],concert[1]))
     return agenda
 
 def type_salle():

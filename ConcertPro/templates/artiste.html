@@ -30,6 +30,9 @@
 
 </div>
 <div>
-    <a href="{{ url_for('supprimer_artiste', nom_artiste=artiste[3]) }}">supprimer l'artiste</a>
+    <a href="{{ url_for('supprimer_artiste', id_artiste=artiste[0]) }}">supprimer l'artiste</a>
+</div>
+<div>
+    <a href="{{ url_for('modifier_artiste', id_artiste=artiste[0]) }}">modifier l'artiste</a>
 </div>
 {% endblock %}

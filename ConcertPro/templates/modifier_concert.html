@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/modif.css')}}"> 
+{% endblock %}
+{% block content %}
+<h2>{{ concert[1] }}</h2>
+<div class="container">
+    {% if concert[-1] is none %}
+    <img class="img_acc"  src="{{ url_for('static', filename='images/aucune_image.png') }}" alt="aucune image">
+    {% else %}
+    <img class="img_acc" src="{{ url_for('static', filename='images/concert/' + concert[0]|str + '.jpg') }}" alt="image pas réussi à charger">
+    {% endif %}
+    <form method="POST" action="{{ url_for('confirmer_modif_concert', id_concert=concert[0], nom_concert=concert[1]) }}">
+        <label for="nom_concert">Nom du concert :</label>
+        <input type="textfield" id="nom_concert" name="nom_concert" required value="{{ concert[1] }}">
+
+        <label for="date_heure_concert">Date et heur du concert :</label>
+        <input type="textfield" id="date_heure_concert" name="date_heure_concert" required value="{{ concert[2] }}">
+
+        <label for="duree_concert">La durée du concert :</label>
+        <input type="textfield" id="duree_concert" name="duree_concert" required value="{{ concert[3] }}">
+
+        <label for="description_concert">Description du concert :</label>
+        <input type="textfield" id="description_concert" name="description_concert" required value="{{ concert[6] }}">
+
+        <button type="submit">Appliquer la modification</button>
+    </form>
+</div>
+<div class="annuler">
+    <a href="{{ url_for('concert', id=concert[0]) }}">Annuler la modification</a>
+</div>
+{% endblock %}
