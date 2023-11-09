@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block styles %}
     {{ super() }}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/ajout_logement.css') }}"> 
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/ajout.css') }}"> 
 {% endblock %}
 {% block content %}
 <form action="{{ url_for('save_logement') }}" method="POST" enctype="multipart/form-data">
@@ -13,6 +13,6 @@
         <label for="adresse">Adresse</label>
         <input type="text" name="adresse"/>
     </section>
-    <input type="submit" id="valider" name="valider" value="Valider l'ajout de cette salle"/>
+    <input class="valider" type="submit" id="valider" name="valider" value="Valider l'ajout de cette salle"/>
 </form>
 {% endblock %}

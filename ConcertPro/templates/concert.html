@@ -4,10 +4,12 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/concert.css')}}"> 
 {% endblock %}
 {% block content %}
-
+<div class="titre">
+    <h2>{{ concert[1] }}</h2>
+</div>
 <div class="container">
     <div class="sous-container">
-        <h2>{{ concert[1] }}</h2>
+
         {% if concert[-1] is none %}
         <img class="img_acc"  src="{{ url_for('static', filename='images/aucune_image.png') }}" alt="img">
         {% else %}
@@ -29,8 +31,8 @@
         <a href="{{ url_for('supprimer_concert', id=concert[0]) }}" class="supprimer">supprimer le concert</a>
     {% endif %}
 </div>
-<div>
-    <a href="{{ url_for('modifier_concert', id_concert=concert[0]) }}">modifier le concert</a>
+<div class="bouton">
+    <a href="{{ url_for('modifier_concert', id_concert=concert[0]) }}" class="modifier">modifier le concert</a>
 </div>
 
 {% endblock %}
