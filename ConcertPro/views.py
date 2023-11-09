@@ -92,9 +92,16 @@ def save_concert():
 def concert(id):
     """page pour le concert <id>"""
     concert = mo.get_concert(id)
+    salle = mo.get_salle(concert[5]) # id_salle
+    artiste = mo.get_artiste(concert[4])
+    print(mo.get_salle(concert[5]))
+    print(salle)
     return render_template(
         "concert.html",
-        concert=concert
+        concert=concert,
+        salle = salle,
+        artiste = artiste
+
     )
 
 @app.route('/concert/<id>/supprimer')

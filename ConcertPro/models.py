@@ -96,20 +96,21 @@ def get_concert(id):
 def get_salle(id):
     try:
         cursor = get_cursor()
-        request = "SELECT * FROM Salle where id_salle='"+id+"'"
-        cursor.execute(request)
+        request = "SELECT * FROM Salle WHERE id_salle = %s"
+        cursor.execute(request, (id,))
         info = cursor.fetchall()
         close_cursor(cursor)
-        return info[0]
+        return info[0] if info else None
     except Exception as e:
         print(e.args)
-    return None
+        return None
+
 
 def get_logement(id_logement):
     try:
         cursor = get_cursor()
-        request = "SELECT * FROM Logement where id_logement='"+id_logement+"'"
-        cursor.execute(request)
+        request = "SELECT * FROM Logement where id_logement = %s"
+        cursor.execute(request, (id_logement,))
         info = cursor.fetchall()
         close_cursor(cursor)
         return info[0]
@@ -120,8 +121,8 @@ def get_logement(id_logement):
 def get_artiste(id):
     try:
         cursor = get_cursor()
-        request = "SELECT * FROM Artiste where id_artiste='"+id+"'"
-        cursor.execute(request)
+        request = "SELECT * FROM Artiste where id_artiste= %s"
+        cursor.execute(request, (id,))
         info = cursor.fetchall()
         close_cursor(cursor)
         return info[0]
@@ -132,8 +133,8 @@ def get_artiste(id):
 def get_id_type_salles(nom):
     try:
         cursor = get_cursor()
-        request = "SELECT id_type FROM Type_Salle where type_place_s='"+nom+"'"
-        cursor.execute(request)
+        request = "SELECT id_type FROM Type_Salle where type_place_s= %s"
+        cursor.execute(request, (nom,))
         info = cursor.fetchall()
         close_cursor(cursor)
         if info == []:
