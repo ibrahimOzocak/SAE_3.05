@@ -465,7 +465,6 @@ def save_equipement():
         print(e.args)
     return redirect(url_for('equipement', id_equipement=id_equipement))
 
-
 @app.route('/equipement/<id_equipement>/supprimer')
 def supprimer_equipement(id_equipement):
     """supprime l'equipement' <id_equipement>"""

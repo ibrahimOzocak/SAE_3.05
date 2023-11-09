@@ -533,8 +533,7 @@ def get_equipement(id):
         cursor.execute(requete, (id,))
         info = cursor.fetchall()
         close_cursor(cursor)
-        print(info)
-        return info
+        return info[0]
     except Exception as e:
         print(e.args)
     return None
