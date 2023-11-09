@@ -464,3 +464,19 @@ def save_equipement():
     except Exception as e:
         print(e.args)
     return redirect(url_for('equipement', id_equipement=id_equipement))
+
+
+@app.route('/equipement/<id_equipement>/supprimer')
+def supprimer_equipement(id_equipement):
+    """supprime l'equipement' <id_equipement>"""
+    mo.remvove_equipement(id_equipement)
+    return redirect(url_for('accueil'))
+
+@app.route('/equipement/<id_equipement>/modifier')
+def modifier_equipement(id_equipement):
+    """modifier l'equipement' <id_equipement>"""
+    equipement = mo.get_equipement(id_equipement)
+    return render_template(
+        "modifier_equipement.html",
+        equipement=equipement
+    )

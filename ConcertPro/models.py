@@ -84,8 +84,8 @@ def get_image(id_value, repesitory_name):
 def get_concert(id):
     try:
         cursor = get_cursor()
-        requete = "SELECT * FROM Concert where id_concert='"+id+"'"
-        cursor.execute(requete)
+        requete = "SELECT * FROM Concert where id_concert= %s"
+        cursor.execute(requete, (id,))
         info = cursor.fetchall()
         close_cursor(cursor)
         return info[0]
@@ -271,6 +271,18 @@ def get_id_logement_max():
         print(e.args)
     return None
 
+def get_id_equipement_max():
+    try:
+        cursor = get_cursor()
+        requete = "SELECT MAX(id_equipement) FROM Equipement"
+        cursor.execute(requete)
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        return info[0][0]
+    except Exception as e:
+        print(e.args)
+    return None
+
 def confirmer_modif_concert(id_concert, nom_concert, date_heure_concert, duree_concert, description_concert):
     try:
         cursor = get_cursor()
@@ -371,6 +383,15 @@ def remove_artiste(id):
     try:
         cursor = get_cursor()
         req = "DELETE FROM Artiste where id_artiste="+str(id)
+        cursor.execute(req)
+        db.commit()
+        close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+def remvove_equipement(id):
+    try:
+        cursor = get_cursor()
+        req = "DELETE FROM Equipement where id_equipement="+str(id)
         cursor.execute(req)
         db.commit()
         close_cursor(cursor)
@@ -505,6 +526,19 @@ def get_concerts_artiste(id_artiste):
         print(e.args)
     return None
 
+def get_equipement(id):
+    try:
+        cursor = get_cursor()
+        requete = "SELECT * FROM Equipement where id_equipement= %s"
+        cursor.execute(requete, (id,))
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        print(info)
+        return info
+    except Exception as e:
+        print(e.args)
+    return None
+
 def get_equipement_salle(id_salle):
     try:
         cursor = get_cursor()
@@ -528,3 +562,17 @@ def get_equipement_concert(id_concert, id_artiste):
     except Exception as e:
         print(e.args)
     return None
+
+def equipements():
+    equipements = []
+    try:
+        cursor = get_cursor()
+        requete = "SELECT * FROM Equipement"
+        cursor.execute(requete)
+        info = cursor.fetchall()
+        for i in info:
+            equipements.append(i)
+        close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+    return equipements
