@@ -18,7 +18,6 @@
     <div class="infos">
         <p>Date : {{ concert[2] }}</p>
         <p>Duree : {{ concert[3] }} minutes</p>
-        <p>Description : {{ concert[6] }}</p>
         <p>Nom artiste : {{ artiste[3] }}</p>
         <p>Nom de la salle : {{ salle[3] }}</p>
         <p>Description : {{ concert[6] }}</p>
@@ -32,15 +31,29 @@
 <div>
     <a href="{{ url_for('modifier_concert', id_concert=concert[0]) }}">Modifier le concert</a>
 </div>
-<h2> Les instruments utilisés lors du concert </h2>
+<h2> Les instruments posseder  </h2>
 <div class="instruments">
     <ul>
-        {% for i in range (equipement|length) %}
+        {% for i in range (possedes|length) %}
         <li>
-            <p>{{ equipement[i][2] }} {{ equipement[i][1] }}</p>
+            <p>{{ possedes[i][2] }} {{ possedes[i][1] }}</p>
         </li>
         {% endfor %}
     </ul>
+</div>
+<h3> Les instruments non posseder  </h3>
+<div class="instruments">
+    <ul>
+        {% for i in range (non_possedes|length) %}
+        <li>
+            <p>{{ non_possedes[i][2] }} {{ non_possedes[i][1] }} </p>
+            <p>Reste a louer: {{ non_possedes[i][2] - non_possedes[i][3] }}</p>
+        </li> </p>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
 
 </div>
 {% endblock %}

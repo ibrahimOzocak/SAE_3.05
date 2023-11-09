@@ -81,13 +81,16 @@ def concert(id):
     concert = mo.get_concert(id)
     salle = mo.get_salle(concert[5])
     artiste = mo.get_artiste(concert[4])
-    equipement = mo.get_equipement_concert(id,artiste[0])
+    possedes, non_possedes = mo.categoriser_equipements(id, artiste[0])
+    print(possedes)
+    print(non_possedes)
     return render_template(
         "concert.html",
         concert=concert,
         salle = salle,
         artiste = artiste,
-        equipement = equipement
+        possedes = possedes,
+        non_possedes = non_possedes
     )
 
 @app.route('/concert/<id>/supprimer')

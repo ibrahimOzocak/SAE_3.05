@@ -584,6 +584,24 @@ def get_equipement_concert(id_concert, id_artiste):
         print(e.args)
     return None
 
+
+def categoriser_equipements(id_concert, id_artiste):
+    try:
+        cursor = get_cursor()
+        requete = "SELECT id_equipement, nom_equipement, quantite, quantite_posseder FROM Concert NATURAL JOIN Besoin_equipement_artiste NATURAL JOIN Equipement WHERE id_concert = %s and id_artiste = %s;"
+        execute_query(cursor, requete, (id_concert, id_artiste,))
+        equipements = cursor.fetchall()
+        close_cursor(cursor)
+
+        possedes = [equipement for equipement in equipements if equipement[3] >= equipement[2]]
+        non_possedes = [equipement for equipement in equipements if equipement[3] <= equipement[2] and equipement[3] != equipement[2] ]
+
+        return possedes, non_possedes
+
+    except Exception as e:
+        print(e.args)
+        return None, None
+
 def equipements():
     equipements = []
     try:

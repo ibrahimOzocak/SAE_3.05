@@ -106,7 +106,7 @@ CREATE TABLE Besoin_equipement_artiste (
   id_artiste INT NOT NULL,
   id_equipement INT NOT NULL,
   quantite INT,
-  possede_equipement VARCHAR(42),
+  quantite_posseder INT,
   PRIMARY KEY (id_concert, id_artiste, id_equipement),
   FOREIGN KEY (id_equipement) REFERENCES Equipement (id_equipement),
   FOREIGN KEY (id_artiste) REFERENCES Artiste (id_artiste),
