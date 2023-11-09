@@ -20,15 +20,18 @@
           <ul>
             <li><a href="{{url_for('creer_concert')}}">Créer un concert</a></li>
             <li><a href="{{url_for('ajout_nouvelle_salle')}}">Ajouter une nouvelle salle</a></li>
+            <li><a href="{{url_for('ajout_artiste')}}">Ajouter un nouvel artiste</a></li>
+            <li><a href="{{url_for('ajout_logement')}}">Ajouter un nouveau logement</a></li>
+            <li><a href="{{url_for('ajout_equipement')}}">Ajouter un nouvel equipement</a></li>
           </ul>
         </li>
         <li><a href="#">Voir</a>
           <ul>
-            <li><a href="{{url_for('voir_artistes')}}">Voir les artistes</a></li>
             <li><a href="{{url_for('voir_prochains_concerts')}}">Voir les prochains concerts</a></li>
-            <li><a href="{{url_for('voir_logements')}}">Voir les logements</a></li>
-            <li><a href="{{url_for('voir_salles')}}">Voir toutes les salles</a></li>
             <li><a href="{{url_for('historique_concerts')}}">Historique des concerts</a></li>
+            <li><a href="{{url_for('voir_salles')}}">Voir toutes les salles</a></li>
+            <li><a href="{{url_for('voir_artistes')}}">Voir les artistes</a></li>
+            <li><a href="{{url_for('voir_logements')}}">Voir les logements</a></li>
           </ul>
         </li>
       </ul>
@@ -36,6 +39,7 @@
     <main class="main">
       {% block content %}
       {% endblock %}
+    </main>
       <footer>
         <ul>
           <li>SEVELLEC Maxime (Chef de projet)</li>
@@ -44,9 +48,7 @@
           <li>MENJIKOFF-GUILLOT Noa</li>
           <li>ROUSSELET Juliette</li>
         </ul>
-      </footer >
-    </main>
-
+      </footer>
     {% block scripts %}
       <!-- Optional JavaScript -->
     {% endblock %}

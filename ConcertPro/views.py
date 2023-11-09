@@ -1,4 +1,3 @@
-import random
 from flask import redirect, render_template, request, url_for
 from .app import app, db
 import datetime
@@ -424,3 +423,43 @@ def confirmer_modif_logement(id_logement, nom_etablissement):
     mo.confirmer_modif_logement(id_logement, nom, adresse, nb_etoile)
     
     return redirect(url_for('logement', id_logement=id_logement))
+
+# equipement
+@app.route('/ajout_equipement')
+def ajout_equipement():
+    """page d'ajout d'un equipement"""
+    return render_template(
+        "ajout_equipement.html"
+    )
+
+@app.route('/voir_equipements')
+def voir_equipements():
+    """page qui affiche les equipements"""
+    return render_template(
+            "voir_equipements.html",
+            equipements=mo.equipements()
+        )
+
+@app.route('/equipement/<id_equipement>')
+def equipement(id_equipement):
+    """page de l'equipement <id_equipement>"""
+    equipement = mo.get_equipement(id_equipement)
+    return render_template(
+        "equipement.html",
+        equipement=equipement
+    )
+
+@app.route('/save_equipement', methods=("POST",))
+def save_equipement():
+    """sauvegarde d'un equipement"""
+    nom_equipement = request.form['nom_equipement']
+    id_equipement = mo.get_id_equipement_max()+1
+    try:
+        cursor = mo.get_cursor()
+        req = "INSERT INTO Equipement (id_equipement, nom_equipement) VALUES("+str(id_equipement)+", '" + str(nom_equipement) + "')"
+        cursor.execute(req)
+        db.commit()
+        mo.close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+    return redirect(url_for('equipement', id_equipement=id_equipement))
