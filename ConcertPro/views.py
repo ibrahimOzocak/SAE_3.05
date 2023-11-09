@@ -93,14 +93,13 @@ def concert(id):
     concert = mo.get_concert(id)
     salle = mo.get_salle(concert[5]) # id_salle
     artiste = mo.get_artiste(concert[4])
-    print(mo.get_salle(concert[5]))
-    print(salle)
+    equipement = mo.get_equipement_concert(id,artiste[0])
     return render_template(
         "concert.html",
         concert=concert,
         salle = salle,
-        artiste = artiste
-
+        artiste = artiste,
+        equipement = equipement
     )
 
 @app.route('/concert/<id>/supprimer')
@@ -151,9 +150,11 @@ def voir_salles():
 def salle(id):
     """page pour la salle <id>"""
     salle = mo.get_salle(id)
+    equipement = mo.get_equipement_salle(id)
     return render_template(
         "salle.html",
-        salle=salle
+        salle=salle,
+        equipement = equipement
     )
 
 

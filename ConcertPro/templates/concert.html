@@ -32,5 +32,12 @@
 <div>
     <a href="{{ url_for('modifier_concert', id_concert=concert[0]) }}">modifier le concert</a>
 </div>
-
+<div>
+    <h2> Les instruments utilisés lors du concert </h2>
+    {% for i in range (equipement|length) %}
+    <div class="sous-conteneur">
+        <p>{{ equipement[i][2] }} {{ equipement[i][1] }}</p>
+    </div>
+    {% endfor %}
+</div>
 {% endblock %}

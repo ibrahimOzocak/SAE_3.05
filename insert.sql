@@ -58,17 +58,17 @@ INSERT INTO Avoir (id_salle, id_concert, plan_feu, installation, FOH, backline, 
 
 -- Insertion dans la table Posseder
 INSERT INTO Posseder (id_salle, id_equipement, quantite) VALUES
-(1, 1, '10 microphones'),
-(1, 2, '8 enceintes'),
-(2, 3, '1 batterie'),
-(2, 4, '5 guitares électriques');
+(1, 1, 10),
+(1, 2, 8),
+(2, 3, 1),
+(2, 4, 5);
 
 -- Insertion dans la table Besoin_equipement_artiste
 INSERT INTO Besoin_equipement_artiste (id_concert, id_artiste, id_equipement, quantite, possede_equipement) VALUES
-(1, 1, 1, '5 microphones', 'Oui'),
-(1, 1, 2, '4 enceintes', 'Oui'),
-(2, 2, 3, '1 batterie', 'Non'),
-(2, 2, 4, '2 guitares électriques', 'Oui');
+(1, 1, 1, 5, 'Oui'),
+(1, 1, 2, 4, 'Oui'),
+(2, 2, 3, 1, 'Non'),
+(2, 2, 4, 2, 'Oui');
 
 -- Insertion dans la table Loger
 INSERT INTO Loger (id_artiste, id_logement, id_concert, nb_personne, nb_nuit) VALUES

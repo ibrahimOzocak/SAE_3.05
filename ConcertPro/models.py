@@ -504,3 +504,27 @@ def get_concerts_artiste(id_artiste):
     except Exception as e:
         print(e.args)
     return None
+
+def get_equipement_salle(id_salle):
+    try:
+        cursor = get_cursor()
+        requete = "SELECT id_equipement,nom_equipement,quantite FROM Salle NATURAL JOIN Posseder NATURAL JOIN Equipement WHERE id_salle = %s;"
+        execute_query(cursor, requete, (id_salle,))
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        return info
+    except Exception as e:
+        print(e.args)
+    return None
+
+def get_equipement_concert(id_concert, id_artiste):
+    try:
+        cursor = get_cursor()
+        requete = "SELECT id_equipement,nom_equipement,quantite FROM Concert NATURAL JOIN Besoin_equipement_artiste NATURAL JOIN Equipement WHERE id_concert = %s and id_artiste = %s;"
+        execute_query(cursor, requete, (id_concert, id_artiste,))
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        return info
+    except Exception as e:
+        print(e.args)
+    return None
