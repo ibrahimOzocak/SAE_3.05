@@ -230,11 +230,12 @@ def voir_artistes():
 def artiste(id_artiste):
     """page de l'artiste <id_artiste>"""
     artiste = mo.get_artiste(id_artiste)
+    concerts = mo.get_concerts_artiste(id_artiste)
     return render_template(
         "artiste.html",
-        artiste=artiste
+        artiste=artiste,
+        concerts=concerts
     )
-
 @app.route('/confirmer_artiste/<id_artiste>/<nom_artiste>', methods=("POST",))
 def confirmer_modif_artiste(id_artiste, nom_artiste):
     """sauvegarde d'un artiste"""

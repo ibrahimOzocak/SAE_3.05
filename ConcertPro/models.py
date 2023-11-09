@@ -493,3 +493,14 @@ def type_salle():
         print(e.args)
     return None
 
+def get_concerts_artiste(id_artiste):
+    try:
+        cursor = get_cursor()
+        requete = "SELECT Concert.* FROM Participer NATURAL JOIN Concert WHERE id_artiste = %s;"
+        execute_query(cursor, requete, (id_artiste,))
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        return info
+    except Exception as e:
+        print(e.args)
+    return None
