@@ -32,12 +32,16 @@
 <div>
     <a href="{{ url_for('modifier_salle', id_salle=salle[0]) }}">modifier la salle</a>
 </div>
-<div>
-    <h2> Les instruments utilisés lors du concert </h2>
-    {% for i in range (equipement|length) %}
-    <div class="sous-conteneur">
-        <p>{{ equipement[i][2] }} {{ equipement[i][1] }}</p>
-    </div>
-    {% endfor %}
+<h2> Les instruments utilisés lors du concert </h2>
+<div class="instruments">
+    <ul>
+        {% for i in range (equipement|length) %}
+        <li>
+            <p>{{ equipement[i][2] }} {{ equipement[i][1] }}</p>
+        </li>
+
+        {% endfor %}
+    </ul>
+    
 </div>
 {% endblock %}
