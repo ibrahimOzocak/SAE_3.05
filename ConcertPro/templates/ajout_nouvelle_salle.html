@@ -23,7 +23,7 @@
                     <option>{{ type_salle[0] }}</option>
                     {% endfor %}
                 </select>
-                <a><button type="button">Creer un nouveau type</button></a>
+                <a href="{{ url_for('ajout_type_salle') }}"><button type="button">Creer un nouveau type</button></a>
             </section> 
             <label for="profondeur">Profondeur de la scene</label>
             <input type="text" name="profondeur"/> 

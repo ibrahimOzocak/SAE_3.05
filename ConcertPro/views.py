@@ -460,3 +460,26 @@ def modifier_equipement(id_equipement):
         "modifier_equipement.html",
         equipement=equipement
     )
+
+#type_salle
+@app.route('/ajout_type_salle')
+def ajout_type_salle():
+    """page d'ajout d'un type de salle"""
+    return render_template(
+        "ajout_type_salle.html"
+    )
+
+@app.route('/save_type_salle', methods=("POST",))
+def save_type_salle():
+    """sauvegarde d'un type de salle"""
+    nom_type_salle = request.form['nom_type_salle']
+    id_type_salle = mo.get_id_type_salle_max()+1
+    try:
+        cursor = mo.get_cursor()
+        req = "INSERT INTO Type_Salle (id_type, type_place_s) VALUES(%s, %s)"
+        cursor.execute(req, (id_type_salle, nom_type_salle))
+        db.commit()
+        mo.close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+    return redirect(url_for('accueil'))

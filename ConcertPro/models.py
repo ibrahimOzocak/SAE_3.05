@@ -293,6 +293,18 @@ def get_id_equipement_max():
         print(e.args)
     return None
 
+def get_id_type_salle_max():
+    try:
+        cursor = get_cursor()
+        requete = "SELECT MAX(id_type) FROM Type_Salle"
+        cursor.execute(requete)
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        return info[0][0]
+    except Exception as e:
+        print(e.args)
+    return None
+
 def confirmer_modif_concert(id_concert, nom_concert, date_heure_concert, duree_concert, description_concert):
     try:
         cursor = get_cursor()
@@ -342,28 +354,28 @@ def remove_concert(id):
     try:
         # suppression dans avoir
         cursor = get_cursor()
-        req = "DELETE FROM Avoir where id_concert="+str(id)
-        cursor.execute(req)
+        req = "DELETE FROM Avoir where id_concert= %s"
+        cursor.execute(req, (id,))
         close_cursor(cursor)
         # suppression dans besoin_equipement_artiste
         cursor = get_cursor()
-        req = "DELETE FROM Besoin_equipement_artiste where id_concert="+str(id)
-        cursor.execute(req)
+        req = "DELETE FROM Besoin_equipement_artiste where id_concert= %s"
+        cursor.execute(req, (id,))
         close_cursor(cursor)
         # suppression dans loger
         cursor = get_cursor()
-        req = "DELETE FROM Loger where id_concert="+str(id)
-        cursor.execute(req)
+        req = "DELETE FROM Loger where id_concert= %s"
+        cursor.execute(req, (id,))
         close_cursor(cursor)
         # suppression dans participer
         cursor = get_cursor()
-        req = "DELETE FROM Participer where id_concert="+str(id)
-        cursor.execute(req)
+        req = "DELETE FROM Participer where id_concert= %s"
+        cursor.execute(req, (id,))
         close_cursor(cursor)
         # suppression du concert
         cursor = get_cursor()
-        req = "DELETE FROM Concert where id_concert="+str(id)
-        cursor.execute(req)
+        req = "DELETE FROM Concert where id_concert= %s"
+        cursor.execute(req, (id,))
         db.commit()
         close_cursor(cursor)
     except Exception as e:
@@ -372,8 +384,8 @@ def remove_concert(id):
 def remove_salle(id):
     try:
         cursor = get_cursor()
-        req = "DELETE FROM Salle where id_salle="+str(id)
-        cursor.execute(req)
+        req = "DELETE FROM Salle where id_salle= %s"
+        cursor.execute(req, (id,))
         db.commit()
         close_cursor(cursor)
     except Exception as e:
@@ -382,8 +394,8 @@ def remove_salle(id):
 def remove_logement(id_logement):
     try:
         cursor = get_cursor()
-        req = "DELETE FROM Logement where id_logement="+str(id_logement)
-        cursor.execute(req)
+        req = "DELETE FROM Logement where id_logement= %s"
+        cursor.execute(req, (id_logement,))
         db.commit()
         close_cursor(cursor)
     except Exception as e:
@@ -392,8 +404,8 @@ def remove_logement(id_logement):
 def remove_artiste(id):
     try:
         cursor = get_cursor()
-        req = "DELETE FROM Artiste where id_artiste="+str(id)
-        cursor.execute(req)
+        req = "DELETE FROM Artiste where id_artiste= %s"
+        cursor.execute(req, (id,))
         db.commit()
         close_cursor(cursor)
     except Exception as e:
@@ -401,8 +413,8 @@ def remove_artiste(id):
 def remvove_equipement(id):
     try:
         cursor = get_cursor()
-        req = "DELETE FROM Equipement where id_equipement="+str(id)
-        cursor.execute(req)
+        req = "DELETE FROM Equipement where id_equipement= %s"
+        cursor.execute(req, (id,))
         db.commit()
         close_cursor(cursor)
     except Exception as e:
