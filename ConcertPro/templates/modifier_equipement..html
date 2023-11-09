@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/modif.css')}}"> 
+{% endblock %}
+{% block content %}
+<h2>{{ equipement[2] }}</h2>
+<div class="container">
+    {% if equipement[-1] is none %}
+    <img class="img_acc"  src="{{ url_for('static', filename='images/aucune_image.png') }}" alt="aucune image">
+    {% else %}
+    <img class="img_acc" src="{{ url_for('static', filename='images/artiste/' + equipement[0]|str + '.jpg') }}" alt="image pas réussi à charger">
+    {% endif %}
+    <form method="POST" action="{{ url_for('confirmer_modif_equipement', id_equipement=equipement[0], nom_etablissement=equipement[2]) }}">
+        
+        <label for="adresse">Adresse :</label>
+        <input type="textfield" id="adresse" name="adresse" required value="{{ equipement[1] }}">
+
+        <button type="submit">Appliquer la modification</button>
+    </form>
+</div>
+<div class="annuler">
+    <a href="{{ url_for('equipement', id_equipement=equipement[0]) }}">Annuler la modification</a>
+</div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/logement.css')}}"> 
+{% endblock %}
+{% block content %}
+<h2>{{ equipement[1] }}</h2>
+<div>
+    {% if equipement[-1] is none %}
+    <img class="img_acc"  src="{{ url_for('static', filename='images/aucune_image.png') }}" alt="aucune image">
+    {% else %}
+    <img class="img_acc" src="{{ url_for('static', filename='images/equipement/' + equipement[0]|str + '.jpg') }}" alt="image pas réussi à charger">
+    {% endif %}
+    <p>Nom : {{ equipement[1] }}</p>
+</div>
+<div>
+    <a href="{{ url_for('supprimer_equipement', id_equipement=equipement[0]) }}">Supprimer l'equipement</a>
+</div>
+<div>
+    <a href="{{ url_for('modifier_equipement', id_equipement=equipement[0]) }}">Modifier l'equipement</a>
+</div>
+{% endblock %}

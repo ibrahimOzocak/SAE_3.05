@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/creer_concert.css')}}"> 
 {% endblock %}
 {% block content %}
-<form role="form" method="POST" action="{{ url_for('save_concert') }}">
+<form role="form" method="POST" action="{{ url_for('save_concert') }}" enctype="multipart/form-data">
     <section class="section_creer sec1">
         <div class="container">
             <input type="file" name="image" id="image-input">

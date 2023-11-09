@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/ajout_nouvelle_salle.css') }}"> 
 {% endblock %}
 {% block content %}
-<form role="form" method="POST" action="{{ url_for('save_salle') }}">
+<form role="form" method="POST" action="{{ url_for('save_salle') }}" enctype="multipart/form-data">
     <section class="sec1_new_salle">
         <div class="container">
             <input type="file" name="image" id="image-input">
@@ -23,11 +23,11 @@
                     <option>{{ type_salle[0] }}</option>
                     {% endfor %}
                 </select>
-                <a><button type="button">Creer un nouveau type</button></a>
+                <a href="{{ url_for('ajout_type_salle') }}"><button type="button">Creer un nouveau type</button></a>
             </section> 
             <label for="profondeur">Profondeur de la scene</label>
             <input type="text" name="profondeur"/> 
-            <label for="largeur">Longeur de la scene</label>
+            <label for="longueur">Longeur de la scene</label>
             <input type="text" name="longueur"/>
             
         </div>

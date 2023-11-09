@@ -19,7 +19,7 @@ INSERT INTO Logement (id_logement, adresse_ville_codepostal, nom_etablissement, 
 (3, 'Lyon 69001', 'Grand Hôtel Lyonnais', 4, NULL);
 
 -- Insertion dans la table Artiste
-INSERT INTO Artiste (id_artiste, telephone, mail, nom_artiste, prenom_artiste, date_de_naissance, lieu_naissance, adresse, securite_sociale, conge_spectacle, cni, date_delivrance_cni, date_expiration_cni, carte_reduction, id_style_musique,photo_artiste,nom_scene) VALUES
+INSERT INTO Artiste (id_artiste, telephone, mail, nom_artiste, prenom_artiste, date_de_naissance, lieu_naissance, adresse, securite_sociale, conge_spectacle, cni, date_delivrance_cni, date_expiration_cni, carte_reduction, id_style_musique, photo, nom_scene) VALUES
 (1, '555-123-4567', 'artiste1@example.com', 'John', 'Doe', '1990-05-15', 'New York', '123 Main St', '123-45-6789', 'Oui', 'ABC123456', '2020-01-15', '2025-01-15', 'Réduction1', 1, NULL,'LeoN'),
 (2, '555-987-6543', 'artiste2@example.com', 'Jane', 'Smith', '1985-08-20', 'Los Angeles', '456 Elm St', '987-65-4321', 'Non', 'XYZ987654', '2019-06-10', '2024-06-10', 'Réduction2', 2, NULL, 'MyG');
 
@@ -37,7 +37,7 @@ INSERT INTO Type_Salle (id_type, type_place_s) VALUES
 (4, 'Scéne de musique');
 
 -- Insertion dans la table Salle
-INSERT INTO Salle (id_salle, id_type_salle, loge, nom_salle, nb_places, profondeur_scene, longueur_scene, description_salle, adresse_salle, telephone_salle, photo_salle, accueil_pmr) VALUES
+INSERT INTO Salle (id_salle, id_type_salle, loge, nom_salle, nb_places, profondeur_scene, longueur_scene, description_salle, adresse_salle, telephone_salle, photo, accueil_pmr) VALUES
 (1, 1, 'Oui', 'Marché Gare', 414, NULL, NULL, 'Le Marché Gare à Lyon est une salle de concert et un lieu culturel de taille plus modeste et intime.', '4 Place Hubert Mounier Lyon', '04 72 40 97 13', NULL, 'Oui'),
 (2, 3, 'Non', 'Halle Tony Garnier', 20000, NULL, NULL, "La Halle Tony Garnier à Lyon est l'une des plus grandes salles de spectacles polyvalentes en France.", '20 Place Dr Charles et Christophe Mérieu 69007 Lyon', '04 72 76 85 85', NULL, 'Oui'),
 (3, 3, 'Non', 'Toï ToÏ le Zinc', 200, NULL, NULL, "Toï Toï le Zinc à Villeurbanne est un espace culturel polyvalent qui peut accueillir une variété d'événements artistiques et culturels", '17-19 rue Marcel Dutartre 69100 Villeurbanne', '09 51 90 85 04', NULL, NULL),
@@ -58,17 +58,17 @@ INSERT INTO Avoir (id_salle, id_concert, plan_feu, installation, FOH, backline, 
 
 -- Insertion dans la table Posseder
 INSERT INTO Posseder (id_salle, id_equipement, quantite) VALUES
-(1, 1, '10 microphones'),
-(1, 2, '8 enceintes'),
-(2, 3, '1 batterie'),
-(2, 4, '5 guitares électriques');
+(1, 1, 10),
+(1, 2, 8),
+(2, 3, 1),
+(2, 4, 5);
 
 -- Insertion dans la table Besoin_equipement_artiste
-INSERT INTO Besoin_equipement_artiste (id_concert, id_artiste, id_equipement, quantite, possede_equipement) VALUES
-(1, 1, 1, '5 microphones', 'Oui'),
-(1, 1, 2, '4 enceintes', 'Oui'),
-(2, 2, 3, '1 batterie', 'Non'),
-(2, 2, 4, '2 guitares électriques', 'Oui');
+INSERT INTO Besoin_equipement_artiste (id_concert, id_artiste, id_equipement, quantite, quantite_posseder) VALUES
+(1, 1, 1, 5, 2),
+(1, 1, 2, 4, 4),
+(2, 2, 3, 1, 0),
+(2, 2, 4, 2, 3);
 
 -- Insertion dans la table Loger
 INSERT INTO Loger (id_artiste, id_logement, id_concert, nb_personne, nb_nuit) VALUES
