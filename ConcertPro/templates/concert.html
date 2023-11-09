@@ -15,10 +15,9 @@
         {% endif %}
     </div>
     <div class="infos">
-        <p>id : {{ concert[0] }}</p>
-        <p>date : {{ concert[2] }}</p>
-        <p>duree : {{ concert[3] }} minutes</p>
-        <p>description : {{ concert[6] }}</p>
+        <p>Date : {{ concert[2] }}</p>
+        <p>Duree : {{ concert[3] }} minutes</p>
+        <p>Description : {{ concert[6] }}</p>
         <p>Nom artiste : {{ artiste[3] }}</p>
         <p>Nom de la salle : {{ salle[3] }}</p>
         <p>Description : {{ concert[6] }}</p>
@@ -26,11 +25,11 @@
 </div>
 <div class="bouton">
     {% if concert is not none %}
-        <a href="{{ url_for('supprimer_concert', id=concert[0]) }}" class="supprimer">supprimer le concert</a>
+        <a href="{{ url_for('supprimer_concert', id=concert[0]) }}" class="supprimer">Supprimer le concert</a>
     {% endif %}
 </div>
 <div>
-    <a href="{{ url_for('modifier_concert', id_concert=concert[0]) }}">modifier le concert</a>
+    <a href="{{ url_for('modifier_concert', id_concert=concert[0]) }}">Modifier le concert</a>
 </div>
 <h2> Les instruments utilisés lors du concert </h2>
 <div class="instruments">

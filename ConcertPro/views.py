@@ -94,7 +94,7 @@ def concert(id):
 def supprimer_concert(id):
     """supprime le concert <id>"""
     mo.remove_concert(id)
-    return redirect(url_for('accueil'))
+    return redirect(url_for('voir_prochains_concerts'))
 
 @app.route('/concert/<id_concert>/modifier')
 def modifier_concert(id_concert):
@@ -186,7 +186,7 @@ def save_salle():
 def supprimer_salle(id_salle):
     """supprime la salle <id_salle>"""
     mo.remove_salle(id_salle)
-    return redirect(url_for('accueil'))
+    return redirect(url_for('voir_salles'))
 
 # artiste
 @app.route('/ajout_artiste')
@@ -294,7 +294,7 @@ def save_artiste():
     id_artiste = mo.get_id_artiste_max()+1
     try:
         cursor = mo.get_cursor()
-        req = "INSERT INTO Artiste (id_artiste, nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_naissance, adresse, securite_social, cni, date_delivrance_cni, date_expiration_cni, carte_reduction) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        req = "INSERT INTO Artiste (id_artiste, nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_naissance, adresse, securite_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
         cursor.execute(req, (id_artiste, nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_de_naissance, adresse, securite_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction))
         db.commit()
         mo.close_cursor(cursor)
@@ -306,7 +306,7 @@ def save_artiste():
 def supprimer_artiste(id_artiste):
     """supprime l'artiste <id_artiste>"""
     mo.remove_artiste(id_artiste)
-    return redirect(url_for('accueil'))
+    return redirect(url_for('voir_artistes'))
 
 # logement
 @app.route('/logement/<id_logement>')
@@ -345,7 +345,7 @@ def save_logement():
 def supprimer_logement(id_logement):
     """supprime le logement <id_logement>"""
     mo.remove_logement(id_logement)
-    return redirect(url_for('accueil'))
+    return redirect(url_for('voir_logements'))
 
 @app.route('/logement/<id_logement>/modifier')
 def modifier_logement(id_logement):
@@ -450,7 +450,7 @@ def save_equipement():
 def supprimer_equipement(id_equipement):
     """supprime l'equipement' <id_equipement>"""
     mo.remvove_equipement(id_equipement)
-    return redirect(url_for('accueil'))
+    return redirect(url_for('voir_equipements'))
 
 @app.route('/equipement/<id_equipement>/modifier')
 def modifier_equipement(id_equipement):
