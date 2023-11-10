@@ -39,14 +39,13 @@
                 <option value="{{ salles[i][0]}}">{{ salles[i][3] }} ({{ types[salles[i][1]][0] }})</option>
                 {% endfor %}
             </select>
-            <a href="{{ url_for('ajout_nouvelle_salle') }}"><button type="button">Creer une nouvelle salle</button></a>
+            <a href="{{ url_for('ajout_nouvelle_salle') }}"><button type="button">Créer une nouvelle salle</button></a>
         </section>
         <section class="section_creer sec4">
             <label for="description">Description du concert (max 500)</label>
             <textarea name="description" maxlength="500"></textarea>
         </section>
     </div>
-    
     <input type="submit" value="Enregistrer le concert">
 </form>
 {% endblock %}

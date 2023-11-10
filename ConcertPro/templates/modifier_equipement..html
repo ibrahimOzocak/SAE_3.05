@@ -12,14 +12,12 @@
     <img class="img_acc" src="{{ url_for('static', filename='images/artiste/' + equipement[0]|str + '.jpg') }}" alt="image pas réussi à charger">
     {% endif %}
     <form method="POST" action="{{ url_for('confirmer_modif_equipement', id_equipement=equipement[0], nom_etablissement=equipement[2]) }}">
-        
         <label for="adresse">Adresse :</label>
         <input type="textfield" id="adresse" name="adresse" required value="{{ equipement[1] }}">
-
-        <button type="submit">Appliquer la modification</button>
+        <button type="submit">Appliquer les modifications</button>
     </form>
 </div>
 <div class="annuler">
-    <a href="{{ url_for('equipement', id_equipement=equipement[0]) }}">Annuler la modification</a>
+    <a href="{{ url_for('equipement', id_equipement=equipement[0]) }}">Annuler les modifications</a>
 </div>
 {% endblock %}

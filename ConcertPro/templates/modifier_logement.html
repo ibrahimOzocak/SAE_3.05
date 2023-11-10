@@ -7,24 +7,21 @@
 <h2>{{ logement[2] }}</h2>
 <div class="container">
     {% if logement[-1] is none %}
-    <img class="img_acc"  src="{{ url_for('static', filename='images/aucune_image.png') }}" alt="aucune image">
+    <img class="img_acc" src="{{ url_for('static', filename='images/aucune_image.png') }}" alt="aucune image">
     {% else %}
     <img class="img_acc" src="{{ url_for('static', filename='images/artiste/' + logement[0]|str + '.jpg') }}" alt="image pas réussi à charger">
     {% endif %}
     <form method="POST" action="{{ url_for('confirmer_modif_logement', id_logement=logement[0], nom_etablissement=logement[2]) }}">
         <label for="nom_etablissement">Nom de l'établissement :</label>
         <input type="textfield" id="nom_etablissement" name="nom_etablissement" required value="{{ logement[2] }}">
-
         <label for="nb_etoiles">Nombre d'étoiles :</label>
         <input type="textfield" id="nb_etoiles" name="nb_etoiles" required value="{{ logement[3] }}">
-
         <label for="adresse">Adresse :</label>
         <input type="textfield" id="adresse" name="adresse" required value="{{ logement[1] }}">
-
-        <button type="submit">Appliquer la modification</button>
+        <button type="submit">Appliquer les modifications</button>
     </form>
 </div>
 <div class="annuler">
-    <a href="{{ url_for('logement', id_logement=logement[0]) }}">Annuler la modification</a>
+    <a href="{{ url_for('logement', id_logement=logement[0]) }}">Annuler les modifications</a>
 </div>
 {% endblock %}

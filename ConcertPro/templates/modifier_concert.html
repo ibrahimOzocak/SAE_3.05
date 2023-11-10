@@ -14,20 +14,16 @@
     <form method="POST" action="{{ url_for('confirmer_modif_concert', id_concert=concert[0], nom_concert=concert[1]) }}">
         <label for="nom_concert">Nom du concert :</label>
         <input type="textfield" id="nom_concert" name="nom_concert" required value="{{ concert[1] }}">
-
         <label for="date_heure_concert">Date et heure du concert :</label>
         <input type="textfield" id="date_heure_concert" name="date_heure_concert" required value="{{ concert[2] }}">
-
         <label for="duree_concert">La durée du concert :</label>
         <input type="textfield" id="duree_concert" name="duree_concert" required value="{{ concert[3] }}">
-
         <label for="description_concert">Description du concert :</label>
         <input type="textfield" id="description_concert" name="description_concert" required value="{{ concert[6] }}">
-
-        <button type="submit">Appliquer la modification</button>
+        <button type="submit">Appliquer les modifications</button>
     </form>
 </div>
 <div class="annuler">
-    <a href="{{ url_for('concert', id=concert[0]) }}">Annuler la modification</a>
+    <a href="{{ url_for('concert', id=concert[0]) }}">Annuler les modifications</a>
 </div>
 {% endblock %}

@@ -12,35 +12,26 @@
     <img class="img_acc" src="{{ url_for('static', filename='images/salle/' + salle[0]|str + '.jpg') }}" alt="image pas réussi à charger">
     {% endif %}
     <form method="POST" action="{{ url_for('confirmer_modif_salle', id_salle=salle[0], nom_salle=salle[3]) }}">
-
         <label for="nom">Nom de la salle :</label>
         <input type="textarea" id="nom" name="nom" required value="{{ salle[3] }}">
-
-        <label for="description">description :</label>
+        <label for="description">Description :</label>
         <input type="textarea" id="description" name="description" required value="{{ salle[7] }}">
-
-        <label for="loge">loge :</label>
+        <label for="loge">Loge :</label>
         <input type="textfield" id="loge" name="loge" required value="{{ salle[2] }}">
-
-        <label for="nombre de places">nombre de places :</label>
+        <label for="nombre de places">Nombre de places :</label>
         <input type="textfield" id="nombre de places" name="nombre de places" required value="{{ salle[4] }}">
-
-        <label for="adresse">adresse :</label>
+        <label for="adresse">Adresse :</label>
         <input type="textfield" id="adresse" name="adresse" required value="{{ salle[8] }}">
-
-        <label for="telephone">telephone :</label>
+        <label for="telephone">Téléphone :</label>
         <input type="textfield" id="telephone" name="telephone" required value="{{ salle[9] }}">
-
-        <label for="profondeur scene">profondeur scene :</label>
+        <label for="profondeur scene">Profondeur scene :</label>
         <input type="textfield" id="profondeur scene" name="profondeur scene" required value="{{ salle[5] }}">
-
-        <label for="longueur scene">longueur scene :</label>
+        <label for="longueur scene">Longueur scene :</label>
         <input type="textfield" id="longueur scene" name="longueur scene" required value="{{ salle[6] }}">
-
-        <button type="submit">Appliquer la modification</button>
+        <button type="submit">Appliquer les modifications</button>
     </form>
 </div>
 <div class="annuler">
-    <a href="{{ url_for('salle', id=salle[0]) }}">Annuler la modification</a>
+    <a href="{{ url_for('salle', id=salle[0]) }}">Annuler les modifications</a>
 </div>
 {% endblock %}
