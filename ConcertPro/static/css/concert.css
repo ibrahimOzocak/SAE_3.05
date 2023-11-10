@@ -41,7 +41,6 @@
     padding: 20px;
     border-radius: 20px;
     font-size: 20px;
-    
 }
 
 .supprimer:hover{
@@ -56,6 +55,47 @@
 }
 
 
-ul{
-    margin: 50px;
+.modifier{
+    border: solid 1px;
+    background-color: blue;
+    color: white;
+    padding: 20px;
+    border-radius: 20px;
+    font-size: 20px;
 }
+
+.modifier:hover{
+    opacity: 0.7;
+    transition: ease-in-out 0.3s;
+}
+
+
+
+.conteneur {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+    justify-content: space-evenly;
+}
+
+/* Ajustez la largeur des images */
+.sous-conteneur{
+    max-width: calc(25% - 20px); /* 25% pour 4 images par ligne avec espacement */
+    text-align: center; /* Centrez le contenu horizontalement */
+}
+
+/* Ajustez la largeur et la hauteur des images */
+.sous-conteneur img {
+    width: 20vw;
+    border-radius: 10px;
+    height: 30vh;
+}
+
+.titre{
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.titre h2{
+    margin: 0;
