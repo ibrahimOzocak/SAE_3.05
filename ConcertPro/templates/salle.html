@@ -18,13 +18,13 @@
         {% endif %}
     </div>    
     <div class="infos">
-        <p>description : {{ salle[7] }}</p>
-        <p>loge : {{ salle[2] }}</p>
-        <p>nombres places : {{ salle[4] }}</p>
-        <p>adresse : {{ salle[8] }}</p>
-        <p>telephone : {{ salle[9] }}</p>
-        <p>profondeur scene : {{ salle[5] }}</p>
-        <p>longeur scene : {{ salle[6] }} </p>
+        <p>Description : {{ salle[7] }}</p>
+        <p>Loge : {{ salle[2] }}</p>
+        <p>Nombres places : {{ salle[4] }}</p>
+        <p>Adresse : {{ salle[8] }}</p>
+        <p>Telephone : {{ salle[9] }}</p>
+        <p>Profondeur scene : {{ salle[5] }}</p>
+        <p>Longeur scene : {{ salle[6] }} </p>
     </div>
 </div>
 <div class="bouton">
@@ -32,5 +32,17 @@
 </div>
 <div>
     <a href="{{ url_for('modifier_salle', id_salle=salle[0]) }}">modifier la salle</a>
+</div>
+<h2> Les instruments utilisés lors du concert </h2>
+<div class="instruments">
+    <ul>
+        {% for i in range (equipement|length) %}
+        <li>
+            <p>{{ equipement[i][2] }} {{ equipement[i][1] }}</p>
+        </li>
+
+        {% endfor %}
+    </ul>
+    
 </div>
 {% endblock %}

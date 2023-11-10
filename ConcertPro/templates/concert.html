@@ -15,12 +15,11 @@
         {% else %}
         <img class="img_acc" src="{{ url_for('static', filename='images/concerts/' + concert[0]|str + '.jpg') }}" alt="img">
         {% endif %}
+        <a href="{{ url_for('afficher_rider', id_concert=concert[0]) }}"> Afficher le rider </a>
     </div>
     <div class="infos">
-        <p>id : {{ concert[0] }}</p>
-        <p>date : {{ concert[2] }}</p>
-        <p>duree : {{ concert[3] }} minutes</p>
-        <p>description : {{ concert[6] }}</p>
+        <p>Date : {{ concert[2] }}</p>
+        <p>Duree : {{ concert[3] }} minutes</p>
         <p>Nom artiste : {{ artiste[3] }}</p>
         <p>Nom de la salle : {{ salle[3] }}</p>
         <p>Description : {{ concert[6] }}</p>
@@ -28,11 +27,37 @@
 </div>
 <div class="bouton">
     {% if concert is not none %}
-        <a href="{{ url_for('supprimer_concert', id=concert[0]) }}" class="supprimer">supprimer le concert</a>
+        <a href="{{ url_for('supprimer_concert', id=concert[0]) }}" class="supprimer">Supprimer le concert</a>
     {% endif %}
 </div>
-<div class="bouton">
-    <a href="{{ url_for('modifier_concert', id_concert=concert[0]) }}" class="modifier">modifier le concert</a>
+
+<div>
+    <a href="{{ url_for('modifier_concert', id_concert=concert[0]) }}">Modifier le concert</a>
+</div>
+<h2> Les instruments posseder  </h2>
+<div class="instruments">
+    <ul>
+        {% for i in range (possedes|length) %}
+        <li>
+            <p>{{ possedes[i][2] }} {{ possedes[i][1] }}</p>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+<h3> Les instruments non posseder  </h3>
+<div class="instruments">
+    <ul>
+        {% for i in range (non_possedes|length) %}
+        <li>
+            <p>{{ non_possedes[i][2] }} {{ non_possedes[i][1] }} </p>
+            <p>Reste a louer: {{ non_possedes[i][2] - non_possedes[i][3] }}</p>
+        </li> </p>
+        </li>
+        {% endfor %}
+    </ul>
+
 </div>
 
+
+</div>
 {% endblock %}

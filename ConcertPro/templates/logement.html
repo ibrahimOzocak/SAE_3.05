@@ -4,6 +4,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/concert.css')}}"> 
 {% endblock %}
 {% block content %}
+
 <div class="titre">
     <h2>{{ logement[2] }}</h2>
 </div>
@@ -28,5 +29,6 @@
 </div>
 <div class="bouton">
     <a href="{{ url_for('modifier_logement', id_logement=logement[0]) }}" class="modifier">modifier le logement</a>
+
 </div>
 {% endblock %}

@@ -5,7 +5,7 @@ CREATE TABLE Style_musique (
 
 CREATE TABLE Equipement (
   id_equipement INT PRIMARY KEY NOT NULL,
-  nom_equipement VARCHAR(42)
+  nom_equipement VARCHAR(42) UNIQUE
 );
 
 CREATE TABLE Logement (
@@ -95,7 +95,7 @@ CREATE TABLE Avoir (
 CREATE TABLE Posseder (
   id_salle INT NOT NULL,
   id_equipement INT NOT NULL,
-  quantite VARCHAR(42),
+  quantite INT,
   PRIMARY KEY (id_salle, id_equipement),
   FOREIGN KEY (id_equipement) REFERENCES Equipement (id_equipement),
   FOREIGN KEY (id_salle) REFERENCES Salle (id_salle)
@@ -105,8 +105,8 @@ CREATE TABLE Besoin_equipement_artiste (
   id_concert INT NOT NULL,
   id_artiste INT NOT NULL,
   id_equipement INT NOT NULL,
-  quantite VARCHAR(42),
-  possede_equipement VARCHAR(42),
+  quantite INT,
+  quantite_posseder INT,
   PRIMARY KEY (id_concert, id_artiste, id_equipement),
   FOREIGN KEY (id_equipement) REFERENCES Equipement (id_equipement),
   FOREIGN KEY (id_artiste) REFERENCES Artiste (id_artiste),

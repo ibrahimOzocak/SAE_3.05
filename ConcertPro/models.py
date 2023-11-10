@@ -2,6 +2,7 @@ import mysql.connector
 from PIL import Image
 from io import BytesIO
 import datetime
+import io
 
 HEURES1 = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
 PAS1 = 1
@@ -34,59 +35,66 @@ def prochains_concerts():
         close_cursor(cursor)
         for i in infos:
             if i[-1] is not None:
-                get_image(int(i[0]),"concert")
+                get_image(int(i[0]),"concerts", i[-1])
         return infos
     except Exception as e:
         print(e.args)
 
-def save_image(chemin_img, id_value, table, nom_attribute):
+def save_concert(id, nom_concert, date_heure_concert, duree_concert, id_artiste, id_salle, description_concert,photo):
     try:
         cursor = get_cursor()
-        with open(chemin_img, 'rb') as image_file:
-            image_data = image_file.read()
-
-        update_query = f"UPDATE {table} SET photo = %s WHERE {nom_attribute} = %s"
-        execute_query(cursor, update_query, (image_data, id_value))
-        close_cursor(cursor)
+        req = "INSERT INTO Concert (id_concert,nom_concert, date_heure_concert, duree_concert, id_artiste, id_salle, description_concert, photo) VALUES(%s, %s, %s, %s, %s, %s, %s, %s)"
+        cursor.execute(req, (id,nom_concert, date_heure_concert, duree_concert, id_artiste, id_salle, description_concert,save_image(photo)))
         db.commit()
-        return "Image sauvegardée avec succès"
+        close_cursor(cursor)
     except Exception as e:
-        return "Erreur lors de la sauvegarde de l'image"
+        print(e.args)
+    return None
 
-if __name__ == '__main__':
-    # save_image("/home/iut45/Etudiants/o22202357/Bureau/images.jpeg", 1, "Concert", "id_concert")
-    # save_image("/home/iut45/Etudiants/o22202357/Bureau/images2.jpeg", 2, "Concert", "id_concert")
-    # save_image("/home/iut45/Etudiants/o22202357/Bureau/images4.png", 3, "Concert", "id_concert")
+def save_salle(id, nom_salle,nb_places,profondeur_scene,longueur_scene,telephone_salle,type_place,description_salle,photo,adresse_salle,loge,acces_pmr):
+    try:
+        cursor = get_cursor()
+        req = "INSERT INTO Salle (id_salle, id_type_salle, loge, nom_salle, nb_places, profondeur_scene, longueur_scene, description_salle,adresse_salle,telephone_salle, accueil_pmr, photo) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        cursor.execute(req, (id, get_id_type_salles(type_place),loge,nom_salle,nb_places, profondeur_scene,longueur_scene,description_salle,adresse_salle,telephone_salle,acces_pmr,save_image(photo)))
+        db.commit()
+        close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+
+def save_image(photo):
+    try:
+        if photo.filename != '':
+            image_data = photo.read()
+            image_bytesio = io.BytesIO(image_data)
+            blob = image_bytesio.read()
+            return blob
+    except Exception as e:
+        print(e.args)
+    return None
     
-    save_image("/home/iut45/Etudiants/o22202357/Bureau/images.jpeg", 1, "Logement", "id_logement")
-    save_image("/home/iut45/Etudiants/o22202357/Bureau/images2.jpeg", 2, "Logement", "id_logement")
-    save_image("/home/iut45/Etudiants/o22202357/Bureau/images4.png", 3, "Logement", "id_logement")
-
-def get_image(id_value, repesitory_name):
+def get_image(id_value, repesitory_name, image_data):
     if id_value is None:
         return
     try:
-        cursor = get_cursor()
-        select_query = "SELECT photo FROM Concert WHERE id_concert = %s"
-        cursor.execute(select_query, (id_value,))
-        image_data = cursor.fetchone()[0]
         if image_data is None:
+            print("no image data")
             return
         image = Image.open(BytesIO(image_data))
         image = image.convert('RGB')
         nom_fichier = "ConcertPro/static/images/"+repesitory_name+"/"+str(id_value)+".jpg"
         image.save(nom_fichier)
-        close_cursor(cursor)
     except Exception as e:
-        return "Erreur lors de la récupération de l'image"
+        print(e.args)
     
 # fonctions utiles pour les templates
 def get_concert(id):
     try:
         cursor = get_cursor()
-        requete = "SELECT * FROM Concert where id_concert='"+id+"'"
-        cursor.execute(requete)
+        requete = "SELECT * FROM Concert where id_concert= %s"
+        cursor.execute(requete, (id,))
         info = cursor.fetchall()
+        if info[0][-1] is not None:
+            get_image(int(info[0][0]),"concerts", info[0][-1])
         close_cursor(cursor)
         return info[0]
     except Exception as e:
@@ -99,6 +107,8 @@ def get_salle(id):
         request = "SELECT * FROM Salle WHERE id_salle = %s"
         cursor.execute(request, (id,))
         info = cursor.fetchall()
+        if info[0][-2] is not None:
+            get_image(int(info[0][0]),"salle", info[0][-2])
         close_cursor(cursor)
         return info[0] if info else None
     except Exception as e:
@@ -155,7 +165,7 @@ def historique_concerts():
         for i in info:
             historique_concerts.append(i)
             if i[-1] is not None:
-                get_image(int(i[0]), "concert")
+                get_image(int(i[0]), "concerts", i[-1])
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
@@ -171,7 +181,7 @@ def concerts():
         for i in info:
             concerts.append(i)
             if i[-1] is not None:
-                get_image(int(i[0]), "concert")
+                get_image(int(i[0]), "concerts", i[-1])
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
@@ -187,7 +197,7 @@ def salles():
         for i in info:
             salles.append(i)
             if i[-1] is not None:
-                get_image(int(i[0]), "salle")
+                get_image(int(i[0]), "salle", i[-1])
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
@@ -217,7 +227,7 @@ def logements():
         for i in info:
             logements.append(i)
             if i[-1] is not None:
-                get_image(i[0], "logement")
+                get_image(i[0], "logement", i[-1])
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
@@ -263,6 +273,30 @@ def get_id_logement_max():
     try:
         cursor = get_cursor()
         requete = "SELECT MAX(id_logement) FROM Logement"
+        cursor.execute(requete)
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        return info[0][0]
+    except Exception as e:
+        print(e.args)
+    return None
+
+def get_id_equipement_max():
+    try:
+        cursor = get_cursor()
+        requete = "SELECT MAX(id_equipement) FROM Equipement"
+        cursor.execute(requete)
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        return info[0][0]
+    except Exception as e:
+        print(e.args)
+    return None
+
+def get_id_type_salle_max():
+    try:
+        cursor = get_cursor()
+        requete = "SELECT MAX(id_type) FROM Type_Salle"
         cursor.execute(requete)
         info = cursor.fetchall()
         close_cursor(cursor)
@@ -320,28 +354,28 @@ def remove_concert(id):
     try:
         # suppression dans avoir
         cursor = get_cursor()
-        req = "DELETE FROM Avoir where id_concert="+str(id)
-        cursor.execute(req)
+        req = "DELETE FROM Avoir where id_concert= %s"
+        cursor.execute(req, (id,))
         close_cursor(cursor)
         # suppression dans besoin_equipement_artiste
         cursor = get_cursor()
-        req = "DELETE FROM Besoin_equipement_artiste where id_concert="+str(id)
-        cursor.execute(req)
+        req = "DELETE FROM Besoin_equipement_artiste where id_concert= %s"
+        cursor.execute(req, (id,))
         close_cursor(cursor)
         # suppression dans loger
         cursor = get_cursor()
-        req = "DELETE FROM Loger where id_concert="+str(id)
-        cursor.execute(req)
+        req = "DELETE FROM Loger where id_concert= %s"
+        cursor.execute(req, (id,))
         close_cursor(cursor)
         # suppression dans participer
         cursor = get_cursor()
-        req = "DELETE FROM Participer where id_concert="+str(id)
-        cursor.execute(req)
+        req = "DELETE FROM Participer where id_concert= %s"
+        cursor.execute(req, (id,))
         close_cursor(cursor)
         # suppression du concert
         cursor = get_cursor()
-        req = "DELETE FROM Concert where id_concert="+str(id)
-        cursor.execute(req)
+        req = "DELETE FROM Concert where id_concert= %s"
+        cursor.execute(req, (id,))
         db.commit()
         close_cursor(cursor)
     except Exception as e:
@@ -350,8 +384,8 @@ def remove_concert(id):
 def remove_salle(id):
     try:
         cursor = get_cursor()
-        req = "DELETE FROM Salle where id_salle="+str(id)
-        cursor.execute(req)
+        req = "DELETE FROM Salle where id_salle= %s"
+        cursor.execute(req, (id,))
         db.commit()
         close_cursor(cursor)
     except Exception as e:
@@ -360,8 +394,8 @@ def remove_salle(id):
 def remove_logement(id_logement):
     try:
         cursor = get_cursor()
-        req = "DELETE FROM Logement where id_logement="+str(id_logement)
-        cursor.execute(req)
+        req = "DELETE FROM Logement where id_logement= %s"
+        cursor.execute(req, (id_logement,))
         db.commit()
         close_cursor(cursor)
     except Exception as e:
@@ -370,8 +404,17 @@ def remove_logement(id_logement):
 def remove_artiste(id):
     try:
         cursor = get_cursor()
-        req = "DELETE FROM Artiste where id_artiste="+str(id)
-        cursor.execute(req)
+        req = "DELETE FROM Artiste where id_artiste= %s"
+        cursor.execute(req, (id,))
+        db.commit()
+        close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+def remvove_equipement(id):
+    try:
+        cursor = get_cursor()
+        req = "DELETE FROM Equipement where id_equipement= %s"
+        cursor.execute(req, (id,))
         db.commit()
         close_cursor(cursor)
     except Exception as e:
@@ -501,6 +544,109 @@ def get_concerts_artiste(id_artiste):
         info = cursor.fetchall()
         close_cursor(cursor)
         return info
+    except Exception as e:
+        print(e.args)
+    return None
+
+def get_equipement(id):
+    try:
+        cursor = get_cursor()
+        requete = "SELECT * FROM Equipement where id_equipement= %s"
+        cursor.execute(requete, (id,))
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        return info[0]
+    except Exception as e:
+        print(e.args)
+    return None
+
+def get_equipement_salle(id_salle):
+    try:
+        cursor = get_cursor()
+        requete = "SELECT id_equipement,nom_equipement,quantite FROM Salle NATURAL JOIN Posseder NATURAL JOIN Equipement WHERE id_salle = %s;"
+        execute_query(cursor, requete, (id_salle,))
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        return info
+    except Exception as e:
+        print(e.args)
+    return None
+
+def get_equipement_concert(id_concert, id_artiste):
+    try:
+        cursor = get_cursor()
+        requete = "SELECT id_equipement,nom_equipement,quantite FROM Concert NATURAL JOIN Besoin_equipement_artiste NATURAL JOIN Equipement WHERE id_concert = %s and id_artiste = %s;"
+        execute_query(cursor, requete, (id_concert, id_artiste,))
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        return info
+    except Exception as e:
+        print(e.args)
+    return None
+
+
+def categoriser_equipements(id_concert, id_artiste):
+    try:
+        cursor = get_cursor()
+        requete = "SELECT id_equipement, nom_equipement, quantite, quantite_posseder FROM Concert NATURAL JOIN Besoin_equipement_artiste NATURAL JOIN Equipement WHERE id_concert = %s and id_artiste = %s;"
+        execute_query(cursor, requete, (id_concert, id_artiste,))
+        equipements = cursor.fetchall()
+        close_cursor(cursor)
+
+        possedes = [equipement for equipement in equipements if equipement[3] >= equipement[2]]
+        non_possedes = [equipement for equipement in equipements if equipement[3] <= equipement[2] and equipement[3] != equipement[2] ]
+
+        return possedes, non_possedes
+
+    except Exception as e:
+        print(e.args)
+        return None, None
+
+def equipements():
+    equipements = []
+    try:
+        cursor = get_cursor()
+        requete = "SELECT * FROM Equipement"
+        cursor.execute(requete)
+        info = cursor.fetchall()
+        for i in info:
+            equipements.append(i)
+        close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+    return equipements
+
+def get_equipements_concert(id_concert):
+    try:
+        cursor = get_cursor()
+        requete = "SELECT id_equipement,nom_equipement,quantite,possede_equipement FROM Concert NATURAL JOIN Besoin_equipement_artiste NATURAL JOIN Equipement WHERE id_concert = %s;"
+        execute_query(cursor, requete, (id_concert,))
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        return info
+    except Exception as e:
+        print(e.args)
+    return None
+
+def get_equipements_disponible(id_concert, id_salle):
+    equipements_concert = get_equipements_concert(id_concert)
+    try:
+        cursor = get_cursor()
+        requete = "SELECT id_equipement,nom_equipement,quantite FROM Salle NATURAL JOIN Posseder NATURAL JOIN Equipement WHERE id_salle = %s;"
+        execute_query(cursor, requete, (id_salle,))
+        infos = cursor.fetchall()
+        close_cursor(cursor)
+        equipements = []
+        deja_vu = []
+        for e in infos:
+            if e[1] not in deja_vu:
+                equipements.append(e)
+                deja_vu.append(e[1])
+        for e in equipements_concert:
+            if e[1] not in deja_vu:
+                equipements.append(e)
+                deja_vu.append(e[1])      
+        return equipements
     except Exception as e:
         print(e.args)
     return None
