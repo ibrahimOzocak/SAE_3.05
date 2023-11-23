@@ -28,10 +28,10 @@
     </div>
 </div>
 <div class="bouton">
-    <a href="{{ url_for('supprimer_salle', id_salle=salle[0]) }}" class="supprimer">supprimer la salle</a>
+    <a href="{{ url_for('supprimer_salle', id_salle=salle[0]) }}" class="supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette salle, cette action est irréversible?');">supprimer la salle</a>
 </div>
 <div>
-    <a href="{{ url_for('modifier_salle', id_salle=salle[0]) }}">modifier la salle</a>
+    <a href="{{ url_for('modifier_salle', id_salle=salle[0]) }}" >modifier la salle</a>
 </div>
 <h2>Les instruments utilisés lors du concert</h2>
 <div class="instruments">
