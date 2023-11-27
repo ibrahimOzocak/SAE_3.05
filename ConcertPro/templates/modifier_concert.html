@@ -6,12 +6,16 @@
 {% block content %}
 <h2>{{ concert[1] }}</h2>
 <div class="container">
-    {% if concert[-1] is none %}
-    <img class="img_acc"  src="{{ url_for('static', filename='images/aucune_image.png') }}" alt="aucune image">
-    {% else %}
-    <img class="img_acc" src="{{ url_for('static', filename='images/concert/' + concert[0]|str + '.jpg') }}" alt="image pas réussi à charger">
-    {% endif %}
     <form method="POST" action="{{ url_for('confirmer_modif_concert', id_concert=concert[0], nom_concert=concert[1]) }}">
+        <div class="container">
+            <input type="file" name="image" id="image-input">
+            <script src="{{ url_for('static', filename='js/charge_img.js') }}"></script>
+            {% if concert[-1] is none %}
+            <img id="image-charge" class="img_acc"  src="" alt="Glisser/Déposer une image">
+            {% else %}
+            <img class="img_acc" src="{{ url_for('static', filename='images/concert/' + concert[0]|str + '.jpg') }}" alt="image pas réussi à charger">
+            {% endif %}
+        </div>
         <label for="nom_concert">Nom du concert :</label>
         <input type="textfield" id="nom_concert" name="nom_concert" required value="{{ concert[1] }}">
         <label for="date_heure_concert">Date et heure du concert :</label>
