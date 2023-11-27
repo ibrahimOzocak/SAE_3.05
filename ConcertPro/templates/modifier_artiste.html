@@ -13,7 +13,7 @@
     {% endif %}
     <form method="POST" action="{{ url_for('confirmer_modif_artiste', id_artiste=artiste[0], nom_artiste=artiste[3]) }}">
         <label for="nom_de_scene">Nom de scene :</label>
-        <input type="textfield" id="nom_de_scene" name="nom_de_scene" required value="{{ artiste[16] }}">
+        <input type="textfield" id="nom_de_scene" name="nom_de_scene" required value="{{ artiste[15] }}">
         <label for="mail">Mail :</label>
         <input type="textfield" id="mail" name="mail" required value="{{ artiste[2] }}">
         <label for="telephone">Téléphone :</label>
