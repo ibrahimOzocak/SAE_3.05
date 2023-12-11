@@ -6,7 +6,7 @@
 {% block content %}
 <h2>{{ artiste[4] }} {{ artiste[3] }}</h2>
 <div class="container">
-    <form method="POST" action="{{ url_for('confirmer_modif_artiste', id_artiste=artiste[0], nom_artiste=artiste[3]) }}">
+    <form method="POST" action="{{ url_for('confirmer_modif_artiste', id_artiste=artiste[0], nom_artiste=artiste[1]) }}" enctype="multipart/form-data">
         <div class="container">
             <input type="file" name="image" id="image-input">
             <script src="{{ url_for('static', filename='js/charge_img.js') }}"></script>
@@ -17,7 +17,7 @@
             {% endif %}
         </div>
         <label for="nom_de_scene">Nom de scene :</label>
-        <input type="textfield" id="nom_de_scene" name="nom_de_scene" required value="{{ artiste[16] }}">
+        <input type="textfield" id="nom_de_scene" name="nom_de_scene" required value="{{ artiste[1] }}">
         <label for="mail">Mail :</label>
         <input type="textfield" id="mail" name="mail" required value="{{ artiste[2] }}">
         <label for="telephone">Téléphone :</label>

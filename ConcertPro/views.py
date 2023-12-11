@@ -115,8 +115,9 @@ def confirmer_modif_concert(id_concert, nom_concert):
     date_heure_concert = request.form['date_heure_concert']
     duree_concert = request.form['duree_concert']
     description_concert = request.form['description_concert']
+    photo = request.files['image']
     
-    mo.confirmer_modif_concert(id_concert,nom_concert, date_heure_concert, duree_concert, description_concert)
+    mo.confirmer_modif_concert(id_concert,nom_concert, date_heure_concert, duree_concert, description_concert,photo)
     
     return redirect(url_for('concert', id=id_concert))
 
@@ -243,8 +244,9 @@ def confirmer_modif_artiste(id_artiste, nom_artiste):
     date_delivrance_cni = request.form['date_delivrance_cni']
     date_expiration_cni = request.form['date_expiration_cni']
     carte_reduction = request.form['carte_de_reduction']
+    photo = request.files['image']
     mo.confirmer_modif_artiste(id_artiste, nom_artiste, nom_de_scene, mail, telephone, date_de_naissance, lieu_de_naissance,
-        adresse, numero_secu_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction)
+        adresse, numero_secu_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction,photo)
     return redirect(url_for('artiste', id_artiste=id_artiste))
 
 @app.route('/confirmer_salle/<id_salle>/<nom_salle>', methods=("POST",))
@@ -258,7 +260,8 @@ def confirmer_modif_salle(id_salle, nom_salle):
     telephone = request.form['telephone']
     profondeur_scene = request.form['profondeur scene']
     longueur_scene = request.form['longueur scene']
-    mo.confirmer_modif_salle(id_salle, nom, description, loge, nombre_place, adresse, telephone, profondeur_scene, longueur_scene)
+    photo = request.files['image']
+    mo.confirmer_modif_salle(id_salle, nom, description, loge, nombre_place, adresse, telephone, profondeur_scene, longueur_scene,photo)
     return redirect(url_for('salle', id=id_salle))
     
 @app.route('/artiste/<id_artiste>/modifier')
@@ -365,7 +368,8 @@ def confirmer_modif_logement(id_logement, nom_etablissement):
     nom = request.form['nom_etablissement']
     adresse = request.form['adresse']
     nb_etoile = request.form['nb_etoiles']
-    mo.confirmer_modif_logement(id_logement, nom, adresse, nb_etoile)
+    photo = request.files['image']
+    mo.confirmer_modif_logement(id_logement, nom, adresse, nb_etoile,photo)
     return redirect(url_for('logement', id_logement=id_logement))
 
 # calendrier
