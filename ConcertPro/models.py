@@ -314,13 +314,9 @@ def get_id_type_salle_max():
     return None
 
 def confirmer_modif_concert(id_concert, nom_concert, date_heure_concert, duree_concert, description_concert,photo):
-def confirmer_modif_concert(id_concert, nom_concert, date_heure_concert, duree_concert, description_concert,photo):
     try:
         get_image(int(id_concert), "concerts", photo)
-        get_image(int(id_concert), "concerts", photo)
         cursor = get_cursor()
-        requete = f"UPDATE Concert SET nom_concert = %s, date_heure_concert = %s, duree_concert = %s, description_concert = %s, photo = %s WHERE id_concert = %s"
-        execute_query(cursor, requete, (nom_concert, date_heure_concert, duree_concert, description_concert,save_image(photo), id_concert))
         requete = f"UPDATE Concert SET nom_concert = %s, date_heure_concert = %s, duree_concert = %s, description_concert = %s, photo = %s WHERE id_concert = %s"
         execute_query(cursor, requete, (nom_concert, date_heure_concert, duree_concert, description_concert,save_image(photo), id_concert))
         db.commit()
@@ -331,13 +327,9 @@ def confirmer_modif_concert(id_concert, nom_concert, date_heure_concert, duree_c
 
 def confirmer_modif_artiste(id_artiste, nom_artiste, nom_de_scene, mail, telephone, date_de_naissance, lieu_de_naissance,
         adresse, numero_secu_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction,photo):
-        adresse, numero_secu_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction,photo):
     try:
         get_image(id_artiste, "artiste", photo)
-        get_image(id_artiste, "artiste", photo)
         cursor = get_cursor()
-        requete = f"UPDATE Artiste SET telephone = %s, mail = %s,nom_artiste = %s,date_de_naissance = %s,lieu_naissance = %s,adresse = %s,securite_sociale = %s,cni = %s,date_delivrance_cni = %s,date_expiration_cni = %s,carte_reduction = %s,nom_scene = %s, photo = %s WHERE id_artiste = %s"
-        execute_query(cursor, requete, (telephone, mail, nom_artiste, date_de_naissance, lieu_de_naissance, adresse, numero_secu_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction, nom_de_scene,save_image(photo),id_artiste))
         requete = f"UPDATE Artiste SET telephone = %s, mail = %s,nom_artiste = %s,date_de_naissance = %s,lieu_naissance = %s,adresse = %s,securite_sociale = %s,cni = %s,date_delivrance_cni = %s,date_expiration_cni = %s,carte_reduction = %s,nom_scene = %s, photo = %s WHERE id_artiste = %s"
         execute_query(cursor, requete, (telephone, mail, nom_artiste, date_de_naissance, lieu_de_naissance, adresse, numero_secu_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction, nom_de_scene,save_image(photo),id_artiste))
         db.commit()
@@ -348,13 +340,9 @@ def confirmer_modif_artiste(id_artiste, nom_artiste, nom_de_scene, mail, telepho
     return None
 
 def confirmer_modif_salle(id_salle, nom, description, loge, nombre_place, adresse, telephone, profondeur_scene, longueur_scene,photo):
-def confirmer_modif_salle(id_salle, nom, description, loge, nombre_place, adresse, telephone, profondeur_scene, longueur_scene,photo):
     try:
         get_image(id_salle,"salle",photo)
-        get_image(id_salle,"salle",photo)
         cursor = get_cursor()
-        requete = f"UPDATE Salle SET nom_salle = %s, description_salle = %s, loge = %s, nb_places = %s, adresse_salle = %s, telephone_salle = %s, profondeur_scene = %s, longueur_scene = %s, photo = %s WHERE id_salle = %s;"
-        execute_query(cursor, requete, (nom, description, loge, nombre_place, adresse, telephone, profondeur_scene, longueur_scene, save_image(photo), id_salle))
         requete = f"UPDATE Salle SET nom_salle = %s, description_salle = %s, loge = %s, nb_places = %s, adresse_salle = %s, telephone_salle = %s, profondeur_scene = %s, longueur_scene = %s, photo = %s WHERE id_salle = %s;"
         execute_query(cursor, requete, (nom, description, loge, nombre_place, adresse, telephone, profondeur_scene, longueur_scene, save_image(photo), id_salle))
         db.commit()
@@ -364,13 +352,9 @@ def confirmer_modif_salle(id_salle, nom, description, loge, nombre_place, adress
     return None
 
 def confirmer_modif_logement(id_logement, nom_etablissement, adresse, nb_etoile,photo):
-def confirmer_modif_logement(id_logement, nom_etablissement, adresse, nb_etoile,photo):
     try:
         get_image(id_logement,"logement",photo)
-        get_image(id_logement,"logement",photo)
         cursor = get_cursor()
-        requete = f"UPDATE Logement SET nom_etablissement = %s,adresse_ville_codepostal = %s,nb_etoile = %s, photo = %s WHERE id_logement = %s"
-        execute_query(cursor, requete, (nom_etablissement, adresse, nb_etoile, save_image(photo), id_logement))
         requete = f"UPDATE Logement SET nom_etablissement = %s,adresse_ville_codepostal = %s,nb_etoile = %s, photo = %s WHERE id_logement = %s"
         execute_query(cursor, requete, (nom_etablissement, adresse, nb_etoile, save_image(photo), id_logement))
         db.commit()
