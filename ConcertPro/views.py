@@ -1,4 +1,5 @@
 from flask import redirect, render_template, request, url_for
+import folium
 from .app import app, db
 import datetime
 from . import models as mo
@@ -319,9 +320,26 @@ def supprimer_artiste(id_artiste):
 def logement(id_logement):
     """page du logement <id_logement>"""
     logement = mo.get_logement(id_logement)
+    
+    # Utilisez la vraie adresse du logement ici
+    address = logement[1]
+    
+    # Obtenez les coordonnées réelles en fonction de l'adresse
+    coordinates = (37.4221, -122.0844) # Faire un getcoordonéé(address)
+    
+    # Vérifiez si les coordonnées sont disponibles
+    if coordinates:
+        lat, lng = coordinates
+        c = folium.Map(location=[lat, lng], zoom_start=12)
+        c.save("test.html")
+    else:
+        # Gérez le cas où les coordonnées ne sont pas disponibles
+        c = None
+    
     return render_template(
         "logement.html",
-        logement=logement
+        logement=logement,
+        map_path=c._repr_html_() if c else None
     )
 
 @app.route('/ajout_logement')
