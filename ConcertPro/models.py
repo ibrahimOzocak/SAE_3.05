@@ -60,6 +60,16 @@ def save_salle(id, nom_salle,nb_places,profondeur_scene,longueur_scene,telephone
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
+        
+def save_logement(id, nom_etablissement, adresse_ville_codepostal, nb_etoile):
+    try:
+        cursor = get_cursor()
+        req = "INSERT INTO Logement (id_logement, nom_etablissement, adresse_ville_codepostal, nb_etoile, photo) VALUES(%s, %s, %s, %s, %s)"
+        cursor.execute(req, (id, nom_etablissement, adresse_ville_codepostal, nb_etoile,None))
+        db.commit()
+        close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
 
 def save_image(photo):
     try:
@@ -235,7 +245,7 @@ def logements():
         for i in info:
             logements.append(i)
             if i[-1] is not None:
-                get_image(i[0], "logement", i[-1])
+                get_image(i[0], "logement", i[-1]) # Probleme avec les images
         close_cursor(cursor)
     except Exception as e:
         print(e.args)

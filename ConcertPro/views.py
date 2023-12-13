@@ -355,15 +355,20 @@ def voir_logements():
         "voir_logements.html",
         logements=mo.logements()
     )
+    
 
 @app.route('/save_logement', methods=("POST",))
 def save_logement():
     """sauvegarde d'un logement"""
-    logement = {}
-    logement["nom_etablissement"] = request.form['Entrer_nometablissement']
-    logement["adresse_ville_codepostal"] = request.form['Entrer_adresse']
-    logement["nb_etoile"] = request.form['Entrer_nbetoiles']
-    return redirect(url_for('logement', nom_etablissement=logement["nom_etablissement"]))
+    nom_logement = request.form['nom_etablissement']
+    adresse = request.form['adresse']
+    nb_etoile = request.form['nb_etoiles']
+    id_logement = mo.get_id_logement_max()+1
+    
+    
+    mo.save_logement(id_logement, nom_logement, adresse, nb_etoile)
+    
+    return redirect(url_for('logement', id_logement=id_logement))
 
 @app.route('/logement/<id_logement>/supprimer')
 def supprimer_logement(id_logement):

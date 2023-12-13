@@ -14,7 +14,6 @@
         {% else %}
         <img class="img_acc" src="{{ url_for('static', filename='images/concerts/' + concert[0]|str + '.jpg') }}" alt="img">
         {% endif %}
-        <a href="{{ url_for('afficher_rider', id_concert=concert[0]) }}"> Afficher le rider </a>
     </div>
     <div class="infos">
         <p>Date : {{ concert[2] }}</p>
