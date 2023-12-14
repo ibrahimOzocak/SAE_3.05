@@ -3,6 +3,8 @@ import folium
 from .app import app, db
 import datetime
 from . import models as mo
+import requests
+import json
 
 HEURES_DECALAGE_1 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
 HEURES_DECALAGE_2 = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22]
@@ -323,14 +325,14 @@ def logement(id_logement):
     
     # Utilisez la vraie adresse du logement ici
     address = logement[1]
-    
+    coor = getCoordonnee(address)
     # Obtenez les coordonnées réelles en fonction de l'adresse
-    coordinates = (37.4221, -122.0844) # Faire un getcoordonéé(address)
+    coordinates = (coor[0], coor[2])
     
     # Vérifiez si les coordonnées sont disponibles
     if coordinates:
         lat, lng = coordinates
-        c = folium.Map(location=[lat, lng], zoom_start=12)
+        c = folium.Map(location=[lat, lng], zoom_start=20)
         c.save("test.html")
     else:
         # Gérez le cas où les coordonnées ne sont pas disponibles
@@ -519,3 +521,30 @@ def afficher_rider():
     return render_template(
         "afficher_rider.html"
     )
+
+def getCoordonnee(address):
+    try:
+        encoded_address = requests.utils.quote(address, safe='')
+
+        api_url = f"https://nominatim.openstreetmap.org/search?format=json&q={encoded_address}"
+
+        # Effectuer la requête HTTP
+        response = requests.get(api_url)
+        response.raise_for_status()  # Vérifier s'il y a des erreurs HTTP
+
+        # Analyser la réponse JSON
+        # Note: Utilisez la bibliothèque json pour une meilleure gestion JSON.
+        # Ici, nous utilisons simplement un affichage brut pour illustrer le concept.
+        #print("Réponse du service de géocodage :")
+        #print(response.text)
+        #res = response.text["boundingbox"]
+        response_dict = json.loads(response.text)
+        for item in response_dict:
+            res = item["boundingbox"]
+            return res
+
+        # Now you can access the "boundingbox" key
+   
+
+    except requests.exceptions.RequestException as e:
+        print(f"Erreur lors de la requête HTTP : {e}")
