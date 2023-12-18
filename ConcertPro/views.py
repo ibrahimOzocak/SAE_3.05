@@ -84,7 +84,7 @@ def concert(id):
     concert = mo.get_concert(id)
     salle = mo.get_salle(concert[5])
     artiste = mo.get_artiste(concert[4])
-    necessaire = mo.categoriser_equipement(id, artiste[0])
+    necessaire = mo.categoriser_equipements(id, artiste[0])
     print(necessaire)
     return render_template(
         "concert.html",
@@ -299,6 +299,7 @@ def save_artiste():
     date_expiration_cni = datetime.datetime.strptime(request.form['date_expiration'], "%Y-%m-%d")
     carte_reduction = request.form['carte_train']
     id_artiste = mo.get_id_artiste_max()+1
+    print(nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_de_naissance, adresse, securite_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction)
     try:
         cursor = mo.get_cursor()
         req = "INSERT INTO Artiste (id_artiste, nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_naissance, adresse, securite_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
@@ -486,12 +487,14 @@ def save_equipement():
     return redirect(url_for('equipement', id_equipement=id_equipement))
 
 @app.route('/save_equipement_concert/<id_concert>', methods=("POST",))
-def save_equipement_concert(id_concert):
+def save_equipements_concert(id_concert):
     """sauvegarde d'un equipement pour le concert <id_concert>"""
-    id_equipement = request.form['equipement']
-    quantite = request.form['quantite']
-    mo.save_equipement_concert(id_concert, id_equipement, quantite)
-    return redirect(url_for('ajout_equipement_concert', id_concert=id_concert))
+    for elem in request.form:
+        if elem.isnumeric():
+            quantite = request.form[elem]
+            elem = int(elem)
+            mo.save_equipement_concert(id_concert, elem, quantite)
+    return redirect(url_for('concert', id=id_concert))
 
 @app.route('/equipement/<id_equipement>/supprimer')
 def supprimer_equipement(id_equipement):

@@ -140,7 +140,6 @@ def get_salle(id):
         print(e.args)
         return None
 
-
 def get_logement(id_logement):
     try:
         cursor = get_cursor()
@@ -446,6 +445,7 @@ def remove_artiste(id):
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
+
 def remvove_equipement(id):
     try:
         cursor = get_cursor()
@@ -620,8 +620,7 @@ def get_equipement_concert(id_concert, id_artiste):
         print(e.args)
     return None
 
-
-def categoriser_equipements(id_concert, id_artiste):
+def categoriser_equipements1(id_concert, id_artiste):
     try:
         cursor = get_cursor()
         requete = "SELECT id_equipement, nom_equipement, quantite, quantite_posseder FROM Concert NATURAL JOIN Besoin_equipement_artiste NATURAL JOIN Equipement WHERE id_concert = %s and id_artiste = %s;"
@@ -638,7 +637,7 @@ def categoriser_equipements(id_concert, id_artiste):
         print(e.args)
         return None, None
 
-def categoriser_equipement(id_concert, id_artiste):
+def categoriser_equipements(id_concert, id_artiste):
     try:
         cursor = get_cursor()
         requete = "SELECT id_equipement, nom_equipement, quantite, quantite_posseder FROM Concert NATURAL JOIN Besoin_equipement_artiste NATURAL JOIN Equipement WHERE id_concert = %s and id_artiste = %s;"
@@ -696,6 +695,17 @@ def get_equipements_disponible(id_concert, id_salle):
                 equipements.append(e)
                 deja_vu.append(e[1])      
         return equipements
+    except Exception as e:
+        print(e.args)
+    return None
+
+def save_equipement_concert(id_concert, id_equipement, quantite):
+    try:
+        cursor = get_cursor()
+        requete = "UPDATE Besoin_equipement_artiste SET quantite_posseder = %s WHERE id_concert = %s and id_equipement = %s;"
+        execute_query(cursor, requete, (quantite, id_concert, id_equipement,))
+        db.commit()
+        close_cursor(cursor)
     except Exception as e:
         print(e.args)
     return None
