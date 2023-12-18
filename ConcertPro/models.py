@@ -676,6 +676,30 @@ def get_equipements_concert(id_concert):
         print(e.args)
     return None
 
+def get_id_quantite_equipements_concert(id_concert):
+    try:
+        cursor = get_cursor()
+        requete = "SELECT id_equipement, quantite FROM Concert NATURAL JOIN Besoin_equipement_artiste NATURAL JOIN Equipement WHERE id_concert = %s;"
+        execute_query(cursor, requete, (id_concert,))
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        return info
+    except Exception as e:
+        print(e.args)
+    return None
+
+def get_tous_equipements_concert(id_concert):
+    try:
+        cursor = get_cursor()
+        requete = "SELECT id_equipement, nom_equipement, IFNULL(quantite,0) FROM Equipement e NATURAL LEFT JOIN Concert NATURAL LEFT JOIN Besoin_equipement_artiste NATURAL LEFT JOIN Equipement WHERE id_concert = %s;"
+        execute_query(cursor, requete, (id_concert,))
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        return info
+    except Exception as e:
+        print(e.args)
+    return None
+
 def get_equipements_disponible(id_concert, id_salle):
     equipements_concert = get_equipements_concert(id_concert)
     try:
@@ -706,6 +730,30 @@ def save_equipement_concert(id_concert, id_equipement, quantite):
         execute_query(cursor, requete, (quantite, id_concert, id_equipement,))
         db.commit()
         close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+    return None
+
+def save_necessaire_concert(id_concert, id_equipement, quantite, id_artiste, ancienne_quantite = 0):
+    try:
+        if quantite == 0:
+            cursor = get_cursor()
+            requete = "DELETE FROM Besoin_equipement_artiste WHERE id_concert = %s and id_equipement = %s;"
+            execute_query(cursor, requete, (id_concert, id_equipement,))
+            db.commit()
+            close_cursor(cursor)
+        elif ancienne_quantite > 0:
+            cursor = get_cursor()
+            requete = "UPDATE Besoin_equipement_artiste SET quantite = %s WHERE id_concert = %s and id_equipement = %s;"
+            execute_query(cursor, requete, (quantite, id_concert, id_equipement,))
+            db.commit()
+            close_cursor(cursor)
+        else:
+            cursor = get_cursor()
+            requete = "INSERT INTO Besoin_equipement_artiste (id_concert, id_equipement, id_artiste, quantite, quantite_posseder) VALUES(%s, %s, %s, %s, %s)"
+            execute_query(cursor, requete, (id_concert, id_equipement, id_artiste, quantite, 0,))
+            db.commit()
+            close_cursor(cursor)
     except Exception as e:
         print(e.args)
     return None

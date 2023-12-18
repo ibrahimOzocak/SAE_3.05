@@ -30,7 +30,7 @@
 </div>
 
 <div>
-    <a href="{{ url_for('modifier_concert', id_concert=concert[0]) }}" >modifier le concert</a>
+    <a href="{{ url_for('modifier_concert', id_concert=concert[0]) }}">modifier le concert</a>
 </div>
 
 <h3>Matériel</h3>
@@ -38,7 +38,6 @@
     <ul>
         {% for i in range (necessaire|length) %}
         <li>
-            <p> </p>
             <p>{{ necessaire[i][1] }} ({{ necessaire[i][3] }}/{{ necessaire[i][2] }})</p>
             {% if necessaire[i][3] < necessaire[i][2] %}
             <p>Reste à louer: {{ necessaire[i][2] - necessaire[i][3] }}</p>
@@ -48,6 +47,7 @@
     </ul>
 </div>
 <div>
-    <a href="{{ url_for('ajout_equipement_concert', id_concert=concert[0]) }}">Ajouter du matériel manquant au concert</a>
+    <p><a href="{{ url_for('ajout_necessaire_concert', id_concert=concert[0]) }}">Modifier le matériel nécessaire au concert</a></p>
+    <p><a href="{{ url_for('ajout_equipement_concert', id_concert=concert[0]) }}">Modifier le matériel manquant au concert</a></p>
 </div>
 {% endblock %}

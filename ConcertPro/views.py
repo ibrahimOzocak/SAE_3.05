@@ -167,7 +167,6 @@ def save_salle():
     # nomequipement 
     # quantitedispo 
     
-    
     adresse_salle = adresse_salle + ", " + code_postal_salle
     loge = ""
     acces_pmr = ""
@@ -454,6 +453,15 @@ def ajout_equipement_concert(id_concert):
         equipements=mo.get_equipements_concert(id_concert)
     )
 
+@app.route('/ajout_necessaire_concert/<id_concert>')
+def ajout_necessaire_concert(id_concert):
+    """page d'ajout d'un equipement nécessaire au concert <id_concert>"""
+    return render_template(
+        "ajout_necessaire_concert.html",
+        id_concert=id_concert,
+        equipements=mo.get_tous_equipements_concert(id_concert)
+    )
+
 @app.route('/voir_equipements')
 def voir_equipements():
     """page qui affiche les equipements"""
@@ -494,6 +502,22 @@ def save_equipements_concert(id_concert):
             quantite = request.form[elem]
             elem = int(elem)
             mo.save_equipement_concert(id_concert, elem, quantite)
+    return redirect(url_for('concert', id=id_concert))
+
+@app.route('/save_necessaire_concert/<id_concert>', methods=("POST",))
+def save_necessaire_concert(id_concert):
+    """sauvegarde d'un equipement pour le concert <id_concert>"""
+    for elem in request.form:
+        if elem.isnumeric():
+            quantite = int(request.form[elem])
+            if "hidden" + elem in request.form:
+                hidden = int(request.form.get("hidden"+elem))
+            else:
+                hidden = 0
+            print(quantite, hidden)
+            elem = int(elem)
+            id_artiste = mo.get_concert(id_concert)[4]
+            mo.save_necessaire_concert(id_concert, elem, quantite, id_artiste, hidden)
     return redirect(url_for('concert', id=id_concert))
 
 @app.route('/equipement/<id_equipement>/supprimer')
