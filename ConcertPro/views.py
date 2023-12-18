@@ -319,6 +319,7 @@ def save_artiste():
     """sauvegarde d'un artiste"""
     nom_artiste = request.form['nom']
     prenom_artiste = request.form['prenom']
+    nom_scene = request.form['nom_scene']
     mail = request.form['mail']
     telephone = request.form['telephone']
     date_de_naissance = datetime.datetime.strptime(request.form['date_naissance'], "%Y-%m-%d")
@@ -332,8 +333,8 @@ def save_artiste():
     id_artiste = mo.get_id_artiste_max()+1
     try:
         cursor = mo.get_cursor()
-        req = "INSERT INTO Artiste (id_artiste, nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_naissance, adresse, securite_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-        cursor.execute(req, (id_artiste, nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_de_naissance, adresse, securite_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction))
+        req = "INSERT INTO Artiste (id_artiste, nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_naissance, adresse, securite_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction,nom_scene) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s)"
+        cursor.execute(req, (id_artiste, nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_de_naissance, adresse, securite_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction,nom_scene))
         db.commit()
         mo.close_cursor(cursor)
     except Exception as e:
