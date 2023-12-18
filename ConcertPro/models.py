@@ -11,7 +11,7 @@ HEURES2 = [8, 10, 12, 14, 16, 18, 20, 22]
 PAS2 = 2
 
 db = mysql.connector.connect(
-    host="localhost",user = "root", password = "", database = "bd_sae_bg_leo"
+    host="servinfo-maria",user = "sevellec", password = "sevellec", database = "DBsevellec"
 )
 
 def get_cursor():
@@ -112,7 +112,10 @@ def get_concert(id):
         cursor.execute(requete, (id,))
         info = cursor.fetchall()
         if info[0][-1] is not None:
-            get_image(int(info[0][0]),"concerts", info[0][-1])
+            try:
+                get_image(int(info[0][0]),"concerts", info[0][-1])
+            except Exception:
+                pass
         close_cursor(cursor)
         return info[0]
     except Exception as e:

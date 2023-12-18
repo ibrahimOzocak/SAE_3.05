@@ -1,28 +1,32 @@
 /* Centre la section sec1 */
 
 body{
-    background-color: rgb(66, 66, 66);
+    background-color: white;
 }
 
 .sec1 {
     justify-content: center;
     align-items: center;
     flex-wrap: wrap; /* Permet aux éléments de descendre en cas de réduction de la largeur de l'écran */
-    background-color: rgb(66, 66, 66);
+    background-color: white;
     padding: 20px; /* Ajoute un peu d'espace autour de la section */
     border-radius: 10px; /* Arrondit les coins de la section */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Ajoute une ombre douce à la section */
     margin-top: 20px;
+    width: 70vw;
 }
 
 form{
     margin: 10px;
     padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .container {
     position: relative;
-    width: 100%;
+    width: 70vw;
     height: 100%;
     display: flex;
     justify-content: center;
@@ -30,15 +34,14 @@ form{
 }
   
   #image-charge {
-    position: absolute;
-    top: 0;
-    width: 50%;
-    height: 100%;
+
+    width: 100%;
+    height: 50vh;
     z-index: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid white;
+    border: 1px solid black;
   }
   
   #image-input {
@@ -51,11 +54,6 @@ form{
   }
   
 
-.sec1 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-  
   .sec1 div:first-child {
     grid-column: 1;
     grid-row: 0;
@@ -79,18 +77,19 @@ form{
     width: 100%;
     padding: 10px;
     border: none;
-    border-bottom: 1px solid white;
+    border-bottom: 1px solid black;
     margin-bottom: 15px;
-    background-color: rgb(66,66,66);
-    color: white;
+    background-color: white;
+    color: black;
+    outline: none; /* Retire la bordure de focus */
 }
 
 /* Agrandit le bouton de soumission */
 .sec1 input[type="submit"] {
     width: 100%;
     padding: 10px;
-    background-color: rgb(156, 136, 98);
-    color: white;
+    background-color: black;
+    color: black;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -104,7 +103,7 @@ form{
 /* Style pour le bouton "Créer un nouvel artiste" et "Créer une nouvelle salle" */
 .sec2 button,
 .sec3 button {
-    background-color: rgb(156, 136, 98);
+    background-color: black;
     color: white;
     border: none;
     border-radius: 5px;
@@ -131,7 +130,7 @@ form{
     display: flex;
     justify-content: space-between; /* Aligne les éléments à gauche, au centre et à droite */
     align-items: center; /* Centre verticalement les éléments */
-    background-color: rgb(66, 66, 66);
+    background-color: white;
 }
 
 .sec2 label, .sec2 select, .sec2 button {
@@ -142,14 +141,14 @@ form{
 }
 
 label{
-    color: rgb(156, 136, 98);
+    color: black;
 }
 
 .sec2 select{
     border: none;
-    border-bottom: solid 1px white;
-    background-color: rgb(66,66,66);
-    color: white;
+    border-bottom: solid 1px black;
+    background-color: white;
+    color: black;
 }
 
 .sec3 {
@@ -167,9 +166,9 @@ label{
 
 .sec3 select{
     border: none;
-    border-bottom: solid 1px white;
-    background-color: rgb(66,66,66);
-    color: white;
+    border-bottom: solid 1px black;
+    background-color: white;
+    color: black;
 }
 
 .sec4 {
@@ -196,7 +195,7 @@ input[type="submit"]{
     padding: 10px;
     border-radius: 10px;
     color: white;
-    background-color: rgb(156, 136, 98);
+    background-color: black;
     cursor: pointer;
 }
 

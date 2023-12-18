@@ -1,16 +1,17 @@
 {% extends 'base.html' %}
 {% block styles %}
     {{ super() }}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/ajout_nouvelle_salle.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/creer_concert.css') }}">
 {% endblock %}
 {% block content %}
 <form role="form" method="POST" action="{{ url_for('save_salle') }}" enctype="multipart/form-data">
-    <section class="sec1_new_salle">
-        <div class="container">
-            <input type="file" name="image" id="image-input">
-            <script src="{{ url_for('static', filename='js/charge_img.js') }}"></script>
-            <img id="image-charge" src="" alt="Glisser/Déposer une image" width=10% height=10%>
-        </div>
+    <div class="container">
+        <input type="file" name="image" id="image-input">
+        <script src="{{ url_for('static', filename='js/charge_img.js') }}"></script>
+        <img id="image-charge" src="" alt="Glisser/Déposer une image" width=10% height=10%>
+    </div>
+    <section class="section_creer sec1">
+
         <div>
             <label for="titre">Nom de la salle</label>
             <input type="text" name="titre"/>
@@ -29,29 +30,27 @@
             <input type="text" name="profondeur"/>
             <label for="longueur">Longeur de la scene</label>
             <input type="text" name="longueur"/>
+            <label for="adresse">Adresse de la salle</label>
+            <input type="text" name="adresse"/>
+            <label for="postalville">Code postal et ville de la salle (ex : 45000 Orléans)</label>
+            <input type="text" name="postalville"/> 
+            <label for="telephone">Numéro de téléphone de la salle</label>
+            <input type="text" name="telephone"/>
+            <div>
+                <input type="checkbox" id="accueilpmr" name="accueilpmr"/>
+                <label for="accueilpmr">La salle accueille les personnes à mobilité réduite</label>
+            </div>
+            <div>
+                <input type="checkbox" id="loge" name="loge"/>
+                <label for="loge">La salle possède une loge</label>  
+            </div>
+            <label for="nomequipement">Nom de l'équipement</label>
+            <input type="text" name="nomequipement"/> 
+            <label for="quantitedispo">Quantité disponible</label>
+            <input type="text" name="quantitedispo"/> 
+            <label for="description">Description</label>
+            <input type="text" name="description"/> 
         </div>
-    </section>
-    <section class="sec2_new_salle">
-        <label for="adresse">Adresse de la salle</label>
-        <input type="text" name="adresse"/>
-        <label for="postalville">Code postal et ville de la salle (ex : 45000 Orléans)</label>
-        <input type="text" name="postalville"/> 
-        <label for="telephone">Numéro de téléphone de la salle</label>
-        <input type="text" name="telephone"/>
-        <div>
-            <input type="checkbox" id="accueilpmr" name="accueilpmr"/>
-            <label for="accueilpmr">La salle accueille les personnes à mobilité réduite</label>
-        </div>
-        <div>
-            <input type="checkbox" id="loge" name="loge"/>
-            <label for="loge">La salle possède une loge</label>  
-        </div>
-        <label for="nomequipement">Nom de l'équipement</label>
-        <input type="text" name="nomequipement"/> 
-        <label for="quantitedispo">Quantité disponible</label>
-        <input type="text" name="quantitedispo"/> 
-        <label for="description">Description</label>
-        <input type="text" name="description"/> 
     </section>
     <input type="submit" id="valider" name="valider" value="Valider l'ajout de cette salle"/>
 </form>

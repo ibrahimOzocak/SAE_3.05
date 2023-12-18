@@ -14,8 +14,9 @@ function toggleContainerClass(){
     // $("#menu").toggleClass("active");
     var container = document.querySelector("#menu");
     var menu = document.querySelector(".menu-link");
+    var fermer = document.querySelector(".menu-close");
     if (container) {
       container.classList.toggle("active");
-      menu.classList.toggle("active");
+      fermer.classList.toggle("cacher");
     }
 }

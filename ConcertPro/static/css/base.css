@@ -192,6 +192,15 @@ body * {
 	text-shadow: none;
 }
 
+.cacher{
+  display: none;
+}
+
+.menu-link{
+  width: 50px;
+  margin: 10px;
+}
+
 /* Menu Styles */
 
 #menu {
@@ -251,7 +260,7 @@ ul, ol {
 }
 
 #menu ul.mobile-nav > li > a {
-  background: #4F7389;
+  background: black;
   color: #FFFFFF;
   font-size: 24px;
 }
@@ -262,14 +271,27 @@ ul, ol {
 
 .mobile-nav a {
   display: block;
-  color: #777779;
+  color: black;
+  background-color: white;
   padding: 15px 30px;
-  border-top: 1px solid #4F7389;
+  border-top: 1px solid black;
   text-decoration: none;
 }
 
+.deroulant{
+  display: flex;
+}
+
+.menu-close{
+  width: 50px;
+  position: absolute;
+  left: 270px;
+  margin: 10px;
+  top: 0;
+}
+
 .mobile-nav a:hover{
-    background: #4F7389;
+    background: black;
     color: #FFFFFF;
 }
 
