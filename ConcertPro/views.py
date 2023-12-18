@@ -84,16 +84,14 @@ def concert(id):
     concert = mo.get_concert(id)
     salle = mo.get_salle(concert[5])
     artiste = mo.get_artiste(concert[4])
-    possedes, non_possedes = mo.categoriser_equipements(id, artiste[0])
-    print(possedes)
-    print(non_possedes)
+    necessaire = mo.categoriser_equipement(id, artiste[0])
+    print(necessaire)
     return render_template(
         "concert.html",
         concert=concert,
         salle = salle,
         artiste = artiste,
-        possedes = possedes,
-        non_possedes = non_possedes
+        necessaire = necessaire
     )
 
 @app.route('/concert/<id>/supprimer')
@@ -446,6 +444,15 @@ def ajout_equipement():
         "ajout_equipement.html"
     )
 
+@app.route('/ajout_equipement_concert/<id_concert>')
+def ajout_equipement_concert(id_concert):
+    """page d'ajout d'un equipement au concert <id_concert>"""
+    return render_template(
+        "ajout_equipement_concert.html",
+        id_concert=id_concert,
+        equipements=mo.get_equipements_concert(id_concert)
+    )
+
 @app.route('/voir_equipements')
 def voir_equipements():
     """page qui affiche les equipements"""
@@ -477,6 +484,14 @@ def save_equipement():
     except Exception as e:
         print(e.args)
     return redirect(url_for('equipement', id_equipement=id_equipement))
+
+@app.route('/save_equipement_concert/<id_concert>', methods=("POST",))
+def save_equipement_concert(id_concert):
+    """sauvegarde d'un equipement pour le concert <id_concert>"""
+    id_equipement = request.form['equipement']
+    quantite = request.form['quantite']
+    mo.save_equipement_concert(id_concert, id_equipement, quantite)
+    return redirect(url_for('ajout_equipement_concert', id_concert=id_concert))
 
 @app.route('/equipement/<id_equipement>/supprimer')
 def supprimer_equipement(id_equipement):
@@ -544,7 +559,11 @@ def getCoordonnee(address):
             return res
 
         # Now you can access the "boundingbox" key
-   
 
     except requests.exceptions.RequestException as e:
         print(f"Erreur lors de la requête HTTP : {e}")
+
+# Gestion de l'erreur 404
+@app.errorhandler(404)
+def not_found_error(error):
+    return render_template('404.html'), 404

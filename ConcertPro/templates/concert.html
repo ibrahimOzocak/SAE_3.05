@@ -32,27 +32,22 @@
 <div>
     <a href="{{ url_for('modifier_concert', id_concert=concert[0]) }}" >modifier le concert</a>
 </div>
-<h2>Les instruments possedés</h2>
-<div class="instruments">
+
+<h3>Matériel</h3>
+<div>
     <ul>
-        {% for i in range (possedes|length) %}
+        {% for i in range (necessaire|length) %}
         <li>
-            <p>{{ possedes[i][2] }} {{ possedes[i][1] }}</p>
+            <p> </p>
+            <p>{{ necessaire[i][1] }} ({{ necessaire[i][3] }}/{{ necessaire[i][2] }})</p>
+            {% if necessaire[i][3] < necessaire[i][2] %}
+            <p>Reste à louer: {{ necessaire[i][2] - necessaire[i][3] }}</p>
+            {% endif %}
         </li>
         {% endfor %}
     </ul>
 </div>
-<h3>Les instruments non possedés</h3>
-<div class="instruments">
-    <ul>
-        {% for i in range (non_possedes|length) %}
-        <li>
-            <p>{{ non_possedes[i][2] }} {{ non_possedes[i][1] }} </p>
-            <p>Reste à louer: {{ non_possedes[i][2] - non_possedes[i][3] }}</p>
-        </li> </p>
-        </li>
-        {% endfor %}
-    </ul>
-</div>
+<div>
+    <a href="{{ url_for('ajout_equipement_concert', id_concert=concert[0]) }}">Ajouter du matériel manquant au concert</a>
 </div>
 {% endblock %}

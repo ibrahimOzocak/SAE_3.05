@@ -35,10 +35,14 @@ def prochains_concerts():
         close_cursor(cursor)
         for i in infos:
             if i[-1] is not None:
-                get_image(int(i[0]),"concerts", i[-1])
+                try:
+                    get_image(int(i[0]), "concerts", i[-1])
+                except Exception as e:
+                    print(e.args)
         return infos
     except Exception as e:
         print(e.args)
+        return []
 
 def save_concert(id, nom_concert, date_heure_concert, duree_concert, id_artiste, id_salle, description_concert,photo):
     try:
@@ -94,15 +98,15 @@ def get_image(id_value, repesitory_name, image_data):
     image = image.convert('RGB')
     nom_fichier = "ConcertPro/static/images/"+repesitory_name+"/"+str(id_value)+".jpg"
     image.save(nom_fichier)
-    if image_data is None:
-        print("no image data")
-        return
-    if not isinstance(image_data, bytes):
-        image_data = image_data.read()
-    image = Image.open(BytesIO(image_data))
-    image = image.convert('RGB')
-    nom_fichier = "ConcertPro/static/images/"+repesitory_name+"/"+str(id_value)+".jpg"
-    image.save(nom_fichier)
+    # if image_data is None:
+    #     print("no image data")
+    #     return
+    # if not isinstance(image_data, bytes):
+    #     image_data = image_data.read()
+    # image = Image.open(BytesIO(image_data))
+    # image = image.convert('RGB')
+    # nom_fichier = "ConcertPro/static/images/"+repesitory_name+"/"+str(id_value)+".jpg"
+    # image.save(nom_fichier)
     
 # fonctions utiles pour les templates
 def get_concert(id):
@@ -112,7 +116,10 @@ def get_concert(id):
         cursor.execute(requete, (id,))
         info = cursor.fetchall()
         if info[0][-1] is not None:
-            get_image(int(info[0][0]),"concerts", info[0][-1])
+            try:
+                get_image(int(info[0][0]),"concerts", info[0][-1])
+            except Exception as e:
+                print(e.args)
         close_cursor(cursor)
         return info[0]
     except Exception as e:
@@ -183,7 +190,10 @@ def historique_concerts():
         for i in info:
             historique_concerts.append(i)
             if i[-1] is not None:
-                get_image(int(i[0]), "concerts", i[-1])
+                try:
+                    get_image(int(i[0]), "concerts", i[-1])
+                except Exception as e:
+                    print(e.args)
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
@@ -199,7 +209,10 @@ def concerts():
         for i in info:
             concerts.append(i)
             if i[-1] is not None:
-                get_image(int(i[0]), "concerts", i[-1])
+                try:
+                    get_image(int(i[0]), "concerts", i[-1])
+                except Exception as e:
+                    print(e.args)
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
@@ -617,10 +630,23 @@ def categoriser_equipements(id_concert, id_artiste):
         close_cursor(cursor)
 
         possedes = [equipement for equipement in equipements if equipement[3] >= equipement[2]]
-        non_possedes = [equipement for equipement in equipements if equipement[3] <= equipement[2] and equipement[3] != equipement[2] ]
+        non_possedes = [equipement for equipement in equipements if equipement[3] < equipement[2]]
 
         return possedes, non_possedes
 
+    except Exception as e:
+        print(e.args)
+        return None, None
+
+def categoriser_equipement(id_concert, id_artiste):
+    try:
+        cursor = get_cursor()
+        requete = "SELECT id_equipement, nom_equipement, quantite, quantite_posseder FROM Concert NATURAL JOIN Besoin_equipement_artiste NATURAL JOIN Equipement WHERE id_concert = %s and id_artiste = %s;"
+        execute_query(cursor, requete, (id_concert, id_artiste,))
+        equipements = cursor.fetchall()
+        close_cursor(cursor)
+        return equipements
+    
     except Exception as e:
         print(e.args)
         return None, None
@@ -642,7 +668,7 @@ def equipements():
 def get_equipements_concert(id_concert):
     try:
         cursor = get_cursor()
-        requete = "SELECT id_equipement,nom_equipement,quantite,possede_equipement FROM Concert NATURAL JOIN Besoin_equipement_artiste NATURAL JOIN Equipement WHERE id_concert = %s;"
+        requete = "SELECT id_equipement,nom_equipement,quantite,quantite_posseder FROM Concert NATURAL JOIN Besoin_equipement_artiste NATURAL JOIN Equipement WHERE id_concert = %s;"
         execute_query(cursor, requete, (id_concert,))
         info = cursor.fetchall()
         close_cursor(cursor)
