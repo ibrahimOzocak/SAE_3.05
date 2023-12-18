@@ -1,8 +1,8 @@
 import mysql.connector
 from PIL import Image
+import io
 from io import BytesIO
 import datetime
-import io
 
 HEURES1 = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
 PAS1 = 1
@@ -73,7 +73,7 @@ def save_logement(id, nom_etablissement, adresse_ville_codepostal, nb_etoile):
 
 def save_image(photo):
     try:
-        if photo.filename != '':
+        if photo.filename != "":
             image_data = photo.read()
             image_bytesio = io.BytesIO(image_data)
             blob = image_bytesio.read()
@@ -81,28 +81,21 @@ def save_image(photo):
     except Exception as e:
         print(e.args)
     return None
-    
-def get_image(id_value, repesitory_name, image_data):
-    if id_value is None:
+        
+def get_image(id_value, repository_name, image_data):
+    if id_value is None or image_data is None:
+        print("No valid input data")
         return
-    if image_data is None:
-        print("no image data")
-        return
-    if not isinstance(image_data, bytes):
-        image_data = image_data.read()
-    image = Image.open(BytesIO(image_data))
-    image = image.convert('RGB')
-    nom_fichier = "ConcertPro/static/images/"+repesitory_name+"/"+str(id_value)+".jpg"
-    image.save(nom_fichier)
-    if image_data is None:
-        print("no image data")
-        return
-    if not isinstance(image_data, bytes):
-        image_data = image_data.read()
-    image = Image.open(BytesIO(image_data))
-    image = image.convert('RGB')
-    nom_fichier = "ConcertPro/static/images/"+repesitory_name+"/"+str(id_value)+".jpg"
-    image.save(nom_fichier)
+    try:
+        if not isinstance(image_data, bytes):
+            image_data = image_data.read()
+        if len(image_data) > 0:
+            image = Image.open(BytesIO(image_data))
+            image = image.convert('RGB')
+            nom_fichier = f"ConcertPro/static/images/{repository_name}/{str(id_value)}.jpg"
+            image.save(nom_fichier)
+    except Exception as e:
+        print(f"Error processing image: {str(e)}")
     
 # fonctions utiles pour les templates
 def get_concert(id):
@@ -214,8 +207,8 @@ def salles():
         info = cursor.fetchall()
         for i in info:
             salles.append(i)
-            if i[-1] is not None:
-                get_image(int(i[0]), "salle", i[-1])
+            if i[-2] is not None:
+                get_image(int(i[0]), "salle", i[-2])
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
@@ -325,10 +318,14 @@ def get_id_type_salle_max():
 
 def confirmer_modif_concert(id_concert, nom_concert, date_heure_concert, duree_concert, description_concert,photo):
     try:
-        get_image(int(id_concert), "concerts", photo)
         cursor = get_cursor()
-        requete = f"UPDATE Concert SET nom_concert = %s, date_heure_concert = %s, duree_concert = %s, description_concert = %s, photo = %s WHERE id_concert = %s"
-        execute_query(cursor, requete, (nom_concert, date_heure_concert, duree_concert, description_concert,save_image(photo), id_concert))
+        if(photo.filename != ""):
+            get_image(int(id_concert), "concerts", photo)
+            requete = f"UPDATE Concert SET nom_concert = %s, date_heure_concert = %s, duree_concert = %s, description_concert = %s, photo = %s WHERE id_concert = %s"
+            execute_query(cursor, requete, (nom_concert, date_heure_concert, duree_concert, description_concert,save_image(photo), id_concert))
+        else:
+            requete = f"UPDATE Concert SET nom_concert = %s, date_heure_concert = %s, duree_concert = %s, description_concert = %s WHERE id_concert = %s"
+            execute_query(cursor, requete, (nom_concert, date_heure_concert, duree_concert, description_concert,id_concert))
         db.commit()
         close_cursor(cursor)
     except Exception as e:
@@ -340,26 +337,87 @@ def confirmer_modif_artiste(id_artiste, nom_artiste, nom_de_scene, mail, telepho
     try:
         get_image(id_artiste, "artiste", photo)
         cursor = get_cursor()
-        requete = f"UPDATE Artiste SET telephone = %s, mail = %s,nom_artiste = %s,date_de_naissance = %s,lieu_naissance = %s,adresse = %s,securite_sociale = %s,cni = %s,date_delivrance_cni = %s,date_expiration_cni = %s,carte_reduction = %s,nom_scene = %s, photo = %s WHERE id_artiste = %s"
-        execute_query(cursor, requete, (telephone, mail, nom_artiste, date_de_naissance, lieu_de_naissance, adresse, numero_secu_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction, nom_de_scene,save_image(photo),id_artiste))
+        if photo.filename != "":
+            print("none")
+            get_image(int(id_artiste), "artiste", photo)
+            requete = """
+                UPDATE Artiste SET
+                telephone = %s, mail = %s, nom_artiste = %s,
+                date_de_naissance = %s, lieu_naissance = %s, adresse = %s,
+                securite_sociale = %s, cni = %s, date_delivrance_cni = %s,
+                date_expiration_cni = %s, carte_reduction = %s, nom_scene = %s,
+                photo = %s
+                WHERE id_artiste = %s
+            """
+            execute_query(cursor, requete, (
+                telephone, mail, nom_artiste, date_de_naissance, lieu_de_naissance, 
+                adresse, numero_secu_sociale, cni, date_delivrance_cni, 
+                date_expiration_cni, carte_reduction, nom_de_scene, 
+                save_image(photo), id_artiste
+            ))
+        else:
+            requete = """
+                UPDATE Artiste SET
+                telephone = %s, mail = %s, nom_artiste = %s,
+                date_de_naissance = %s, lieu_naissance = %s, adresse = %s,
+                securite_sociale = %s, cni = %s, date_delivrance_cni = %s,
+                date_expiration_cni = %s, carte_reduction = %s, nom_scene = %s
+                WHERE id_artiste = %s
+            """
+            execute_query(cursor, requete, (
+                telephone, mail, nom_artiste, date_de_naissance, lieu_de_naissance, 
+                adresse, numero_secu_sociale, cni, date_delivrance_cni, 
+                date_expiration_cni, carte_reduction, nom_de_scene, id_artiste
+            ))
         db.commit()
-        print("ok", nom_de_scene)
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
     return None
 
-def confirmer_modif_salle(id_salle, nom, description, loge, nombre_place, adresse, telephone, profondeur_scene, longueur_scene,photo):
+def confirmer_modif_salle(id_salle, nom, description, loge, nombre_place, adresse, telephone, profondeur_scene, longueur_scene, photo):
     try:
-        get_image(id_salle,"salle",photo)
         cursor = get_cursor()
-        requete = f"UPDATE Salle SET nom_salle = %s, description_salle = %s, loge = %s, nb_places = %s, adresse_salle = %s, telephone_salle = %s, profondeur_scene = %s, longueur_scene = %s, photo = %s WHERE id_salle = %s;"
-        execute_query(cursor, requete, (nom, description, loge, nombre_place, adresse, telephone, profondeur_scene, longueur_scene, save_image(photo), id_salle))
+
+        if photo.filename != "":
+            get_image(id_salle, "salle", photo)
+            requete = """
+                UPDATE Salle SET
+                nom_salle = %s,
+                description_salle = %s,
+                loge = %s,
+                nb_places = %s,
+                adresse_salle = %s,
+                telephone_salle = %s,
+                profondeur_scene = %s,
+                longueur_scene = %s,
+                photo = %s
+                WHERE id_salle = %s;
+            """
+            params = (nom, description, loge, nombre_place, adresse, telephone, profondeur_scene, longueur_scene, save_image(photo), id_salle)
+            print(save_image(photo))
+        else:
+            requete = """
+                UPDATE Salle SET
+                nom_salle = %s,
+                description_salle = %s,
+                loge = %s,
+                nb_places = %s,
+                adresse_salle = %s,
+                telephone_salle = %s,
+                profondeur_scene = %s,
+                longueur_scene = %s
+                WHERE id_salle = %s;
+            """
+            params = (nom, description, loge, nombre_place, adresse, telephone, profondeur_scene, longueur_scene, id_salle)
+            
+        execute_query(cursor, requete, params)
         db.commit()
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
     return None
+
 
 def confirmer_modif_logement(id_logement, nom_etablissement, adresse, nb_etoile,photo):
     try:
