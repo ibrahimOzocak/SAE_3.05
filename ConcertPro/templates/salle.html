@@ -26,6 +26,13 @@
         <p>Profondeur scene : {{ salle[5] }}</p>
         <p>Longueur scene : {{ salle[6] }} </p>
     </div>
+    <div>
+        {% if map_path %}
+            {{ map_path | safe }}
+        {% else %}
+            <p>Carte non disponible</p>
+        {% endif %}
+    </div>
 </div>
 <div class="bouton">
     <a href="{{ url_for('supprimer_salle', id_salle=salle[0]) }}" class="supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette salle, cette action est irréversible?');">supprimer la salle</a>
