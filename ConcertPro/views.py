@@ -85,16 +85,24 @@ def concert(id):
     salle = mo.get_salle(concert[5])
     artiste = mo.get_artiste(concert[4])
     possedes, non_possedes = mo.categoriser_equipements(id, artiste[0])
-    print(possedes)
-    print(non_possedes)
+    address = salle[8]
+    coor = getCoordonnee(address)
+    c = None
+    if coor is not None:
+        coordinates = (coor[0], coor[2])
+        if coordinates:
+            lat, lng = coordinates
+            c = folium.Map(location=[lat, lng], zoom_start=20)
+            c.save("test.html")
     return render_template(
-        "concert.html",
-        concert=concert,
-        salle = salle,
-        artiste = artiste,
-        possedes = possedes,
-        non_possedes = non_possedes
-    )
+            "concert.html",
+            concert=concert,
+            salle = salle,
+            artiste = artiste,
+            possedes = possedes,
+            non_possedes = non_possedes,
+            map_path=c._repr_html_() if c else None
+        )
 
 @app.route('/concert/<id>/supprimer')
 def supprimer_concert(id):
@@ -131,6 +139,30 @@ def ajout_nouvelle_salle():
     return render_template(
         "ajout_nouvelle_salle.html",
         types = mo.type_salle()
+    )
+
+@app.route('/salle/<id_salle>')
+def mapSalle(id_salle):
+    """page de salle <id_salle>"""
+    salle = mo.get_salle(id_salle)
+    
+    # Utilisez la vraie adresse du salle ici
+    address = salle[8]
+    coor = getCoordonnee(address)
+    # Gérez le cas où les coordonnées ne sont pas disponibles
+    c = None
+    if coor is not None:
+        # Obtenez les coordonnées réelles en fonction de l'adresse
+        coordinates = (coor[0], coor[2])
+        # Vérifiez si les coordonnées sont disponibles
+        if coordinates:
+            lat, lng = coordinates
+            c = folium.Map(location=[lat, lng], zoom_start=20)
+            c.save("test.html")
+    return render_template(
+        "salle.html",
+        salle=salle,
+        map_path=c._repr_html_() if c else None
     )
 
 @app.route('/voir_salles')
@@ -327,17 +359,15 @@ def logement(id_logement):
     address = logement[1]
     coor = getCoordonnee(address)
     # Obtenez les coordonnées réelles en fonction de l'adresse
-    coordinates = (coor[0], coor[2])
-    
-    # Vérifiez si les coordonnées sont disponibles
-    if coordinates:
-        lat, lng = coordinates
-        c = folium.Map(location=[lat, lng], zoom_start=20)
-        c.save("test.html")
-    else:
-        # Gérez le cas où les coordonnées ne sont pas disponibles
-        c = None
-    
+    c = None
+    if coor is not None:
+        coordinates = (coor[0], coor[2])
+        
+        # Vérifiez si les coordonnées sont disponibles
+        if coordinates:
+            lat, lng = coordinates
+            c = folium.Map(location=[lat, lng], zoom_start=20)
+            c.save("test.html")
     return render_template(
         "logement.html",
         logement=logement,
