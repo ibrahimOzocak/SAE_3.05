@@ -30,7 +30,9 @@
                 <option value="{{ artiste[0] }}">{{ artiste[3] }} {{ artiste[4] }}</option>
                 {% endfor %}
             </select>
-            <a href="{{ url_for('ajout_artiste') }}"><button type="button">Creer un nouvel artiste</button></a>
+            <a href="{{ url_for('ajout_artiste') }}" target="_blank">
+                <button type="button">Créer un nouvel artiste</button> 
+            </a>
         </section>
         <section class="section_creer sec3">
             <label for="salle">Salle</label>
@@ -39,7 +41,7 @@
                 <option value="{{ salles[i][0]}}">{{ salles[i][3] }} ({{ types[salles[i][1]][0] }})</option>
                 {% endfor %}
             </select>
-            <a href="{{ url_for('ajout_nouvelle_salle') }}"><button type="button">Créer une nouvelle salle</button></a>
+            <a href="{{ url_for('ajout_nouvelle_salle') }}" target="_blank" ><button type="button">Créer une nouvelle salle</button></a>
         </section>
         <section class="section_creer sec4">
             <label for="description">Description du concert (max 500)</label>
