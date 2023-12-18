@@ -25,7 +25,15 @@ def accueil():
         date_lundi=lundi.strftime("%d-%m-%Y"),
         date_dimanche=dimanche.strftime("%d-%m-%Y")
     )
-    
+
+@app.route('/plan_feu')
+def plan_feu():
+    """page du plan feu"""
+    return render_template(
+        "plan_feu.html"
+    )
+
+
 @app.template_filter('str')
 def string_filter(value):
     return str(value)
@@ -85,14 +93,23 @@ def concert(id):
     salle = mo.get_salle(concert[5])
     artiste = mo.get_artiste(concert[4])
     necessaire = mo.categoriser_equipements(id, artiste[0])
-    print(necessaire)
+    address = salle[8]
+    coor = getCoordonnee(address)
+    c = None
+    if coor is not None:
+        coordinates = (coor[0], coor[2])
+        if coordinates:
+            lat, lng = coordinates
+            c = folium.Map(location=[lat, lng], zoom_start=20)
+            c.save("test.html")
     return render_template(
-        "concert.html",
-        concert=concert,
-        salle = salle,
-        artiste = artiste,
-        necessaire = necessaire
-    )
+            "concert.html",
+            concert=concert,
+            salle = salle,
+            artiste = artiste,
+            necessaire = necessaire,
+            map_path=c._repr_html_() if c else None
+        )
 
 @app.route('/concert/<id>/supprimer')
 def supprimer_concert(id):
@@ -129,6 +146,30 @@ def ajout_nouvelle_salle():
     return render_template(
         "ajout_nouvelle_salle.html",
         types = mo.type_salle()
+    )
+
+@app.route('/salle/<id_salle>')
+def mapSalle(id_salle):
+    """page de salle <id_salle>"""
+    salle = mo.get_salle(id_salle)
+    
+    # Utilisez la vraie adresse du salle ici
+    address = salle[8]
+    coor = getCoordonnee(address)
+    # Gérez le cas où les coordonnées ne sont pas disponibles
+    c = None
+    if coor is not None:
+        # Obtenez les coordonnées réelles en fonction de l'adresse
+        coordinates = (coor[0], coor[2])
+        # Vérifiez si les coordonnées sont disponibles
+        if coordinates:
+            lat, lng = coordinates
+            c = folium.Map(location=[lat, lng], zoom_start=20)
+            c.save("test.html")
+    return render_template(
+        "salle.html",
+        salle=salle,
+        map_path=c._repr_html_() if c else None
     )
 
 @app.route('/voir_salles')
@@ -202,21 +243,10 @@ def ajout_artiste():
 
 @app.route('/voir_artistes')
 def voir_artistes():
-    try:
-        cursor = mo.get_cursor()
-        request = "SELECT * FROM Artiste"
-        cursor.execute(request)
-        info = cursor.fetchall()
-        mo.close_cursor(cursor)
-        return render_template(
+    """page voir les artistes"""
+    return render_template(
             "voir_artistes.html",
-            artistes=info
-        )
-    except Exception as e:
-        print(e.args)
-        return render_template(
-            "error.html",
-            error_message="An error occurred while retrieving data from the database."
+            artistes=mo.artistes()
         )
 
 @app.route('/artiste/<id_artiste>')
@@ -245,7 +275,7 @@ def confirmer_modif_artiste(id_artiste, nom_artiste):
     date_expiration_cni = request.form['date_expiration_cni']
     carte_reduction = request.form['carte_de_reduction']
     photo = request.files['image']
-    mo.confirmer_modif_artiste(id_artiste, nom_artiste, nom_de_scene, mail, telephone, date_de_naissance, lieu_de_naissance,
+    mo.confirmer_modif_artiste(id_artiste, nom_de_scene, mail, telephone, date_de_naissance, lieu_de_naissance,
         adresse, numero_secu_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction,photo)
     return redirect(url_for('artiste', id_artiste=id_artiste))
 
@@ -287,6 +317,7 @@ def save_artiste():
     """sauvegarde d'un artiste"""
     nom_artiste = request.form['nom']
     prenom_artiste = request.form['prenom']
+    nom_scene = request.form['nom_scene']
     mail = request.form['mail']
     telephone = request.form['telephone']
     date_de_naissance = datetime.datetime.strptime(request.form['date_naissance'], "%Y-%m-%d")
@@ -301,8 +332,8 @@ def save_artiste():
     print(nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_de_naissance, adresse, securite_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction)
     try:
         cursor = mo.get_cursor()
-        req = "INSERT INTO Artiste (id_artiste, nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_naissance, adresse, securite_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-        cursor.execute(req, (id_artiste, nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_de_naissance, adresse, securite_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction))
+        req = "INSERT INTO Artiste (id_artiste, nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_naissance, adresse, securite_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction,nom_scene) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s)"
+        cursor.execute(req, (id_artiste, nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_de_naissance, adresse, securite_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction,nom_scene))
         db.commit()
         mo.close_cursor(cursor)
     except Exception as e:
@@ -325,17 +356,15 @@ def logement(id_logement):
     address = logement[1]
     coor = getCoordonnee(address)
     # Obtenez les coordonnées réelles en fonction de l'adresse
-    coordinates = (coor[0], coor[2])
-    
-    # Vérifiez si les coordonnées sont disponibles
-    if coordinates:
-        lat, lng = coordinates
-        c = folium.Map(location=[lat, lng], zoom_start=20)
-        c.save("test.html")
-    else:
-        # Gérez le cas où les coordonnées ne sont pas disponibles
-        c = None
-    
+    c = None
+    if coor is not None:
+        coordinates = (coor[0], coor[2])
+        
+        # Vérifiez si les coordonnées sont disponibles
+        if coordinates:
+            lat, lng = coordinates
+            c = folium.Map(location=[lat, lng], zoom_start=20)
+            c.save("test.html")
     return render_template(
         "logement.html",
         logement=logement,

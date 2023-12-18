@@ -1,13 +1,21 @@
+body{
+  background-color: rgb(66, 66, 66);
+}
+
 .sec1_new_salle {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap; /* Permet aux éléments de descendre en cas de réduction de la largeur de l'écran */
-    background-color: #f2f2f2; /* Ajoute un fond gris clair pour la section */
+    background-color: rgb(66, 66, 66); /* Ajoute un fond gris clair pour la section */
     padding: 20px; /* Ajoute un peu d'espace autour de la section */
     border-radius: 10px; /* Arrondit les coins de la section */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Ajoute une ombre douce à la section */
     margin-top: 20px;
+}
+
+label{
+  color: rgb(156, 136, 98)
 }
 
 .container {
@@ -28,7 +36,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid black;
+    border: 1px solid white;
   }
   
   #image-input {
@@ -60,8 +68,10 @@
 .sec1_new_salle >div input[type="text"] {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border: none;
+    border-bottom: 1px solid white;
+    background-color: rgb(66, 66, 66);
+    color: white;
     margin-bottom: 15px;
 }
 
@@ -73,7 +83,7 @@
 
 
 .sec2_new_salle {
-    background-color: #f2f2f2; /* Ajoute un fond gris clair pour la section */
+    background-color: rgb(66,66,66); /* Ajoute un fond gris clair pour la section */
     padding: 20px; /* Ajoute un peu d'espace autour de la section */
     border-radius: 10px; /* Arrondit les coins de la section */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Ajoute une ombre douce à la section */
@@ -84,8 +94,10 @@
 
 .sec2_new_salle > input[type="text"] {
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border: none;
+    border-bottom: 1px solid white;
+    background-color: rgb(66, 66, 66);
+    color: white;
     margin-bottom: 15px;
 }
 

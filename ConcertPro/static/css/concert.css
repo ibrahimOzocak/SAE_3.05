@@ -22,7 +22,7 @@
 .infos{
     background-color: #f0f0f0; /* Couleur de fond */
     padding: 20px; /* Espacement intérieur */
-    border: 1px solid #ccc; /* Bordure */
+    border: 1px solid #948c8c; /* Bordure */
     border-radius: 10px; /* Coins arrondis */
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Ombre légère */
    
@@ -41,6 +41,7 @@
     padding: 20px;
     border-radius: 20px;
     font-size: 20px;
+    margin: 20px;
 }
 
 .supprimer:hover{
@@ -52,6 +53,7 @@
     display: flex;
     justify-content: center;
     margin: 50px;
+    
 }
 
 
@@ -62,6 +64,12 @@
     padding: 20px;
     border-radius: 20px;
     font-size: 20px;
+    margin: 20px;
+}
+
+a{
+    text-decoration: none;
+    color: white;
 }
 
 .modifier:hover{
@@ -99,3 +107,4 @@
 
 .titre h2{
     margin: 0;
+}
