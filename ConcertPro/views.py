@@ -85,16 +85,24 @@ def concert(id):
     salle = mo.get_salle(concert[5])
     artiste = mo.get_artiste(concert[4])
     possedes, non_possedes = mo.categoriser_equipements(id, artiste[0])
-    print(possedes)
-    print(non_possedes)
+    address = salle[8]
+    coor = getCoordonnee(address)
+    c = None
+    if coor is not None:
+        coordinates = (coor[0], coor[2])
+        if coordinates:
+            lat, lng = coordinates
+            c = folium.Map(location=[lat, lng], zoom_start=20)
+            c.save("test.html")
     return render_template(
-        "concert.html",
-        concert=concert,
-        salle = salle,
-        artiste = artiste,
-        possedes = possedes,
-        non_possedes = non_possedes
-    )
+            "concert.html",
+            concert=concert,
+            salle = salle,
+            artiste = artiste,
+            possedes = possedes,
+            non_possedes = non_possedes,
+            map_path=c._repr_html_() if c else None
+        )
 
 @app.route('/concert/<id>/supprimer')
 def supprimer_concert(id):
