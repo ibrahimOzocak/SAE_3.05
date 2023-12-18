@@ -38,7 +38,7 @@
             <label for="salle">Salle</label>
             <select name="salle">
                 {% for i in range(salles|length) %}
-                <option value="{{ salles[i][0]}}">{{ salles[i][3] }} ({{ types[salles[i][1]][0] }})</option>
+                <option value="{{ salles[i][0] }}">{{ salles[i][3] }} ({{ types[salles[i][0]] }})</option>
                 {% endfor %}
             </select>
             <a href="{{ url_for('ajout_nouvelle_salle') }}" target="_blank" ><button type="button">Créer une nouvelle salle</button></a>

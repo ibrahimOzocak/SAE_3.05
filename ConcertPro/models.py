@@ -608,11 +608,14 @@ def concerts_agenda(heures=HEURES1, jour=JOUR_VOULU):
 def type_salle():
     try:
         cursor = get_cursor()
-        requete = "SELECT type_place_s FROM Type_Salle"
+        requete = "SELECT id_salle,type_place_s FROM Type_Salle JOIN Salle ON Type_Salle.id_type = Salle.id_type_salle;"
         cursor.execute(requete)
         info = cursor.fetchall()
         close_cursor(cursor)
-        return info
+        salle = {}
+        for id_salle,type_place in info:
+            salle[id_salle] = type_place
+        return salle
     except Exception as e:
         print(e.args)
     return None
