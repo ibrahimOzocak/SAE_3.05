@@ -1,23 +1,32 @@
 /* Centre la section sec1 */
+
+body{
+    background-color: white;
+}
+
 .sec1 {
     justify-content: center;
     align-items: center;
     flex-wrap: wrap; /* Permet aux éléments de descendre en cas de réduction de la largeur de l'écran */
-    background-color: #f2f2f2; /* Ajoute un fond gris clair pour la section */
+    background-color: white;
     padding: 20px; /* Ajoute un peu d'espace autour de la section */
     border-radius: 10px; /* Arrondit les coins de la section */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Ajoute une ombre douce à la section */
     margin-top: 20px;
+    width: 70vw;
 }
 
 form{
     margin: 10px;
     padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .container {
     position: relative;
-    width: 100%;
+    width: 70vw;
     height: 100%;
     display: flex;
     justify-content: center;
@@ -25,10 +34,9 @@ form{
 }
   
   #image-charge {
-    position: absolute;
-    top: 0;
-    width: 50%;
-    height: 100%;
+
+    width: 100%;
+    height: 50vh;
     z-index: 1;
     display: flex;
     justify-content: center;
@@ -46,11 +54,6 @@ form{
   }
   
 
-.sec1 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-  
   .sec1 div:first-child {
     grid-column: 1;
     grid-row: 0;
@@ -73,17 +76,22 @@ form{
 .sec1 > div select {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border: none;
+    border-bottom: 1px solid black;
     margin-bottom: 15px;
+    background-color: white;
+    color: black;
+    outline: none; /* Retire la bordure de focus */
 }
+
+
 
 /* Agrandit le bouton de soumission */
 .sec1 input[type="submit"] {
     width: 100%;
     padding: 10px;
-    background-color: #007bff;
-    color: white;
+    background-color: black;
+    color: black;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -97,12 +105,13 @@ form{
 /* Style pour le bouton "Créer un nouvel artiste" et "Créer une nouvelle salle" */
 .sec2 button,
 .sec3 button {
-    background-color: #007bff;
+    background-color: black;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     padding: 10px;
+    width: 15vw;
 }
 
 /* Ajoute un espacement entre les boutons */
@@ -113,7 +122,6 @@ form{
 
 
 .part2{
-    background-color: #f2f2f2; /* Ajoute un fond gris clair pour la section */
     padding: 20px; /* Ajoute un peu d'espace autour de la section */
     border-radius: 10px; /* Arrondit les coins de la section */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Ajoute une ombre douce à la section */
@@ -124,14 +132,26 @@ form{
     display: flex;
     justify-content: space-between; /* Aligne les éléments à gauche, au centre et à droite */
     align-items: center; /* Centre verticalement les éléments */
+    background-color: white;
 }
 
 .sec2 label, .sec2 select, .sec2 button {
     flex: 1; /* Partage l'espace disponible de manière égale entre les éléments */
     margin: 5px; /* Ajoute une marge autour des éléments pour les espacer */
     height: 40px;
+
 }
 
+label{
+    color: black;
+}
+
+.sec2 select{
+    border: none;
+    border-bottom: solid 1px black;
+    background-color: white;
+    color: black;
+}
 
 .sec3 {
     display: flex;
@@ -143,6 +163,14 @@ form{
     flex: 1; /* Partage l'espace disponible de manière égale entre les éléments */
     margin: 5px; /* Ajoute une marge autour des éléments pour les espacer */
     height: 40px;
+
+}
+
+.sec3 select{
+    border: none;
+    border-bottom: solid 1px black;
+    background-color: white;
+    color: black;
 }
 
 .sec4 {
@@ -169,12 +197,12 @@ input[type="submit"]{
     padding: 10px;
     border-radius: 10px;
     color: white;
-    background-color: #007bff;
+    background-color: black;
     cursor: pointer;
 }
 
 input[type="submit"]:hover{
-    scale: 1.1;
+    opacity: 0.7;
     transition: 0.5s ease-in-out;
 }
 

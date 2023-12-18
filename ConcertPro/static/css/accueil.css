@@ -1,68 +1,93 @@
-body{
+body {
     margin: 0;
+    background-color: white;
+    color: black;
 }
 
-.ul_acc{
+.ul_acc {
     display: flex;
     list-style: none;
     padding: 0;
     align-items: center;
 }
 
-.concert img{
+.concert img {
     width: 20vw;
 }
 
-.li_acc{
+.li_acc {
     width: 25vw;
     margin-left: 30px;
     margin-right: 30px;
     margin-top: 20px;
+    background-color: white; /* Couleur de fond pour chaque élément li */
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Ombre légère */
 }
 
-.img_acc{
+.img_acc {
     width: 100%;
     border-radius: 10px;
 }
 
-.img_acc:hover{
+.img_acc:hover {
     opacity: 0.8;
     transition: all 0.3s;
 }
 
-.banniere{
+.banniere {
     width: 100vw;
     height: 30vh;
 }
 
-
-
-table{
+table {
     text-align: center;
-    width: 50%;
-    border-collapse: collapse;
+    width: 70%;
     margin: 0 auto;
+    margin-top: 30px;
+    background-color: white; /* Couleur de fond du tableau */
+    
 }
 
-td,th{
-    border: solid 2px black;
+td, th {
+    border: solid 2px rgb(120, 120, 120); /* Couleur de la bordure des cellules */
+    padding: 10px;
 }
 
-h2{
+h2 {
     margin-left: 10px;
     text-align: center;
     margin-bottom: 30px;
     font-size: 40px;
+    color: black;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
-span{
+span {
     border-bottom: solid black 2px;
 }
 
-h1{
+h1 {
     margin-top: 75px;
 }
 
-div{
+div {
     text-align: center;
+}
+
+.agenda {
+    display: block;
+    width: 200px;
+    margin: 20px auto;
+    padding: 10px;
+    background-color: black;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.agenda:hover {
+    background-color: rgb(120, 100, 80); /* Couleur de fond au survol du lien */
 }

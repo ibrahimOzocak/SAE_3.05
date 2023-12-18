@@ -25,7 +25,15 @@ def accueil():
         date_lundi=lundi.strftime("%d-%m-%Y"),
         date_dimanche=dimanche.strftime("%d-%m-%Y")
     )
-    
+
+@app.route('/plan_feu')
+def plan_feu():
+    """page du plan feu"""
+    return render_template(
+        "plan_feu.html"
+    )
+
+
 @app.template_filter('str')
 def string_filter(value):
     return str(value)

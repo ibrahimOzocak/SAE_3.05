@@ -7,7 +7,7 @@
 <section>
     <h2><span>Prochains concerts</span> </h2>
     <ul class="ul_acc">
-        {% if concerts|length == 0 %}
+        {% if concert|length == 0 %}
         <li class="li_acc">
             <div>
                 <p>Aucun concert n'est prévu pour le moment</p>
@@ -35,9 +35,10 @@
 </section>
 <section id="Agenda">
     <h2><span>Agenda de la semaine</span></h2>
+    <a href="{{ url_for('calendrier', jour=date_lundi) }}" class='agenda'>Acceder aux agendas</a>
     <table>
         <thead>
-            <th colspan="8"><a href="{{ url_for('calendrier', jour=date_lundi) }}">semaine du {{ date_lundi }} au {{ date_dimanche }}</a></th>
+            <th colspan="8">semaine du {{ date_lundi }} au {{ date_dimanche }}</th>
         </thead>
         <tbody>
             <tr>

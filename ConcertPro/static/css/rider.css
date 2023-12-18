@@ -14,3 +14,51 @@ div{
     height: 30vh;
     resize: none;
 }
+
+
+input[type="text"],
+input[type="date"],
+input[type="time"],
+input[type="number"],
+select {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-bottom: 1px solid black;
+    margin-bottom: 15px;
+    background-color: white;
+    color: black;
+    outline: none; /* Retire la bordure de focus */
+}
+
+#nomPrenom{
+    width: 20%;
+}
+
+
+input[type="tel"],input[type="email"]{
+    width: 30%;
+    padding: 10px;
+    border: none;
+    border-bottom: 1px solid black;
+    margin-bottom: 15px;
+    background-color: white;
+    color: black;
+    outline: none; /* Retire la bordure de focus */
+}
+
+.download{
+    border: solid 1px black;
+    background-color: black;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+}
+.download:hover{
+    transition: all 0.3s;
+    opacity: 0.8;
+}
+
+a{
+    text-decoration: none;
+}

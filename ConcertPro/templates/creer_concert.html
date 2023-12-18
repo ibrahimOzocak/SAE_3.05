@@ -5,12 +5,13 @@
 {% endblock %}
 {% block content %}
 <form role="form" method="POST" action="{{ url_for('save_concert') }}" enctype="multipart/form-data">
+    <div class="container">
+        <input type="file" name="image" id="image-input">
+        <script src="{{ url_for('static', filename='js/charge_img.js') }}"></script>
+        <img id="image-charge" src="" alt="Glisser/Déposer une image" width=10% height=10%>
+    </div>
     <section class="section_creer sec1">
-        <div class="container">
-            <input type="file" name="image" id="image-input">
-            <script src="{{ url_for('static', filename='js/charge_img.js') }}"></script>
-            <img id="image-charge" src="" alt="Glisser/Déposer une image" width=10% height=10%>
-        </div>
+
         <div>
             <label for="titre">Titre du concert</label>
             <input type="text" name="titre"/>
@@ -20,34 +21,31 @@
             <input type="time" name="heure_debut" min="00:00" max="23:59" required/>
             <label for="duree">Durée (hh:mm)</label>
             <input type="time" name="duree" min="00:00" max="23:59" required/>
+            <section class="section_creer sec2">
+                <label for="artiste">Artiste</label>
+                <select name="artiste">
+                    {% for artiste in artistes %}
+                    <option value="{{ artiste[0] }}">{{ artiste[3] }} {{ artiste[4] }}</option>
+                    {% endfor %}
+                </select>
+                <a href="{{ url_for('ajout_artiste') }}"><button type="button">Creer un nouvel artiste</button></a>
+            </section>
+            <section class="section_creer sec3">
+                <label for="salle">Salle</label>
+                <select name="salle">
+                    {% for i in range(salles|length) %}
+                    <option value="{{ salles[i][0]}}">{{ salles[i][3] }} ({{ types[salles[i][1]][0] }})</option>
+                    {% endfor %}
+                </select>
+                <a href="{{ url_for('ajout_nouvelle_salle') }}"><button type="button">Créer une nouvelle salle</button></a>
+            </section>
+            <section class="section_creer sec4">
+                <label for="description">Description du concert (max 500)</label>
+                <textarea name="description" maxlength="500"></textarea>
+            </section>
         </div>
     </section>
-    <div class="part2">
-        <section class="section_creer sec2">
-            <label for="artiste">Artiste</label>
-            <select name="artiste">
-                {% for artiste in artistes %}
-                <option value="{{ artiste[0] }}">{{ artiste[3] }} {{ artiste[4] }}</option>
-                {% endfor %}
-            </select>
-            <a href="{{ url_for('ajout_artiste') }}" target="_blank">
-                <button type="button">Créer un nouvel artiste</button> 
-            </a>
-        </section>
-        <section class="section_creer sec3">
-            <label for="salle">Salle</label>
-            <select name="salle">
-                {% for i in range(salles|length) %}
-                <option value="{{ salles[i][0] }}">{{ salles[i][3] }} ({{ types[salles[i][0]] }})</option>
-                {% endfor %}
-            </select>
-            <a href="{{ url_for('ajout_nouvelle_salle') }}" target="_blank" ><button type="button">Créer une nouvelle salle</button></a>
-        </section>
-        <section class="section_creer sec4">
-            <label for="description">Description du concert (max 500)</label>
-            <textarea name="description" maxlength="500"></textarea>
-        </section>
-    </div>
+    
     <input type="submit" value="Enregistrer le concert">
 </form>
 {% endblock %}

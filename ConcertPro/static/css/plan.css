@@ -1,0 +1,43 @@
+#canvas {
+    border: 1px solid #000;
+  }
+
+.buttons{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px;
+}
+
+.taille-texte{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px;
+}
+
+button{
+  margin: 5px;
+  background-color: black;
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: none;
+}
+
+button:hover{
+  opacity: 0.8;
+  transition: 0.3s;
+}
+
+input{
+  margin: 5px;
+}
+
+.plan{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}

@@ -1,57 +1,109 @@
 <!doctype html>
 <html lang="fr">
-  <head>
-    {% block head %}
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    {% block styles %}
-      <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css')}}">
-      <!-- Bootstrap CSS -->
-    {% endblock %}
-    <title>ConcertPro</title>
-    {% endblock %}
-  </head>
-  <body>
-    <header>
-      <ul id="menu-demo2">
-        <li><a href="{{url_for('accueil')}}">Accueil</a></li>
-        <li><a href="{{ url_for('afficher_rider') }}">Créer un rider</a></li>
-        <li><a href="#">Créer</a>
-          <ul>
-            <li><a href="{{url_for('creer_concert')}}">Créer un concert</a></li>
-            <li><a href="{{url_for('ajout_nouvelle_salle')}}">Ajouter une nouvelle salle</a></li>
-            <li><a href="{{url_for('ajout_artiste')}}">Ajouter un nouvel artiste</a></li>
-            <li><a href="{{url_for('ajout_logement')}}">Ajouter un nouveau logement</a></li>
-          </ul>
-        </li>
-        <li><a href="#">Voir</a>
-          <ul>
-            <li><a href="{{url_for('voir_prochains_concerts')}}">Voir les prochains concerts</a></li>
-            <li><a href="{{url_for('historique_concerts')}}">Historique des concerts</a></li>
-            <li><a href="{{url_for('voir_salles')}}">Voir toutes les salles</a></li>
-            <li><a href="{{url_for('voir_artistes')}}">Voir les artistes</a></li>
-            <li><a href="{{url_for('voir_logements')}}">Voir les logements</a></li>
-            <li><a href="{{url_for('voir_equipements')}}">Voir les equipements</a></li>
-          </ul>
-        </li>
-      </ul>
-    </header>
-    <main class="main">
-      {% block content %}
-      {% endblock %}
-    </main>
-      <footer>
-        <ul>
-          <li>SEVELLEC Maxime (Chef de projet)</li>
-          <li>BRISSET Leo</li>
-          <li>ÖZOCAK Ibrahim</li>
-          <li>MENJIKOFF-GUILLOT Noa</li>
-          <li>ROUSSELET Juliette</li>
+
+<head>
+  {% block head %}
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  {% block styles %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css')}}">
+  <script src="{{ url_for('static', filename='js/base.js')}}"></script>
+  <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+
+  <!-- Bootstrap CSS -->
+  {% endblock %}
+  <title>ConcertPro</title>
+  {% endblock %}
+</head>
+
+<body>
+  <header>
+    <img class="menu-link" src="../static/images/menu.png" alt="" onclick="toggleContainerClass()">
+    <div class="deroulant">
+      <nav id="menu">
+        <ul class="mobile-nav" id="mobile">
+          <li class="menu-item menu-item-has-children">
+            <a href="{{url_for('accueil')}}">Accueil</a>
+          </li>
+
+          <li class="menu-item menu-item-has-children">
+            <a href="#">Créer</a>
+
+            <ul class="sub-menu">
+              <li class="menu-item">
+                <a href="{{url_for('creer_concert')}}">Concert</a>
+              </li>
+
+              <li class="menu-item">
+                <a href="{{url_for('ajout_nouvelle_salle')}}">Salle</a>
+              </li>
+
+              <li class="menu-item">
+                <a href="{{url_for('ajout_artiste')}}">Artiste</a>
+              </li>
+              <li class="menu-item">
+                <a href="{{url_for('ajout_logement')}}">Logment</a>
+              </li>
+              <li class="menu-item">
+                <a href="{{url_for('afficher_rider')}}">Rider</a>
+              </li>
+              <li class="menu-item">
+                <a href="{{url_for('plan_feu')}}">Plan Feu</a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="menu-item menu-item-has-children">
+            <a href="#">Voir</a>
+
+            <ul class="sub-menu">
+              <li class="menu-item">
+                <a href="{{url_for('voir_prochains_concerts')}}">Prochains Concerts</a>
+              </li>
+
+              <li class="menu-item">
+                <a href="{{url_for('historique_concerts')}}">Historique</a>
+              </li>
+
+              <li class="menu-item">
+                <a href="{{url_for('voir_salles')}}">Salles</a>
+              </li>
+
+              <li class="menu-item">
+                <a href="{{url_for('voir_artistes')}}">Artistes</a>
+              </li>
+              <li class="menu-item">
+                <a href="{{url_for('voir_logements')}}">Logements</a>
+              </li>
+              <li class="menu-item">
+                <a href="{{url_for('voir_equipements')}}">Equipements</a>
+              </li>
+            </ul>
+          </li>
         </ul>
-      </footer>
-    {% block scripts %}
-      <!-- Optional JavaScript -->
+      </nav>
+      <img class="menu-close cacher" src="../static/images/croix.png" alt="" onclick="toggleContainerClass()">
+    </div>
+
+
+  </header>
+  <main class="main">
+    {% block content %}
     {% endblock %}
-  </body>
+  </main>
+  <footer>
+    <ul>
+      <li>SEVELLEC Maxime (Chef de projet)</li>
+      <li>BRISSET Leo</li>
+      <li>ÖZOCAK Ibrahim</li>
+      <li>MENJIKOFF-GUILLOT Noa</li>
+      <li>ROUSSELET Juliette</li>
+    </ul>
+  </footer>
+  {% block scripts %}
+  <!-- Optional JavaScript -->
+  {% endblock %}
+</body>
+
 </html>

@@ -1,5 +1,5 @@
 section{
-    background-color: #f0f0f0; /* Couleur de fond */
+    background-color: white; /* Couleur de fond */
     padding: 40px; /* Espacement intérieur */
     border: 1px solid #ccc; /* Bordure */
     border-radius: 10px; /* Coins arrondis */
@@ -28,6 +28,17 @@ form{
     cursor: pointer;
 }
 
+div input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-bottom: 1px solid black;
+    margin-bottom: 15px;
+    background-color: white;
+    color: black;
+    outline: none; /* Retire la bordure de focus */
+}
+
 .valider:hover{
     opacity: 0.8;
     transition: ease-in 0.4s;
@@ -40,4 +51,11 @@ label{
 section input{
     width: 60%;
     height: 30px;
+    padding: 10px;
+    border: none;
+    border-bottom: 1px solid black;
+    margin-bottom: 15px;
+    background-color: white;
+    color: black;
+    outline: none; /* Retire la bordure de focus */
 }

@@ -7,11 +7,11 @@
 <form action="{{ url_for('save_logement') }}" method="POST" enctype="multipart/form-data">
     <section class="nouveau_logement">
         <label for="nom_etablissement">Nom de l'établissement</label>
-        <input type="text" name="nom_etablissement"/> 
+        <input type="text" name="nom_etablissement" placeholder="Nom"/> 
         <label for="nb_etoiles">Nombre d'étoiles</label>
-        <input type="number" min="0" max="5" name="nb_etoiles"/> 
+        <input type="number" min="0" max="5" name="nb_etoiles" placeholder="5"/> 
         <label for="adresse">Adresse</label>
-        <input type="text" name="adresse"/>
+        <input type="text" name="adresse" placeholder="Adresse"/>
     </section>
     <input class="valider" type="submit" id="valider" name="valider" value="Valider l'ajout de ce logment"/>
 </form>
