@@ -245,21 +245,10 @@ def ajout_artiste():
 
 @app.route('/voir_artistes')
 def voir_artistes():
-    try:
-        cursor = mo.get_cursor()
-        request = "SELECT * FROM Artiste"
-        cursor.execute(request)
-        info = cursor.fetchall()
-        mo.close_cursor(cursor)
-        return render_template(
+    """page voir les artistes"""
+    return render_template(
             "voir_artistes.html",
-            artistes=info
-        )
-    except Exception as e:
-        print(e.args)
-        return render_template(
-            "error.html",
-            error_message="An error occurred while retrieving data from the database."
+            artistes=mo.artistes()
         )
 
 @app.route('/artiste/<id_artiste>')
@@ -288,7 +277,7 @@ def confirmer_modif_artiste(id_artiste, nom_artiste):
     date_expiration_cni = request.form['date_expiration_cni']
     carte_reduction = request.form['carte_de_reduction']
     photo = request.files['image']
-    mo.confirmer_modif_artiste(id_artiste, nom_artiste, nom_de_scene, mail, telephone, date_de_naissance, lieu_de_naissance,
+    mo.confirmer_modif_artiste(id_artiste, nom_de_scene, mail, telephone, date_de_naissance, lieu_de_naissance,
         adresse, numero_secu_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction,photo)
     return redirect(url_for('artiste', id_artiste=id_artiste))
 

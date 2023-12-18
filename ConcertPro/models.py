@@ -74,6 +74,7 @@ def save_logement(id, nom_etablissement, adresse_ville_codepostal, nb_etoile):
 def save_image(photo):
     try:
         if photo.filename != "":
+            photo.seek(0)
             image_data = photo.read()
             image_bytesio = io.BytesIO(image_data)
             blob = image_bytesio.read()
@@ -88,6 +89,7 @@ def get_image(id_value, repository_name, image_data):
         return
     try:
         if not isinstance(image_data, bytes):
+            image_data.seek(0)
             image_data = image_data.read()
         if len(image_data) > 0:
             image = Image.open(BytesIO(image_data))
@@ -225,6 +227,16 @@ def artistes():
         cursor.execute(requete)
         info = cursor.fetchall()
         for i in info:
+            if i[-1] is not None and len(i[-1]) != 0:
+                get_image(int(i[0]), "artiste", i[-1])
+            else:
+                i2 = []
+                for ind in range(len(i)):
+                    if ind == len(i) - 1:
+                        i2.append(None)
+                    else:
+                        i2.append(i[ind])
+                i = i2    
             artistes.append(i)
         close_cursor(cursor)
     except Exception as e:
@@ -335,7 +347,7 @@ def confirmer_modif_concert(id_concert, nom_concert, date_heure_concert, duree_c
         print(e.args)
     return None
 
-def confirmer_modif_artiste(id_artiste, nom_artiste, nom_de_scene, mail, telephone, date_de_naissance, lieu_de_naissance,
+def confirmer_modif_artiste(id_artiste, nom_de_scene, mail, telephone, date_de_naissance, lieu_de_naissance,
         adresse, numero_secu_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction,photo):
     try:
         get_image(id_artiste, "artiste", photo)
@@ -345,7 +357,7 @@ def confirmer_modif_artiste(id_artiste, nom_artiste, nom_de_scene, mail, telepho
             get_image(int(id_artiste), "artiste", photo)
             requete = """
                 UPDATE Artiste SET
-                telephone = %s, mail = %s, nom_artiste = %s,
+                telephone = %s, mail = %s,
                 date_de_naissance = %s, lieu_naissance = %s, adresse = %s,
                 securite_sociale = %s, cni = %s, date_delivrance_cni = %s,
                 date_expiration_cni = %s, carte_reduction = %s, nom_scene = %s,
@@ -353,7 +365,7 @@ def confirmer_modif_artiste(id_artiste, nom_artiste, nom_de_scene, mail, telepho
                 WHERE id_artiste = %s
             """
             execute_query(cursor, requete, (
-                telephone, mail, nom_artiste, date_de_naissance, lieu_de_naissance, 
+                telephone, mail, date_de_naissance, lieu_de_naissance, 
                 adresse, numero_secu_sociale, cni, date_delivrance_cni, 
                 date_expiration_cni, carte_reduction, nom_de_scene, 
                 save_image(photo), id_artiste
@@ -361,14 +373,14 @@ def confirmer_modif_artiste(id_artiste, nom_artiste, nom_de_scene, mail, telepho
         else:
             requete = """
                 UPDATE Artiste SET
-                telephone = %s, mail = %s, nom_artiste = %s,
+                telephone = %s, mail = %s,
                 date_de_naissance = %s, lieu_naissance = %s, adresse = %s,
                 securite_sociale = %s, cni = %s, date_delivrance_cni = %s,
                 date_expiration_cni = %s, carte_reduction = %s, nom_scene = %s
                 WHERE id_artiste = %s
             """
             execute_query(cursor, requete, (
-                telephone, mail, nom_artiste, date_de_naissance, lieu_de_naissance, 
+                telephone, mail, date_de_naissance, lieu_de_naissance, 
                 adresse, numero_secu_sociale, cni, date_delivrance_cni, 
                 date_expiration_cni, carte_reduction, nom_de_scene, id_artiste
             ))
