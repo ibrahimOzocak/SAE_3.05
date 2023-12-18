@@ -359,17 +359,15 @@ def logement(id_logement):
     address = logement[1]
     coor = getCoordonnee(address)
     # Obtenez les coordonnées réelles en fonction de l'adresse
-    coordinates = (coor[0], coor[2])
-    
-    # Vérifiez si les coordonnées sont disponibles
-    if coordinates:
-        lat, lng = coordinates
-        c = folium.Map(location=[lat, lng], zoom_start=20)
-        c.save("test.html")
-    else:
-        # Gérez le cas où les coordonnées ne sont pas disponibles
-        c = None
-    
+    c = None
+    if coor is not None:
+        coordinates = (coor[0], coor[2])
+        
+        # Vérifiez si les coordonnées sont disponibles
+        if coordinates:
+            lat, lng = coordinates
+            c = folium.Map(location=[lat, lng], zoom_start=20)
+            c.save("test.html")
     return render_template(
         "logement.html",
         logement=logement,
