@@ -5,7 +5,7 @@
 {% endblock %}
 {% block content %}
 <div class="conteneur">
-    {% for i in range (concert|length) %}
+    {% for i in range (concerts|length) %}
     <div class="sous-conteneur">
         <a href="{{ url_for('concert', id=concerts[i][0]) }}">
             {% if concerts[i][-1] is none %}

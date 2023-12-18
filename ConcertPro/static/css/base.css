@@ -104,8 +104,9 @@ ul, ol {
 
 .menu-close{
   width: 50px;
-  position: absolute;
+  position: fixed;
   left: 270px;
+  z-index: 10000000;
   margin: 10px;
   top: 0;
 }

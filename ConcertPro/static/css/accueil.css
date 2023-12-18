@@ -17,8 +17,8 @@ body {
 
 .li_acc {
     width: 25vw;
-    margin-left: 30px;
-    margin-right: 30px;
+    margin-left: 5vw;
+    margin-right: 5vw;
     margin-top: 20px;
     background-color: white; /* Couleur de fond pour chaque élément li */
     padding: 15px;
@@ -58,7 +58,7 @@ td, th {
 h2 {
     margin-left: 10px;
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 2vw;
     font-size: 40px;
     color: black;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;

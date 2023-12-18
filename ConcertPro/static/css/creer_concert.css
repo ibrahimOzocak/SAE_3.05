@@ -66,6 +66,7 @@ form{
 
 .sec1>div>div{
     display: flex;
+    margin-bottom: 6px;
 }
 
 /* Agrandit les champs de saisie */
