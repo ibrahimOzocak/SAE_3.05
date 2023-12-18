@@ -6,7 +6,7 @@
 {% block content %}
 <h2>{{ artiste[4] }} {{ artiste[3] }}</h2>
 <div class="container">
-    <form method="POST" action="{{ url_for('confirmer_modif_artiste', id_artiste=artiste[0], nom_artiste=artiste[1]) }}" enctype="multipart/form-data">
+    <form method="POST" action="{{ url_for('confirmer_modif_artiste', id_artiste=artiste[0], nom_artiste=artiste[3]) }}" enctype="multipart/form-data">
         <div class="container">
             <input type="file" name="image" id="image-input">
             <script src="{{ url_for('static', filename='js/charge_img.js') }}"></script>
