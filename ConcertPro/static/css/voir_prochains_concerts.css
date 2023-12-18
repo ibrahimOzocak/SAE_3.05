@@ -25,6 +25,12 @@ a{
     align-items: center;
 }
 
+#ajout_equipement{
+    display: block;
+    width: 10px;
+    position: center;
+}
+
 .ajouter-log{
     border: solid 1px;
     border-radius: 20px;
