@@ -22,6 +22,13 @@
         <p>Nom de la salle : {{ salle[3] }}</p>
         <p>Description : {{ concert[6] }}</p>
     </div>
+    <div>
+        {% if map_path %}
+            {{ map_path | safe }}
+        {% else %}
+            <p>Carte non disponible</p>
+        {% endif %}
+    </div>
 </div>
 <div class="bouton">
     {% if concert is not none %}
