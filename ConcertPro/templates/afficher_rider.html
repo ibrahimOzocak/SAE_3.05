@@ -36,22 +36,29 @@
         <input type="text" id="reductionTrainCarteVoyageur" name="reductionTrainCarteVoyageur" placeholder="29090109 320175531"><br>
         <label for="carteAdulte">Carte Adulte :</label>
         <input type="text" id="carteAdulte" name="carteAdulte" placeholder="29090108356522616"><br>
+        <h2>RIDER :</h2>
+        <h3>ACCÈS ET FEUILLE DE ROUTE :</h3>
+        <textarea id="acces_feuille_route" name="acces_feuille_route" rows="4" cols="100"></textarea>
+        <h3>TRANSPORTS :</h3>
+        <textarea id="transport" name="transport" rows="4" cols="100"></textarea>
+        <h3>HÉBERGEMENT :</h3>
+        <textarea id="hebergement" name="hebergement" rows="4" cols="100"></textarea>
+        <h3>LOGES :</h3>
+        <textarea id="loge" name="loge" rows="4" cols="100"></textarea>
+        <h3>CATERING :</h3>
+        <textarea id="catering" name="catering" rows="4" cols="100"></textarea>
+        <h3>INVITATIONS :</h3>
+        <textarea id="invitation" name="invitation" rows="4" cols="100"></textarea>
+        <p>TOUTE ADAPTATION PEUT ÊTRE ENVISAGÉE, MERCI DE PRENDRE CONTACT AVEC L’ARTISTE.</p>
+        <input type="text" id="nomPrenom" name="nomPrenom" placeholder="DIJOUD Victor"> – MAJ 
+        <input type="date" id="date" name="date">
+        <label for="email">Contact :</label>
+        <input type="email" id="email" name="email" placeholder="exemple@gmail.com">
+        <label for="tel">Téléphone :</label>
+        <input type="tel" id="tel" name="tel" placeholder="(0)6 04 41 55 82"/>
     </form>
-    <h2>RIDER :</h2>
-    <h3>ACCÈS ET FEUILLE DE ROUTE :</h3>
-    <textarea id="acces_feuille_route" name="acces_feuille_route" rows="4" cols="100"></textarea>
-    <h3>TRANSPORTS :</h3>
-    <textarea id="transport" name="transport" rows="4" cols="100"></textarea>
-    <h3>HÉBERGEMENT :</h3>
-    <textarea id="hebergement" name="hebergement" rows="4" cols="100"></textarea>
-    <h3>LOGES :</h3>
-    <textarea id="loge" name="loge" rows="4" cols="100"></textarea>
-    <h3>CATERING :</h3>
-    <textarea id="catering" name="catering" rows="4" cols="100"></textarea>
-    <h3>INVITATIONS :</h3>
-    <textarea id="invitation" name="invitation" rows="4" cols="100"></textarea>
-    <p>TOUTE ADAPTATION PEUT ÊTRE ENVISAGÉE, MERCI DE PRENDRE CONTACT AVEC L’ARTISTE.</p>
-    <h5><input type="text" id="nomPrenom" name="nomPrenom" placeholder="DIJOUD Victor"> – MAJ <input type="date" id="date" name="date"> - Contact : <input type="email" id="email" name="email" placeholder="exemple@gmail.com"><br> – Téléphone : <input type="tel" name="tel" placeholder="(0)6 04 41 55 82"/></h5>
+
+    
     <script>
     // Obtenir la date actuelle au format ISO (AAAA-MM-JJ)
     var today = new Date().toISOString().split('T')[0];
@@ -60,6 +67,6 @@
     </script>
 </div>
 <div>
-    <a href=""> Télécharger le rider (en pdf).</a>
+    <a href="" class="download"> Télécharger le rider (en pdf).</a>
 </div>
 {% endblock %}

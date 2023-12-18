@@ -84,6 +84,8 @@ form{
     outline: none; /* Retire la bordure de focus */
 }
 
+
+
 /* Agrandit le bouton de soumission */
 .sec1 input[type="submit"] {
     width: 100%;
