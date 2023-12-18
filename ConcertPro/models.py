@@ -11,7 +11,7 @@ HEURES2 = [8, 10, 12, 14, 16, 18, 20, 22]
 PAS2 = 2
 
 db = mysql.connector.connect(
-    host="servinfo-maria",user = "sevellec", password = "sevellec", database = "DBsevellec"
+    host="localhost",user = "root", password = "", database = "bd_sae_bg_leo"
 )
 
 def get_cursor():

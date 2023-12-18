@@ -8,3 +8,14 @@ function deroulant(){
     b.classList.toggle('animationr');
     c.classList.toggle('cacher');
 }
+
+
+function toggleContainerClass(){
+    // $("#menu").toggleClass("active");
+    var container = document.querySelector("#menu");
+    var menu = document.querySelector(".menu-link");
+    if (container) {
+      container.classList.toggle("active");
+      menu.classList.toggle("active");
+    }
+}
