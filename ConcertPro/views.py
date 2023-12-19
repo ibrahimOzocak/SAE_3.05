@@ -119,21 +119,28 @@ def supprimer_concert(id):
 def modifier_concert(id_concert):
     """modifier le concert <id_concert>"""
     concert = mo.get_concert(id_concert)
+    liste_salle = mo.salles()
+    liste_artiste = mo.artistes()
     return render_template(
         "modifier_concert.html",
-        concert=concert
+        concert=concert,
+        salles=liste_salle,
+        artistes = liste_artiste 
     )
 
 @app.route('/modifier_concert/<id_concert>/<nom_concert>', methods=("POST",))
 def confirmer_modif_concert(id_concert, nom_concert):
     """sauvegarde d'un concert"""
     nom_concert= request.form['nom_concert']
+    id_artiste = request.form['artiste']
+    id_salle = request.form['salle']
     date_heure_concert = request.form['date_heure_concert']
     duree_concert = request.form['duree_concert']
     description_concert = request.form['description_concert']
     photo = request.files['image']
-    
-    mo.confirmer_modif_concert(id_concert,nom_concert, date_heure_concert, duree_concert, description_concert,photo)
+    print(id_salle)
+
+    mo.confirmer_modif_concert(id_concert,nom_concert, date_heure_concert, duree_concert, id_artiste, id_salle, description_concert,photo)
     
     return redirect(url_for('concert', id=id_concert))
 

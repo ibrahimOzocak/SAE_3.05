@@ -21,6 +21,13 @@ body * {
   margin: 10px;
 }
 
+a{
+  text-decoration: none;
+  color: black;
+}
+
+
+
 /* Menu Styles */
 
 #menu {

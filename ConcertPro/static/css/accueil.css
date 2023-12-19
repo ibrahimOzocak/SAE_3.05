@@ -95,3 +95,10 @@ div {
 .agenda:hover {
     background-color: rgb(120, 100, 80); /* Couleur de fond au survol du lien */
 }
+
+
+.a:hover{
+    opacity: 0.7;
+    transition: all 0.3s ease-in-out;
+    text-decoration: underline;
+  }

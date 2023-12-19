@@ -10,6 +10,10 @@
 .sous-conteneur{
     max-width: calc(25% - 20px); /* 25% pour 4 images par ligne avec espacement */
     text-align: center; /* Centrez le contenu horizontalement */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    padding: 10px;
 }
 
 /* Ajustez la largeur et la hauteur des images */
@@ -38,4 +42,16 @@ a{
     color: white;
     width: 200px;
     padding: 50px;
+}
+
+.img_acc{
+    margin-bottom: 2%;
+}
+
+.addrLogement{
+    margin-bottom: 1%;
+}
+
+.nomLogement{
+    margin-bottom: 15%;
 }

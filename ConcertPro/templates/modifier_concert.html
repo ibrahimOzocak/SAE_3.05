@@ -18,6 +18,22 @@
         </div>
         <label for="nom_concert">Nom du concert :</label>
         <input type="textfield" id="nom_concert" name="nom_concert" required value="{{ concert[1] }}">
+        <label for="artiste">Artiste</label>
+        <select name="artiste">
+            {% for a in artistes %}
+                <option value="{{ a[0] }}" {% if concert[4] == a[0] %}selected{% endif %}>
+                    {{ a[3] }} {{ a[4] }}
+                </option>
+            {% endfor %}
+        </select>
+        <label for="salle">Salle :</label>
+        <select name="salle">
+            {% for sall in salles %}
+                <option value="{{ sall[0] }}" {% if concert[5] == sall[0] %}selected{% endif %}>
+                    {{ sall[3] }} 
+                </option>
+            {% endfor %}
+        </select>
         <label for="date_heure_concert">Date et heure du concert :</label>
         <input type="textfield" id="date_heure_concert" name="date_heure_concert" required value="{{ concert[2] }}">
         <label for="duree_concert">La durée du concert :</label>

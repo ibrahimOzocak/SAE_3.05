@@ -26,6 +26,7 @@
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
             <style>
                 #map_51e912601863cdad549738726fd83bfe {
+                #map_b359228d4df7a47a2d3a14573ba21e47 {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -40,6 +41,7 @@
     
     
             <div class="folium-map" id="map_51e912601863cdad549738726fd83bfe" ></div>
+            <div class="folium-map" id="map_b359228d4df7a47a2d3a14573ba21e47" ></div>
         
 </body>
 <script>
@@ -47,8 +49,11 @@
     
             var map_51e912601863cdad549738726fd83bfe = L.map(
                 "map_51e912601863cdad549738726fd83bfe",
+            var map_b359228d4df7a47a2d3a14573ba21e47 = L.map(
+                "map_b359228d4df7a47a2d3a14573ba21e47",
                 {
                     center: [46.7850124, 4.840164],
+                    center: [45.7413474, 4.8225661],
                     crs: L.CRS.EPSG3857,
                     zoom: 20,
                     zoomControl: true,
@@ -61,12 +66,14 @@
         
     
             var tile_layer_ce4e801ebe2bf8d3c9f464e9f6fbaccf = L.tileLayer(
+            var tile_layer_4755deff231c44929afce04f5050c484 = L.tileLayer(
                 "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
                 {"attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors", "detectRetina": false, "maxNativeZoom": 19, "maxZoom": 19, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
             );
         
     
             tile_layer_ce4e801ebe2bf8d3c9f464e9f6fbaccf.addTo(map_51e912601863cdad549738726fd83bfe);
+            tile_layer_4755deff231c44929afce04f5050c484.addTo(map_b359228d4df7a47a2d3a14573ba21e47);
         
 </script>
 </html>
