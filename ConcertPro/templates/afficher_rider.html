@@ -5,7 +5,40 @@
 {% endblock %}
 {% block content %}
 <div>
-    <h1><input type="text" id="nomPrenom" name="nomPrenom" placeholder="DIJOUD Victor"> – Rider & Fiche Technique</h1>
+
+    <table border="1">
+        <tr>
+            {% for i in range(values[0]|length) %}
+            <th> {{ values[0][i] }} </th>
+            {% endfor %}
+            <th>
+                <p> Télécharger </p>
+            </th>
+            <th>
+                <p> Sauvegarder </p>
+            </th>
+        </tr>
+        {% for v in values[1:] %}
+
+        <tr>
+
+        {% for i in range(v|length) %}
+
+            <th> {{ v[i] }} </th>
+
+        {% endfor %}
+
+        <th> <button href=""> Télécharger en format pdf </button> </th>
+        <th> <button href=""> Sauvegarder dans la base de donnée </button> </th>
+
+        </tr>
+
+        {% endfor %}
+    </table>
+
+</div>
+<div>
+<h1><input type="text" id="nomPrenom" name="nomPrenom" placeholder="DIJOUD Victor"> – Rider & Fiche Technique</h1>
     <p>Ce rider fait partie intégrante du contrat.</p>
     <p>Merci de le respecter et de le prendre en considération. Afin que tout le monde passe une bonne journée et gagne du temps, lisez-le attentivement et communiquez-nous par avance toute objection, question ou impossibilité relative à nos demandes.</p>
     <p>Toute modification devra faire l’objet d’un accord préalable des deux parties.</p>
@@ -57,14 +90,6 @@
         <label for="tel">Téléphone :</label>
         <input type="tel" id="tel" name="tel" placeholder="(0)6 04 41 55 82"/>
     </form>
-
-    
-    <script>
-    // Obtenir la date actuelle au format ISO (AAAA-MM-JJ)
-    var today = new Date().toISOString().split('T')[0];
-    // Remplir le champ de date avec la date du jour
-    document.getElementById('date').value = today;
-    </script>
 </div>
 <div>
     <a href="" class="download"> Télécharger le rider (en pdf).</a>
