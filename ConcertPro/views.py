@@ -301,7 +301,7 @@ def confirmer_modif_artiste(id_artiste, nom_artiste):
     date_expiration_cni = request.form['date_expiration_cni']
     carte_reduction = request.form['carte_de_reduction']
     photo = request.files['image']
-    mo.confirmer_modif_artiste(id_artiste, nom_de_scene, mail, telephone, date_de_naissance, lieu_de_naissance,
+    mo.confirmer_modif_artiste(id_artiste, prenom_artiste, nom_artiste, nom_de_scene, mail, telephone, date_de_naissance, lieu_de_naissance,
         adresse, numero_secu_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction,photo)
     return redirect(url_for('artiste', id_artiste=id_artiste))
 
