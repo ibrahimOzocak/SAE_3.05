@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block styles %}
 {{ super() }}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/logement.css')}}"> 
+<link rel="stylesheet" href="{{ url_for('static', filename='css/concert.css')}}"> 
 {% endblock %}
 {% block content %}
 <h2>{{ equipement[1] }}</h2>
@@ -13,10 +13,9 @@
     {% endif %}
     <p>Nom : {{ equipement[1] }}</p>
 </div>
-<div>
-    <a href="{{ url_for('supprimer_equipement', id_equipement=equipement[0]) }}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette equipement,  cette action est irréversible??');">supprimer l'equipement</a>
+<div class="bouton">
+    <a href="{{ url_for('modifier_equipement', id_equipement=equipement[0]) }}" class="modifier">modifier l'equipement</a>
+    <a href="{{ url_for('supprimer_equipement', id_equipement=equipement[0]) }}" class="supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette equipement,  cette action est irréversible??');">supprimer l'equipement</a>
 </div>
-<div>
-    <a href="{{ url_for('modifier_equipement', id_equipement=equipement[0]) }}" >modifier l'equipement</a>
-</div>
+
 {% endblock %}
