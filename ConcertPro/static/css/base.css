@@ -123,6 +123,9 @@ ul, ol {
 
 .deroulant{
   display: flex;
+  text-align: center;
+
+
 }
 
 .menu-close{
