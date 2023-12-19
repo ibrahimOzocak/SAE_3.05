@@ -141,6 +141,8 @@ def confirmer_modif_concert(id_concert, nom_concert):
     print(id_salle)
 
     mo.confirmer_modif_concert(id_concert,nom_concert, date_heure_concert, duree_concert, id_artiste, id_salle, description_concert,photo)
+    mo.remove_participer(id_concert, id_artiste)
+    mo.add_artiste_concert(id_concert, id_artiste)
     
     return redirect(url_for('concert', id=id_concert))
 
