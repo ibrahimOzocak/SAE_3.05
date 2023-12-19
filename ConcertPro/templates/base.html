@@ -19,7 +19,8 @@
 
 <body>
   <header>
-    <img class="menu-link" src="../static/images/menu.png" alt="" onclick="toggleContainerClass()">
+    <div>
+      <img class="menu-link" src="../static/images/menu.png" alt="" onclick="toggleContainerClass()">
     <div class="deroulant">
       <nav id="menu">
         <ul class="mobile-nav" id="mobile">
@@ -48,7 +49,7 @@
                 <a href="{{url_for('ajout_artiste')}}">Artiste</a>
               </li>
               <li class="menu-item">
-                <a href="{{url_for('ajout_logement')}}">Logment</a>
+                <a href="{{url_for('ajout_logement')}}">Logement</a>
               </li>
               <li class="menu-item">
                 <a href="{{url_for('afficher_rider')}}">Rider</a>
@@ -90,7 +91,10 @@
       </nav>
       <img class="menu-close cacher" src="../static/images/croix.png" alt="" onclick="toggleContainerClass()">
     </div>
-
+    </div>
+    
+    <h1 class="titre">ConcertPro</h1>
+    <img class="logo" src="../static/images/logo.jpg" alt="">
 
   </header>
   <main class="main">
@@ -99,10 +103,10 @@
   </main>
   <footer>
     <ul>
+      <li>MENJIKOFF-GUILLOT Noa</li>
       <li>SEVELLEC Maxime (Chef de projet)</li>
       <li>BRISSET Leo</li>
       <li>ÖZOCAK Ibrahim</li>
-      <li>MENJIKOFF-GUILLOT Noa</li>
       <li>ROUSSELET Juliette</li>
     </ul>
   </footer>

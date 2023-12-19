@@ -486,6 +486,16 @@ def remove_concert(id):
     except Exception as e:
         print(e.args)
 
+def remove_participer(id_concert, id_artiste):
+    try:
+        cursor = get_cursor()
+        req = "DELETE FROM Participer where id_concert= %s and id_artiste = %s"
+        cursor.execute(req, (id_concert,id_artiste,))
+        db.commit()
+        close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+
 def remove_salle(id):
     try:
         cursor = get_cursor()

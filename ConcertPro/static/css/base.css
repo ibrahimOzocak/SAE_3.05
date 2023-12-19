@@ -7,6 +7,11 @@ html, body {
 	height: 100%;
 }
 
+header{
+  display: flex;
+  justify-content: space-between;
+}
+
 body * {
 	text-shadow: none;
   text-decoration: none;
@@ -19,6 +24,7 @@ body * {
 .menu-link{
   width: 50px;
   margin: 10px;
+  cursor: pointer;
 }
 
 a{
@@ -26,7 +32,13 @@ a{
   color: black;
 }
 
+.titre{
+  margin-top: auto;
+}
 
+.logo{
+  width: 100px;
+}
 
 /* Menu Styles */
 
@@ -118,6 +130,7 @@ ul, ol {
   z-index: 10000000;
   margin: 10px;
   top: 0;
+  cursor: pointer;
 }
 
 .mobile-nav a:hover{

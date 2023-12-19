@@ -20,11 +20,10 @@
 
 
 .infos{
-    background-color: #f0f0f0; /* Couleur de fond */
     padding: 20px; /* Espacement intérieur */
     border: 1px solid #948c8c; /* Bordure */
     border-radius: 10px; /* Coins arrondis */
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Ombre légère */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Ombre légère */
    
     justify-content: center;
     align-items: center;
