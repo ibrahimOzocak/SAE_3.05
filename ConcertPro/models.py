@@ -340,16 +340,16 @@ def get_id_type_salle_max():
         print(e.args)
     return None
 
-def confirmer_modif_concert(id_concert, nom_concert, date_heure_concert, duree_concert, description_concert,photo):
+def confirmer_modif_concert(id_concert, nom_concert, date_heure_concert, duree_concert, id_artiste, id_salle, description_concert,photo):
     try:
         cursor = get_cursor()
         if(photo.filename != ""):
             get_image(int(id_concert), "concerts", photo)
-            requete = f"UPDATE Concert SET nom_concert = %s, date_heure_concert = %s, duree_concert = %s, description_concert = %s, photo = %s WHERE id_concert = %s"
-            execute_query(cursor, requete, (nom_concert, date_heure_concert, duree_concert, description_concert,save_image(photo), id_concert))
+            requete = f"UPDATE Concert SET nom_concert = %s, date_heure_concert = %s, duree_concert = %s, id_artiste = %s, id_salle = %s, description_concert = %s, photo = %s WHERE id_concert = %s"
+            execute_query(cursor, requete, (nom_concert, date_heure_concert, duree_concert, id_artiste, id_salle, description_concert,save_image(photo), id_concert))
         else:
-            requete = f"UPDATE Concert SET nom_concert = %s, date_heure_concert = %s, duree_concert = %s, description_concert = %s WHERE id_concert = %s"
-            execute_query(cursor, requete, (nom_concert, date_heure_concert, duree_concert, description_concert,id_concert))
+            requete = f"UPDATE Concert SET nom_concert = %s, date_heure_concert = %s, duree_concert = %s, id_artiste = %s, id_salle = %s, description_concert = %s WHERE id_concert = %s"
+            execute_query(cursor, requete, (nom_concert, date_heure_concert, duree_concert, id_artiste, id_salle, description_concert,id_concert))
         db.commit()
         close_cursor(cursor)
     except Exception as e:
