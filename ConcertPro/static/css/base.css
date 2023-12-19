@@ -19,6 +19,7 @@ body * {
 .menu-link{
   width: 50px;
   margin: 10px;
+  cursor: pointer;
 }
 
 a{
@@ -118,6 +119,7 @@ ul, ol {
   z-index: 10000000;
   margin: 10px;
   top: 0;
+  cursor: pointer;
 }
 
 .mobile-nav a:hover{
