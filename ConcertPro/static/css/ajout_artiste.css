@@ -8,17 +8,14 @@ body {
     padding: 50px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 h2 {
     text-align: center;
 }
 
-label, input, select {
-    display: block;
-    margin-bottom: 10px;
-}
+
 
 label {
     font-weight: bold;
@@ -27,15 +24,19 @@ label {
 input, select {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border: none;
+    border-bottom: 1px solid black;
+    margin-bottom: 15px;
+    background-color: white;
+    color: black;
+    outline: none; /* Retire la bordure de focus */
 }
 
 button {
     display: block;
     margin: 20px auto;
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: black;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -43,7 +44,8 @@ button {
 }
 
 button:hover {
-    background-color: #0056b3;
+    opacity: 0.8;
+    transition: all 0.3s ease-in-out;
 }
 
 textarea{
