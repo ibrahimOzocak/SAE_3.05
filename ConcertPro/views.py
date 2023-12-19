@@ -515,11 +515,10 @@ def ajout_equipement_concert(id_concert):
 def ajout_necessaire_concert(id_concert):
     """page d'ajout d'un equipement nécessaire au concert <id_concert>"""
     return render_template(
-        "ajout_necessaire_salle.html",
+        "ajout_necessaire_concert.html",
         id_concert=id_concert,
         equipements=mo.get_tous_equipements_concert(id_concert)
     )
-
 
 @app.route('/ajout_equipement_salle/<id_salle>')
 def ajout_equipement_salle(id_salle):
