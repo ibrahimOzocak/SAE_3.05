@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/modif.css')}}"> 
+{% endblock %}
+{% block content %}
+<h2>{{ equipement[2] }}</h2>
+<div class="container">
+    <form method="POST" action="{{ url_for('confirmer_modif_equipement', id_equipement=equipement[0]) }}">
+        <label for="equipement">Equipement :</label>
+        <input type="textfield" id="equipement" name="equipement" required value="{{ equipement[1] }}">
+        <button type="submit">Appliquer les modifications</button>
+    </form>
+</div>
+<div class="annuler">
+    <a href="{{ url_for('equipement', id_equipement=equipement[0]) }}">Annuler les modifications</a>
+</div>
+{% endblock %}

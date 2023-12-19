@@ -33,7 +33,6 @@ def plan_feu():
         "plan_feu.html"
     )
 
-
 @app.template_filter('str')
 def string_filter(value):
     return str(value)
@@ -563,6 +562,13 @@ def modifier_equipement(id_equipement):
         "modifier_equipement.html",
         equipement=equipement
     )
+
+@app.route('/confirmer_equipement/<id_equipement>, methods=("POST",)')
+def confirmer_modif_equipement(id_equipement):
+    """sauvegarde d'un equipement"""
+    nom = request.form['nom_equipement']
+    mo.confirmer_modif_equipement(id_equipement, nom)
+    return redirect(url_for('equipement', id_equipement=id_equipement))
 
 #type_salle
 @app.route('/ajout_type_salle')
