@@ -25,6 +25,13 @@
         <p>Téléphone : {{ salle[9] }}</p>
         <p>Profondeur scene : {{ salle[5] }}</p>
         <p>Longueur scene : {{ salle[6] }} </p>
+        <p>Matériel disponible dans la salle :</p>
+        {% for i in range (equipement|length) %}
+            <a href="{{ url_for('equipement', id_equipement=equipement[i][0]) }}">{{ equipement[i][2] }} {{ equipement[i][1] }}</a>
+        {% endfor %}
+        {% if equipement|length == 0 %}
+        <p>Aucun matériel dans la salle</p>
+        {% endif %}
     </div>
     <div>
         {% if map_path %}
@@ -36,17 +43,7 @@
 </div>
 <div class="bouton">
     <a href="{{ url_for('modifier_salle', id_salle=salle[0]) }}" class="modifier">modifier la salle</a>
+    <a href="{{ url_for('ajout_equipement_salle', id_salle=salle[0]) }}" class="modifier">modifier le matériel</a>
     <a href="{{ url_for('supprimer_salle', id_salle=salle[0]) }}" class="supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette salle, cette action est irréversible?');">supprimer la salle</a>
-</div>
-
-<h2>Les équipements disponible dans la salle</h2>
-<div class="instruments">
-    <ul>
-        {% for i in range (equipement|length) %}
-        <li>
-            <p>{{ equipement[i][2] }} {{ equipement[i][1] }}</p>
-        </li>
-        {% endfor %}
-    </ul>
 </div>
 {% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/ajout.css') }}"> 
+{% endblock %}
+{% block content %}
+<h2>Modification du matériel nécessairde la salle</h2>
+<form action="{{ url_for('save_equipements_salle', id_salle=id_salle) }}" method="POST" enctype="multipart/form-data">
+    <section>
+        {% for equipement in equipements %}
+        <label for="{{ equipement[0] }}">{{ equipement[1] }}</label>
+        <input type="number" name="{{ equipement[0] }}" min="0" value="{{ equipement[2] }}"/>
+        <input type="hidden" name="hidden{{ equipement[0] }}" value="{{ equipement[2] }}"/>
+        {% endfor %}
+    </section>
+    <input class="valider" type="submit" id="valider" name="valider" value="Valider l'ajout de ces équipements"/>
+</form>
+<p>
+    <a href="{{ url_for('salle', id=id_salle) }}">Revenir à la page de la salle sans modifier ses équipements</a>
+</p>
+{% endblock %}

@@ -39,8 +39,8 @@
 </div>
 <div class="bouton">
     <a href="{{ url_for('modifier_concert', id_concert=concert[0]) }}" class="modifier">modifier le concert</a>
-    <a href="{{ url_for('ajout_necessaire_concert', id_concert=concert[0]) }}" class="modifier">Modifier le matériel nécessaire au concert</a>
-    <a href="{{ url_for('ajout_equipement_concert', id_concert=concert[0]) }}" class="modifier">Modifier le matériel manquant au concert</a>
+    <a href="{{ url_for('ajout_necessaire_concert', id_concert=concert[0]) }}" class="modifier">modifier le matériel nécessaire</a>
+    <a href="{{ url_for('ajout_equipement_concert', id_concert=concert[0]) }}" class="modifier">modifier le matériel manquant</a>
     {% if concert is not none %}
         <a href="{{ url_for('supprimer_concert', id=concert[0]) }}" class="supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce concert,  cette action est irréversible??');">supprimer le concert</a>
     {% endif %}

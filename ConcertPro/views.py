@@ -138,7 +138,6 @@ def confirmer_modif_concert(id_concert, nom_concert):
     duree_concert = request.form['duree_concert']
     description_concert = request.form['description_concert']
     photo = request.files['image']
-    print(id_salle)
 
     mo.confirmer_modif_concert(id_concert,nom_concert, date_heure_concert, duree_concert, id_artiste, id_salle, description_concert,photo)
     mo.remove_participer(id_concert, id_artiste)
@@ -156,10 +155,11 @@ def ajout_nouvelle_salle():
         types = mo.type_salle()
     )
 
-@app.route('/salle/<id_salle>')
-def mapSalle(id_salle):
-    """page de salle <id_salle>"""
-    salle = mo.get_salle(id_salle)
+@app.route('/salle/<id>')
+def salle(id):
+    """page de salle <id>"""
+    salle = mo.get_salle(id)
+    equipement = mo.get_equipement_salle(id)
     
     # Utilisez la vraie adresse du salle ici
     address = salle[8]
@@ -177,6 +177,7 @@ def mapSalle(id_salle):
     return render_template(
         "salle.html",
         salle=salle,
+        equipement=equipement,
         map_path=c._repr_html_() if c else None
     )
 
@@ -187,17 +188,6 @@ def voir_salles():
             "voir_salles.html",
             salles=mo.salles()
         )
-
-@app.route('/salle/<id>')
-def salle(id):
-    """page pour la salle <id>"""
-    salle = mo.get_salle(id)
-    equipement = mo.get_equipement_salle(id)
-    return render_template(
-        "salle.html",
-        salle=salle,
-        equipement = equipement
-    )
 
 @app.route('/save_salle', methods=("POST",))
 def save_salle():
@@ -337,7 +327,6 @@ def save_artiste():
     date_expiration_cni = datetime.datetime.strptime(request.form['date_expiration'], "%Y-%m-%d")
     carte_reduction = request.form['carte_train']
     id_artiste = mo.get_id_artiste_max()+1
-    print(nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_de_naissance, adresse, securite_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction)
     try:
         cursor = mo.get_cursor()
         req = "INSERT INTO Artiste (id_artiste, nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_naissance, adresse, securite_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction,nom_scene) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s)"
@@ -401,10 +390,7 @@ def save_logement():
     adresse = request.form['adresse']
     nb_etoile = request.form['nb_etoiles']
     id_logement = mo.get_id_logement_max()+1
-    
-    
     mo.save_logement(id_logement, nom_logement, adresse, nb_etoile)
-    
     return redirect(url_for('logement', id_logement=id_logement))
 
 @app.route('/logement/<id_logement>/supprimer')
@@ -494,9 +480,18 @@ def ajout_equipement_concert(id_concert):
 def ajout_necessaire_concert(id_concert):
     """page d'ajout d'un equipement nécessaire au concert <id_concert>"""
     return render_template(
-        "ajout_necessaire_concert.html",
+        "ajout_necessaire_salle.html",
         id_concert=id_concert,
         equipements=mo.get_tous_equipements_concert(id_concert)
+    )
+
+@app.route('/ajout_equipement_salle/<id_salle>')
+def ajout_equipement_salle(id_salle):
+    """page d'ajout d'un equipement à la salle <id_salle>"""
+    return render_template(
+        "ajout_equipement_salle.html",
+        id_salle=id_salle,
+        equipements=mo.get_tous_equipements_salle(id_salle)
     )
 
 @app.route('/voir_equipements')
@@ -551,11 +546,24 @@ def save_necessaire_concert(id_concert):
                 hidden = int(request.form.get("hidden"+elem))
             else:
                 hidden = 0
-            print(quantite, hidden)
             elem = int(elem)
             id_artiste = mo.get_concert(id_concert)[4]
             mo.save_necessaire_concert(id_concert, elem, quantite, id_artiste, hidden)
     return redirect(url_for('concert', id=id_concert))
+
+@app.route('/save_equipement_salle/<id_salle>', methods=("POST",))
+def save_equipements_salle(id_salle):
+    """sauvegarde d'un equipement pour la salle <id_salle>"""
+    for elem in request.form:
+        if elem.isnumeric():
+            quantite = int(request.form[elem])
+            if "hidden" + elem in request.form:
+                hidden = int(request.form.get("hidden"+elem))
+            else:
+                hidden = 0
+            elem = int(elem)
+            mo.save_equipement_salle(id_salle, elem, quantite, hidden)
+    return redirect(url_for('salle', id=id_salle))
 
 @app.route('/equipement/<id_equipement>/supprimer')
 def supprimer_equipement(id_equipement):
