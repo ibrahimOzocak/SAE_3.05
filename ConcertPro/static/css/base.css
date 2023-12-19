@@ -83,6 +83,7 @@ ul, ol {
   background: black;
   color: #FFFFFF;
   font-size: 24px;
+  cursor: default;
 }
 
 .mobile-nav ul.sub-menu {
