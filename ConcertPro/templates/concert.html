@@ -18,8 +18,8 @@
     <div class="infos">
         <p>Date : {{ concert[2] }}</p>
         <p>Durée : {{ concert[3] }} minutes</p>
-        <p>Nom de l'artiste : {{ artiste[3] }}</p>
-        <p>Nom de la salle : {{ salle[3] }}</p>
+        <p>Nom de l'artiste : <a href="{{ url_for('artiste', id_artiste=artiste[0]) }}">{{ artiste[3] }}</a></p>
+        <p>Nom de la salle : <a href="{{ url_for('salle', id=salle[0]) }}">{{ salle[3] }}</a></p>
         <p>Description : {{ concert[6] }}</p>
     </div>
     <div>
@@ -31,7 +31,7 @@
     </div>
 </div>
 <div class="bouton">
-    <a href="{{ url_for('modifier_concert', id_concert=concert[0]) }}" class="modifier" >modifier le concert</a>
+    <a href="{{ url_for('modifier_concert', id_concert=concert[0]) }}" class="modifier">modifier le concert</a>
     {% if concert is not none %}
         <a href="{{ url_for('supprimer_concert', id=concert[0]) }}" class="supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce concert,  cette action est irréversible??');">supprimer le concert</a>
     {% endif %}
@@ -46,7 +46,7 @@
     <ul>
         {% for i in range (necessaire|length) %}
         <li>
-            <p>{{ necessaire[i][1] }} ({{ necessaire[i][3] }}/{{ necessaire[i][2] }})</p>
+            <p><a href="{{ url_for('equipement', id_equipement=necessaire[i][0]) }}">{{ necessaire[i][1] }} ({{ necessaire[i][3] }}/{{ necessaire[i][2] }})</a></p>
             {% if necessaire[i][3] < necessaire[i][2] %}
             <p>Reste à louer: {{ necessaire[i][2] - necessaire[i][3] }}</p>
             {% endif %}
