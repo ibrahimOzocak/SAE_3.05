@@ -645,6 +645,17 @@ def type_salle():
         print(e.args)
     return None
 
+def add_artiste_concert(id_concert, id_artiste):
+    try:
+        cursor = get_cursor()
+        requete = "INSERT INTO Participer (id_concert, id_artiste) VALUES(%s, %s)"
+        cursor.execute(requete, (id_concert, id_artiste,))
+        db.commit()
+        close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+    return None
+
 def get_concerts_artiste(id_artiste):
     try:
         cursor = get_cursor()

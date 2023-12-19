@@ -55,7 +55,6 @@ def voir_prochains_concerts():
         "voir_prochains_concerts.html",
         concerts=mo.prochains_concerts()
     )
-    
 
 @app.route('/historique_concert')
 def historique_concerts():
@@ -82,7 +81,7 @@ def save_concert():
     id = mo.get_id_concert_max()+1
     
     mo.save_concert(id, nom_concert, date_heure_concert, duree_concert, id_artiste, id_salle, description_concert,photo)
-    
+    mo.add_artiste_concert(id, id_artiste)
     return redirect(url_for('concert', id=id))
 
 @app.route('/concert/<id>')
