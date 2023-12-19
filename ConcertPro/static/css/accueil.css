@@ -13,10 +13,14 @@ body {
 
 .concert img {
     width: 20vw;
+    height: 18vw;
 }
+
+
 
 .li_acc {
     width: 25vw;
+    height: 20vw;
     margin-left: 5vw;
     margin-right: 5vw;
     margin-top: 20px;

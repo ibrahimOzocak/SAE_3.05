@@ -83,6 +83,7 @@ ul, ol {
   background: black;
   color: #FFFFFF;
   font-size: 24px;
+  cursor: default;
 }
 
 .mobile-nav ul.sub-menu {
@@ -219,7 +220,24 @@ ul, ol {
   left: 8px;
 }
 
+.ajout-btn-equipement{
+  margin: 0 0 0 50%;  
+}
+
 #menu.active {
   overflow-y: scroll;
   overflow-x: hidden;
+}
+
+footer> ul{
+  border-top: thin black solid;
+  padding-top: 2%;
+  margin:5% 0 3% 0;
+  justify-content: space-around;
+  display: flex;
+
+}
+
+.footer {
+  bottom: 100%;
 }
