@@ -28,9 +28,8 @@
     </div>
 </div>
 <div class="bouton">
+    <a href="{{ url_for('modifier_logement', id_logement=logement[0]) }}" class="modifier">modifier le logement</a>
     <a href="{{ url_for('supprimer_logement', id_logement=logement[0]) }}" class="supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce logement,  cette action est irréversible??');">supprimer le logement</a>
 </div>
-<div class="bouton">
-    <a href="{{ url_for('modifier_logement', id_logement=logement[0]) }}" class="modifier">modifier le logement</a>
-</div>
+
 {% endblock %}
