@@ -144,6 +144,7 @@ def confirmer_modif_concert(id_concert, nom_concert):
     mo.remove_participer(id_concert, id_artiste)
     mo.add_artiste_concert(id_concert, id_artiste)
     
+    
     return redirect(url_for('concert', id=id_concert))
 
 # salle
