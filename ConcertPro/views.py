@@ -5,84 +5,105 @@ import datetime
 from . import models as mo
 import requests
 import json
+import json
+from google.oauth2 import service_account
+import googleapiclient.discovery
+from reportlab.pdfgen import canvas
+from io import BytesIO
+from reportlab.lib.pagesizes import letter
 
-HEURES_DECALAGE_1 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
+HEURES_DECALAGE_1 = [
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+    21, 22, 23
+]
 HEURES_DECALAGE_2 = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22]
+
 
 # accueil
 @app.route('/')
 def accueil():
     """page d'accueil"""
     jour = datetime.datetime.now()
-    agenda = mo.concerts_agenda(HEURES_DECALAGE_2,jour)
-    lundi = (jour + datetime.timedelta(days=-(jour.weekday()+1)) + datetime.timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
-    dimanche = (jour + datetime.timedelta(days=7-(jour.weekday()+1))).replace(hour=23, minute=59, second=59, microsecond=0)
-    return render_template(
-        "accueil.html",
-        concerts=mo.prochains_concerts(),
-        agenda=agenda,
-        heures=HEURES_DECALAGE_2,
-        date_lundi=lundi.strftime("%d-%m-%Y"),
-        date_dimanche=dimanche.strftime("%d-%m-%Y")
-    )
+    agenda = mo.concerts_agenda(HEURES_DECALAGE_2, jour)
+    lundi = (jour + datetime.timedelta(days=-(jour.weekday() + 1)) +
+             datetime.timedelta(days=1)).replace(hour=0,
+                                                 minute=0,
+                                                 second=0,
+                                                 microsecond=0)
+    dimanche = (jour + datetime.timedelta(days=7 -
+                                          (jour.weekday() + 1))).replace(
+                                              hour=23,
+                                              minute=59,
+                                              second=59,
+                                              microsecond=0)
+    return render_template("accueil.html",
+                           concerts=mo.prochains_concerts(),
+                           agenda=agenda,
+                           heures=HEURES_DECALAGE_2,
+                           date_lundi=lundi.strftime("%d-%m-%Y"),
+                           date_dimanche=dimanche.strftime("%d-%m-%Y"))
+
 
 @app.route('/plan_feu')
 def plan_feu():
     """page du plan feu"""
-    return render_template(
-        "plan_feu.html"
-    )
+    return render_template("plan_feu.html")
+
 
 @app.template_filter('str')
 def string_filter(value):
     return str(value)
 
+
 # concert
 @app.route('/creer_concert')
 def creer_concert():
     """page de création de concert"""
-    return render_template(
-        "creer_concert.html",
-        artistes=mo.artistes(),
-        salles=mo.salles(),
-        types = mo.type_salle()
-    )
+    return render_template("creer_concert.html",
+                           artistes=mo.artistes(),
+                           salles=mo.salles(),
+                           types=mo.type_salle())
+
 
 @app.route('/voir_prochains_concerts')
 def voir_prochains_concerts():
     """page qui affiche les concerts à venir"""
-    return render_template(
-        "voir_prochains_concerts.html",
-        concerts=mo.prochains_concerts()
-    )
+    return render_template("voir_prochains_concerts.html",
+                           concerts=mo.prochains_concerts())
+
 
 @app.route('/historique_concert')
 def historique_concerts():
     """page qui affiche les concerts passés"""
-    return render_template(
-        "historique_concerts.html",
-        concerts = mo.historique_concerts()
-    )
+    return render_template("historique_concerts.html",
+                           concerts=mo.historique_concerts())
 
-@app.route('/save_concert', methods=("POST",))
+
+@app.route('/save_concert', methods=("POST", ))
 def save_concert():
     """sauvegarde d'un concert"""
     nom_concert = request.form['titre']
-    date_debut = datetime.datetime.strptime(request.form['date_debut'], "%Y-%m-%d")
-    heure_debut = datetime.datetime.strptime(request.form['heure_debut'], "%H:%M").time()
+    date_debut = datetime.datetime.strptime(request.form['date_debut'],
+                                            "%Y-%m-%d")
+    heure_debut = datetime.datetime.strptime(request.form['heure_debut'],
+                                             "%H:%M").time()
     date_heure_concert = datetime.datetime.combine(date_debut, heure_debut)
-    heure_duree = datetime.datetime.strptime(request.form['duree'], "%H:%M").time().hour
-    minute_duree = datetime.datetime.strptime(request.form['duree'], "%H:%M").time().minute
-    duree_concert = heure_duree*60 + minute_duree
+    heure_duree = datetime.datetime.strptime(request.form['duree'],
+                                             "%H:%M").time().hour
+    minute_duree = datetime.datetime.strptime(request.form['duree'],
+                                              "%H:%M").time().minute
+    duree_concert = heure_duree * 60 + minute_duree
     id_artiste = request.form['artiste']
     id_salle = request.form['salle']
     description_concert = request.form['description']
     photo = request.files['image']
-    id = mo.get_id_concert_max()+1
-    
-    mo.save_concert(id, nom_concert, date_heure_concert, duree_concert, id_artiste, id_salle, description_concert,photo)
+    id = mo.get_id_concert_max() + 1
+
+    mo.save_concert(id, nom_concert, date_heure_concert, duree_concert,
+                    id_artiste, id_salle, description_concert, photo)
     mo.add_artiste_concert(id, id_artiste)
     return redirect(url_for('concert', id=id))
+
 
 @app.route('/concert/<id>')
 def concert(id):
@@ -100,14 +121,13 @@ def concert(id):
             lat, lng = coordinates
             c = folium.Map(location=[lat, lng], zoom_start=20)
             c.save("test.html")
-    return render_template(
-            "concert.html",
-            concert=concert,
-            salle = salle,
-            artiste = artiste,
-            necessaire = necessaire,
-            map_path=c._repr_html_() if c else None
-        )
+    return render_template("concert.html",
+                           concert=concert,
+                           salle=salle,
+                           artiste=artiste,
+                           necessaire=necessaire,
+                           map_path=c._repr_html_() if c else None)
+
 
 @app.route('/concert/<id>/supprimer')
 def supprimer_concert(id):
@@ -115,23 +135,23 @@ def supprimer_concert(id):
     mo.remove_concert(id)
     return redirect(url_for('voir_prochains_concerts'))
 
+
 @app.route('/concert/<id_concert>/modifier')
 def modifier_concert(id_concert):
     """modifier le concert <id_concert>"""
     concert = mo.get_concert(id_concert)
     liste_salle = mo.salles()
     liste_artiste = mo.artistes()
-    return render_template(
-        "modifier_concert.html",
-        concert=concert,
-        salles=liste_salle,
-        artistes = liste_artiste 
-    )
+    return render_template("modifier_concert.html",
+                           concert=concert,
+                           salles=liste_salle,
+                           artistes=liste_artiste)
 
-@app.route('/modifier_concert/<id_concert>/<nom_concert>', methods=("POST",))
+
+@app.route('/modifier_concert/<id_concert>/<nom_concert>', methods=("POST", ))
 def confirmer_modif_concert(id_concert, nom_concert):
     """sauvegarde d'un concert"""
-    nom_concert= request.form['nom_concert']
+    nom_concert = request.form['nom_concert']
     id_artiste = request.form['artiste']
     id_salle = request.form['salle']
     date_heure_concert = request.form['date_heure_concert']
@@ -140,27 +160,27 @@ def confirmer_modif_concert(id_concert, nom_concert):
     photo = request.files['image']
     print(id_salle)
 
-    mo.confirmer_modif_concert(id_concert,nom_concert, date_heure_concert, duree_concert, id_artiste, id_salle, description_concert,photo)
+    mo.confirmer_modif_concert(id_concert, nom_concert, date_heure_concert,
+                               duree_concert, id_artiste, id_salle,
+                               description_concert, photo)
     mo.remove_participer(id_concert, id_artiste)
     mo.add_artiste_concert(id_concert, id_artiste)
-    
-    
+
     return redirect(url_for('concert', id=id_concert))
+
 
 # salle
 @app.route('/ajout_nouvelle_salle')
 def ajout_nouvelle_salle():
     """page de création de salle"""
-    return render_template(
-        "ajout_nouvelle_salle.html",
-        types = mo.type_salle()
-    )
+    return render_template("ajout_nouvelle_salle.html", types=mo.type_salle())
+
 
 @app.route('/salle/<id_salle>')
 def mapSalle(id_salle):
     """page de salle <id_salle>"""
     salle = mo.get_salle(id_salle)
-    
+
     # Utilisez la vraie adresse du salle ici
     address = salle[8]
     coor = getCoordonnee(address)
@@ -174,32 +194,26 @@ def mapSalle(id_salle):
             lat, lng = coordinates
             c = folium.Map(location=[lat, lng], zoom_start=20)
             c.save("test.html")
-    return render_template(
-        "salle.html",
-        salle=salle,
-        map_path=c._repr_html_() if c else None
-    )
+    return render_template("salle.html",
+                           salle=salle,
+                           map_path=c._repr_html_() if c else None)
+
 
 @app.route('/voir_salles')
 def voir_salles():
     """page qui affiche les salles"""
-    return render_template(
-            "voir_salles.html",
-            salles=mo.salles()
-        )
+    return render_template("voir_salles.html", salles=mo.salles())
+
 
 @app.route('/salle/<id>')
 def salle(id):
     """page pour la salle <id>"""
     salle = mo.get_salle(id)
     equipement = mo.get_equipement_salle(id)
-    return render_template(
-        "salle.html",
-        salle=salle,
-        equipement = equipement
-    )
+    return render_template("salle.html", salle=salle, equipement=equipement)
 
-@app.route('/save_salle', methods=("POST",))
+
+@app.route('/save_salle', methods=("POST", ))
 def save_salle():
     """sauvegarde d'une salle"""
     nom_salle = request.form['titre']
@@ -212,14 +226,14 @@ def save_salle():
     type_place = request.form['type_salle']
     description_salle = request.form['description']
     photo = request.files['image']
-    
-    # nomequipement 
-    # quantitedispo 
-    
+
+    # nomequipement
+    # quantitedispo
+
     adresse_salle = adresse_salle + ", " + code_postal_salle
     loge = ""
     acces_pmr = ""
-    
+
     for elem in request.form:
         if elem == "loge":
             loge = "oui"
@@ -229,11 +243,14 @@ def save_salle():
         loge = "non"
     if acces_pmr == "":
         acces_pmr = "non"
-    id = mo.get_id_salle_max()+1
-    
-    mo.save_salle(id, nom_salle,nb_places,profondeur_scene,longueur_scene,telephone_salle,type_place,description_salle,photo,adresse_salle,loge,acces_pmr)
-    
+    id = mo.get_id_salle_max() + 1
+
+    mo.save_salle(id, nom_salle, nb_places, profondeur_scene, longueur_scene,
+                  telephone_salle, type_place, description_salle, photo,
+                  adresse_salle, loge, acces_pmr)
+
     return redirect(url_for('salle', id=id))
+
 
 @app.route('/salle/<id_salle>/supprimer')
 def supprimer_salle(id_salle):
@@ -241,34 +258,29 @@ def supprimer_salle(id_salle):
     mo.remove_salle(id_salle)
     return redirect(url_for('voir_salles'))
 
+
 # artiste
 @app.route('/ajout_artiste')
 def ajout_artiste():
     """page d'ajout d'un artiste"""
-    return render_template(
-        "ajout_artiste.html"
-    )
+    return render_template("ajout_artiste.html")
+
 
 @app.route('/voir_artistes')
 def voir_artistes():
     """page voir les artistes"""
-    return render_template(
-            "voir_artistes.html",
-            artistes=mo.artistes()
-        )
+    return render_template("voir_artistes.html", artistes=mo.artistes())
+
 
 @app.route('/artiste/<id_artiste>')
 def artiste(id_artiste):
     """page de l'artiste <id_artiste>"""
     artiste = mo.get_artiste(id_artiste)
     concerts = mo.get_concerts_artiste(id_artiste)
-    return render_template(
-        "artiste.html",
-        artiste=artiste,
-        concerts=concerts
-    )
+    return render_template("artiste.html", artiste=artiste, concerts=concerts)
 
-@app.route('/confirmer_artiste/<id_artiste>/<nom_artiste>', methods=("POST",))
+
+@app.route('/confirmer_artiste/<id_artiste>/<nom_artiste>', methods=("POST", ))
 def confirmer_modif_artiste(id_artiste, nom_artiste):
     """sauvegarde d'un artiste"""
     nom_de_scene = request.form['nom_de_scene']
@@ -283,11 +295,14 @@ def confirmer_modif_artiste(id_artiste, nom_artiste):
     date_expiration_cni = request.form['date_expiration_cni']
     carte_reduction = request.form['carte_de_reduction']
     photo = request.files['image']
-    mo.confirmer_modif_artiste(id_artiste, nom_de_scene, mail, telephone, date_de_naissance, lieu_de_naissance,
-        adresse, numero_secu_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction,photo)
+    mo.confirmer_modif_artiste(id_artiste, nom_de_scene, mail, telephone,
+                               date_de_naissance, lieu_de_naissance, adresse,
+                               numero_secu_sociale, cni, date_delivrance_cni,
+                               date_expiration_cni, carte_reduction, photo)
     return redirect(url_for('artiste', id_artiste=id_artiste))
 
-@app.route('/confirmer_salle/<id_salle>/<nom_salle>', methods=("POST",))
+
+@app.route('/confirmer_salle/<id_salle>/<nom_salle>', methods=("POST", ))
 def confirmer_modif_salle(id_salle, nom_salle):
     """sauvegarde d'un artiste"""
     nom = request.form["nom"]
@@ -299,28 +314,27 @@ def confirmer_modif_salle(id_salle, nom_salle):
     profondeur_scene = request.form['profondeur scene']
     longueur_scene = request.form['longueur scene']
     photo = request.files['image']
-    mo.confirmer_modif_salle(id_salle, nom, description, loge, nombre_place, adresse, telephone, profondeur_scene, longueur_scene,photo)
+    mo.confirmer_modif_salle(id_salle, nom, description, loge, nombre_place,
+                             adresse, telephone, profondeur_scene,
+                             longueur_scene, photo)
     return redirect(url_for('salle', id=id_salle))
-    
+
+
 @app.route('/artiste/<id_artiste>/modifier')
 def modifier_artiste(id_artiste):
     """page de l'artiste <id_artiste>"""
     artiste = mo.get_artiste(id_artiste)
-    return render_template(
-        "modifier_artiste.html",
-        artiste=artiste
-    )
+    return render_template("modifier_artiste.html", artiste=artiste)
+
 
 @app.route('/salle/<id_salle>/modifier')
 def modifier_salle(id_salle):
     """page de la salle <id_salle>"""
     salle = mo.get_salle(id_salle)
-    return render_template(
-        "modifier_salle.html",
-        salle=salle
-    )
+    return render_template("modifier_salle.html", salle=salle)
 
-@app.route('/save_artiste', methods=("POST",))
+
+@app.route('/save_artiste', methods=("POST", ))
 def save_artiste():
     """sauvegarde d'un artiste"""
     nom_artiste = request.form['nom']
@@ -328,25 +342,35 @@ def save_artiste():
     nom_scene = request.form['nom_scene']
     mail = request.form['mail']
     telephone = request.form['telephone']
-    date_de_naissance = datetime.datetime.strptime(request.form['date_naissance'], "%Y-%m-%d")
+    date_de_naissance = datetime.datetime.strptime(
+        request.form['date_naissance'], "%Y-%m-%d")
     lieu_de_naissance = request.form['lieu_naissance']
     adresse = request.form['adresse']
     securite_sociale = request.form['num_secu_sociale']
     cni = request.form['cni']
-    date_delivrance_cni = datetime.datetime.strptime(request.form['date_delivrance'], "%Y-%m-%d")
-    date_expiration_cni = datetime.datetime.strptime(request.form['date_expiration'], "%Y-%m-%d")
+    date_delivrance_cni = datetime.datetime.strptime(
+        request.form['date_delivrance'], "%Y-%m-%d")
+    date_expiration_cni = datetime.datetime.strptime(
+        request.form['date_expiration'], "%Y-%m-%d")
     carte_reduction = request.form['carte_train']
-    id_artiste = mo.get_id_artiste_max()+1
-    print(nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_de_naissance, adresse, securite_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction)
+    id_artiste = mo.get_id_artiste_max() + 1
+    print(nom_artiste, prenom_artiste, mail, telephone, date_de_naissance,
+          lieu_de_naissance, adresse, securite_sociale, cni,
+          date_delivrance_cni, date_expiration_cni, carte_reduction)
     try:
         cursor = mo.get_cursor()
         req = "INSERT INTO Artiste (id_artiste, nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_naissance, adresse, securite_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction,nom_scene) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s)"
-        cursor.execute(req, (id_artiste, nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_de_naissance, adresse, securite_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction,nom_scene))
+        cursor.execute(req,
+                       (id_artiste, nom_artiste, prenom_artiste, mail,
+                        telephone, date_de_naissance, lieu_de_naissance,
+                        adresse, securite_sociale, cni, date_delivrance_cni,
+                        date_expiration_cni, carte_reduction, nom_scene))
         db.commit()
         mo.close_cursor(cursor)
     except Exception as e:
         print(e.args)
     return redirect(url_for('artiste', id_artiste=id_artiste))
+
 
 @app.route('/artiste/<id_artiste>/supprimer')
 def supprimer_artiste(id_artiste):
@@ -354,12 +378,13 @@ def supprimer_artiste(id_artiste):
     mo.remove_artiste(id_artiste)
     return redirect(url_for('voir_artistes'))
 
+
 # logement
 @app.route('/logement/<id_logement>')
 def logement(id_logement):
     """page du logement <id_logement>"""
     logement = mo.get_logement(id_logement)
-    
+
     # Utilisez la vraie adresse du logement ici
     address = logement[1]
     coor = getCoordonnee(address)
@@ -367,45 +392,40 @@ def logement(id_logement):
     c = None
     if coor is not None:
         coordinates = (coor[0], coor[2])
-        
+
         # Vérifiez si les coordonnées sont disponibles
         if coordinates:
             lat, lng = coordinates
             c = folium.Map(location=[lat, lng], zoom_start=20)
             c.save("test.html")
-    return render_template(
-        "logement.html",
-        logement=logement,
-        map_path=c._repr_html_() if c else None
-    )
+    return render_template("logement.html",
+                           logement=logement,
+                           map_path=c._repr_html_() if c else None)
+
 
 @app.route('/ajout_logement')
 def ajout_logement():
     """page d'ajout de logement"""
-    return render_template(
-        "ajout_logement.html"
-    )
+    return render_template("ajout_logement.html")
+
 
 @app.route('/voir_logements')
 def voir_logements():
-    return render_template(
-        "voir_logements.html",
-        logements=mo.logements()
-    )
-    
+    return render_template("voir_logements.html", logements=mo.logements())
 
-@app.route('/save_logement', methods=("POST",))
+
+@app.route('/save_logement', methods=("POST", ))
 def save_logement():
     """sauvegarde d'un logement"""
     nom_logement = request.form['nom_etablissement']
     adresse = request.form['adresse']
     nb_etoile = request.form['nb_etoiles']
-    id_logement = mo.get_id_logement_max()+1
-    
-    
+    id_logement = mo.get_id_logement_max() + 1
+
     mo.save_logement(id_logement, nom_logement, adresse, nb_etoile)
-    
+
     return redirect(url_for('logement', id_logement=id_logement))
+
 
 @app.route('/logement/<id_logement>/supprimer')
 def supprimer_logement(id_logement):
@@ -413,82 +433,92 @@ def supprimer_logement(id_logement):
     mo.remove_logement(id_logement)
     return redirect(url_for('voir_logements'))
 
+
 @app.route('/logement/<id_logement>/modifier')
 def modifier_logement(id_logement):
     """page de l'artiste <id_logement>"""
     logement = mo.get_logement(id_logement)
-    return render_template(
-        "modifier_logement.html",
-        logement=logement
-    )
+    return render_template("modifier_logement.html", logement=logement)
 
-@app.route('/modif_logement/<id_logement>/<nom_etablissement>', methods=("POST",))
+
+@app.route('/modif_logement/<id_logement>/<nom_etablissement>',
+           methods=("POST", ))
 def confirmer_modif_logement(id_logement, nom_etablissement):
     """sauvegarde d'un logement"""
     nom = request.form['nom_etablissement']
     adresse = request.form['adresse']
     nb_etoile = request.form['nb_etoiles']
     photo = request.files['image']
-    mo.confirmer_modif_logement(id_logement, nom, adresse, nb_etoile,photo)
+    mo.confirmer_modif_logement(id_logement, nom, adresse, nb_etoile, photo)
     return redirect(url_for('logement', id_logement=id_logement))
+
 
 # calendrier
 @app.route('/calendrier/<jour>')
-def calendrier(jour = datetime.datetime.now()):
+def calendrier(jour=datetime.datetime.now()):
     """page du calendrier au jour <jour>"""
     heures = HEURES_DECALAGE_1
     if type(jour) == str:
         jour = datetime.datetime.strptime(jour, "%d-%m-%Y")
     agenda = mo.concerts_agenda(heures, jour)
-    lundi = (jour + datetime.timedelta(days=-(jour.weekday()+1)) + datetime.timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
-    dimanche = (jour + datetime.timedelta(days=7-(jour.weekday()+1))).replace(hour=23, minute=59, second=59, microsecond=0)
-    return render_template(
-        "calendrier.html",
-        concerts=mo.prochains_concerts(),
-        agenda=agenda,
-        heures=heures,
-        date_lundi=lundi.strftime("%d-%m-%Y"),
-        date_dimanche=dimanche.strftime("%d-%m-%Y")
-    )
+    lundi = (jour + datetime.timedelta(days=-(jour.weekday() + 1)) +
+             datetime.timedelta(days=1)).replace(hour=0,
+                                                 minute=0,
+                                                 second=0,
+                                                 microsecond=0)
+    dimanche = (jour + datetime.timedelta(days=7 -
+                                          (jour.weekday() + 1))).replace(
+                                              hour=23,
+                                              minute=59,
+                                              second=59,
+                                              microsecond=0)
+    return render_template("calendrier.html",
+                           concerts=mo.prochains_concerts(),
+                           agenda=agenda,
+                           heures=heures,
+                           date_lundi=lundi.strftime("%d-%m-%Y"),
+                           date_dimanche=dimanche.strftime("%d-%m-%Y"))
 
-@app.route('/calendrier/redirection', methods=("POST",))
+
+@app.route('/calendrier/redirection', methods=("POST", ))
 def calendrier_redirection():
     """redirige vers le calendrier du jour"""
     jour = datetime.datetime.strptime(request.form['date'], "%Y-%m-%d")
     return redirect(url_for('calendrier', jour=jour.strftime("%d-%m-%Y")))
 
+
 @app.route('/calendrier/semaine_precedente/<jour_actuel>')
-def calendrier_semaine_precedente(jour_actuel = datetime.datetime.now()):
+def calendrier_semaine_precedente(jour_actuel=datetime.datetime.now()):
     """page du calendrier de la semaine précédent <jour_actuel>"""
     if type(jour_actuel) == str:
         jour_actuel = datetime.datetime.strptime(jour_actuel, "%d-%m-%Y")
     jour = jour_actuel + datetime.timedelta(days=-7)
     return redirect(url_for('calendrier', jour=jour.strftime("%d-%m-%Y")))
 
+
 @app.route('/calendrier/semaine_suivante/<jour_actuel>')
-def calendrier_semaine_suivante(jour_actuel = datetime.datetime.now()):
+def calendrier_semaine_suivante(jour_actuel=datetime.datetime.now()):
     """page du calendrier de la semaine suivant <jour_actuel>"""
     if type(jour_actuel) == str:
         jour_actuel = datetime.datetime.strptime(jour_actuel, "%d-%m-%Y")
     jour = jour_actuel + datetime.timedelta(days=7)
     return redirect(url_for('calendrier', jour=jour.strftime("%d-%m-%Y")))
 
+
 # equipement
 @app.route('/ajout_equipement')
 def ajout_equipement():
     """page d'ajout d'un equipement"""
-    return render_template(
-        "ajout_equipement.html"
-    )
+    return render_template("ajout_equipement.html")
+
 
 @app.route('/ajout_equipement_concert/<id_concert>')
 def ajout_equipement_concert(id_concert):
     """page d'ajout d'un equipement au concert <id_concert>"""
-    return render_template(
-        "ajout_equipement_concert.html",
-        id_concert=id_concert,
-        equipements=mo.get_equipements_concert(id_concert)
-    )
+    return render_template("ajout_equipement_concert.html",
+                           id_concert=id_concert,
+                           equipements=mo.get_equipements_concert(id_concert))
+
 
 @app.route('/ajout_necessaire_concert/<id_concert>')
 def ajout_necessaire_concert(id_concert):
@@ -496,31 +526,28 @@ def ajout_necessaire_concert(id_concert):
     return render_template(
         "ajout_necessaire_concert.html",
         id_concert=id_concert,
-        equipements=mo.get_tous_equipements_concert(id_concert)
-    )
+        equipements=mo.get_tous_equipements_concert(id_concert))
+
 
 @app.route('/voir_equipements')
 def voir_equipements():
     """page qui affiche les equipements"""
-    return render_template(
-            "voir_equipements.html",
-            equipements=mo.equipements()
-        )
+    return render_template("voir_equipements.html",
+                           equipements=mo.equipements())
+
 
 @app.route('/equipement/<id_equipement>')
 def equipement(id_equipement):
     """page de l'equipement <id_equipement>"""
     equipement = mo.get_equipement(id_equipement)
-    return render_template(
-        "equipement.html",
-        equipement=equipement
-    )
+    return render_template("equipement.html", equipement=equipement)
 
-@app.route('/save_equipement', methods=("POST",))
+
+@app.route('/save_equipement', methods=("POST", ))
 def save_equipement():
     """sauvegarde d'un equipement"""
     nom_equipement = request.form['nom_equipement']
-    id_equipement = mo.get_id_equipement_max()+1
+    id_equipement = mo.get_id_equipement_max() + 1
     try:
         cursor = mo.get_cursor()
         req = "INSERT INTO Equipement (id_equipement, nom_equipement) VALUES(%s, %s)"
@@ -531,7 +558,8 @@ def save_equipement():
         print(e.args)
     return redirect(url_for('equipement', id_equipement=id_equipement))
 
-@app.route('/save_equipement_concert/<id_concert>', methods=("POST",))
+
+@app.route('/save_equipement_concert/<id_concert>', methods=("POST", ))
 def save_equipements_concert(id_concert):
     """sauvegarde d'un equipement pour le concert <id_concert>"""
     for elem in request.form:
@@ -541,21 +569,24 @@ def save_equipements_concert(id_concert):
             mo.save_equipement_concert(id_concert, elem, quantite)
     return redirect(url_for('concert', id=id_concert))
 
-@app.route('/save_necessaire_concert/<id_concert>', methods=("POST",))
+
+@app.route('/save_necessaire_concert/<id_concert>', methods=("POST", ))
 def save_necessaire_concert(id_concert):
     """sauvegarde d'un equipement pour le concert <id_concert>"""
     for elem in request.form:
         if elem.isnumeric():
             quantite = int(request.form[elem])
             if "hidden" + elem in request.form:
-                hidden = int(request.form.get("hidden"+elem))
+                hidden = int(request.form.get("hidden" + elem))
             else:
                 hidden = 0
             print(quantite, hidden)
             elem = int(elem)
             id_artiste = mo.get_concert(id_concert)[4]
-            mo.save_necessaire_concert(id_concert, elem, quantite, id_artiste, hidden)
+            mo.save_necessaire_concert(id_concert, elem, quantite, id_artiste,
+                                       hidden)
     return redirect(url_for('concert', id=id_concert))
+
 
 @app.route('/equipement/<id_equipement>/supprimer')
 def supprimer_equipement(id_equipement):
@@ -563,14 +594,13 @@ def supprimer_equipement(id_equipement):
     mo.remvove_equipement(id_equipement)
     return redirect(url_for('voir_equipements'))
 
+
 @app.route('/equipement/<id_equipement>/modifier')
 def modifier_equipement(id_equipement):
     """modifier l'equipement' <id_equipement>"""
     equipement = mo.get_equipement(id_equipement)
-    return render_template(
-        "modifier_equipement.html",
-        equipement=equipement
-    )
+    return render_template("modifier_equipement.html", equipement=equipement)
+
 
 @app.route('/confirmer_equipement/<id_equipement>, methods=("POST",)')
 def confirmer_modif_equipement(id_equipement):
@@ -579,19 +609,19 @@ def confirmer_modif_equipement(id_equipement):
     mo.confirmer_modif_equipement(id_equipement, nom)
     return redirect(url_for('equipement', id_equipement=id_equipement))
 
+
 #type_salle
 @app.route('/ajout_type_salle')
 def ajout_type_salle():
     """page d'ajout d'un type de salle"""
-    return render_template(
-        "ajout_type_salle.html"
-    )
+    return render_template("ajout_type_salle.html")
 
-@app.route('/save_type_salle', methods=("POST",))
+
+@app.route('/save_type_salle', methods=("POST", ))
 def save_type_salle():
     """sauvegarde d'un type de salle"""
     nom_type_salle = request.form['nom_type_salle']
-    id_type_salle = mo.get_id_type_salle_max()+1
+    id_type_salle = mo.get_id_type_salle_max() + 1
     try:
         cursor = mo.get_cursor()
         req = "INSERT INTO Type_Salle (id_type, type_place_s) VALUES(%s, %s)"
@@ -602,11 +632,78 @@ def save_type_salle():
         print(e.args)
     return redirect(url_for('accueil'))
 
+
+def generate_pdf_file(file_path, title, content):
+    # Créer le fichier PDF
+    pdf = canvas.Canvas(file_path, pagesize=letter)
+
+    # Calculer la position horizontale pour centrer le texte
+    width, height = letter
+    title_width = pdf.stringWidth(title, "Helvetica-Bold", 16)
+    title_x = (width - title_width) / 2
+
+    pdf.setFont("Helvetica-Bold", 16)
+    pdf.drawString(title_x, 750, title)
+
+    pdf.setFont("Helvetica", 12)
+    pdf.drawString(30, 730, "Ce rider fait partie intégrante du contrat.")
+    pdf.drawString(30, 710,
+                   "Merci de le respecter et de le prendre en considération.")
+    pdf.drawString(
+        30, 690,
+        "Afin que tout le monde passe une bonne journée et gagne du temps, lisez-le attentivement"
+    )
+    pdf.drawString(
+        30, 670,
+        "et communiquez-nous par avance toute objection, question ou impossibilité relative à nos demandes."
+    )
+    pdf.drawString(
+        30, 650,
+        "Toute modification devra faire l’objet d’un accord préalable des deux parties."
+    )
+    pdf.drawString(30, 630, "Merci d’avance.")
+
+    ind = 0
+
+    for c in content:
+        pdf.setFont(c.split(":")[0], 12)
+        title_width = pdf.stringWidth(c.split(":")[1], c.split(":")[0], 12)
+        title_x = (width - title_width) / 2
+        if (610 - ind * 40 <= 0):
+            ind = 0
+            pdf.showPage()
+        pdf.drawString(title_x, 610 - ind * 40, c.split(":")[1])
+        ind += 1
+
+    pdf.save()
+
+
 @app.route("/fiche_rider")
 def afficher_rider():
-    return render_template(
-        "afficher_rider.html"
-    )
+    credentials = service_account.Credentials.from_service_account_file(
+        './concertpro-89fff3dd57e8.json',
+        scopes=['https://www.googleapis.com/auth/spreadsheets.readonly'])
+    service = googleapiclient.discovery.build('sheets',
+                                              'v4',
+                                              credentials=credentials)
+    spreadsheet_id = '1kpj-WOIBMWlcQ0UjUBzClUZHpHbAcNtbs1boWUaYemM'
+    result = service.spreadsheets().values().get(
+        spreadsheetId=spreadsheet_id, range='reponse_formulaire').execute()
+
+    values = result.get('values', [])
+
+    res = []
+
+    for i in range(len(values[0])):
+        res.append("Helvetica-Bold:" + values[0][i])
+        res.append("Helvetica:" + values[1][i])
+
+    generate_pdf_file(
+        "output.pdf",
+        values[1][1] + " " + values[1][2] + " – Rider & Fiche Technique", res)
+
+    return render_template("afficher_rider.html", values=values)
+
 
 def getCoordonnee(address):
     try:
@@ -634,11 +731,13 @@ def getCoordonnee(address):
     except requests.exceptions.RequestException as e:
         print(f"Erreur lors de la requête HTTP : {e}")
 
+
 # Gestion des erreurs
 @app.errorhandler(404)
 def not_found_error(error):
     print(error)
     return render_template('404.html'), 404
+
 
 @app.errorhandler(500)
 def not_found_error(error):
