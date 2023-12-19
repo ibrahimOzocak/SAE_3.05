@@ -78,8 +78,8 @@ function isPointInsideShape(x, y, shape) {
     const distance = Math.sqrt((x - shape.x) ** 2 + (y - shape.y) ** 2);
     return distance <= shape.size;
   } else if (shape.type === 'square' || shape.type === 'rectangle') {
-    return x >= shape.x - shape.size && x <= shape.x + shape.size &&
-           y >= shape.y - shape.size && y <= shape.y + shape.size;
+    return x >= shape.x - shape.size && x <= shape.x - (-shape.size) &&
+           y >= shape.y - shape.size && y <= shape.y - (-shape.size);
   } else if (shape.type === 'text') {
     const textWidth = ctx.measureText(shape.text).width;
     const textHeight = parseInt(ctx.font, 10);
