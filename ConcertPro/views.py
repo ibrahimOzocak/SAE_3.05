@@ -631,7 +631,13 @@ def getCoordonnee(address):
     except requests.exceptions.RequestException as e:
         print(f"Erreur lors de la requête HTTP : {e}")
 
-# Gestion de l'erreur 404
+# Gestion des erreurs
 @app.errorhandler(404)
 def not_found_error(error):
+    print(error)
     return render_template('404.html'), 404
+
+@app.errorhandler(500)
+def not_found_error(error):
+    print(error)
+    return render_template('404.html'), 500

@@ -21,6 +21,13 @@
         <p>Nom de l'artiste : <a href="{{ url_for('artiste', id_artiste=artiste[0]) }}">{{ artiste[3] }}</a></p>
         <p>Nom de la salle : <a href="{{ url_for('salle', id=salle[0]) }}">{{ salle[3] }}</a></p>
         <p>Description : {{ concert[6] }}</p>
+        <p>Matériel :</p>
+        {% for i in range (necessaire|length) %}
+            <a href="{{ url_for('equipement', id_equipement=necessaire[i][0]) }}">{{ necessaire[i][1] }} ({{ necessaire[i][3] }}/{{ necessaire[i][2] }}) {% if necessaire[i][3] < necessaire[i][2] %} (manque {{ necessaire[i][2] - necessaire[i][3] }}) {% endif %}</a>
+        {% endfor %}
+        {% if necessaire|length == 0 %}
+        <p>Aucun matériel nécessaire</p>
+        {% endif %}
     </div>
     <div>
         {% if map_path %}
@@ -32,26 +39,10 @@
 </div>
 <div class="bouton">
     <a href="{{ url_for('modifier_concert', id_concert=concert[0]) }}" class="modifier">modifier le concert</a>
+    <a href="{{ url_for('ajout_necessaire_concert', id_concert=concert[0]) }}" class="modifier">Modifier le matériel nécessaire au concert</a>
+    <a href="{{ url_for('ajout_equipement_concert', id_concert=concert[0]) }}" class="modifier">Modifier le matériel manquant au concert</a>
     {% if concert is not none %}
         <a href="{{ url_for('supprimer_concert', id=concert[0]) }}" class="supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce concert,  cette action est irréversible??');">supprimer le concert</a>
     {% endif %}
-</div>
-
-<h3>Matériel</h3>
-<div class="instruments">
-    <ul>
-        {% for i in range (necessaire|length) %}
-        <li>
-            <p><a href="{{ url_for('equipement', id_equipement=necessaire[i][0]) }}">{{ necessaire[i][1] }} ({{ necessaire[i][3] }}/{{ necessaire[i][2] }})</a></p>
-            {% if necessaire[i][3] < necessaire[i][2] %}
-            <p>Reste à louer: {{ necessaire[i][2] - necessaire[i][3] }}</p>
-            {% endif %}
-        </li>
-        {% endfor %}
-    </ul>
-</div>
-<div>
-    <p><a href="{{ url_for('ajout_necessaire_concert', id_concert=concert[0]) }}">Modifier le matériel nécessaire au concert</a></p>
-    <p><a href="{{ url_for('ajout_equipement_concert', id_concert=concert[0]) }}">Modifier le matériel manquant au concert</a></p>
 </div>
 {% endblock %}
