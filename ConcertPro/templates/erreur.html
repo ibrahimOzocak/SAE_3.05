@@ -5,7 +5,7 @@
 {% endblock %}
 {% block content %}
 <div>
-    <h2>Nous ne trouvons pas la page que vous cherchez.</h2>
+    <h2>{{ num_erreur }}: {{ message }}</h2>
     <img src="{{ url_for('static', filename='images/scene_vide.jpg') }}" alt="Une scene vide">
 </div>
 {% endblock %}

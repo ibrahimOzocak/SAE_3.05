@@ -638,9 +638,17 @@ def getCoordonnee(address):
 @app.errorhandler(404)
 def not_found_error(error):
     print(error)
-    return render_template('404.html'), 404
+    return render_template(
+        'erreur.html',
+        num_erreur=404,
+        message="Page non trouvée"
+        ), 404
 
 @app.errorhandler(500)
 def not_found_error(error):
     print(error)
-    return render_template('404.html'), 500
+    return render_template(
+        'erreur.html',
+        num_erreur=500,
+        message="Erreur interne du serveur"
+        ), 500
