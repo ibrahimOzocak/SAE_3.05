@@ -11,22 +11,48 @@
     max-width: calc(25% - 20px); /* 25% pour 4 images par ligne avec espacement */
     text-align: center; /* Centrez le contenu horizontalement */
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px #da57001a;
     margin-top: 20px;
-    padding: 10px;
+    height: auto;
+    border: solid 0.1px black;
+}
+
+.sous-conteneur:hover .voir{
+    color: white;
+    background-color: black;
+    transition: 0.5s ease-in-out;
+    border-radius: 0 0 10px 10px;
+  
 }
 
 /* Ajustez la largeur et la hauteur des images */
 .sous-conteneur img {
     width: 20vw;
-    border-radius: 10px;
-    height: 30vh;
+    border-radius: 10px 10px 0 0;
+    height: 26vh;
+}
+
+.voir{
+    color: black;
+    padding: 10px;
+    padding-right: 0;
+    padding-left: 0;
+    display: inline-block; /* Fait en sorte que le lien occupe seulement l'espace nécessaire */
+    width: 100%;
+    border-top: solid 0.1px rgb(122, 122, 122);
+}
+
+
+a.voir:hover span {
+    margin-left: 5px; /* Ajoute un espacement à gauche du span */
+    transition: 0.4s ease-in-out;
 }
 
 a{
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-weight: bold;
 }
 
 #ajout_equipement{

@@ -68,9 +68,13 @@ def creer_concert():
 @app.route('/voir_prochains_concerts')
 def voir_prochains_concerts():
     """page qui affiche les concerts à venir"""
-    return render_template("voir_prochains_concerts.html",
-                           concerts=mo.prochains_concerts())
-
+    
+    return render_template(
+        "voir_prochains_concerts.html",
+        concerts=mo.prochains_concerts(),
+        artistes=mo.artistes(),
+        salles=mo.salles()
+    )
 
 @app.route('/historique_concert')
 def historique_concerts():
@@ -283,6 +287,8 @@ def artiste(id_artiste):
 @app.route('/confirmer_artiste/<id_artiste>/<nom_artiste>', methods=("POST", ))
 def confirmer_modif_artiste(id_artiste, nom_artiste):
     """sauvegarde d'un artiste"""
+    prenom_artiste = request.form['prenom']
+    nom_artiste = request.form['nom']
     nom_de_scene = request.form['nom_de_scene']
     mail = request.form['mail']
     telephone = request.form['telephone']
@@ -295,10 +301,8 @@ def confirmer_modif_artiste(id_artiste, nom_artiste):
     date_expiration_cni = request.form['date_expiration_cni']
     carte_reduction = request.form['carte_de_reduction']
     photo = request.files['image']
-    mo.confirmer_modif_artiste(id_artiste, nom_de_scene, mail, telephone,
-                               date_de_naissance, lieu_de_naissance, adresse,
-                               numero_secu_sociale, cni, date_delivrance_cni,
-                               date_expiration_cni, carte_reduction, photo)
+    mo.confirmer_modif_artiste(id_artiste, nom_de_scene, mail, telephone, date_de_naissance, lieu_de_naissance,
+        adresse, numero_secu_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction,photo)
     return redirect(url_for('artiste', id_artiste=id_artiste))
 
 
