@@ -27,6 +27,7 @@ body * {
   width: 50px;
   margin: 10px;
   cursor: pointer;
+  margin-right: 40px;
 }
 
 .titre{
