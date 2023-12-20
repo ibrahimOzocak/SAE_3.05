@@ -485,7 +485,7 @@ def confirmer_modif_artiste(id_artiste, nom_artiste, prenom_artiste,
 
 def confirmer_modif_salle(id_salle, nom, description, loge, nombre_place,
                           adresse, telephone, profondeur_scene, longueur_scene,
-                          photo):
+                          photo, id_type_salle):
     try:
         cursor = get_cursor()
 
@@ -507,7 +507,7 @@ def confirmer_modif_salle(id_salle, nom, description, loge, nombre_place,
             """
             params = (nom, description, loge, nombre_place, adresse,
                       telephone, profondeur_scene, longueur_scene,
-                      save_image(photo), id_salle)
+                      save_image(photo), id_type_salle, id_salle)
             print(save_image(photo))
         else:
             requete = """
@@ -524,7 +524,7 @@ def confirmer_modif_salle(id_salle, nom, description, loge, nombre_place,
                 WHERE id_salle = %s;
             """
             params = (nom, description, loge, nombre_place, adresse, telephone,
-                      profondeur_scene, longueur_scene, id_salle)
+                      profondeur_scene, longueur_scene, id_type_salle, id_salle)
 
         execute_query(cursor, requete, params)
         db.commit()
