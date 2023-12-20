@@ -645,6 +645,12 @@ def modifier_equipement(id_equipement):
     equipement = mo.get_equipement(id_equipement)
     return render_template("modifier_equipement.html", equipement=equipement)
 
+@app.route('/confirmer_equipement/<id_equipement>/<nom_equipement>', methods=("POST", ))
+def confirmer_modif_equipement(id_equipement, nom_equipement):
+    """sauvegarde d'un equipement"""
+    nom = request.form['equipement']
+    mo.confirmer_modif_equipement(id_equipement, nom)
+    return redirect(url_for('equipement', id_equipement=id_equipement))
 
 #type_salle
 @app.route('/ajout_type_salle')

@@ -1173,3 +1173,14 @@ def get_type_salle(id_salle):
     except Exception as e:
         print(e.args)
     return None
+
+def confirmer_modif_equipement(id_equipement, nom_equipement):
+    try:
+        cursor = get_cursor()
+        requete = "UPDATE Equipement SET nom_equipement = %s WHERE id_equipement = %s;"
+        execute_query(cursor, requete, (nom_equipement, id_equipement))
+        db.commit()
+        close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+    return None
