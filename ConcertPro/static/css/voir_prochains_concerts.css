@@ -20,6 +20,8 @@
     font-size: small;
 }
 
+
+
 .sous-conteneur:hover .voir{
     color: white;
     background-color: black;
@@ -29,12 +31,21 @@
 }
 
 /* Ajustez la largeur et la hauteur des images */
-.sous-conteneur img {
+.img_acc {
     width: 100%;
     border-radius: 10px 10px 0 0;
     height: 26vh;
 }
 
+.img_art{
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    z-index: 100000;
+    position: relative;
+    left: -100px;
+    top: -70px;
+}
 .personne{
     display: flex;
 }
