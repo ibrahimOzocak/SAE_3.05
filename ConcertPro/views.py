@@ -391,7 +391,7 @@ def save_artiste_to_rider():
                     informations[20], informations[21], informations[4],
                     informations[5], informations[6], informations[7],
                     informations[9], informations[10], informations[11],
-                    informations[12], informations[22], informations[8])
+                    informations[12], informations[-2], informations[22], informations[8])
     return redirect(url_for('creer_concert'))
 
 
