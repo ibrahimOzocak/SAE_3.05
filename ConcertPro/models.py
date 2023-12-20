@@ -4,11 +4,8 @@ import io
 from io import BytesIO
 import datetime
 
-HEURES1 = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
-PAS1 = 1
+HEURES1 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
 JOUR_VOULU = datetime.datetime.now()
-HEURES2 = [8, 10, 12, 14, 16, 18, 20, 22]
-PAS2 = 2
 
 db = mysql.connector.connect(
     host="servinfo-maria",user = "sevellec", password = "sevellec", database = "DBsevellec"
@@ -275,10 +272,12 @@ def get_id_concert_max():
         cursor.execute(requete)
         info = cursor.fetchall()
         close_cursor(cursor)
-        return info[0][0]
+        val = info[0][0]
+        if val is not None:
+            return info[0][0]
     except Exception as e:
         print(e.args)
-    return None
+    return 0
 
 def get_id_artiste_max():
     try:
@@ -287,10 +286,12 @@ def get_id_artiste_max():
         cursor.execute(requete)
         info = cursor.fetchall()
         close_cursor(cursor)
-        return info[0][0]
+        val = info[0][0]
+        if val is not None:
+            return info[0][0]
     except Exception as e:
         print(e.args)
-    return None
+    return 0
 
 def get_id_salle_max():
     try:
@@ -299,10 +300,12 @@ def get_id_salle_max():
         cursor.execute(requete)
         info = cursor.fetchall()
         close_cursor(cursor)
-        return info[0][0]
+        val = info[0][0]
+        if val is not None:
+            return info[0][0]
     except Exception as e:
         print(e.args)
-    return None
+    return 0
 
 def get_id_logement_max():
     try:
@@ -311,10 +314,12 @@ def get_id_logement_max():
         cursor.execute(requete)
         info = cursor.fetchall()
         close_cursor(cursor)
-        return info[0][0]
+        val = info[0][0]
+        if val is not None:
+            return info[0][0]
     except Exception as e:
         print(e.args)
-    return None
+    return 0
 
 def get_id_equipement_max():
     try:
@@ -323,10 +328,12 @@ def get_id_equipement_max():
         cursor.execute(requete)
         info = cursor.fetchall()
         close_cursor(cursor)
-        return info[0][0]
+        val = info[0][0]
+        if val is not None:
+            return info[0][0]
     except Exception as e:
         print(e.args)
-    return None
+    return 0
 
 def get_id_type_salle_max():
     try:
@@ -335,10 +342,12 @@ def get_id_type_salle_max():
         cursor.execute(requete)
         info = cursor.fetchall()
         close_cursor(cursor)
-        return info[0][0]
+        val = info[0][0]
+        if val is not None:
+            return info[0][0]
     except Exception as e:
         print(e.args)
-    return None
+    return 0
 
 def confirmer_modif_concert(id_concert, nom_concert, date_heure_concert, duree_concert, id_artiste, id_salle, description_concert,photo):
     try:
@@ -588,7 +597,7 @@ def concerts_agenda(heures=HEURES1, jour=JOUR_VOULU):
         jour = datetime.datetime.strptime(jour, "%d-%m-%Y")
     for concert in concerts():
         date_debut = concert[2]
-        if datetime.timedelta(days=-(jour.weekday()+1))<date_debut.replace(hour=0, minute=0)-jour<datetime.timedelta(days=7-(jour.weekday())):
+        if datetime.timedelta(days=-(jour.weekday()+1))<date_debut.replace(hour=0, minute=0)-jour.replace(hour=0, minute=0)<datetime.timedelta(days=7-(jour.weekday())):
             minutesC = date_debut.minute+concert[3]%60
             trop = minutesC//60
             minutesC-=trop*60
@@ -621,7 +630,7 @@ def concerts_agenda(heures=HEURES1, jour=JOUR_VOULU):
                         j = date_debut.weekday()+2
                         if j < 8:
                             agenda[j][h].append((concert[0],concert[1]))
-        elif datetime.timedelta(days=-(jour.weekday()+1))==date_debut.replace(hour=0, minute=0)-jour:
+        elif datetime.timedelta(days=-(jour.weekday()+1))==date_debut.replace(hour=0, minute=0)-jour.replace(hour=0, minute=0):
             minutesC = date_debut.minute+concert[3]%60
             trop = minutesC//60
             minutesC-=trop*60
@@ -641,6 +650,18 @@ def concerts_agenda(heures=HEURES1, jour=JOUR_VOULU):
                 if fin_depassement > fin_horaire:
                     agenda[1][h].append((concert[0],concert[1]))
     return agenda
+
+def get_type_salle():
+    try:
+        cursor = get_cursor()
+        requete = "SELECT id_type,type_place_s FROM Type_Salle;"
+        cursor.execute(requete)
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        return info
+    except Exception as e:
+        print(e.args)
+    return None
 
 def type_salle():
     try:

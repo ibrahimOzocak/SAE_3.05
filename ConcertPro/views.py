@@ -23,7 +23,7 @@ HEURES_DECALAGE_2 = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22]
 def accueil():
     """page d'accueil"""
     jour = datetime.datetime.now()
-    agenda = mo.concerts_agenda(HEURES_DECALAGE_2, jour)
+    heures = HEURES_DECALAGE_2
     lundi = (jour + datetime.timedelta(days=-(jour.weekday() + 1)) +
              datetime.timedelta(days=1)).replace(hour=0,
                                                  minute=0,
@@ -35,10 +35,11 @@ def accueil():
                                               minute=59,
                                               second=59,
                                               microsecond=0)
+    agenda = mo.concerts_agenda(heures, lundi)
     return render_template("accueil.html",
                            concerts=mo.prochains_concerts(),
                            agenda=agenda,
-                           heures=HEURES_DECALAGE_2,
+                           heures=heures,
                            date_lundi=lundi.strftime("%d-%m-%Y"),
                            date_dimanche=dimanche.strftime("%d-%m-%Y"))
 
@@ -180,7 +181,7 @@ def confirmer_modif_concert(id_concert, nom_concert):
 @app.route('/ajout_nouvelle_salle')
 def ajout_nouvelle_salle():
     """page de création de salle"""
-    return render_template("ajout_nouvelle_salle.html", types=mo.type_salle())
+    return render_template("ajout_nouvelle_salle.html", types=mo.get_type_salle())
 
 @app.route('/salle/<id>')
 def salle(id):
@@ -230,22 +231,16 @@ def save_salle():
     description_salle = request.form['description']
     photo = request.files['image']
 
-    # nomequipement
-    # quantitedispo
 
     adresse_salle = adresse_salle + ", " + code_postal_salle
-    loge = ""
-    acces_pmr = ""
+    loge = "non"
+    acces_pmr = "non"
 
     for elem in request.form:
         if elem == "loge":
             loge = "oui"
         elif elem == "accueilpmr":
             acces_pmr = "oui"
-    if loge == "":
-        loge = "non"
-    if acces_pmr == "":
-        acces_pmr = "non"
     id = mo.get_id_salle_max() + 1
 
     mo.save_salle(id, nom_salle, nb_places, profondeur_scene, longueur_scene,
