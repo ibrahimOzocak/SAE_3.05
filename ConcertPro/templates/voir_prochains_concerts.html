@@ -8,9 +8,13 @@
     {% for i in range (concerts|length) %}
     <div class="sous-conteneur">
         {% if concerts[i][-1] is none %}
-        <img class="img_acc"  src="{{ url_for('static', filename='images/aucune_image.png') }}" alt="img">
+        <div class="div_img">
+            <img class="img_acc"  src="{{ url_for('static', filename='images/aucune_image.png') }}" alt="img">
+        </div>
         {% else %}
-        <img class="img_acc" src="{{ url_for('static', filename='images/concerts/' + concerts[i][0]|str + '.jpg') }}" alt="img">
+        <div class="div_img">
+            <img class="img_acc" src="{{ url_for('static', filename='images/concerts/' + concerts[i][0]|str + '.jpg') }}" alt="img">
+        </div>
         {% endif %}
         {% for a in artistes%}
         {% if a[0] == concerts[i][4] %}
