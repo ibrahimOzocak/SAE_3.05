@@ -1,10 +1,9 @@
-from flask import redirect, render_template, request, url_for
+from flask import redirect, render_template, request, url_for, Response, make_response
 import folium
 from .app import app, db
 import datetime
 from . import models as mo
 import requests
-import json
 import json
 from google.oauth2 import service_account
 import googleapiclient.discovery
@@ -17,6 +16,7 @@ HEURES_DECALAGE_1 = [
     21, 22, 23
 ]
 HEURES_DECALAGE_2 = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22]
+
 
 # accueil
 @app.route('/')
@@ -42,14 +42,17 @@ def accueil():
                            date_lundi=lundi.strftime("%d-%m-%Y"),
                            date_dimanche=dimanche.strftime("%d-%m-%Y"))
 
+
 @app.route('/plan_feu')
 def plan_feu():
     """page du plan feu"""
     return render_template("plan_feu.html")
 
+
 @app.template_filter('str')
 def string_filter(value):
     return str(value)
+
 
 # concert
 @app.route('/creer_concert')
@@ -60,22 +63,23 @@ def creer_concert():
                            salles=mo.salles(),
                            types=mo.type_salle())
 
+
 @app.route('/voir_prochains_concerts')
 def voir_prochains_concerts():
     """page qui affiche les concerts à venir"""
-    
-    return render_template(
-        "voir_prochains_concerts.html",
-        concerts=mo.prochains_concerts(),
-        artistes=mo.artistes(),
-        salles=mo.salles()
-    )
+
+    return render_template("voir_prochains_concerts.html",
+                           concerts=mo.prochains_concerts(),
+                           artistes=mo.artistes(),
+                           salles=mo.salles())
+
 
 @app.route('/historique_concert')
 def historique_concerts():
     """page qui affiche les concerts passés"""
     return render_template("historique_concerts.html",
                            concerts=mo.historique_concerts())
+
 
 @app.route('/save_concert', methods=("POST", ))
 def save_concert():
@@ -102,6 +106,7 @@ def save_concert():
     mo.add_artiste_concert(id, id_artiste)
     return redirect(url_for('concert', id=id))
 
+
 @app.route('/concert/<id>')
 def concert(id):
     """page pour le concert <id>"""
@@ -125,11 +130,13 @@ def concert(id):
                            necessaire=necessaire,
                            map_path=c._repr_html_() if c else None)
 
+
 @app.route('/concert/<id>/supprimer')
 def supprimer_concert(id):
     """supprime le concert <id>"""
     mo.remove_concert(id)
     return redirect(url_for('voir_prochains_concerts'))
+
 
 @app.route('/concert/<id_concert>/modifier')
 def modifier_concert(id_concert):
@@ -141,6 +148,7 @@ def modifier_concert(id_concert):
                            concert=concert,
                            salles=liste_salle,
                            artistes=liste_artiste)
+
 
 @app.route('/modifier_concert/<id_concert>/<nom_concert>', methods=("POST", ))
 def confirmer_modif_concert(id_concert, nom_concert):
@@ -161,18 +169,20 @@ def confirmer_modif_concert(id_concert, nom_concert):
 
     return redirect(url_for('concert', id=id_concert))
 
+
 # salle
 @app.route('/ajout_nouvelle_salle')
 def ajout_nouvelle_salle():
     """page de création de salle"""
     return render_template("ajout_nouvelle_salle.html", types=mo.type_salle())
 
+
 @app.route('/salle/<id>')
 def salle(id):
     """page de salle <id>"""
     salle = mo.get_salle(id)
     equipement = mo.get_equipement_salle(id)
-    
+
     # Utilisez la vraie adresse du salle ici
     address = salle[8]
     coor = getCoordonnee(address)
@@ -186,20 +196,17 @@ def salle(id):
             lat, lng = coordinates
             c = folium.Map(location=[lat, lng], zoom_start=20)
             c.save("test.html")
-    return render_template(
-        "salle.html",
-        salle=salle,
-        equipement=equipement,
-        map_path=c._repr_html_() if c else None
-    )
+    return render_template("salle.html",
+                           salle=salle,
+                           equipement=equipement,
+                           map_path=c._repr_html_() if c else None)
+
 
 @app.route('/voir_salles')
 def voir_salles():
     """page qui affiche les salles"""
-    return render_template(
-            "voir_salles.html",
-            salles=mo.salles()
-        )
+    return render_template("voir_salles.html", salles=mo.salles())
+
 
 @app.route('/save_salle', methods=("POST", ))
 def save_salle():
@@ -239,11 +246,13 @@ def save_salle():
 
     return redirect(url_for('salle', id=id))
 
+
 @app.route('/salle/<id_salle>/supprimer')
 def supprimer_salle(id_salle):
     """supprime la salle <id_salle>"""
     mo.remove_salle(id_salle)
     return redirect(url_for('voir_salles'))
+
 
 # artiste
 @app.route('/ajout_artiste')
@@ -251,10 +260,12 @@ def ajout_artiste():
     """page d'ajout d'un artiste"""
     return render_template("ajout_artiste.html")
 
+
 @app.route('/voir_artistes')
 def voir_artistes():
     """page voir les artistes"""
     return render_template("voir_artistes.html", artistes=mo.artistes())
+
 
 @app.route('/artiste/<id_artiste>')
 def artiste(id_artiste):
@@ -262,6 +273,7 @@ def artiste(id_artiste):
     artiste = mo.get_artiste(id_artiste)
     concerts = mo.get_concerts_artiste(id_artiste)
     return render_template("artiste.html", artiste=artiste, concerts=concerts)
+
 
 @app.route('/confirmer_artiste/<id_artiste>/<nom_artiste>', methods=("POST", ))
 def confirmer_modif_artiste(id_artiste, nom_artiste):
@@ -280,9 +292,13 @@ def confirmer_modif_artiste(id_artiste, nom_artiste):
     date_expiration_cni = request.form['date_expiration_cni']
     carte_reduction = request.form['carte_de_reduction']
     photo = request.files['image']
-    mo.confirmer_modif_artiste(id_artiste, prenom_artiste, nom_artiste, nom_de_scene, mail, telephone, date_de_naissance, lieu_de_naissance,
-        adresse, numero_secu_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction,photo)
+    mo.confirmer_modif_artiste(id_artiste, prenom_artiste, nom_artiste,
+                               nom_de_scene, mail, telephone,
+                               date_de_naissance, lieu_de_naissance, adresse,
+                               numero_secu_sociale, cni, date_delivrance_cni,
+                               date_expiration_cni, carte_reduction, photo)
     return redirect(url_for('artiste', id_artiste=id_artiste))
+
 
 @app.route('/confirmer_salle/<id_salle>/<nom_salle>', methods=("POST", ))
 def confirmer_modif_salle(id_salle, nom_salle):
@@ -301,17 +317,20 @@ def confirmer_modif_salle(id_salle, nom_salle):
                              longueur_scene, photo)
     return redirect(url_for('salle', id=id_salle))
 
+
 @app.route('/artiste/<id_artiste>/modifier')
 def modifier_artiste(id_artiste):
     """page de l'artiste <id_artiste>"""
     artiste = mo.get_artiste(id_artiste)
     return render_template("modifier_artiste.html", artiste=artiste)
 
+
 @app.route('/salle/<id_salle>/modifier')
 def modifier_salle(id_salle):
     """page de la salle <id_salle>"""
     salle = mo.get_salle(id_salle)
     return render_template("modifier_salle.html", salle=salle)
+
 
 @app.route('/save_artiste', methods=("POST", ))
 def save_artiste():
@@ -332,26 +351,20 @@ def save_artiste():
     date_expiration_cni = datetime.datetime.strptime(
         request.form['date_expiration'], "%Y-%m-%d")
     carte_reduction = request.form['carte_train']
-    id_artiste = mo.get_id_artiste_max()+1
-    try:
-        cursor = mo.get_cursor()
-        req = "INSERT INTO Artiste (id_artiste, nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_naissance, adresse, securite_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction,nom_scene) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s)"
-        cursor.execute(req,
-                       (id_artiste, nom_artiste, prenom_artiste, mail,
-                        telephone, date_de_naissance, lieu_de_naissance,
-                        adresse, securite_sociale, cni, date_delivrance_cni,
-                        date_expiration_cni, carte_reduction, nom_scene))
-        db.commit()
-        mo.close_cursor(cursor)
-    except Exception as e:
-        print(e.args)
+    id_artiste = mo.get_id_artiste_max() + 1
+    mo.save_artiste(id_artiste, nom_artiste, prenom_artiste, mail, telephone,
+                    date_de_naissance, lieu_de_naissance, adresse,
+                    securite_sociale, cni, date_delivrance_cni,
+                    date_expiration_cni, carte_reduction, nom_scene)
     return redirect(url_for('artiste', id_artiste=id_artiste))
+
 
 @app.route('/artiste/<id_artiste>/supprimer')
 def supprimer_artiste(id_artiste):
     """supprime l'artiste <id_artiste>"""
     mo.remove_artiste(id_artiste)
     return redirect(url_for('voir_artistes'))
+
 
 # logement
 @app.route('/logement/<id_logement>')
@@ -376,14 +389,17 @@ def logement(id_logement):
                            logement=logement,
                            map_path=c._repr_html_() if c else None)
 
+
 @app.route('/ajout_logement')
 def ajout_logement():
     """page d'ajout de logement"""
     return render_template("ajout_logement.html")
 
+
 @app.route('/voir_logements')
 def voir_logements():
     return render_template("voir_logements.html", logements=mo.logements())
+
 
 @app.route('/save_logement', methods=("POST", ))
 def save_logement():
@@ -391,9 +407,10 @@ def save_logement():
     nom_logement = request.form['nom_etablissement']
     adresse = request.form['adresse']
     nb_etoile = request.form['nb_etoiles']
-    id_logement = mo.get_id_logement_max()+1
+    id_logement = mo.get_id_logement_max() + 1
     mo.save_logement(id_logement, nom_logement, adresse, nb_etoile)
     return redirect(url_for('logement', id_logement=id_logement))
+
 
 @app.route('/logement/<id_logement>/supprimer')
 def supprimer_logement(id_logement):
@@ -401,11 +418,13 @@ def supprimer_logement(id_logement):
     mo.remove_logement(id_logement)
     return redirect(url_for('voir_logements'))
 
+
 @app.route('/logement/<id_logement>/modifier')
 def modifier_logement(id_logement):
     """page de l'artiste <id_logement>"""
     logement = mo.get_logement(id_logement)
     return render_template("modifier_logement.html", logement=logement)
+
 
 @app.route('/modif_logement/<id_logement>/<nom_etablissement>',
            methods=("POST", ))
@@ -417,6 +436,7 @@ def confirmer_modif_logement(id_logement, nom_etablissement):
     photo = request.files['image']
     mo.confirmer_modif_logement(id_logement, nom, adresse, nb_etoile, photo)
     return redirect(url_for('logement', id_logement=id_logement))
+
 
 # calendrier
 @app.route('/calendrier/<jour>')
@@ -444,11 +464,13 @@ def calendrier(jour=datetime.datetime.now()):
                            date_lundi=lundi.strftime("%d-%m-%Y"),
                            date_dimanche=dimanche.strftime("%d-%m-%Y"))
 
+
 @app.route('/calendrier/redirection', methods=("POST", ))
 def calendrier_redirection():
     """redirige vers le calendrier du jour"""
     jour = datetime.datetime.strptime(request.form['date'], "%Y-%m-%d")
     return redirect(url_for('calendrier', jour=jour.strftime("%d-%m-%Y")))
+
 
 @app.route('/calendrier/semaine_precedente/<jour_actuel>')
 def calendrier_semaine_precedente(jour_actuel=datetime.datetime.now()):
@@ -458,6 +480,7 @@ def calendrier_semaine_precedente(jour_actuel=datetime.datetime.now()):
     jour = jour_actuel + datetime.timedelta(days=-7)
     return redirect(url_for('calendrier', jour=jour.strftime("%d-%m-%Y")))
 
+
 @app.route('/calendrier/semaine_suivante/<jour_actuel>')
 def calendrier_semaine_suivante(jour_actuel=datetime.datetime.now()):
     """page du calendrier de la semaine suivant <jour_actuel>"""
@@ -466,11 +489,13 @@ def calendrier_semaine_suivante(jour_actuel=datetime.datetime.now()):
     jour = jour_actuel + datetime.timedelta(days=7)
     return redirect(url_for('calendrier', jour=jour.strftime("%d-%m-%Y")))
 
+
 # equipement
 @app.route('/ajout_equipement')
 def ajout_equipement():
     """page d'ajout d'un equipement"""
     return render_template("ajout_equipement.html")
+
 
 @app.route('/ajout_equipement_concert/<id_concert>')
 def ajout_equipement_concert(id_concert):
@@ -479,23 +504,23 @@ def ajout_equipement_concert(id_concert):
                            id_concert=id_concert,
                            equipements=mo.get_equipements_concert(id_concert))
 
+
 @app.route('/ajout_necessaire_concert/<id_concert>')
 def ajout_necessaire_concert(id_concert):
     """page d'ajout d'un equipement nécessaire au concert <id_concert>"""
     return render_template(
         "ajout_necessaire_concert.html",
         id_concert=id_concert,
-        equipements=mo.get_tous_equipements_concert(id_concert)
-    )
+        equipements=mo.get_tous_equipements_concert(id_concert))
+
 
 @app.route('/ajout_equipement_salle/<id_salle>')
 def ajout_equipement_salle(id_salle):
     """page d'ajout d'un equipement à la salle <id_salle>"""
-    return render_template(
-        "ajout_equipement_salle.html",
-        id_salle=id_salle,
-        equipements=mo.get_tous_equipements_salle(id_salle)
-    )
+    return render_template("ajout_equipement_salle.html",
+                           id_salle=id_salle,
+                           equipements=mo.get_tous_equipements_salle(id_salle))
+
 
 @app.route('/voir_equipements')
 def voir_equipements():
@@ -503,11 +528,13 @@ def voir_equipements():
     return render_template("voir_equipements.html",
                            equipements=mo.equipements())
 
+
 @app.route('/equipement/<id_equipement>')
 def equipement(id_equipement):
     """page de l'equipement <id_equipement>"""
     equipement = mo.get_equipement(id_equipement)
     return render_template("equipement.html", equipement=equipement)
+
 
 @app.route('/save_equipement', methods=("POST", ))
 def save_equipement():
@@ -524,6 +551,7 @@ def save_equipement():
         print(e.args)
     return redirect(url_for('equipement', id_equipement=id_equipement))
 
+
 @app.route('/save_equipement_concert/<id_concert>', methods=("POST", ))
 def save_equipements_concert(id_concert):
     """sauvegarde d'un equipement pour le concert <id_concert>"""
@@ -533,6 +561,7 @@ def save_equipements_concert(id_concert):
             elem = int(elem)
             mo.save_equipement_concert(id_concert, elem, quantite)
     return redirect(url_for('concert', id=id_concert))
+
 
 @app.route('/save_necessaire_concert/<id_concert>', methods=("POST", ))
 def save_necessaire_concert(id_concert):
@@ -550,19 +579,21 @@ def save_necessaire_concert(id_concert):
                                        hidden)
     return redirect(url_for('concert', id=id_concert))
 
-@app.route('/save_equipement_salle/<id_salle>', methods=("POST",))
+
+@app.route('/save_equipement_salle/<id_salle>', methods=("POST", ))
 def save_equipements_salle(id_salle):
     """sauvegarde d'un equipement pour la salle <id_salle>"""
     for elem in request.form:
         if elem.isnumeric():
             quantite = int(request.form[elem])
             if "hidden" + elem in request.form:
-                hidden = int(request.form.get("hidden"+elem))
+                hidden = int(request.form.get("hidden" + elem))
             else:
                 hidden = 0
             elem = int(elem)
             mo.save_equipement_salle(id_salle, elem, quantite, hidden)
     return redirect(url_for('salle', id=id_salle))
+
 
 @app.route('/equipement/<id_equipement>/supprimer')
 def supprimer_equipement(id_equipement):
@@ -570,24 +601,20 @@ def supprimer_equipement(id_equipement):
     mo.remvove_equipement(id_equipement)
     return redirect(url_for('voir_equipements'))
 
+
 @app.route('/equipement/<id_equipement>/modifier')
 def modifier_equipement(id_equipement):
     """modifier l'equipement' <id_equipement>"""
     equipement = mo.get_equipement(id_equipement)
     return render_template("modifier_equipement.html", equipement=equipement)
 
-@app.route('/confirmer_equipement/<id_equipement>, methods=("POST",)')
-def confirmer_modif_equipement(id_equipement):
-    """sauvegarde d'un equipement"""
-    nom = request.form['nom_equipement']
-    mo.confirmer_modif_equipement(id_equipement, nom)
-    return redirect(url_for('equipement', id_equipement=id_equipement))
 
 #type_salle
 @app.route('/ajout_type_salle')
 def ajout_type_salle():
     """page d'ajout d'un type de salle"""
     return render_template("ajout_type_salle.html")
+
 
 @app.route('/save_type_salle', methods=("POST", ))
 def save_type_salle():
@@ -603,6 +630,7 @@ def save_type_salle():
     except Exception as e:
         print(e.args)
     return redirect(url_for('accueil'))
+
 
 def generate_pdf_file(file_path, title, content):
     # Créer le fichier PDF
@@ -648,6 +676,9 @@ def generate_pdf_file(file_path, title, content):
 
     pdf.save()
 
+    return pdf
+
+
 @app.route("/fiche_rider")
 def afficher_rider():
     credentials = service_account.Credentials.from_service_account_file(
@@ -662,23 +693,35 @@ def afficher_rider():
 
     values = result.get('values', [])
 
-    res = []
-
-    for i in range(len(values[0])):
-        res.append("Helvetica-Bold:" + values[0][i])
-        res.append("Helvetica:" + values[1][i])
-
-    generate_pdf_file(
-        "output.pdf",
-        values[1][1] + " " + values[1][2] + " – Rider & Fiche Technique", res)
-
     return render_template("afficher_rider.html", values=values)
+
+
+from urllib.parse import unquote
+
+
+@app.route("/fiche_rider/rider")
+def rider():
+    informations = request.args.get('informations')
+    informations = unquote(informations).split(',')
+    html_content = render_template('rider.html', informations=informations)
+
+    from weasyprint import HTML, CSS
+    css_path = './ConcertPro/static/css/rider.css'
+    pdf = HTML(string=html_content).write_pdf(
+        stylesheets=[CSS(filename=css_path)])
+    response = make_response(pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers[
+        'Content-Disposition'] = 'attachment; filename=fiche_rider.pdf'
+
+    return response
+
 
 def getCoordonnee(address):
     try:
         encoded_address = requests.utils.quote(address, safe='')
 
-        api_url = f"https://nominatim.openstreetmap.org/search?format=json&q={encoded_address}"
+        api_url = f"https://nominatim.openstreetmap.org/search?format=json ", "q={encoded_address}"
 
         # Effectuer la requête HTTP
         response = requests.get(api_url)
@@ -700,21 +743,19 @@ def getCoordonnee(address):
     except requests.exceptions.RequestException as e:
         print(f"Erreur lors de la requête HTTP : {e}")
 
+
 # Gestion des erreurs
 @app.errorhandler(404)
 def not_found_error(error):
     print(error)
-    return render_template(
-        'erreur.html',
-        num_erreur=404,
-        message="Page non trouvée"
-        ), 404
+    return render_template('erreur.html',
+                           num_erreur=404,
+                           message="Page non trouvée"), 404
+
 
 @app.errorhandler(500)
 def not_found_error(error):
     print(error)
-    return render_template(
-        'erreur.html',
-        num_erreur=500,
-        message="Erreur interne du serveur"
-        ), 500
+    return render_template('erreur.html',
+                           num_erreur=500,
+                           message="Erreur interne du serveur"), 500
