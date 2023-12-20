@@ -374,6 +374,24 @@ def save_artiste():
     return redirect(url_for('artiste', id_artiste=id_artiste))
 
 
+from urllib.parse import unquote
+
+
+@app.route('/save_artiste_to_rider')
+def save_artiste_to_rider():
+    """sauvegarde d'un artiste"""
+
+    informations = request.args.get('informations')
+    informations = unquote(informations).split(',')
+    id_artiste = mo.get_id_artiste_max() + 1
+    mo.save_artiste(id_artiste, informations[2], informations[3],
+                    informations[20], informations[21], informations[4],
+                    informations[5], informations[6], informations[7],
+                    informations[9], informations[10], informations[11],
+                    informations[12], informations[22], informations[8])
+    return redirect(url_for('creer_concert'))
+
+
 @app.route('/artiste/<id_artiste>/supprimer')
 def supprimer_artiste(id_artiste):
     """supprime l'artiste <id_artiste>"""

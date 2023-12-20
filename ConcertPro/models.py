@@ -311,7 +311,7 @@ def get_id_concert_max():
         return info[0][0]
     except Exception as e:
         print(e.args)
-    return None
+    return 0
 
 
 def get_id_artiste_max():
@@ -321,10 +321,11 @@ def get_id_artiste_max():
         cursor.execute(requete)
         info = cursor.fetchall()
         close_cursor(cursor)
-        return info[0][0]
+        if info[0][0] is not None:
+            return info[0][0]
     except Exception as e:
         print(e.args)
-    return None
+    return 0
 
 
 def get_id_salle_max():
@@ -334,10 +335,11 @@ def get_id_salle_max():
         cursor.execute(requete)
         info = cursor.fetchall()
         close_cursor(cursor)
-        return info[0][0]
+        if info[0][0] is not None:
+            return info[0][0]
     except Exception as e:
         print(e.args)
-    return None
+    return 0
 
 
 def get_id_logement_max():
@@ -347,10 +349,11 @@ def get_id_logement_max():
         cursor.execute(requete)
         info = cursor.fetchall()
         close_cursor(cursor)
-        return info[0][0]
+        if info[0][0] is not None:
+            return info[0][0]
     except Exception as e:
         print(e.args)
-    return None
+    return 0
 
 
 def get_id_equipement_max():
@@ -360,10 +363,11 @@ def get_id_equipement_max():
         cursor.execute(requete)
         info = cursor.fetchall()
         close_cursor(cursor)
-        return info[0][0]
+        if info[0][0] is not None:
+            return info[0][0]
     except Exception as e:
         print(e.args)
-    return None
+    return 0
 
 
 def get_id_type_salle_max():
@@ -373,10 +377,11 @@ def get_id_type_salle_max():
         cursor.execute(requete)
         info = cursor.fetchall()
         close_cursor(cursor)
-        return info[0][0]
+        if info[0][0] is not None:
+            return info[0][0]
     except Exception as e:
         print(e.args)
-    return None
+    return 0
 
 
 def confirmer_modif_concert(id_concert, nom_concert, date_heure_concert,
@@ -945,18 +950,35 @@ def get_equipements_disponible(id_concert, id_salle):
     return None
 
 
-def save_artiste(id_artiste, nom_artiste, prenom_artiste, mail, telephone,
-                 date_de_naissance, lieu_de_naissance, adresse,
-                 securite_sociale, cni, date_delivrance_cni,
-                 date_expiration_cni, carte_reduction, nom_scene):
+def save_artiste(id_artiste,
+                 nom_artiste,
+                 prenom_artiste,
+                 mail,
+                 telephone,
+                 date_de_naissance,
+                 lieu_de_naissance,
+                 adresse,
+                 securite_sociale,
+                 cni,
+                 date_delivrance_cni,
+                 date_expiration_cni,
+                 carte_reduction,
+                 nom_scene,
+                 conge_spectacle="Non"):
     try:
+        from datetime import datetime
+        date_delivrance_cni = datetime.strptime(date_delivrance_cni,
+                                                '%Y-%m-%d')
+        date_expiration_cni = datetime.strptime(date_expiration_cni,
+                                                '%Y-%m-%d')
         cursor = get_cursor()
-        req = "INSERT INTO Artiste (id_artiste, nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_naissance, adresse, securite_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction,nom_scene) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s)"
-        cursor.execute(req,
-                       (id_artiste, nom_artiste, prenom_artiste, mail,
-                        telephone, date_de_naissance, lieu_de_naissance,
-                        adresse, securite_sociale, cni, date_delivrance_cni,
-                        date_expiration_cni, carte_reduction, nom_scene))
+        req = "INSERT INTO Artiste (id_artiste, nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_naissance, adresse, securite_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction,nom_scene,conge_spectacle) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s)"
+        cursor.execute(
+            req,
+            (id_artiste, nom_artiste, prenom_artiste, mail, telephone,
+             date_de_naissance, lieu_de_naissance, adresse, securite_sociale,
+             cni, date_delivrance_cni, date_expiration_cni, carte_reduction,
+             nom_scene, conge_spectacle))
         db.commit()
         close_cursor(cursor)
     except Exception as e:
@@ -1059,11 +1081,15 @@ def save_equipement_salle(id_salle,
         print(e.args)
     return None
 
+
 def get_logement_artiste(id_concert, id_artiste):
     try:
         cursor = get_cursor()
         requete = "SELECT id_logement, nom_etablissement, nb_nuit FROM Logement NATURAL JOIN Loger WHERE id_artiste = %s AND id_concert=%s;"
-        execute_query(cursor, requete, (id_artiste, id_concert,))
+        execute_query(cursor, requete, (
+            id_artiste,
+            id_concert,
+        ))
         info = cursor.fetchall()
         close_cursor(cursor)
         return info[0]
@@ -1071,22 +1097,32 @@ def get_logement_artiste(id_concert, id_artiste):
         print(e.args)
     return None
 
+
 def supprimer_logement_artiste(id_concert, id_artiste):
     try:
         cursor = get_cursor()
         requete = "DELETE FROM Loger WHERE id_artiste = %s AND id_concert=%s;"
-        execute_query(cursor, requete, (id_artiste, id_concert,))
+        execute_query(cursor, requete, (
+            id_artiste,
+            id_concert,
+        ))
         db.commit()
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
     return None
 
+
 def add_logement_artiste(id_concert, id_artiste, id_logement, nb_nuit):
     try:
         cursor = get_cursor()
         requete = "INSERT INTO Loger (id_artiste, id_concert, id_logement, nb_nuit) VALUES(%s, %s, %s, %s)"
-        execute_query(cursor, requete, (id_artiste, id_concert, id_logement, nb_nuit,))
+        execute_query(cursor, requete, (
+            id_artiste,
+            id_concert,
+            id_logement,
+            nb_nuit,
+        ))
         db.commit()
         close_cursor(cursor)
     except Exception as e:

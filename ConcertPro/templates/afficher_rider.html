@@ -30,7 +30,7 @@
 
         <th> <a href="{{ url_for('rider', informations=','.join(v)) }}">Télécharger en format PDF</a> </th>
         
-        <th> <a href=""> Sauvegarder dans la base de donnée </a> </th>
+        <th> <a href="{{ url_for('save_artiste_to_rider', informations=','.join(v)) }}"> Sauvegarder dans la base de donnée </a> </th>
 
         </tr>
 
