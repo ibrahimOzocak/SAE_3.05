@@ -25,6 +25,13 @@ def close_cursor(cursor):
 
 
 def execute_query(cursor, query, params=None):
+    """Fonction permettant d'executer une requete SQL
+
+    Args:
+        cursor (): _description_
+        query (_type_): _description_
+        params (_type_, optional): _description_. Defaults to None.
+    """
     if params:
         cursor.execute(query, params)
     else:
@@ -32,6 +39,11 @@ def execute_query(cursor, query, params=None):
 
 
 def prochains_concerts():
+    """Fonction permettant de récupérer les prochains concerts
+
+    Returns:
+        list: Les prochains concerts
+    """
     try:
         cursor = get_cursor()
         req1 = "SELECT * FROM Concert WHERE date_heure_concert >= NOW() ORDER BY date_heure_concert ASC;"
@@ -52,6 +64,18 @@ def prochains_concerts():
 
 def save_concert(id, nom_concert, date_heure_concert, duree_concert,
                  id_artiste, id_salle, description_concert, photo):
+    """Fonction permettant de sauvegarder un concert dans la base de données
+
+    Args:
+        id (int): L'identifiant du concert
+        nom_concert (str): Le nom du concert
+        date_heure_concert (str): La date et l'heure du concert
+        duree_concert (int): La durée du concert
+        id_artiste (int): L'identifiant de l'artiste
+        id_salle (int): L'identifiant de la salle
+        description_concert (str): La description du concert
+        photo (bytes): La photo du concert
+    """
     try:
         cursor = get_cursor()
         req = "INSERT INTO Concert (id_concert,nom_concert, date_heure_concert, duree_concert, id_artiste, id_salle, description_concert, photo) VALUES(%s, %s, %s, %s, %s, %s, %s, %s)"
@@ -69,6 +93,22 @@ def save_concert(id, nom_concert, date_heure_concert, duree_concert,
 def save_salle(id, nom_salle, nb_places, profondeur_scene, longueur_scene,
                telephone_salle, type_place, description_salle, photo,
                adresse_salle, loge, acces_pmr):
+    """Fonction permettant de sauvegarder une salle dans la base de données
+
+    Args:
+        id (int): _description_
+        nom_salle (str): _description_
+        nb_places (int): _description_
+        profondeur_scene (int): _description_
+        longueur_scene (int): _description_
+        telephone_salle (int): _description_
+        type_place (str): _description_
+        description_salle (str): _description_
+        photo (bytes): _description_
+        adresse_salle (str): _description_
+        loge (str): _description_
+        acces_pmr (str): _description_
+    """
     try:
         cursor = get_cursor()
         req = "INSERT INTO Salle (id_salle, id_type_salle, loge, nom_salle, nb_places, profondeur_scene, longueur_scene, description_salle,adresse_salle,telephone_salle, accueil_pmr, photo) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
