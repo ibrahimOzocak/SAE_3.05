@@ -889,3 +889,37 @@ def save_equipement_salle(id_salle, id_equipement, quantite, ancienne_quantite =
     except Exception as e:
         print(e.args)
     return None
+
+def get_logement_artiste(id_concert, id_artiste):
+    try:
+        cursor = get_cursor()
+        requete = "SELECT id_logement, nom_etablissement, nb_nuit FROM Logement NATURAL JOIN Loger WHERE id_artiste = %s AND id_concert=%s;"
+        execute_query(cursor, requete, (id_artiste, id_concert,))
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        return info[0]
+    except Exception as e:
+        print(e.args)
+    return None
+
+def supprimer_logement_artiste(id_concert, id_artiste):
+    try:
+        cursor = get_cursor()
+        requete = "DELETE FROM Loger WHERE id_artiste = %s AND id_concert=%s;"
+        execute_query(cursor, requete, (id_artiste, id_concert,))
+        db.commit()
+        close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+    return None
+
+def add_logement_artiste(id_concert, id_artiste, id_logement, nb_nuit):
+    try:
+        cursor = get_cursor()
+        requete = "INSERT INTO Loger (id_artiste, id_concert, id_logement, nb_nuit) VALUES(%s, %s, %s, %s)"
+        execute_query(cursor, requete, (id_artiste, id_concert, id_logement, nb_nuit,))
+        db.commit()
+        close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+    return None

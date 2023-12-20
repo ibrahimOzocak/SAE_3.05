@@ -21,6 +21,7 @@
         <p>Nom de l'artiste : <a href="{{ url_for('artiste', id_artiste=artiste[0]) }}">{{ artiste[3] }}</a></p>
         <p>Nom de la salle : <a href="{{ url_for('salle', id=salle[0]) }}">{{ salle[3] }}</a></p>
         <p>Description : {{ concert[6] }}</p>
+        <p>Logement de l'artiste : {% if logement != none %}<a href="{{ url_for('logement', id_logement=logement[0]) }}">{{ logement[1] }}</a> ({{ logement[2] }} nuit{% if logement[2] > 1 %}s{% endif %}) {% else %} pas de logement associé {% endif %}</p>
         <p>Matériel :</p>
         {% for i in range (necessaire|length) %}
             <a href="{{ url_for('equipement', id_equipement=necessaire[i][0]) }}">{{ necessaire[i][1] }} ({{ necessaire[i][3] }}/{{ necessaire[i][2] }}) {% if necessaire[i][3] < necessaire[i][2] %} (manque {{ necessaire[i][2] - necessaire[i][3] }}) {% endif %}</a>
