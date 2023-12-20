@@ -966,11 +966,6 @@ def save_artiste(id_artiste,
                  nom_scene,
                  conge_spectacle="Non"):
     try:
-        from datetime import datetime
-        date_delivrance_cni = datetime.strptime(date_delivrance_cni,
-                                                '%Y-%m-%d')
-        date_expiration_cni = datetime.strptime(date_expiration_cni,
-                                                '%Y-%m-%d')
         cursor = get_cursor()
         req = "INSERT INTO Artiste (id_artiste, nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_naissance, adresse, securite_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction,nom_scene,conge_spectacle) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s)"
         cursor.execute(
