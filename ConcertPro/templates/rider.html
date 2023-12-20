@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ informations[2] }} {{ informations[3] }} – Rider & Fiche Technique</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/rider.css')}}"> 
+</head>
+<body>
+    <div class="center">
+        <h1>{{ informations[2] }} {{ informations[3] }} – Rider & Fiche Technique</h1>
+        <div class="left">
+            <p>Ce rider fait partie intégrante du contrat.</p>
+            <p>Merci de le respecter et de le prendre en considération. Afin que tout le monde passe une bonne journée et gagne du temps, lisez-le attentivement et communiquez-nous par avance toute objection, question ou impossibilité relative à nos demandes.</p>
+            <p>Toute modification devra faire l’objet d’un accord préalable des deux parties.</p>
+            <p>Merci d’avance.</p>
+        </div>
+        <h2>PERSONNEL TECHNIQUE À PRÉVOIR PAR L’ORGANISATEUR :</h2>
+        <div class="left">
+            <p>{{ informations[1] }}</p>
+        </div>
+        <h2>INFOS ARTISTE :</h2>
+        <h4>Nom de scène :</h4>
+        <p>{{ informations[22] }}</p>
+        <h4>Style musicale :</h4>
+        <p>{{ informations[23] }}</p>
+        <h4>Nom et prénom :</h4>
+        <p>{{ informations[2] }} {{ informations[3] }}</p>
+        <h4>Date de naissance :</h4>
+        <p>{{ informations[4] }}</p>
+        <h4>Lieu de naissance :</h4>
+        <p>{{ informations[5] }}</p>
+        <h4>Adresse :</h4>
+        <p>{{ informations[6] }}</p>
+        <h4>N° Sécurité Sociale :</h4>
+        <p>{{ informations[7] }}</p>
+        <h4>Congé Spectacle :</h4>
+        <p>{{ informations[8] }}</p>
+        <h4>N° CNI :</h4>
+        <p>{{ informations[9] }}</p>
+        <h4>Date de délivrance :</h4>
+        <p>{{ informations[10] }}</p>
+        <h4>Date d'expiration :</h4>
+        <p>{{ informations[11] }}</p>
+        <h4>Réduction Train - Carte Voyageur :</h4>
+        <p>{{ informations[12] }}</p>
+        <h4>Carte Adulte :</h4>
+        <p>{{ informations[13] }}</p>
+        <h2>RIDER :</h2>
+        <h3>ACCÈS ET FEUILLE DE ROUTE :</h3>
+        <div class="left">
+            <p>{{ informations[14] }}</p>
+        </div>
+        <h3>TRANSPORTS :</h3>
+        <div class="left">
+            <p>{{ informations[15] }}</p>
+        </div>
+        <h3>HÉBERGEMENT :</h3>
+        <div class="left">
+            <p>{{ informations[16] }}</p>
+        </div>
+        <h3>LOGES :</h3>
+        <div class="left">
+            <p>{{ informations[17] }}</p>
+        </div>
+        <h3>CATERING :</h3>
+        <div class="left">
+            <p>{{ informations[18] }}</p>
+        </div>
+        <h3>INVITATIONS :</h3>
+        <div class="left">
+            <p>{{ informations[19] }}</p>
+        </div>
+        <p>TOUTE ADAPTATION PEUT ÊTRE ENVISAGÉE, MERCI DE PRENDRE CONTACT AVEC L’ARTISTE.</p>
+        <p>{{ informations[2] }} {{ informations[3] }} – MAJ</p> 
+        <p>{{ informations[0] }}</p>
+        <h4>Contact :</h4>
+        <p>{{ informations[20] }}</p>
+        <h4>Téléphone :</h4>
+        <p>{{ informations[21] }}</p>
+    </div>
+</body>
+</html>

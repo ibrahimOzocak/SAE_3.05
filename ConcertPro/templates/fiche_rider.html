@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/fiche_rider.css')}}">
+{% endblock %}
+{% block content %}
+<a href="{{url_for('afficher_rider')}}"><img class="retour" src="../static/images/retour.png" alt=""></a>
+<div class="container">
+    {% for i in range(b|length) %}
+        <p>{{ b[i] }} : {{info[i]}}</p>
+        
+    {% endfor %}
+
+</div>
+<a class="bouton" href="{{ url_for('rider', informations=','.join(info)) }}">Télécharger en format PDF</a>       
+<a href="{{ url_for('save_artiste_to_rider', informations=','.join(info)) }}"> Sauvegarder dans la base de donnée </a>
+{% endblock %}
