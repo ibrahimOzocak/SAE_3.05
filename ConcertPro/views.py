@@ -63,7 +63,6 @@ def creer_concert():
 @app.route('/voir_prochains_concerts')
 def voir_prochains_concerts():
     """page qui affiche les concerts à venir"""
-
     return render_template("voir_prochains_concerts.html",
                            concerts=mo.prochains_concerts(),
                            artistes=mo.artistes(),
