@@ -41,6 +41,11 @@ body * {
   text-decoration: none;
 }
 
+p {
+ color: black;
+ text-decoration: none;
+}
+
 .cacher{
   display: none;
 }

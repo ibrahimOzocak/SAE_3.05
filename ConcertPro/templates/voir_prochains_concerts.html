@@ -18,11 +18,13 @@
         <p>Artiste : {{ a[-2] }} </p>
         {% endif %}
         {% endfor %}
+        <img class="img_card" src = "{{ url_for('static', filename='images/Personne.png')}}" alt="img">
         {% for s in salles%}
         {% if s[0] == concerts[i][5] %}
         <p>Salle : {{ s[8] }} </p>
         {% endif %}
         {% endfor %}
+        <img class="img_card" src = "{{ url_for('static', filename='images/localisation.png')}}" alt="img">
 
 
 
