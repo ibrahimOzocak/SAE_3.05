@@ -4,8 +4,8 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/accueil.css')}}"> 
 {% endblock %}
 {% block content %}
+<h2><span>Prochains concerts</span> </h2>
 <section>
-    <h2><span>Prochains concerts</span> </h2>
     <ul class="ul_acc">
         {% if concerts|length == 0 %}
         <li class="li_acc">

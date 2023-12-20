@@ -8,28 +8,52 @@
 
 /* Ajustez la largeur des images */
 .sous-conteneur{
-    max-width: calc(25% - 20px); /* 25% pour 4 images par ligne avec espacement */
+    width: calc(25% - 20px); /* 25% pour 4 images par ligne avec espacement */
     text-align: center; /* Centrez le contenu horizontalement */
     border-radius: 10px;
     box-shadow: 0 0 10px #da57001a;
     margin-top: 20px;
-    height: auto;
     border: solid 0.1px black;
+    background-color: white;
+    height: fit-content;
+    overflow: hidden;
+    font-size: small;
 }
+
+
 
 .sous-conteneur:hover .voir{
     color: white;
     background-color: black;
     transition: 0.5s ease-in-out;
-    border-radius: 0 0 10px 10px;
+
   
 }
 
 /* Ajustez la largeur et la hauteur des images */
-.sous-conteneur img {
-    width: 20vw;
+.img_acc {
+    width: 100%;
     border-radius: 10px 10px 0 0;
     height: 26vh;
+}
+
+.img_art{
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    z-index: 100000;
+    position: relative;
+    left: -100px;
+    top: -70px;
+}
+.personne{
+    display: flex;
+}
+
+.personne img{
+    width: 40px;
+    height: 40px;
+    margin: 5px;
 }
 
 .voir{
