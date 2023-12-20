@@ -437,7 +437,7 @@ def confirmer_modif_artiste(id_artiste, nom_artiste, prenom_artiste,
                             nom_de_scene, mail, telephone, date_de_naissance,
                             lieu_de_naissance, adresse, numero_secu_sociale,
                             cni, date_delivrance_cni, date_expiration_cni,
-                            carte_reduction, photo):
+                            carte_reduction, genre_musical, photo):
     try:
         get_image(id_artiste, "artiste", photo)
         cursor = get_cursor()
@@ -450,15 +450,15 @@ def confirmer_modif_artiste(id_artiste, nom_artiste, prenom_artiste,
                 nom_artiste = %s, prenom_artiste = %s,
                 date_de_naissance = %s, lieu_naissance = %s, adresse = %s,
                 securite_sociale = %s, cni = %s, date_delivrance_cni = %s,
-                date_expiration_cni = %s, carte_reduction = %s, nom_scene = %s,
-                photo = %s
+                date_expiration_cni = %s, carte_reduction = %s, 
+                nom_style_musique = %s, nom_scene = %s, photo = %s
                 WHERE id_artiste = %s
             """
             execute_query(cursor, requete,
                           (telephone, mail, nom_artiste, prenom_artiste,
                            date_de_naissance, lieu_de_naissance, adresse,
                            numero_secu_sociale, cni, date_delivrance_cni,
-                           date_expiration_cni, carte_reduction, nom_de_scene,
+                           date_expiration_cni, carte_reduction, genre_musical, nom_de_scene,
                            save_image(photo), id_artiste))
         else:
             requete = """
@@ -467,15 +467,16 @@ def confirmer_modif_artiste(id_artiste, nom_artiste, prenom_artiste,
                 nom_artiste = %s, prenom_artiste = %s,
                 date_de_naissance = %s, lieu_naissance = %s, adresse = %s,
                 securite_sociale = %s, cni = %s, date_delivrance_cni = %s,
-                date_expiration_cni = %s, carte_reduction = %s, nom_scene = %s
+                date_expiration_cni = %s, carte_reduction = %s,
+                nom_style_musique = %s, nom_scene = %s
                 WHERE id_artiste = %s
             """
             execute_query(cursor, requete,
                           (telephone, mail, nom_artiste, prenom_artiste,
                            date_de_naissance, lieu_de_naissance, adresse,
                            numero_secu_sociale, cni, date_delivrance_cni,
-                           date_expiration_cni, carte_reduction, nom_de_scene,
-                           id_artiste))
+                           date_expiration_cni, carte_reduction,
+                           genre_musical, nom_de_scene, id_artiste))
         db.commit()
         close_cursor(cursor)
     except Exception as e:
@@ -987,17 +988,18 @@ def save_artiste(id_artiste,
                  date_delivrance_cni,
                  date_expiration_cni,
                  carte_reduction,
+                 genre_musique,
                  nom_scene,
                  conge_spectacle="Non"):
     try:
         cursor = get_cursor()
-        req = "INSERT INTO Artiste (id_artiste, nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_naissance, adresse, securite_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction,nom_scene,conge_spectacle) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s)"
+        req = "INSERT INTO Artiste (id_artiste, nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_naissance, adresse, securite_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction, nom_style_musique, nom_scene,conge_spectacle) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s)"
         cursor.execute(
             req,
             (id_artiste, nom_artiste, prenom_artiste, mail, telephone,
              date_de_naissance, lieu_de_naissance, adresse, securite_sociale,
              cni, date_delivrance_cni, date_expiration_cni, carte_reduction,
-             nom_scene, conge_spectacle))
+             genre_musique, nom_scene, conge_spectacle))
         db.commit()
         close_cursor(cursor)
     except Exception as e:

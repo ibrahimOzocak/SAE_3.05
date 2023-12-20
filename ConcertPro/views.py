@@ -306,12 +306,13 @@ def confirmer_modif_artiste(id_artiste, nom_artiste):
     date_delivrance_cni = request.form['date_delivrance_cni']
     date_expiration_cni = request.form['date_expiration_cni']
     carte_reduction = request.form['carte_de_reduction']
+    genre_musical = request.form['genre']
     photo = request.files['image']
     mo.confirmer_modif_artiste(id_artiste, prenom_artiste, nom_artiste,
                                nom_de_scene, mail, telephone,
                                date_de_naissance, lieu_de_naissance, adresse,
                                numero_secu_sociale, cni, date_delivrance_cni,
-                               date_expiration_cni, carte_reduction, photo)
+                               date_expiration_cni, carte_reduction, genre_musical, photo)
     return redirect(url_for('artiste', id_artiste=id_artiste))
 
 
@@ -367,11 +368,12 @@ def save_artiste():
     date_expiration_cni = datetime.datetime.strptime(
         request.form['date_expiration'], "%Y-%m-%d")
     carte_reduction = request.form['carte_train']
+    genre_musical = request.form['genre']
     id_artiste = mo.get_id_artiste_max() + 1
     mo.save_artiste(id_artiste, nom_artiste, prenom_artiste, mail, telephone,
                     date_de_naissance, lieu_de_naissance, adresse,
                     securite_sociale, cni, date_delivrance_cni,
-                    date_expiration_cni, carte_reduction, nom_scene)
+                    date_expiration_cni, carte_reduction, genre_musical, nom_scene)
     return redirect(url_for('artiste', id_artiste=id_artiste))
 
 
