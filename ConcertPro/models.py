@@ -1033,6 +1033,16 @@ def save_artiste(id_artiste,
                  conge_spectacle="Non"):
     try:
         cursor = get_cursor()
+
+        req = "SELECT * FROM Style_musique WHERE nom_style_musique = %s;"
+        cursor.execute(req, (genre_musique, ))
+        info = cursor.fetchall()
+        print(info)
+        if(info == []):
+            print("on vient ici")
+            req = "INSERT INTO Style_musique (nom_style_musique) VALUES(%s)"
+            cursor.execute(req, (genre_musique, ))
+            db.commit()
         req = "INSERT INTO Artiste (id_artiste, nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_naissance, adresse, securite_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction, nom_style_musique, nom_scene,conge_spectacle) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s)"
         cursor.execute(
             req,

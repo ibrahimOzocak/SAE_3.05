@@ -386,12 +386,30 @@ def save_artiste_to_rider():
 
     informations = request.args.get('informations')
     informations = unquote(informations).split(',')
+    
+    import json
+    chemin_fichier = "./ConcertPro/static/json/rider.json"
+    
     id_artiste = mo.get_id_artiste_max() + 1
+    
+    try:
+        with open(chemin_fichier, 'r') as fichier:
+            data = json.load(fichier)
+        for d in data:
+            if informations[-1] == d[0] or id_artiste == d[1]:
+                return redirect(url_for('creer_concert'))
+        data.append((informations[-1], id_artiste))
+        with open(chemin_fichier, 'w') as fichier:
+            json.dump(data, fichier, indent=2)
+    except:
+        pass
+    
     mo.save_artiste(id_artiste, informations[2], informations[3],
                     informations[20], informations[21], informations[4],
                     informations[5], informations[6], informations[7],
                     informations[9], informations[10], informations[11],
                     informations[12], informations[-2], informations[22], informations[8])
+    
     return redirect(url_for('creer_concert'))
 
 
