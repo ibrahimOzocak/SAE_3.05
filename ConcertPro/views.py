@@ -752,6 +752,17 @@ def rider():
 
     return response
 
+@app.route("/fiche_rider/fiche_rider")
+def fiche_rider():
+    informations = request.args.get('informations')
+    informations = unquote(informations).split(',')
+
+    base = request.args.get('base')
+    base = unquote(base).split(',')
+
+    return render_template(
+        "fiche_rider.html", b = base, info = informations
+    )
 
 def getCoordonnee(address):
     try:

@@ -1,0 +1,41 @@
+.container{
+    padding: 20px; /* Espacement intérieur */
+    border: 1px solid #948c8c; /* Bordure */
+    border-radius: 10px; /* Coins arrondis */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Ombre légère */
+   
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    width: 30vw;
+    height: auto;
+}
+
+main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+ 
+.bouton{
+    border-radius: 10px;
+    border: solid 1px black;
+    background-color: black;
+    color: white;
+    padding: 10px;
+    margin: 10px;
+}
+
+.bouton:hover{
+    opacity: 0.8;
+    transition: 0.3s ease-in-out;
+}
+
+.retour{
+    width: 50px;
+    position: absolute;
+    left: 0;
+    margin: 20px;
+}

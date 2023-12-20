@@ -4,37 +4,15 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/afficher_rider.css')}}"> 
 {% endblock %}
 {% block content %}
-<div>
-
-    <table border="1">
-        <tr>
-            {% for i in range(values[0]|length) %}
-            <th> {{ values[0][i] }} </th>
-            {% endfor %}
-            <th>
-                <p> Télécharger </p>
-            </th>
-            <th>
-                <p> Sauvegarder </p>
-            </th>
-        </tr>
+<div class="container">
         {% for v in values[1:] %}
-
-        <tr>
-
-        {% for i in range(v|length) %}
-
-            <th> {{ v[i] }} </th>
-
+        {% if v[0]!=''%}
+            <div class="fiche">
+                <a href="{{ url_for('fiche_rider', informations = ','.join(v), base = ','.join(values[0]))}}">{{ v[2]}}{{ v[3] }}</a>
+            </div>
+        {%endif%}
         {% endfor %}
 
-        <th> <a href="{{ url_for('rider', informations=','.join(v)) }}">Télécharger en format PDF</a> </th>
-        
-        <th> <a href="{{ url_for('save_artiste_to_rider', informations=','.join(v)) }}"> Sauvegarder dans la base de donnée </a> </th>
 
-        </tr>
-
-        {% endfor %}
-    </table>
 </div>
 {% endblock %}
