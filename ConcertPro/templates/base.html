@@ -18,9 +18,9 @@
 </head>
 
 <body>
-  <header>
+  <header id="header">
     <div>
-      <img class="menu-link" src="../static/images/menu.png" alt="" onclick="toggleContainerClass()">
+      <img class="menu-link" src="{{ url_for('static', filename='images/menu.png')}}" alt="" onclick="toggleContainerClass()">
     <div class="deroulant">
       <nav id="menu">
         <ul class="mobile-nav" id="mobile">
@@ -89,12 +89,12 @@
           </li>
         </ul>
       </nav>
-      <img class="menu-close cacher" src="../static/images/croix.png" alt="" onclick="toggleContainerClass()">
+      <img class="menu-close cacher" src="{{ url_for('static', filename='images/croix.png')}}" alt="" onclick="toggleContainerClass()">
     </div>
     </div>
     
     <h1 class="titre">ConcertPro</h1>
-    <img class="logo" src="../static/images/logo.jpg" alt="">
+    <img class="logo" src="{{ url_for('static', filename='images/logo.jpg')}}" alt="">
 
   </header>
   <main class="main">

@@ -20,3 +20,18 @@ function toggleContainerClass(){
       fermer.classList.toggle("cacher");
     }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  var header = document.querySelector("#header");
+  var lastScrollValue = 0;
+
+  document.addEventListener('scroll', () => {
+     var top = document.documentElement.scrollTop;
+     if (lastScrollValue < top) {
+        header.classList.add("hidden");
+     } else {
+        header.classList.remove("hidden");
+     }
+     lastScrollValue = top;
+  });
+});

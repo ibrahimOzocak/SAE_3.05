@@ -105,7 +105,8 @@ form{
 
 /* Style pour le bouton "Créer un nouvel artiste" et "Créer une nouvelle salle" */
 .sec2 button,
-.sec3 button {
+.sec3 button,
+.sec2b button {
     background-color: black;
     color: white;
     border: none;
@@ -117,7 +118,8 @@ form{
 
 /* Ajoute un espacement entre les boutons */
 .sec2 button,
-.sec3 button {
+.sec3 button,
+.sec2b button {
     margin-top: 10px;
 }
 
@@ -168,6 +170,46 @@ label{
 }
 
 .sec3 select{
+    border: none;
+    border-bottom: solid 1px black;
+    background-color: white;
+    color: black;
+}
+
+.sec2b {
+    display: flex;
+    justify-content: space-between; /* Aligne les éléments à gauche, au centre et à droite */
+    align-items: center; /* Centre verticalement les éléments */
+}
+
+.sec2b label, .sec2b select, .sec2b button {
+    flex: 1; /* Partage l'espace disponible de manière égale entre les éléments */
+    margin: 5px; /* Ajoute une marge autour des éléments pour les espacer */
+    height: 40px;
+
+}
+
+.sec2b select{
+    border: none;
+    border-bottom: solid 1px black;
+    background-color: white;
+    color: black;
+}
+
+.sec2c {
+    display: flex;
+    justify-content: space-between; /* Aligne les éléments à gauche, au centre et à droite */
+    align-items: center; /* Centre verticalement les éléments */
+}
+
+.sec2c label, .sec2c select, .sec2c button {
+    flex: 1; /* Partage l'espace disponible de manière égale entre les éléments */
+    margin: 5px; /* Ajoute une marge autour des éléments pour les espacer */
+    height: 40px;
+
+}
+
+.sec2c select{
     border: none;
     border-bottom: solid 1px black;
     background-color: white;

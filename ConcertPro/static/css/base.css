@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital@0;1&display=swap');
 html, body {
-	padding: 0;
+	padding-top: 7vh;
 	margin: 0;
   font-family: 'Poppins', sans-serif;
 }
@@ -12,11 +12,38 @@ html, body {
 header{
   display: flex;
   justify-content: space-between;
+  border-bottom: thin black solid;
+  padding-bottom: 1%;
+  position: fixed;
+  width: 100%;
+  z-index: 1000000;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  top: 0;
+}
+
+#header.hidden {
+  top: -110px;
+}
+
+#header{
+  transition: top 0.3s;
+  transition-delay: 0.2s;
+}
+
+header>div{
+  display: flex;
+  align-items: center;
 }
 
 body * {
 	text-shadow: none;
   text-decoration: none;
+}
+
+p {
+ color: black;
+ text-decoration: none;
 }
 
 .cacher{
@@ -27,6 +54,7 @@ body * {
   width: 50px;
   margin: 10px;
   cursor: pointer;
+  margin-right: 40px;
 }
 
 .titre{

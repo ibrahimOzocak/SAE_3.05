@@ -30,6 +30,19 @@
                 </select>
                 <a href="{{ url_for('ajout_artiste') }}" target="_blank"><button type="button">Creer un nouvel artiste</button></a>
             </section>
+            <section class="section_creer sec2b">
+                <label for="logement">Logement de l'artiste</label>
+                <select name="logement">
+                    {% for logement in logements %}
+                    <option value="{{ logement[0] }}">{{ logement[2] }}</option>
+                    {% endfor %}
+                </select>
+                <a href="{{ url_for('ajout_logement') }}" target="_blank"><button type="button">Ajouter un logement</button></a>
+            </section>
+            <section class="section_creer sec2c">
+                <label for="nuits">Nombre de nuits</label>
+                <input type="number" name="nuits" min="0" value="0"/>
+            </section>
             <section class="section_creer sec3">
                 <label for="salle">Salle</label>
                 <select name="salle">

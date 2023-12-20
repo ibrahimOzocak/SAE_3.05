@@ -61,7 +61,8 @@ def creer_concert():
     return render_template("creer_concert.html",
                            artistes=mo.artistes(),
                            salles=mo.salles(),
-                           types=mo.type_salle())
+                           types=mo.type_salle(),
+                           logements=mo.logements())
 
 
 @app.route('/voir_prochains_concerts')
@@ -99,11 +100,14 @@ def save_concert():
     id_salle = request.form['salle']
     description_concert = request.form['description']
     photo = request.files['image']
+    logement = request.form['logement']
+    nuit = request.form['nuits']
     id = mo.get_id_concert_max() + 1
 
     mo.save_concert(id, nom_concert, date_heure_concert, duree_concert,
                     id_artiste, id_salle, description_concert, photo)
     mo.add_artiste_concert(id, id_artiste)
+    mo.add_logement_artiste(id, id_artiste, logement, nuit)
     return redirect(url_for('concert', id=id))
 
 
@@ -117,6 +121,7 @@ def concert(id):
     address = salle[8]
     coor = getCoordonnee(address)
     c = None
+    logement_artiste = mo.get_logement_artiste(concert[0], artiste[0])
     if coor is not None:
         coordinates = (coor[0], coor[2])
         if coordinates:
@@ -128,6 +133,7 @@ def concert(id):
                            salle=salle,
                            artiste=artiste,
                            necessaire=necessaire,
+                           logement=logement_artiste,
                            map_path=c._repr_html_() if c else None)
 
 
@@ -144,10 +150,14 @@ def modifier_concert(id_concert):
     concert = mo.get_concert(id_concert)
     liste_salle = mo.salles()
     liste_artiste = mo.artistes()
+    logements = mo.logements()
+    logement_artiste = mo.get_logement_artiste(concert[0], concert[4])
     return render_template("modifier_concert.html",
                            concert=concert,
                            salles=liste_salle,
-                           artistes=liste_artiste)
+                           artistes=liste_artiste,
+                           logements=logements,
+                           logement_artiste=logement_artiste)
 
 
 @app.route('/modifier_concert/<id_concert>/<nom_concert>', methods=("POST", ))
@@ -160,12 +170,17 @@ def confirmer_modif_concert(id_concert, nom_concert):
     duree_concert = request.form['duree_concert']
     description_concert = request.form['description_concert']
     photo = request.files['image']
+    logement = request.form['logement']
+    nuits = request.form['nuits']
+    ancien_artiste = request.form['ancien_artiste']
 
     mo.confirmer_modif_concert(id_concert, nom_concert, date_heure_concert,
                                duree_concert, id_artiste, id_salle,
                                description_concert, photo)
-    mo.remove_participer(id_concert, id_artiste)
+    mo.remove_participer(id_concert, ancien_artiste)
     mo.add_artiste_concert(id_concert, id_artiste)
+    mo.supprimer_logement_artiste(id_concert, ancien_artiste)
+    mo.add_logement_artiste(id_concert, id_artiste, logement, nuits)
 
     return redirect(url_for('concert', id=id_concert))
 
