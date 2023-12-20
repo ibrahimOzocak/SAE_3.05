@@ -1,6 +1,5 @@
 CREATE TABLE Style_musique (
-  id_style_musique INT PRIMARY KEY NOT NULL,
-  nom_style_musique VARCHAR(42)
+  nom_style_musique VARCHAR(42) PRIMARY KEY NOT NULL
 );
 
 CREATE TABLE Equipement (
@@ -31,18 +30,18 @@ CREATE TABLE Artiste (
   date_delivrance_cni TIMESTAMP,
   date_expiration_cni TIMESTAMP,
   carte_reduction VARCHAR(42),
-  id_style_musique INT,
+  nom_style_musique VARCHAR(42),
   nom_scene VARCHAR(42),
   photo LONGBLOB,
-  FOREIGN KEY (id_style_musique) REFERENCES Style_musique (id_style_musique)
+  FOREIGN KEY (nom_style_musique) REFERENCES Style_musique (nom_style_musique)
 );
 
 CREATE TABLE Jouer (
   id_artiste INT NOT NULL,
-  id_style_musique INT NOT NULL,
-  PRIMARY KEY (id_artiste, id_style_musique),
-  FOREIGN KEY (id_style_musique) REFERENCES Style_musique (id_style_musique),
-  FOREIGN KEY (id_artiste) REFERENCES Artiste (id_artiste)
+  nom_style_musique VARCHAR(42) NOT NULL,
+  PRIMARY KEY (id_artiste, nom_style_musique),
+  FOREIGN KEY (id_artiste) REFERENCES Artiste (id_artiste),
+  FOREIGN KEY (nom_style_musique) REFERENCES Style_musique (nom_style_musique)
 );
 
 CREATE TABLE Type_Salle (

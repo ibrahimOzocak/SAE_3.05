@@ -42,6 +42,16 @@
         <input type="textfield" id="date_expiration_cni" name="date_expiration_cni" required value="{{ artiste[12] }}">
         <label for="carte_de_reduction">Carte de réduction :</label>
         <input type="textfield" id="carte_de_reduction" name="carte_de_reduction" required value="{{ artiste[13] }}">
+        <label for="genre">Genre musical :</label>
+        <select name="genre" id="genre">
+            {% for style in styles %}
+            {% if artiste[14] == style[0] %}
+            <option value="{{ style[0] }}" selected>{{ style[0] }}</option>
+            {% else %}
+            <option value="{{ style[0] }}">{{ style[0] }}</option>
+            {% endif %}
+            {% endfor %}
+        </select>
         <button type="submit">Appliquer les modifications</button>
     </form>
 </div>

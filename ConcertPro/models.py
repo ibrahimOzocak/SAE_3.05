@@ -201,6 +201,30 @@ def get_id_type_salles(nom):
         print(e.args)
     return None
 
+def styles_musisque():
+    try:
+        cursor = get_cursor()
+        request = "SELECT * FROM Style_musique"
+        cursor.execute(request)
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        return info
+    except Exception as e:
+        print(e.args)
+    return None
+
+def get_styles_musique_artiste(id_artiste):
+    try:
+        cursor = get_cursor()
+        request = "SELECT nom_style_musique FROM Artiste WHERE id_artiste = %s"
+        cursor.execute(request, (id_artiste,))
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        return info
+    except Exception as e:
+        print(e.args)
+    return None
+
 
 def historique_concerts():
     historique_concerts = []

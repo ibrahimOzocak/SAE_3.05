@@ -273,7 +273,7 @@ def supprimer_salle(id_salle):
 @app.route('/ajout_artiste')
 def ajout_artiste():
     """page d'ajout d'un artiste"""
-    return render_template("ajout_artiste.html")
+    return render_template("ajout_artiste.html", styles=mo.styles_musisque())
 
 
 @app.route('/voir_artistes')
@@ -337,7 +337,8 @@ def confirmer_modif_salle(id_salle, nom_salle):
 def modifier_artiste(id_artiste):
     """page de l'artiste <id_artiste>"""
     artiste = mo.get_artiste(id_artiste)
-    return render_template("modifier_artiste.html", artiste=artiste)
+    styles = mo.styles_musisque()
+    return render_template("modifier_artiste.html", artiste=artiste, styles=styles)
 
 
 @app.route('/salle/<id_salle>/modifier')

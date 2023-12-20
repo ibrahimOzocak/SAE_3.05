@@ -13,6 +13,16 @@
         <input type="text" id="nom" name="nom" required>
         <label for="nom_scene">Nom de scène:</label>
         <input type="text" id="nom_scene" name="nom_scene" required>
+        <label for="genre">Genre musical :</label>
+        <select name="genre" id="genre">
+            {% for style in styles %}
+            {% if artiste[14] == style[0] %}
+            <option value="{{ style[0] }}" selected>{{ style[0] }}</option>
+            {% else %}
+            <option value="{{ style[0] }}">{{ style[0] }}</option>
+            {% endif %}
+            {% endfor %}
+        </select>
         <label for="mail">Email:</label>
         <input type="email" id="mail" name="mail" required>
         <label for="telephone">Téléphone:</label>
