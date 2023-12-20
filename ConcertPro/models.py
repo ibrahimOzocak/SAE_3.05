@@ -356,7 +356,7 @@ def confirmer_modif_concert(id_concert, nom_concert, date_heure_concert, duree_c
         print(e.args)
     return None
 
-def confirmer_modif_artiste(id_artiste, nom_de_scene, mail, telephone, date_de_naissance, lieu_de_naissance,
+def confirmer_modif_artiste(id_artiste,nom_artiste, prenom_artiste, nom_de_scene, mail, telephone, date_de_naissance, lieu_de_naissance,
         adresse, numero_secu_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction,photo):
     try:
         get_image(id_artiste, "artiste", photo)
@@ -367,6 +367,7 @@ def confirmer_modif_artiste(id_artiste, nom_de_scene, mail, telephone, date_de_n
             requete = """
                 UPDATE Artiste SET
                 telephone = %s, mail = %s,
+                nom_artiste = %s, prenom_artiste = %s,
                 date_de_naissance = %s, lieu_naissance = %s, adresse = %s,
                 securite_sociale = %s, cni = %s, date_delivrance_cni = %s,
                 date_expiration_cni = %s, carte_reduction = %s, nom_scene = %s,
@@ -374,7 +375,7 @@ def confirmer_modif_artiste(id_artiste, nom_de_scene, mail, telephone, date_de_n
                 WHERE id_artiste = %s
             """
             execute_query(cursor, requete, (
-                telephone, mail, date_de_naissance, lieu_de_naissance, 
+                telephone, mail, nom_artiste,prenom_artiste, date_de_naissance, lieu_de_naissance, 
                 adresse, numero_secu_sociale, cni, date_delivrance_cni, 
                 date_expiration_cni, carte_reduction, nom_de_scene, 
                 save_image(photo), id_artiste
@@ -383,13 +384,14 @@ def confirmer_modif_artiste(id_artiste, nom_de_scene, mail, telephone, date_de_n
             requete = """
                 UPDATE Artiste SET
                 telephone = %s, mail = %s,
+                nom_artiste = %s, prenom_artiste = %s,
                 date_de_naissance = %s, lieu_naissance = %s, adresse = %s,
                 securite_sociale = %s, cni = %s, date_delivrance_cni = %s,
                 date_expiration_cni = %s, carte_reduction = %s, nom_scene = %s
                 WHERE id_artiste = %s
             """
             execute_query(cursor, requete, (
-                telephone, mail, date_de_naissance, lieu_de_naissance, 
+                telephone, mail,  nom_artiste, prenom_artiste, date_de_naissance, lieu_de_naissance, 
                 adresse, numero_secu_sociale, cni, date_delivrance_cni, 
                 date_expiration_cni, carte_reduction, nom_de_scene, id_artiste
             ))

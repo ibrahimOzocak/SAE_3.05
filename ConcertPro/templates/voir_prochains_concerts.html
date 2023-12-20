@@ -7,14 +7,28 @@
 <div class="conteneur">
     {% for i in range (concerts|length) %}
     <div class="sous-conteneur">
-        <a href="{{ url_for('concert', id=concerts[i][0]) }}">
-            {% if concerts[i][-1] is none %}
-            <img class="img_acc"  src="{{ url_for('static', filename='images/aucune_image.png') }}" alt="img">
-            {% else %}
-            <img class="img_acc" src="{{ url_for('static', filename='images/concerts/' + concerts[i][0]|str + '.jpg') }}" alt="img">
-            {% endif %}
-            <p>{{ concerts[i][1] }}</p>
-        </a>
+        {% if concerts[i][-1] is none %}
+        <img class="img_acc"  src="{{ url_for('static', filename='images/aucune_image.png') }}" alt="img">
+        {% else %}
+        <img class="img_acc" src="{{ url_for('static', filename='images/concerts/' + concerts[i][0]|str + '.jpg') }}" alt="img">
+        {% endif %}
+        <p>{{ concerts[i][1] }}</p>
+        {% for a in artistes%}
+        {% if a[0] == concerts[i][4] %}
+        <p>Artiste : {{ a[-2] }} </p>
+        {% endif %}
+        {% endfor %}
+        {% for s in salles%}
+        {% if s[0] == concerts[i][5] %}
+        <p>Salle : {{ s[8] }} </p>
+        {% endif %}
+        {% endfor %}
+
+
+
+        <a class="voir" href="{{ url_for('concert', id=concerts[i][0]) }}">Voir profil  <span>+</span></a>
+
+
     </div>
     {% endfor %}
 </div>
