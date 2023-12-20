@@ -25,6 +25,7 @@
         <p>Téléphone : {{ salle[9] }}</p>
         <p>Profondeur scene : {{ salle[5] }}</p>
         <p>Longueur scene : {{ salle[6] }} </p>
+        <p>Type : {{ type_salle[1] }}</p>
         <p>Matériel disponible dans la salle :</p>
         {% for i in range (equipement|length) %}
             <a href="{{ url_for('equipement', id_equipement=equipement[i][0]) }}">{{ equipement[i][2] }} {{ equipement[i][1] }}</a>

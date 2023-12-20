@@ -11,7 +11,7 @@
             <input type="file" name="image" id="image-input">
             <script src="{{ url_for('static', filename='js/charge_img.js') }}"></script>
             {% if salle[-2] is none %}
-            <img id="image-charge" class="img_acc"  src="" alt="Glisser/Déposer une image">
+            <img id="image-charge" class="img_acc" src="" alt="Glisser/Déposer une image">
             {% else %}
             <img id="image-charge" class="img_acc" src="{{ url_for('static', filename='images/salles/' + salle[0]|str + '.jpg') }}" alt="image pas réussi à charger">
             {% endif %}
@@ -32,6 +32,12 @@
         <input type="textfield" id="profondeur scene" name="profondeur scene" required value="{{ salle[5] }}">
         <label for="longueur scene">Longueur scene :</label>
         <input type="textfield" id="longueur scene" name="longueur scene" required value="{{ salle[6] }}">
+        <label for="type">Type :</label>
+        <select name="type" id="type">
+            {% for type in types %}
+            <option value="{{ type[0] }}" {% if type[0] == type_salle[0] %}selected{% endif %}>{{ type[1] }}</option>
+            {% endfor %}
+        </select>
         <button type="submit">Appliquer les modifications</button>
     </form>
 </div>

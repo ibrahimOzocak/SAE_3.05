@@ -56,7 +56,7 @@ def save_salle(id, nom_salle,nb_places,profondeur_scene,longueur_scene,telephone
     try:
         cursor = get_cursor()
         req = "INSERT INTO Salle (id_salle, id_type_salle, loge, nom_salle, nb_places, profondeur_scene, longueur_scene, description_salle,adresse_salle,telephone_salle, accueil_pmr, photo) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-        cursor.execute(req, (id, get_id_type_salles(type_place),loge,nom_salle,nb_places, profondeur_scene,longueur_scene,description_salle,adresse_salle,telephone_salle,acces_pmr,save_image(photo)))
+        cursor.execute(req, (id, type_place,loge,nom_salle,nb_places, profondeur_scene,longueur_scene,description_salle,adresse_salle,telephone_salle,acces_pmr,save_image(photo)))
         db.commit()
         close_cursor(cursor)
     except Exception as e:
@@ -156,7 +156,7 @@ def get_artiste(id):
         print(e.args)
     return None
 
-def get_id_type_salles(nom):
+def get_id_type_salle(nom):
     try:
         cursor = get_cursor()
         request = "SELECT id_type FROM Type_Salle where type_place_s= %s"
@@ -410,7 +410,7 @@ def confirmer_modif_artiste(id_artiste,nom_artiste, prenom_artiste, nom_de_scene
         print(e.args)
     return None
 
-def confirmer_modif_salle(id_salle, nom, description, loge, nombre_place, adresse, telephone, profondeur_scene, longueur_scene, photo):
+def confirmer_modif_salle(id_salle, nom, description, loge, nombre_place, adresse, telephone, profondeur_scene, longueur_scene, photo, type_place):
     try:
         cursor = get_cursor()
 
@@ -426,10 +426,11 @@ def confirmer_modif_salle(id_salle, nom, description, loge, nombre_place, adress
                 telephone_salle = %s,
                 profondeur_scene = %s,
                 longueur_scene = %s,
-                photo = %s
+                photo = %s,
+                id_type_salle = %s
                 WHERE id_salle = %s;
             """
-            params = (nom, description, loge, nombre_place, adresse, telephone, profondeur_scene, longueur_scene, save_image(photo), id_salle)
+            params = (nom, description, loge, nombre_place, adresse, telephone, profondeur_scene, longueur_scene, save_image(photo), type_place, id_salle)
             print(save_image(photo))
         else:
             requete = """
@@ -441,10 +442,11 @@ def confirmer_modif_salle(id_salle, nom, description, loge, nombre_place, adress
                 adresse_salle = %s,
                 telephone_salle = %s,
                 profondeur_scene = %s,
-                longueur_scene = %s
+                longueur_scene = %s,
+                id_type_salle = %s
                 WHERE id_salle = %s;
             """
-            params = (nom, description, loge, nombre_place, adresse, telephone, profondeur_scene, longueur_scene, id_salle)
+            params = (nom, description, loge, nombre_place, adresse, telephone, profondeur_scene, longueur_scene, type_place, id_salle)
             
         execute_query(cursor, requete, params)
         db.commit()
@@ -651,7 +653,7 @@ def concerts_agenda(heures=HEURES1, jour=JOUR_VOULU):
                     agenda[1][h].append((concert[0],concert[1]))
     return agenda
 
-def get_type_salle():
+def get_type_salles():
     try:
         cursor = get_cursor()
         requete = "SELECT id_type,type_place_s FROM Type_Salle;"
@@ -941,6 +943,18 @@ def add_logement_artiste(id_concert, id_artiste, id_logement, nb_nuit):
         execute_query(cursor, requete, (id_artiste, id_concert, id_logement, nb_nuit,))
         db.commit()
         close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+    return None
+
+def get_type_salle(id_salle):
+    try:
+        cursor = get_cursor()
+        requete = "SELECT id_type, type_place_s FROM Type_Salle JOIN Salle ON Salle.id_type_salle = Type_Salle.id_type WHERE id_salle = %s;"
+        execute_query(cursor, requete, (id_salle,))
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        return info[0]
     except Exception as e:
         print(e.args)
     return None

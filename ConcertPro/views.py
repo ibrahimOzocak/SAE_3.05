@@ -181,13 +181,14 @@ def confirmer_modif_concert(id_concert, nom_concert):
 @app.route('/ajout_nouvelle_salle')
 def ajout_nouvelle_salle():
     """page de création de salle"""
-    return render_template("ajout_nouvelle_salle.html", types=mo.get_type_salle())
+    return render_template("ajout_nouvelle_salle.html", types=mo.get_type_salles())
 
 @app.route('/salle/<id>')
 def salle(id):
     """page de salle <id>"""
     salle = mo.get_salle(id)
     equipement = mo.get_equipement_salle(id)
+    type_salle = mo.get_type_salle(id)
     
     # Utilisez la vraie adresse du salle ici
     address = salle[8]
@@ -206,6 +207,7 @@ def salle(id):
         "salle.html",
         salle=salle,
         equipement=equipement,
+        type_salle=type_salle,
         map_path=c._repr_html_() if c else None
     )
 
@@ -306,9 +308,10 @@ def confirmer_modif_salle(id_salle, nom_salle):
     profondeur_scene = request.form['profondeur scene']
     longueur_scene = request.form['longueur scene']
     photo = request.files['image']
+    type_place = request.form['type']
     mo.confirmer_modif_salle(id_salle, nom, description, loge, nombre_place,
                              adresse, telephone, profondeur_scene,
-                             longueur_scene, photo)
+                             longueur_scene, photo, type_place)
     return redirect(url_for('salle', id=id_salle))
 
 @app.route('/artiste/<id_artiste>/modifier')
@@ -321,7 +324,9 @@ def modifier_artiste(id_artiste):
 def modifier_salle(id_salle):
     """page de la salle <id_salle>"""
     salle = mo.get_salle(id_salle)
-    return render_template("modifier_salle.html", salle=salle)
+    type_salle = mo.get_type_salle(id_salle)
+    types = mo.get_type_salles()
+    return render_template("modifier_salle.html", salle=salle, type_salle=type_salle, types=types)
 
 @app.route('/save_artiste', methods=("POST", ))
 def save_artiste():
