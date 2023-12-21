@@ -745,21 +745,14 @@ def fiche_rider():
 def getCoordonnee(address):
     try:
         encoded_address = requests.utils.quote(address, safe='')
-        api_url = f"https://nominatim.openstreetmap.org/search?format=json ", "q={encoded_address}"
-        # Effectuer la requête HTTP
+        api_url = f"https://nominatim.openstreetmap.org/search?format=json&q={encoded_address}"
         response = requests.get(api_url)
         response.raise_for_status()  # Vérifier s'il y a des erreurs HTTP
         # Analyser la réponse JSON
-        # Note: Utilisez la bibliothèque json pour une meilleure gestion JSON.
-        # Ici, nous utilisons simplement un affichage brut pour illustrer le concept.
-        #print("Réponse du service de géocodage :")
-        #print(response.text)
-        #res = response.text["boundingbox"]
         response_dict = json.loads(response.text)
         for item in response_dict:
             res = item["boundingbox"]
             return res
-        # Now you can access the "boundingbox" key
     except requests.exceptions.RequestException as e:
         print(f"Erreur lors de la requête HTTP : {e}")
 
