@@ -3,8 +3,12 @@ from PIL import Image
 import io
 from io import BytesIO
 import datetime
+import json
 
-HEURES1 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
+HEURES1 = [
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+    21, 22, 23
+]
 JOUR_VOULU = datetime.datetime.now()
 
 db = mysql.connector.connect(host="servinfo-maria",
@@ -12,11 +16,14 @@ db = mysql.connector.connect(host="servinfo-maria",
                              password="sevellec",
                              database="DBsevellec")
 
+
 def get_cursor():
     return db.cursor()
 
+
 def close_cursor(cursor):
     cursor.close()
+
 
 def execute_query(cursor, query, params=None):
     """Fonction permettant d'executer une requete SQL
@@ -31,6 +38,7 @@ def execute_query(cursor, query, params=None):
     else:
         cursor.execute(query)
 
+
 def prochains_concerts():
     """Fonction permettant de récupérer les prochains concerts
 
@@ -39,7 +47,12 @@ def prochains_concerts():
     """
     try:
         cursor = get_cursor()
-        req1 = "SELECT * FROM Concert WHERE date_heure_concert >= NOW() ORDER BY date_heure_concert ASC;"
+        req1 = (
+            "SELECT c1, c2 "
+            "FROM Concert "
+            "WHERE date_heure_concert >= NOW() "
+            "ORDER BY date_heure_concert ASC;"
+        )
         execute_query(cursor, req1)
         infos = cursor.fetchall()
         close_cursor(cursor)
@@ -54,6 +67,7 @@ def prochains_concerts():
         print(e.args)
         return []
 
+
 def save_concert(id, nom_concert, date_heure_concert, duree_concert,
                  id_artiste, id_salle, description_concert, photo):
     """Fonction permettant de sauvegarder un concert dans la base de données
@@ -65,7 +79,7 @@ def save_concert(id, nom_concert, date_heure_concert, duree_concert,
         duree_concert (int): La durée du concert
         id_artiste (int): L'identifiant de l'artiste
         id_salle (int): L'identifiant de la salle
-        description_concert (str): La description du concert
+        description_concert (str): Description du concert
         photo (bytes): La photo du concert
     """
     try:
@@ -79,7 +93,7 @@ def save_concert(id, nom_concert, date_heure_concert, duree_concert,
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
-    return None
+
 
 def save_salle(id, nom_salle, nb_places, profondeur_scene, longueur_scene,
                telephone_salle, type_place, description_salle, photo,
@@ -104,14 +118,14 @@ def save_salle(id, nom_salle, nb_places, profondeur_scene, longueur_scene,
         cursor = get_cursor()
         req = "INSERT INTO Salle (id_salle, id_type_salle, loge, nom_salle, nb_places, profondeur_scene, longueur_scene, description_salle,adresse_salle,telephone_salle, accueil_pmr, photo) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
         cursor.execute(
-            req,
-            (id, type_place, loge, nom_salle, nb_places,
-             profondeur_scene, longueur_scene, description_salle,
-             adresse_salle, telephone_salle, acces_pmr, save_image(photo)))
+            req, (id, type_place, loge, nom_salle, nb_places, profondeur_scene,
+                  longueur_scene, description_salle, adresse_salle,
+                  telephone_salle, acces_pmr, save_image(photo)))
         db.commit()
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
+
 
 def save_logement(id, nom_etablissement, adresse_ville_codepostal, nb_etoile):
     """Fonction permettant de sauvegarder un logement dans la base de données
@@ -133,6 +147,7 @@ def save_logement(id, nom_etablissement, adresse_ville_codepostal, nb_etoile):
     except Exception as e:
         print(e.args)
 
+
 def save_image(photo):
     """Fonction permettant de sauvegarder une image dans la base de données
 
@@ -149,6 +164,7 @@ def save_image(photo):
     except Exception as e:
         print(e.args)
     return None
+
 
 def get_image(id_value, repository_name, image_data):
     """Fonction qui permet d'enregister la data d'une image dans un fichier png
@@ -168,11 +184,12 @@ def get_image(id_value, repository_name, image_data):
             image_data = image_data.read()
         if len(image_data) > 0:
             image = Image.open(BytesIO(image_data))
-            image = image.convert('RGB')
+            image = image.convert("RGB")
             nom_fichier = f"ConcertPro/static/images/{repository_name}/{str(id_value)}.jpg"
             image.save(nom_fichier)
     except Exception as e:
         print(f"Error processing image: {str(e)}")
+
 
 # fonctions utiles pour les templates
 def get_concert(id):
@@ -198,6 +215,7 @@ def get_concert(id):
         print(e.args)
     return None
 
+
 def get_salle(id):
     """Fonction permettant de récupérer une salle dans la base de données
 
@@ -218,6 +236,7 @@ def get_salle(id):
         print(e.args)
         return None
 
+
 def get_logement(id_logement):
     """Fonction permettant de récupérer un logement dans la base de données
 
@@ -236,6 +255,7 @@ def get_logement(id_logement):
         print(e.args)
     return None
 
+
 def get_artiste(id):
     """Fonction permettant de récupérer un artiste dans la base de données
 
@@ -253,6 +273,7 @@ def get_artiste(id):
     except Exception as e:
         print(e.args)
     return None
+
 
 def get_id_type_salle(nom):
     """Fonction permettant de récupérer l'identifiant d'un type de salle
@@ -275,6 +296,7 @@ def get_id_type_salle(nom):
         print(e.args)
     return None
 
+
 def styles_musisque():
     """Fonction permettant de récupérer tout les styles de musique
 
@@ -290,6 +312,7 @@ def styles_musisque():
         print(e.args)
     return None
 
+
 def get_styles_musique_artiste(id_artiste):
     """Fonction permettant de récupérer les styles de musique d'un artiste
 
@@ -300,7 +323,7 @@ def get_styles_musique_artiste(id_artiste):
     try:
         cursor = get_cursor()
         request = "SELECT nom_style_musique FROM Artiste WHERE id_artiste = %s"
-        cursor.execute(request, (id_artiste,))
+        cursor.execute(request, (id_artiste, ))
         info = cursor.fetchall()
         close_cursor(cursor)
         return info
@@ -308,20 +331,21 @@ def get_styles_musique_artiste(id_artiste):
         print(e.args)
     return None
 
+
 def historique_concerts():
     """Fonction permettant de récupérer les concerts passés
 
     Returns:
         List: Les concerts passés
     """
-    historique_concerts = []
+    list_historique_concerts = []
     try:
         cursor = get_cursor()
         requete = "SELECT * FROM Concert where date_heure_concert < NOW()"
         cursor.execute(requete)
         info = cursor.fetchall()
         for i in info:
-            historique_concerts.append(i)
+            list_historique_concerts.append(i)
             if i[-1] is not None:
                 try:
                     get_image(int(i[0]), "concerts", i[-1])
@@ -330,7 +354,8 @@ def historique_concerts():
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
-    return historique_concerts
+    return list_historique_concerts
+
 
 def concerts():
     """Fonction permettant de récupérer tout les concerts
@@ -338,14 +363,14 @@ def concerts():
     Returns:
         list: Tout les concerts
     """
-    concerts = []
+    les_concerts = []
     try:
         cursor = get_cursor()
         requete = "SELECT * FROM Concert"
         cursor.execute(requete)
         info = cursor.fetchall()
         for i in info:
-            concerts.append(i)
+            les_concerts.append(i)
             if i[-1] is not None:
                 try:
                     get_image(int(i[0]), "concerts", i[-1])
@@ -354,7 +379,8 @@ def concerts():
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
-    return concerts
+    return les_concerts
+
 
 def salles():
     """Fonction permettant de récupérer tout les salles
@@ -362,20 +388,21 @@ def salles():
     Returns:
         List: Tout les salles
     """
-    salles = []
+    list_salles = []
     try:
         cursor = get_cursor()
         requete = "SELECT * FROM Salle"
         cursor.execute(requete)
         info = cursor.fetchall()
         for i in info:
-            salles.append(i)
+            list_salles.append(i)
             if i[-2] is not None:
                 get_image(int(i[0]), "salle", i[-2])
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
-    return salles
+    return list_salles
+
 
 def artistes():
     """Fonction permettant de récupérer tout les artistes
@@ -383,7 +410,7 @@ def artistes():
     Returns:
         List: Tout les artistes
     """
-    artistes = []
+    les_artistes = []
     try:
         cursor = get_cursor()
         requete = "SELECT * FROM Artiste"
@@ -400,11 +427,12 @@ def artistes():
                     else:
                         i2.append(i[ind])
                 i = i2
-            artistes.append(i)
+            les_artistes.append(i)
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
-    return artistes
+    return les_artistes
+
 
 def logements():
     """Fonction permettant de récupérer tout les logements
@@ -412,20 +440,21 @@ def logements():
     Returns:
         List: Tout les logements
     """
-    logements = []
+    les_logements = []
     try:
         cursor = get_cursor()
         requete = "SELECT * FROM Logement"
         cursor.execute(requete)
         info = cursor.fetchall()
         for i in info:
-            logements.append(i)
+            les_logements.append(i)
             if i[-1] is not None:
                 get_image(i[0], "logement", i[-1])  # Probleme avec les images
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
-    return logements
+    return les_logements
+
 
 def get_id_concert_max():
     """Fonction permettant de récupérer l'identifiant du concert le plus grand
@@ -446,6 +475,7 @@ def get_id_concert_max():
         print(e.args)
     return 0
 
+
 def get_id_artiste_max():
     """Fonction permettant de récupérer l'identifiant de l'artiste le plus grand
 
@@ -464,6 +494,7 @@ def get_id_artiste_max():
     except Exception as e:
         print(e.args)
     return 0
+
 
 def get_id_salle_max():
     """Fonction permettant de récupérer l'identifiant de la salle le plus grand
@@ -484,6 +515,7 @@ def get_id_salle_max():
         print(e.args)
     return 0
 
+
 def get_id_logement_max():
     """Fonction permettant de récupérer l'identifiant du logement le plus grand
 
@@ -502,6 +534,7 @@ def get_id_logement_max():
     except Exception as e:
         print(e.args)
     return 0
+
 
 def get_id_equipement_max():
     """Fonction permettant de récupérer l'identifiant de l'équipement le plus grand
@@ -522,6 +555,7 @@ def get_id_equipement_max():
         print(e.args)
     return 0
 
+
 def get_id_type_salle_max():
     """Fonction permettant de récupérer l'identifiant du type de salle le plus grand
 
@@ -541,6 +575,7 @@ def get_id_type_salle_max():
         print(e.args)
     return 0
 
+
 def confirmer_modif_concert(id_concert, nom_concert, date_heure_concert,
                             duree_concert, id_artiste, id_salle,
                             description_concert, photo):
@@ -555,12 +590,10 @@ def confirmer_modif_concert(id_concert, nom_concert, date_heure_concert,
         id_salle (int): L'identifiant de la salle
         description_concert (str): La description du concert
         photo (bytes): La photo du concert
-
-
     """
     try:
         cursor = get_cursor()
-        if (photo.filename != ""):
+        if photo.filename != "":
             get_image(int(id_concert), "concerts", photo)
             requete = f"UPDATE Concert SET nom_concert = %s, date_heure_concert = %s, duree_concert = %s, id_artiste = %s, id_salle = %s, description_concert = %s, photo = %s WHERE id_concert = %s"
             execute_query(
@@ -577,7 +610,7 @@ def confirmer_modif_concert(id_concert, nom_concert, date_heure_concert,
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
-    return None
+
 
 def confirmer_modif_artiste(id_artiste, nom_artiste, prenom_artiste,
                             nom_de_scene, mail, telephone, date_de_naissance,
@@ -625,8 +658,8 @@ def confirmer_modif_artiste(id_artiste, nom_artiste, prenom_artiste,
                           (telephone, mail, nom_artiste, prenom_artiste,
                            date_de_naissance, lieu_de_naissance, adresse,
                            numero_secu_sociale, cni, date_delivrance_cni,
-                           date_expiration_cni, carte_reduction, genre_musical, nom_de_scene,
-                           save_image(photo), id_artiste))
+                           date_expiration_cni, carte_reduction, genre_musical,
+                           nom_de_scene, save_image(photo), id_artiste))
         else:
             requete = """
                 UPDATE Artiste SET
@@ -642,13 +675,13 @@ def confirmer_modif_artiste(id_artiste, nom_artiste, prenom_artiste,
                           (telephone, mail, nom_artiste, prenom_artiste,
                            date_de_naissance, lieu_de_naissance, adresse,
                            numero_secu_sociale, cni, date_delivrance_cni,
-                           date_expiration_cni, carte_reduction,
-                           genre_musical, nom_de_scene, id_artiste))
+                           date_expiration_cni, carte_reduction, genre_musical,
+                           nom_de_scene, id_artiste))
         db.commit()
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
-    return None
+
 
 def confirmer_modif_salle(id_salle, nom, description, loge, nombre_place,
                           adresse, telephone, profondeur_scene, longueur_scene,
@@ -705,16 +738,17 @@ def confirmer_modif_salle(id_salle, nom, description, loge, nombre_place,
                 WHERE id_salle = %s;
             """
             params = (nom, description, loge, nombre_place, adresse, telephone,
-                      profondeur_scene, longueur_scene, id_type_salle, id_salle)
+                      profondeur_scene, longueur_scene, id_type_salle,
+                      id_salle)
         execute_query(cursor, requete, params)
         db.commit()
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
-    return None
+
 
 def confirmer_modif_logement(id_logement, nom_etablissement, adresse,
-                             nb_etoile, photo):
+                             nb_etoile):
     """Fonction permettant de confirmer la modification d'un logement
 
     Args:
@@ -722,20 +756,18 @@ def confirmer_modif_logement(id_logement, nom_etablissement, adresse,
         nom_etablissement (str): Le nom de l'etablissement
         adresse (str): L'adresse de l'etablissement
         nb_etoile (int): Le nombre d'etoile de l'etablissement
-        photo (bytes): La photo du logement
 
     """
     try:
-        get_image(id_logement, "logement", photo)
         cursor = get_cursor()
-        requete = f"UPDATE Logement SET nom_etablissement = %s,adresse_ville_codepostal = %s,nb_etoile = %s, photo = %s WHERE id_logement = %s"
+        requete = f"UPDATE Logement SET nom_etablissement = %s,adresse_ville_codepostal = %s,nb_etoile = %s WHERE id_logement = %s"
         execute_query(cursor, requete, (nom_etablissement, adresse, nb_etoile,
-                                        save_image(photo), id_logement))
+                                        id_logement))
         db.commit()
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
-    return None
+
 
 def remove_concert(id):
     """Fonction permettant de supprimer un concert dans la base de données
@@ -773,6 +805,7 @@ def remove_concert(id):
     except Exception as e:
         print(e.args)
 
+
 def remove_participer(id_concert, id_artiste):
     """Fonction permettant de supprimer un artiste d'un concert dans la base de données
 
@@ -792,6 +825,7 @@ def remove_participer(id_concert, id_artiste):
     except Exception as e:
         print(e.args)
 
+
 def remove_salle(id):
     """Fonction permettant de supprimer une salle dans la base de données
 
@@ -806,6 +840,7 @@ def remove_salle(id):
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
+
 
 def remove_logement(id_logement):
     """Fonction permettant de supprimer un logement dans la base de données
@@ -822,6 +857,7 @@ def remove_logement(id_logement):
     except Exception as e:
         print(e.args)
 
+
 def remove_artiste(id):
     """Fonction permettant de supprimer un artiste dans la base de données
 
@@ -830,25 +866,25 @@ def remove_artiste(id):
     """
     try:
         cursor = get_cursor()
-        
-        import json
+
         try:
-            with open("./ConcertPro/static/json/rider.json", 'r') as fichier:
+            with open("./ConcertPro/static/json/rider.json", "r") as fichier:
                 data = json.load(fichier)
             for d in data:
                 if id == str(d[1]):
                     data.remove(d)
-            with open("./ConcertPro/static/json/rider.json", 'w') as fichier:
+            with open("./ConcertPro/static/json/rider.json", "w") as fichier:
                 json.dump(data, fichier, indent=2)
         except Exception as e:
             print(e.args)
-        
+
         req = "DELETE FROM Artiste where id_artiste= %s"
         cursor.execute(req, (id, ))
         db.commit()
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
+
 
 def remvove_equipement(id):
     """Fonction permettant de supprimer un équipement dans la base de données
@@ -864,6 +900,7 @@ def remvove_equipement(id):
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
+
 
 def concerts_agenda1(heures, jour_voulu):
     """renvoie un agenda des concerts de la semaine du jour voulu
@@ -902,6 +939,7 @@ def concerts_agenda1(heures, jour_voulu):
             pass
     return agenda
 
+
 def concerts_agenda(heures=HEURES1, jour=JOUR_VOULU):
     """renvoie un agenda des concerts de la semaine du jour voulu"""
     #initialisation de l'agenda
@@ -922,15 +960,15 @@ def concerts_agenda(heures=HEURES1, jour=JOUR_VOULU):
         if datetime.timedelta(days=-(jour.weekday() + 1)) < date_debut.replace(
                 hour=0, minute=0) - jour < datetime.timedelta(
                     days=7 - (jour.weekday())):
-            minutesC = date_debut.minute + concert[3] % 60
-            trop = minutesC // 60
-            minutesC -= trop * 60
-            heuresC = date_debut.hour + concert[3] // 60 + trop
+            minute_c = date_debut.minute + concert[3] % 60
+            trop = minute_c // 60
+            minute_c -= trop * 60
+            heure_c = date_debut.hour + concert[3] // 60 + trop
             depassement = 0
-            if heuresC > 23:
-                depassement = heuresC - 23
-                heuresC = 23
-            fin_concert = datetime.time(hour=heuresC, minute=minutesC)
+            if heure_c > 23:
+                depassement = heure_c - 23
+                heure_c = 23
+            fin_concert = datetime.time(hour=heure_c, minute=minute_c)
             debut_concert = date_debut.time()
             for h in heures:
                 # format 24h obligatoire
@@ -946,7 +984,7 @@ def concerts_agenda(heures=HEURES1, jour=JOUR_VOULU):
                         (concert[0], concert[1]))
             if depassement > 0:
                 fin_depassement = datetime.time(hour=depassement,
-                                                minute=minutesC)
+                                                minute=minute_c)
                 for h in heures:
                     if h + pas > 23:
                         fin_horaire = datetime.time(hour=h + pas - 1,
@@ -961,14 +999,14 @@ def concerts_agenda(heures=HEURES1, jour=JOUR_VOULU):
         elif datetime.timedelta(
                 days=-(jour.weekday() + 1)) == date_debut.replace(
                     hour=0, minute=0) - jour:
-            minutesC = date_debut.minute + concert[3] % 60
-            trop = minutesC // 60
-            minutesC -= trop * 60
-            heuresC = date_debut.hour + concert[3] // 60 + trop
+            minute_c = date_debut.minute + concert[3] % 60
+            trop = minute_c // 60
+            minute_c -= trop * 60
+            heure_c = date_debut.hour + concert[3] // 60 + trop
             depassement = 0
-            if heuresC > 23:
-                depassement = heuresC - 23
-            fin_depassement = datetime.time(hour=depassement, minute=minutesC)
+            if heure_c > 23:
+                depassement = heure_c - 23
+            fin_depassement = datetime.time(hour=depassement, minute=minute_c)
             for h in heures:
                 # format 24h obligatoire
                 if h + pas > 23:
@@ -981,6 +1019,7 @@ def concerts_agenda(heures=HEURES1, jour=JOUR_VOULU):
                     agenda[1][h].append((concert[0], concert[1]))
     return agenda
 
+
 def get_type_salles():
     try:
         cursor = get_cursor()
@@ -992,6 +1031,7 @@ def get_type_salles():
     except Exception as e:
         print(e.args)
     return None
+
 
 def type_salle():
     """Fonction permettant de récupérer tout les types de salle
@@ -1012,6 +1052,7 @@ def type_salle():
     except Exception as e:
         print(e.args)
     return None
+
 
 def add_artiste_concert(id_concert, id_artiste):
     """Fonction permettant d'ajouter un artiste à un concert
@@ -1034,6 +1075,7 @@ def add_artiste_concert(id_concert, id_artiste):
         print(e.args)
     return None
 
+
 def get_concerts_artiste(id_artiste):
     """Fonction permettant de récupérer tout les concerts d'un artiste
 
@@ -1053,6 +1095,7 @@ def get_concerts_artiste(id_artiste):
     except Exception as e:
         print(e.args)
     return None
+
 
 def get_equipement(id):
     """Fonction permettant de récupérer un équipement dans la base de données
@@ -1074,6 +1117,7 @@ def get_equipement(id):
         print(e.args)
     return None
 
+
 def get_equipement_salle(id_salle):
     """Fonction permettant de récupérer les équipements d'une salle
 
@@ -1093,6 +1137,7 @@ def get_equipement_salle(id_salle):
     except Exception as e:
         print(e.args)
     return None
+
 
 def get_equipement_concert(id_concert, id_artiste):
     """Fonction permettant de récupérer les équipements d'un concert
@@ -1117,6 +1162,7 @@ def get_equipement_concert(id_concert, id_artiste):
     except Exception as e:
         print(e.args)
     return None
+
 
 def categoriser_equipements1(id_concert, id_artiste):
     """Fonction permettant de trier les équipements d'un concert selon si on les possède ou non
@@ -1150,6 +1196,7 @@ def categoriser_equipements1(id_concert, id_artiste):
         print(e.args)
         return None, None
 
+
 def categoriser_equipements(id_concert, id_artiste):
     """Fonction permettant de trier les équipements d'un concert selon si on les possède
 
@@ -1174,6 +1221,7 @@ def categoriser_equipements(id_concert, id_artiste):
         print(e.args)
         return None, None
 
+
 def equipements():
     """Fonction permettant de récupérer tout les équipements
 
@@ -1192,6 +1240,7 @@ def equipements():
     except Exception as e:
         print(e.args)
     return equipements
+
 
 def get_equipements_concert(id_concert):
     """Fonction permettant de récupérer les équipements d'un concert
@@ -1213,6 +1262,7 @@ def get_equipements_concert(id_concert):
         print(e.args)
     return None
 
+
 def get_id_quantite_equipements_concert(id_concert):
     try:
         cursor = get_cursor()
@@ -1224,6 +1274,7 @@ def get_id_quantite_equipements_concert(id_concert):
     except Exception as e:
         print(e.args)
     return None
+
 
 def get_tous_equipements_concert(id_concert):
     """Fonction permettant de récupérer tout les équipements necessaire d'un concert
@@ -1245,6 +1296,7 @@ def get_tous_equipements_concert(id_concert):
         print(e.args)
     return None
 
+
 def get_tous_equipements_salle(id_salle):
     """Fonction permettant de récupérer tout les équipements d'une salle
 
@@ -1264,6 +1316,7 @@ def get_tous_equipements_salle(id_salle):
     except Exception as e:
         print(e.args)
     return None
+
 
 def get_equipements_disponible(id_concert, id_salle):
     """Fonction permettant de récupérer les équipements que l'on possede pour un concert
@@ -1297,10 +1350,23 @@ def get_equipements_disponible(id_concert, id_salle):
         print(e.args)
     return None
 
-def save_artiste(id_artiste, nom_artiste, prenom_artiste, mail, telephone,
-                 date_de_naissance, lieu_de_naissance, adresse, securite_sociale,
-                 cni, date_delivrance_cni, date_expiration_cni, carte_reduction,
-                 genre_musique, nom_scene, conge_spectacle="Non"):
+
+def save_artiste(id_artiste,
+                 nom_artiste,
+                 prenom_artiste,
+                 mail,
+                 telephone,
+                 date_de_naissance,
+                 lieu_de_naissance,
+                 adresse,
+                 securite_sociale,
+                 cni,
+                 date_delivrance_cni,
+                 date_expiration_cni,
+                 carte_reduction,
+                 genre_musique,
+                 nom_scene,
+                 conge_spectacle="Non"):
     """Fonction permettant de sauvegarder un artiste dans la base de données
 
     Args:
@@ -1327,7 +1393,7 @@ def save_artiste(id_artiste, nom_artiste, prenom_artiste, mail, telephone,
         req = "SELECT * FROM Style_musique WHERE nom_style_musique = %s;"
         cursor.execute(req, (genre_musique, ))
         info = cursor.fetchall()
-        if(info == []):
+        if info == []:
             req = "INSERT INTO Style_musique (nom_style_musique) VALUES(%s)"
             cursor.execute(req, (genre_musique, ))
             db.commit()
@@ -1342,6 +1408,7 @@ def save_artiste(id_artiste, nom_artiste, prenom_artiste, mail, telephone,
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
+
 
 def save_equipement_concert(id_concert, id_equipement, quantite):
     """Fonction permettant de sauvegarder un équipement pour un concert dans la base de données
@@ -1364,7 +1431,7 @@ def save_equipement_concert(id_concert, id_equipement, quantite):
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
-    return None
+
 
 def save_necessaire_concert(id_concert,
                             id_equipement,
@@ -1415,7 +1482,7 @@ def save_necessaire_concert(id_concert,
             close_cursor(cursor)
     except Exception as e:
         print(e.args)
-    return None
+
 
 def save_equipement_salle(id_salle,
                           id_equipement,
@@ -1462,7 +1529,7 @@ def save_equipement_salle(id_salle,
             close_cursor(cursor)
     except Exception as e:
         print(e.args)
-    return None
+
 
 def get_logement_artiste(id_concert, id_artiste):
     """Fonction permettant de récupérer le logement d'un artiste pour un concert
@@ -1488,6 +1555,7 @@ def get_logement_artiste(id_concert, id_artiste):
         print(e.args)
     return None
 
+
 def supprimer_logement_artiste(id_concert, id_artiste):
     """Fonction permettant de supprimer le logement d'un artiste pour un concert
 
@@ -1507,7 +1575,7 @@ def supprimer_logement_artiste(id_concert, id_artiste):
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
-    return None
+
 
 def add_logement_artiste(id_concert, id_artiste, id_logement, nb_nuit):
     """Fonction permettant d'ajouter un logement pour un artiste pour un concert
@@ -1532,19 +1600,20 @@ def add_logement_artiste(id_concert, id_artiste, id_logement, nb_nuit):
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
-    return None
+
 
 def get_type_salle(id_salle):
     try:
         cursor = get_cursor()
         requete = "SELECT id_type, type_place_s FROM Type_Salle JOIN Salle ON Salle.id_type_salle = Type_Salle.id_type WHERE id_salle = %s;"
-        execute_query(cursor, requete, (id_salle,))
+        execute_query(cursor, requete, (id_salle, ))
         info = cursor.fetchall()
         close_cursor(cursor)
         return info[0]
     except Exception as e:
         print(e.args)
     return None
+
 
 def confirmer_modif_equipement(id_equipement, nom_equipement):
     try:
@@ -1555,4 +1624,3 @@ def confirmer_modif_equipement(id_equipement, nom_equipement):
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
-    return None
