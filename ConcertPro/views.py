@@ -74,7 +74,7 @@ def historique_concerts():
     return render_template("historique_concerts.html",
                            concerts=mo.historique_concerts())
 
-@app.route('/save_concert', methods=("POST", ))
+@app.route('/save_concert', methods=("POST",))
 def save_concert():
     """sauvegarde d'un concert"""
     nom_concert = request.form['titre']
@@ -148,8 +148,8 @@ def modifier_concert(id_concert):
                            logements=logements,
                            logement_artiste=logement_artiste)
 
-@app.route('/modifier_concert/<id_concert>/<nom_concert>', methods=("POST", ))
-def confirmer_modif_concert(id_concert, nom_concert):
+@app.route('/modifier_concert/<id_concert>', methods=("POST",))
+def confirmer_modif_concert(id_concert):
     """sauvegarde d'un concert"""
     nom_concert = request.form['nom_concert']
     id_artiste = request.form['artiste']
@@ -211,7 +211,7 @@ def voir_salles():
     return render_template("voir_salles.html",
                            salles=mo.salles())
 
-@app.route('/save_salle', methods=("POST", ))
+@app.route('/save_salle', methods=("POST",))
 def save_salle():
     """sauvegarde d'une salle"""
     nom_salle = request.form['titre']
@@ -267,8 +267,8 @@ def artiste(id_artiste):
                            artiste=artiste,
                            concerts=concerts)
 
-@app.route('/confirmer_artiste/<id_artiste>/<nom_artiste>', methods=("POST", ))
-def confirmer_modif_artiste(id_artiste, nom_artiste):
+@app.route('/confirmer_artiste/<id_artiste>', methods=("POST",))
+def confirmer_modif_artiste(id_artiste):
     """sauvegarde d'un artiste"""
     prenom_artiste = request.form['prenom']
     nom_artiste = request.form['nom']
@@ -292,8 +292,8 @@ def confirmer_modif_artiste(id_artiste, nom_artiste):
                                date_expiration_cni, carte_reduction, genre_musical, photo)
     return redirect(url_for('artiste', id_artiste=id_artiste))
 
-@app.route('/confirmer_salle/<id_salle>/<nom_salle>', methods=("POST", ))
-def confirmer_modif_salle(id_salle, nom_salle):
+@app.route('/confirmer_salle/<id_salle>', methods=("POST",))
+def confirmer_modif_salle(id_salle):
     """sauvegarde d'un artiste"""
     nom = request.form["nom"]
     description = request.form['description']
@@ -330,7 +330,7 @@ def modifier_salle(id_salle):
                            type_salle=type_salle,
                            types=types)
 
-@app.route('/save_artiste', methods=("POST", ))
+@app.route('/save_artiste', methods=("POST",))
 def save_artiste():
     """sauvegarde d'un artiste"""
     nom_artiste = request.form['nom']
@@ -425,7 +425,7 @@ def voir_logements():
     return render_template("voir_logements.html",
                            logements=mo.logements())
 
-@app.route('/save_logement', methods=("POST", ))
+@app.route('/save_logement', methods=("POST",))
 def save_logement():
     """sauvegarde d'un logement"""
     nom_logement = request.form['nom_etablissement']
@@ -448,9 +448,8 @@ def modifier_logement(id_logement):
     return render_template("modifier_logement.html",
                            logement=logement)
 
-@app.route('/modif_logement/<id_logement>/<nom_etablissement>',
-           methods=("POST", ))
-def confirmer_modif_logement(id_logement, nom_etablissement):
+@app.route('/modif_logement/<id_logement>', methods=("POST",))
+def confirmer_modif_logement(id_logement):
     """sauvegarde d'un logement"""
     nom = request.form['nom_etablissement']
     adresse = request.form['adresse']
@@ -485,7 +484,7 @@ def calendrier(jour=datetime.datetime.now()):
                            date_lundi=lundi.strftime("%d-%m-%Y"),
                            date_dimanche=dimanche.strftime("%d-%m-%Y"))
 
-@app.route('/calendrier/redirection', methods=("POST", ))
+@app.route('/calendrier/redirection', methods=("POST",))
 def calendrier_redirection():
     """redirige vers le calendrier du jour"""
     jour = datetime.datetime.strptime(request.form['date'], "%Y-%m-%d")
@@ -547,7 +546,7 @@ def equipement(id_equipement):
     return render_template("equipement.html",
                            equipement=equipement)
 
-@app.route('/save_equipement', methods=("POST", ))
+@app.route('/save_equipement', methods=("POST",))
 def save_equipement():
     """sauvegarde d'un equipement"""
     nom_equipement = request.form['nom_equipement']
@@ -562,7 +561,7 @@ def save_equipement():
         print(e.args)
     return redirect(url_for('equipement', id_equipement=id_equipement))
 
-@app.route('/save_equipement_concert/<id_concert>', methods=("POST", ))
+@app.route('/save_equipement_concert/<id_concert>', methods=("POST",))
 def save_equipements_concert(id_concert):
     """sauvegarde d'un equipement pour le concert <id_concert>"""
     for elem in request.form:
@@ -572,7 +571,7 @@ def save_equipements_concert(id_concert):
             mo.save_equipement_concert(id_concert, elem, quantite)
     return redirect(url_for('concert', id=id_concert))
 
-@app.route('/save_necessaire_concert/<id_concert>', methods=("POST", ))
+@app.route('/save_necessaire_concert/<id_concert>', methods=("POST",))
 def save_necessaire_concert(id_concert):
     """sauvegarde d'un equipement pour le concert <id_concert>"""
     for elem in request.form:
@@ -588,7 +587,7 @@ def save_necessaire_concert(id_concert):
                                        hidden)
     return redirect(url_for('concert', id=id_concert))
 
-@app.route('/save_equipement_salle/<id_salle>', methods=("POST", ))
+@app.route('/save_equipement_salle/<id_salle>', methods=("POST",))
 def save_equipements_salle(id_salle):
     """sauvegarde d'un equipement pour la salle <id_salle>"""
     for elem in request.form:
@@ -614,8 +613,8 @@ def modifier_equipement(id_equipement):
     equipement = mo.get_equipement(id_equipement)
     return render_template("modifier_equipement.html", equipement=equipement)
 
-@app.route('/confirmer_equipement/<id_equipement>/<nom_equipement>', methods=("POST", ))
-def confirmer_modif_equipement(id_equipement, nom_equipement):
+@app.route('/confirmer_equipement/<id_equipement>', methods=("POST",))
+def confirmer_modif_equipement(id_equipement):
     """sauvegarde d'un equipement"""
     nom = request.form['equipement']
     mo.confirmer_modif_equipement(id_equipement, nom)
@@ -627,7 +626,7 @@ def ajout_type_salle():
     """page d'ajout d'un type de salle"""
     return render_template("ajout_type_salle.html")
 
-@app.route('/save_type_salle', methods=("POST", ))
+@app.route('/save_type_salle', methods=("POST",))
 def save_type_salle():
     """sauvegarde d'un type de salle"""
     nom_type_salle = request.form['nom_type_salle']
