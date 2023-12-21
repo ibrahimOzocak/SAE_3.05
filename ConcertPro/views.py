@@ -72,7 +72,7 @@ def voir_prochains_concerts():
 def historique_concerts():
     """page qui affiche les concerts passés"""
     return render_template("historique_concerts.html",
-                           concerts=mo.historique_concerts())
+                           concerts=mo.historique_concerts(),salles=mo.salles(),artistes=mo.artistes())
 
 @app.route('/save_concert', methods=("POST",))
 def save_concert():
