@@ -5,6 +5,19 @@
 {% endblock %}
 {% block content %}
 <form role="form" method="POST" action="{{ url_for('save_concert') }}" enctype="multipart/form-data">
+    <a id="copyButton">Copier le lien du questionnaire du rider pour l'envoyer à l'artiste</a>
+
+    <script>
+        document.getElementById('copyButton').addEventListener('click', function() {
+            var tempInput = document.createElement('input');
+            tempInput.value = 'https://forms.gle/DDBavXAagG24taCZA';
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            alert('Lien copié dans le presse-papiers !');
+        });
+    </script>
     <div class="container">
         <input type="file" name="image" id="image-input">
         <script src="{{ url_for('static', filename='js/charge_img.js') }}"></script>

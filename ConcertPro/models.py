@@ -87,18 +87,18 @@ def save_salle(id, nom_salle, nb_places, profondeur_scene, longueur_scene,
     """Fonction permettant de sauvegarder une salle dans la base de données
 
     Args:
-        id (int): _description_
-        nom_salle (str): _description_
-        nb_places (int): _description_
-        profondeur_scene (int): _description_
-        longueur_scene (int): _description_
-        telephone_salle (int): _description_
-        type_place (str): _description_
-        description_salle (str): _description_
-        photo (bytes): _description_
-        adresse_salle (str): _description_
-        loge (str): _description_
-        acces_pmr (str): _description_
+        id (int): l'identifiant de la salle
+        nom_salle (str): le nom de la salle
+        nb_places (int): le nombre de places de la salle
+        profondeur_scene (int): la profondeur de la scene
+        longueur_scene (int): la longueur de la scene
+        telephone_salle (int): le telephone de la salle
+        type_place (str): le type de place de la salle
+        description_salle (str): la description de la salle
+        photo (bytes): la photo de la salle
+        adresse_salle (str): l'aadresse de la salle
+        loge (str): Loge ou pas
+        acces_pmr (str): Acces pmr ou pas
     """
     try:
         cursor = get_cursor()
@@ -114,6 +114,14 @@ def save_salle(id, nom_salle, nb_places, profondeur_scene, longueur_scene,
         print(e.args)
 
 def save_logement(id, nom_etablissement, adresse_ville_codepostal, nb_etoile):
+    """Fonction permettant de sauvegarder un logement dans la base de données
+
+    Args:
+        id (int): L'identifiant du logement
+        nom_etablissement (str): Le nom de l'etablissement
+        adresse_ville_codepostal (str): L'adresse de l'etablissement
+        nb_etoile (int): Le nombre d'etoile de l'etablissement
+    """
     try:
         cursor = get_cursor()
         req = "INSERT INTO Logement (id_logement, nom_etablissement, adresse_ville_codepostal, nb_etoile, photo) VALUES(%s, %s, %s, %s, %s)"
@@ -126,6 +134,11 @@ def save_logement(id, nom_etablissement, adresse_ville_codepostal, nb_etoile):
         print(e.args)
 
 def save_image(photo):
+    """Fonction permettant de sauvegarder une image dans la base de données
+
+    Args:
+        photo (bytes): La photo à sauvegarder"""
+
     try:
         if photo.filename != "":
             photo.seek(0)
@@ -138,6 +151,14 @@ def save_image(photo):
     return None
 
 def get_image(id_value, repository_name, image_data):
+    """Fonction qui permet d'enregister la data d'une image dans un fichier png
+    dans le dossier voulu
+
+    Args:
+        id_value (int): La valeur de l'identifiant
+        repository_name (str): Le nom du dossier
+        image_data (bytes): La data de l'image
+    """
     if id_value is None or image_data is None:
         print("No valid input data")
         return
@@ -155,6 +176,12 @@ def get_image(id_value, repository_name, image_data):
 
 # fonctions utiles pour les templates
 def get_concert(id):
+    """Fonction permettant de récupérer un concert dans la base de données
+
+    Args:
+        id (int): L'identifiant du concert
+
+    """
     try:
         cursor = get_cursor()
         requete = "SELECT * FROM Concert where id_concert= %s"
@@ -172,6 +199,12 @@ def get_concert(id):
     return None
 
 def get_salle(id):
+    """Fonction permettant de récupérer une salle dans la base de données
+
+    Args:
+        id (int): L'identifiant de la salle
+
+    """
     try:
         cursor = get_cursor()
         request = "SELECT * FROM Salle WHERE id_salle = %s"
@@ -186,6 +219,12 @@ def get_salle(id):
         return None
 
 def get_logement(id_logement):
+    """Fonction permettant de récupérer un logement dans la base de données
+
+    Args:
+        id_logement (int): L'identifiant du logement
+
+    """
     try:
         cursor = get_cursor()
         request = "SELECT * FROM Logement where id_logement = %s"
@@ -198,6 +237,12 @@ def get_logement(id_logement):
     return None
 
 def get_artiste(id):
+    """Fonction permettant de récupérer un artiste dans la base de données
+
+    Args:
+        id (int): L'identifiant de l'artiste
+
+    """
     try:
         cursor = get_cursor()
         request = "SELECT * FROM Artiste where id_artiste= %s"
@@ -210,6 +255,12 @@ def get_artiste(id):
     return None
 
 def get_id_type_salle(nom):
+    """Fonction permettant de récupérer l'identifiant d'un type de salle
+
+    Args:
+        nom (str): Le nom du type de salle
+
+    """
     try:
         cursor = get_cursor()
         request = "SELECT id_type FROM Type_Salle where type_place_s= %s"
@@ -225,6 +276,9 @@ def get_id_type_salle(nom):
     return None
 
 def styles_musisque():
+    """Fonction permettant de récupérer tout les styles de musique
+
+    """
     try:
         cursor = get_cursor()
         request = "SELECT * FROM Style_musique"
@@ -237,6 +291,12 @@ def styles_musisque():
     return None
 
 def get_styles_musique_artiste(id_artiste):
+    """Fonction permettant de récupérer les styles de musique d'un artiste
+
+    Args:
+        id_artiste (int): L'identifiant de l'artiste
+
+    """
     try:
         cursor = get_cursor()
         request = "SELECT nom_style_musique FROM Artiste WHERE id_artiste = %s"
@@ -249,6 +309,11 @@ def get_styles_musique_artiste(id_artiste):
     return None
 
 def historique_concerts():
+    """Fonction permettant de récupérer les concerts passés
+
+    Returns:
+        List: Les concerts passés
+    """
     historique_concerts = []
     try:
         cursor = get_cursor()
@@ -268,6 +333,11 @@ def historique_concerts():
     return historique_concerts
 
 def concerts():
+    """Fonction permettant de récupérer tout les concerts
+
+    Returns:
+        list: Tout les concerts
+    """
     concerts = []
     try:
         cursor = get_cursor()
@@ -287,6 +357,11 @@ def concerts():
     return concerts
 
 def salles():
+    """Fonction permettant de récupérer tout les salles
+
+    Returns:
+        List: Tout les salles
+    """
     salles = []
     try:
         cursor = get_cursor()
@@ -303,6 +378,11 @@ def salles():
     return salles
 
 def artistes():
+    """Fonction permettant de récupérer tout les artistes
+
+    Returns:
+        List: Tout les artistes
+    """
     artistes = []
     try:
         cursor = get_cursor()
@@ -327,6 +407,11 @@ def artistes():
     return artistes
 
 def logements():
+    """Fonction permettant de récupérer tout les logements
+
+    Returns:
+        List: Tout les logements
+    """
     logements = []
     try:
         cursor = get_cursor()
@@ -343,6 +428,11 @@ def logements():
     return logements
 
 def get_id_concert_max():
+    """Fonction permettant de récupérer l'identifiant du concert le plus grand
+
+    Returns:
+        int: L'identifiant du concert le plus grand
+    """
     try:
         cursor = get_cursor()
         requete = "SELECT MAX(id_concert) FROM Concert"
@@ -357,6 +447,11 @@ def get_id_concert_max():
     return 0
 
 def get_id_artiste_max():
+    """Fonction permettant de récupérer l'identifiant de l'artiste le plus grand
+
+    Returns:
+        int: L'identifiant de l'artiste le plus grand
+    """
     try:
         cursor = get_cursor()
         requete = "SELECT MAX(id_artiste) FROM Artiste"
@@ -371,6 +466,11 @@ def get_id_artiste_max():
     return 0
 
 def get_id_salle_max():
+    """Fonction permettant de récupérer l'identifiant de la salle le plus grand
+
+    Returns:
+        int : L'identifiant de la salle le plus grand
+    """
     try:
         cursor = get_cursor()
         requete = "SELECT MAX(id_salle) FROM Salle"
@@ -385,6 +485,11 @@ def get_id_salle_max():
     return 0
 
 def get_id_logement_max():
+    """Fonction permettant de récupérer l'identifiant du logement le plus grand
+
+    Returns:
+        int: L'identifiant du logement le plus grand
+    """
     try:
         cursor = get_cursor()
         requete = "SELECT MAX(id_logement) FROM Logement"
@@ -399,6 +504,11 @@ def get_id_logement_max():
     return 0
 
 def get_id_equipement_max():
+    """Fonction permettant de récupérer l'identifiant de l'équipement le plus grand
+
+    Returns:
+        int: L'identifiant de l'équipement le plus grand
+    """
     try:
         cursor = get_cursor()
         requete = "SELECT MAX(id_equipement) FROM Equipement"
@@ -413,6 +523,11 @@ def get_id_equipement_max():
     return 0
 
 def get_id_type_salle_max():
+    """Fonction permettant de récupérer l'identifiant du type de salle le plus grand
+
+    Returns:
+        int: L'identifiant du type de salle le plus grand
+    """
     try:
         cursor = get_cursor()
         requete = "SELECT MAX(id_type) FROM Type_Salle"
@@ -429,6 +544,20 @@ def get_id_type_salle_max():
 def confirmer_modif_concert(id_concert, nom_concert, date_heure_concert,
                             duree_concert, id_artiste, id_salle,
                             description_concert, photo):
+    """Fonction permettant de confirmer la modification d'un concert
+
+    Args:
+        id_concert (int): L'identifiant du concert
+        nom_concert (str): Le nom du concert
+        date_heure_concert (str): La date et l'heure du concert
+        duree_concert (int): La durée du concert
+        id_artiste (int): L'identifiant de l'artiste
+        id_salle (int): L'identifiant de la salle
+        description_concert (str): La description du concert
+        photo (bytes): La photo du concert
+
+
+    """
     try:
         cursor = get_cursor()
         if (photo.filename != ""):
@@ -455,6 +584,27 @@ def confirmer_modif_artiste(id_artiste, nom_artiste, prenom_artiste,
                             lieu_de_naissance, adresse, numero_secu_sociale,
                             cni, date_delivrance_cni, date_expiration_cni,
                             carte_reduction, genre_musical, photo):
+    """Fonction permettant de confirmer la modification d'un artiste
+
+    Args:
+        id_artiste (int): L'identifiant du artiste
+        nom_artiste (str): Le nom de l'artiste
+        prenom_artiste (str): Le prenom de l'artiste
+        nom_de_scene (str): Le nom de scene de l'artiste
+        mail (str): Le mail de l'artiste
+        telephone (int): Le telephone de l'artiste
+        date_de_naissance (str): La date de naissance de l'artiste
+        lieu_de_naissance (str): Le lieu de naissance de l'artiste
+        addresse (str): L'adresse de l'artiste
+        numero_secu_sociale (str): Le numero de securite sociale de l'artiste
+        cni (str): La cni de l'artiste
+        date_delivrance_cni (str): La date de delivrance de la cni de l'artiste
+        date_expiration_cni (str): La date d'expiration de la cni de l'artiste
+        carte_reduction (str): La carte de reduction de l'artiste
+        genre_musical (str): Le genre musical de l'artiste
+        photo (bytes): La photo de l'artiste
+
+    """
     try:
         get_image(id_artiste, "artiste", photo)
         cursor = get_cursor()
@@ -503,6 +653,21 @@ def confirmer_modif_artiste(id_artiste, nom_artiste, prenom_artiste,
 def confirmer_modif_salle(id_salle, nom, description, loge, nombre_place,
                           adresse, telephone, profondeur_scene, longueur_scene,
                           photo, id_type_salle):
+    """Fonction permettant de confirmer la modification d'un artiste
+
+    Args:
+        id_salle (int): L'identifiant de la salle
+        nom (str): Le nom de la salle
+        description (str): La description de la salle
+        loge (str): Loge ou pas
+        nombre_place (int): Le nombre de place de la salle
+        adresse (str): L'adresse de la salle
+        telephone (int): Le telephone de la salle
+        profondeur_scene (int): La profondeur de la scene
+        longueur_scene (int): La longueur de la scene
+        photo (bytes): La photo de la salle
+
+    """
     try:
         cursor = get_cursor()
         if photo.filename != "":
@@ -550,6 +715,16 @@ def confirmer_modif_salle(id_salle, nom, description, loge, nombre_place,
 
 def confirmer_modif_logement(id_logement, nom_etablissement, adresse,
                              nb_etoile, photo):
+    """Fonction permettant de confirmer la modification d'un logement
+
+    Args:
+        id_logement (int): L'identifiant du logement
+        nom_etablissement (str): Le nom de l'etablissement
+        adresse (str): L'adresse de l'etablissement
+        nb_etoile (int): Le nombre d'etoile de l'etablissement
+        photo (bytes): La photo du logement
+
+    """
     try:
         get_image(id_logement, "logement", photo)
         cursor = get_cursor()
@@ -563,6 +738,11 @@ def confirmer_modif_logement(id_logement, nom_etablissement, adresse,
     return None
 
 def remove_concert(id):
+    """Fonction permettant de supprimer un concert dans la base de données
+
+    Args:
+        id (int): L'identifiant du concert
+    """
     try:
         # suppression dans avoir
         cursor = get_cursor()
@@ -594,6 +774,12 @@ def remove_concert(id):
         print(e.args)
 
 def remove_participer(id_concert, id_artiste):
+    """Fonction permettant de supprimer un artiste d'un concert dans la base de données
+
+    Args:
+        id_concert (int): L'identifiant du concert
+        id_artiste (int): L'identifiant de l'artiste
+    """
     try:
         cursor = get_cursor()
         req = "DELETE FROM Participer where id_concert= %s and id_artiste = %s"
@@ -607,6 +793,11 @@ def remove_participer(id_concert, id_artiste):
         print(e.args)
 
 def remove_salle(id):
+    """Fonction permettant de supprimer une salle dans la base de données
+
+    Args:
+        id (int): L'identifiant de la salle
+    """
     try:
         cursor = get_cursor()
         req = "DELETE FROM Salle where id_salle= %s"
@@ -617,6 +808,11 @@ def remove_salle(id):
         print(e.args)
 
 def remove_logement(id_logement):
+    """Fonction permettant de supprimer un logement dans la base de données
+
+    Args:
+        id_logement (int): L'identifiant du logement
+    """
     try:
         cursor = get_cursor()
         req = "DELETE FROM Logement where id_logement= %s"
@@ -627,6 +823,11 @@ def remove_logement(id_logement):
         print(e.args)
 
 def remove_artiste(id):
+    """Fonction permettant de supprimer un artiste dans la base de données
+
+    Args:
+        id (int): L'identifiant de l'artiste
+    """
     try:
         cursor = get_cursor()
         
@@ -650,6 +851,11 @@ def remove_artiste(id):
         print(e.args)
 
 def remvove_equipement(id):
+    """Fonction permettant de supprimer un équipement dans la base de données
+
+    Args:
+        id (int): L'identifiant de l'équipement
+    """
     try:
         cursor = get_cursor()
         req = "DELETE FROM Equipement where id_equipement= %s"
@@ -660,6 +866,15 @@ def remvove_equipement(id):
         print(e.args)
 
 def concerts_agenda1(heures, jour_voulu):
+    """renvoie un agenda des concerts de la semaine du jour voulu
+
+    Args:
+        heures (list): Les heures
+        jour_voulu (int): Le jour voulu
+
+    Returns:
+        dict: L'agenda des concerts de la semaine du jour voulu
+    """
     agenda = {}
     for i in range(1, 8):
         agenda[i] = {}
@@ -779,6 +994,11 @@ def get_type_salles():
     return None
 
 def type_salle():
+    """Fonction permettant de récupérer tout les types de salle
+
+    Returns:
+        dict: Tout les types de salle
+    """
     try:
         cursor = get_cursor()
         requete = "SELECT id_salle,type_place_s FROM Type_Salle JOIN Salle ON Type_Salle.id_type = Salle.id_type_salle;"
@@ -794,6 +1014,13 @@ def type_salle():
     return None
 
 def add_artiste_concert(id_concert, id_artiste):
+    """Fonction permettant d'ajouter un artiste à un concert
+
+    Args:
+        id_concert (int): L'identifiant du concert
+        id_artiste (int): L'identifiant de l'artiste
+
+    """
     try:
         cursor = get_cursor()
         requete = "INSERT INTO Participer (id_concert, id_artiste) VALUES(%s, %s)"
@@ -808,6 +1035,14 @@ def add_artiste_concert(id_concert, id_artiste):
     return None
 
 def get_concerts_artiste(id_artiste):
+    """Fonction permettant de récupérer tout les concerts d'un artiste
+
+    Args:
+        id_artiste (int): L'identifiant de l'artiste
+
+    Returns:
+        list: Tout les concerts d'un artiste
+    """
     try:
         cursor = get_cursor()
         requete = "SELECT Concert.* FROM Participer NATURAL JOIN Concert WHERE id_artiste = %s;"
@@ -820,6 +1055,14 @@ def get_concerts_artiste(id_artiste):
     return None
 
 def get_equipement(id):
+    """Fonction permettant de récupérer un équipement dans la base de données
+
+    Args:
+        id (int): L'identifiant de l'équipement
+
+    Returns:
+        list: L'équipement
+    """
     try:
         cursor = get_cursor()
         requete = "SELECT * FROM Equipement where id_equipement= %s"
@@ -832,6 +1075,14 @@ def get_equipement(id):
     return None
 
 def get_equipement_salle(id_salle):
+    """Fonction permettant de récupérer les équipements d'une salle
+
+    Args:
+        id_salle (int): L'identifiant de la salle
+
+    Returns:
+        list: Les équipements d'une salle
+    """
     try:
         cursor = get_cursor()
         requete = "SELECT id_equipement,nom_equipement,quantite FROM Posseder NATURAL JOIN Equipement WHERE id_salle = %s;"
@@ -844,6 +1095,15 @@ def get_equipement_salle(id_salle):
     return None
 
 def get_equipement_concert(id_concert, id_artiste):
+    """Fonction permettant de récupérer les équipements d'un concert
+
+    Args:
+        id_concert (int): L'identifiant du concert
+        id_artiste (int): L'identifiant de l'artiste
+
+    Returns:
+        list: Les équipements d'un concert
+    """
     try:
         cursor = get_cursor()
         requete = "SELECT id_equipement,nom_equipement,quantite FROM Concert NATURAL JOIN Besoin_equipement_artiste NATURAL JOIN Equipement WHERE id_concert = %s and id_artiste = %s;"
@@ -859,6 +1119,15 @@ def get_equipement_concert(id_concert, id_artiste):
     return None
 
 def categoriser_equipements1(id_concert, id_artiste):
+    """Fonction permettant de trier les équipements d'un concert selon si on les possède ou non
+
+    Args:
+        id_concert (int): L'identifiant du concert
+        id_artiste (int): L'identifiant de l'artiste
+
+    Returns:
+        _type_: _description_
+    """
     try:
         cursor = get_cursor()
         requete = "SELECT id_equipement, nom_equipement, quantite, quantite_posseder FROM Concert NATURAL JOIN Besoin_equipement_artiste NATURAL JOIN Equipement WHERE id_concert = %s and id_artiste = %s;"
@@ -882,6 +1151,15 @@ def categoriser_equipements1(id_concert, id_artiste):
         return None, None
 
 def categoriser_equipements(id_concert, id_artiste):
+    """Fonction permettant de trier les équipements d'un concert selon si on les possède
+
+    Args:
+        id_concert (int): L'identifiant du concert
+        id_artiste (int): L'identifiant de l'artiste
+
+    Returns:
+        list : Les équipements possédés
+    """
     try:
         cursor = get_cursor()
         requete = "SELECT id_equipement, nom_equipement, quantite, quantite_posseder FROM Concert NATURAL JOIN Besoin_equipement_artiste NATURAL JOIN Equipement WHERE id_concert = %s and id_artiste = %s;"
@@ -897,6 +1175,11 @@ def categoriser_equipements(id_concert, id_artiste):
         return None, None
 
 def equipements():
+    """Fonction permettant de récupérer tout les équipements
+
+    Returns:
+        list: Tout les équipements
+    """
     equipements = []
     try:
         cursor = get_cursor()
@@ -911,6 +1194,14 @@ def equipements():
     return equipements
 
 def get_equipements_concert(id_concert):
+    """Fonction permettant de récupérer les équipements d'un concert
+
+    Args:
+        id_concert (int): L'identifiant du concert
+
+    Returns:
+        list: Les équipements d'un concert
+    """
     try:
         cursor = get_cursor()
         requete = "SELECT id_equipement,nom_equipement,quantite,quantite_posseder FROM Concert NATURAL JOIN Besoin_equipement_artiste NATURAL JOIN Equipement WHERE id_concert = %s;"
@@ -935,6 +1226,14 @@ def get_id_quantite_equipements_concert(id_concert):
     return None
 
 def get_tous_equipements_concert(id_concert):
+    """Fonction permettant de récupérer tout les équipements necessaire d'un concert
+
+    Args:
+        id_concert (int): L'identifiant du concert
+
+    Returns:
+        list: Tout les équipements necessaire d'un concert
+    """
     try:
         cursor = get_cursor()
         requete = "SELECT id_equipement, nom_equipement, IFNULL(quantite,0) FROM Equipement e NATURAL LEFT JOIN Concert NATURAL LEFT JOIN Besoin_equipement_artiste NATURAL LEFT JOIN Equipement WHERE id_concert = %s;"
@@ -947,6 +1246,14 @@ def get_tous_equipements_concert(id_concert):
     return None
 
 def get_tous_equipements_salle(id_salle):
+    """Fonction permettant de récupérer tout les équipements d'une salle
+
+    Args:
+        id_salle (int): L'identifiant de la salle
+
+    Returns:
+        list : Tout les équipements d'une salle
+    """
     try:
         cursor = get_cursor()
         requete = "SELECT id_equipement, nom_equipement, IFNULL(quantite,0) FROM Equipement e NATURAL LEFT JOIN Salle NATURAL LEFT JOIN Posseder NATURAL LEFT JOIN Equipement WHERE id_salle = %s;"
@@ -959,6 +1266,15 @@ def get_tous_equipements_salle(id_salle):
     return None
 
 def get_equipements_disponible(id_concert, id_salle):
+    """Fonction permettant de récupérer les équipements que l'on possede pour un concert
+
+    Args:
+        id_concert (int): L'identifiant du concert
+        id_salle (int): L'identifiant de la salle
+
+    Returns:
+        list: Les équipements que l'on possede pour un concert
+    """
     equipements_concert = get_equipements_concert(id_concert)
     try:
         cursor = get_cursor()
@@ -981,22 +1297,30 @@ def get_equipements_disponible(id_concert, id_salle):
         print(e.args)
     return None
 
-def save_artiste(id_artiste,
-                 nom_artiste,
-                 prenom_artiste,
-                 mail,
-                 telephone,
-                 date_de_naissance,
-                 lieu_de_naissance,
-                 adresse,
-                 securite_sociale,
-                 cni,
-                 date_delivrance_cni,
-                 date_expiration_cni,
-                 carte_reduction,
-                 genre_musique,
-                 nom_scene,
-                 conge_spectacle="Non"):
+def save_artiste(id_artiste, nom_artiste, prenom_artiste, mail, telephone,
+                 date_de_naissance, lieu_de_naissance, adresse, securite_sociale,
+                 cni, date_delivrance_cni, date_expiration_cni, carte_reduction,
+                 genre_musique, nom_scene, conge_spectacle="Non"):
+    """Fonction permettant de sauvegarder un artiste dans la base de données
+
+    Args:
+        id_artiste (int): L'identifiant de l'artiste
+        nom_artiste (str): Le nom de l'artiste
+        prenom_artiste (str): Le prenom de l'artiste
+        mail (str): L'adresse mail de l'artiste
+        telephone (str): Le numéro de téléphone de l'artiste
+        date_de_naissance (str): La date de naissance de l'artiste
+        lieu_de_naissance (str): Le lieu de naissance de l'artiste
+        adresse (str): L'adresse de l'artiste
+        securite_sociale (str): Le numéro de sécurité sociale de l'artiste
+        cni (_type_): Le cni de l'artiste
+        date_delivrance_cni (str): La date de délivrance du cni de l'artiste
+        date_expiration_cni (str): La date d'expiration du cni de l'artiste
+        carte_reduction (str): La carte de réduction de l'artiste
+        genre_musique (str): Le genre musical de l'artiste
+        nom_scene (str): Le nom de scène de l'artiste
+        conge_spectacle (str, optional): L'artiste a t'il des conges ou non. Defaults to "Non".
+    """
     try:
         cursor = get_cursor()
 
@@ -1020,6 +1344,14 @@ def save_artiste(id_artiste,
         print(e.args)
 
 def save_equipement_concert(id_concert, id_equipement, quantite):
+    """Fonction permettant de sauvegarder un équipement pour un concert dans la base de données
+
+    Args:
+        id_concert (int): L'identifiant du concert
+        id_equipement (int): L'identifiant de l'équipement
+        quantite (int): La quantité de l'équipement
+
+    """
     try:
         cursor = get_cursor()
         requete = "UPDATE Besoin_equipement_artiste SET quantite_posseder = %s WHERE id_concert = %s and id_equipement = %s;"
@@ -1039,6 +1371,16 @@ def save_necessaire_concert(id_concert,
                             quantite,
                             id_artiste,
                             ancienne_quantite=0):
+    """Fonction permettant de mettre a jour la quantite d'équipement pour un concert dans la base de données
+
+    Args:
+        id_concert (int): L'identifiant du concert
+        id_equipement (int): L'identifiant de l'équipement
+        quantite (int): La quantité de l'équipement
+        id_artiste (int): L'identifiant de l'artiste
+        ancienne_quantite (int, optional): La quantite qu'il avait avant modification. Defaults to 0.
+
+    """
     try:
         if quantite == 0:
             cursor = get_cursor()
@@ -1079,6 +1421,15 @@ def save_equipement_salle(id_salle,
                           id_equipement,
                           quantite,
                           ancienne_quantite=0):
+    """Fonction permettant de mettre a jour la quantite d'équipement pour une salle dans la base de données
+
+    Args:
+        id_salle (int): L'identifiant de la salle
+        id_equipement (int): L'identifiant de l'équipement
+        quantite (int): La quantité de l'équipement
+        ancienne_quantite (int, optional): La quantite qu'il avait avant modification . Defaults to 0.
+
+    """
     try:
         if quantite == 0:
             cursor = get_cursor()
@@ -1114,6 +1465,15 @@ def save_equipement_salle(id_salle,
     return None
 
 def get_logement_artiste(id_concert, id_artiste):
+    """Fonction permettant de récupérer le logement d'un artiste pour un concert
+
+    Args:
+        id_concert (int): L'identifiant du concert
+        id_artiste (int): L'identifiant de l'artiste
+
+    Returns:
+        _type_: _description_
+    """
     try:
         cursor = get_cursor()
         requete = "SELECT id_logement, nom_etablissement, nb_nuit FROM Logement NATURAL JOIN Loger WHERE id_artiste = %s AND id_concert=%s;"
@@ -1129,6 +1489,13 @@ def get_logement_artiste(id_concert, id_artiste):
     return None
 
 def supprimer_logement_artiste(id_concert, id_artiste):
+    """Fonction permettant de supprimer le logement d'un artiste pour un concert
+
+    Args:
+        id_concert (int): _description_
+        id_artiste (int): L'identifiant de l'artiste
+
+    """
     try:
         cursor = get_cursor()
         requete = "DELETE FROM Loger WHERE id_artiste = %s AND id_concert=%s;"
@@ -1143,6 +1510,15 @@ def supprimer_logement_artiste(id_concert, id_artiste):
     return None
 
 def add_logement_artiste(id_concert, id_artiste, id_logement, nb_nuit):
+    """Fonction permettant d'ajouter un logement pour un artiste pour un concert
+
+    Args:
+        id_concert (int): L'identifiant du concert
+        id_artiste (int): L'identifiant de l'artiste
+        id_logement (int): L'identifiant du logement
+        nb_nuit (int): Le nombre de nuit
+
+    """
     try:
         cursor = get_cursor()
         requete = "INSERT INTO Loger (id_artiste, id_concert, id_logement, nb_nuit) VALUES(%s, %s, %s, %s)"
