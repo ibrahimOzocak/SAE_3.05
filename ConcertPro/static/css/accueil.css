@@ -16,7 +16,10 @@ body {
     height: 18vw;
 }
 
-
+.valid{
+    display: flex;
+    justify-content: center;
+}
 
 .li_acc {
     width: 25vw;
