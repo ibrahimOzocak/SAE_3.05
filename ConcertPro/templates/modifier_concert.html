@@ -17,7 +17,7 @@
             {% endif %}
         </div>
         <label for="nom_concert">Nom du concert :</label>
-        <input type="textfield" id="nom_concert" name="nom_concert" required value="{{ concert[1] }}">
+        <input type="textfield" id="nom_concert" name="nom_concert" required value="{{ concert[1] }}" maxlength="42">
         <label for="artiste">Artiste</label>
         <select name="artiste">
             {% for a in artistes %}
@@ -36,7 +36,7 @@
             {% endfor %}
         </select>
         <label for="nuits">Nombre de nuits :</label>
-        <input type="number" id="nuits" name="nuits" required value="{{ logement_artiste[2] }}">
+        <input type="number" id="nuits" name="nuits" required value="{{ logement_artiste[2] }}" min="0">
         <label for="salle">Salle :</label>
         <select name="salle">
             {% for salle in salles %}
@@ -50,7 +50,7 @@
         <label for="duree_concert">La durée du concert :</label>
         <input type="textfield" id="duree_concert" name="duree_concert" required value="{{ concert[3] }}">
         <label for="description_concert">Description du concert :</label>
-        <input type="textfield" id="description_concert" name="description_concert" required value="{{ concert[6] }}">
+        <input type="textfield" id="description_concert" name="description_concert" required value="{{ concert[6] }}" maxlength="500">
         <button type="submit">Appliquer les modifications</button>
     </form>
 </div>

@@ -35,7 +35,7 @@
     {% if concerts|length ==  0 %}
     <a class="supprimer"  href="{{ url_for('supprimer_artiste', id_artiste=artiste[0]) }}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer {{ artiste[16] }},  cette action est irréversible?');">supprimer l'artiste</a>
     {% else %}
-    <a class="supprimer" href="#" onclick="alert('Vous ne pouvez pas modifier un artiste qui a des concerts')">Supprimer concert</a>
+    <a class="supprimer" href="#" onclick="alert('Vous ne pouvez pas modifier un artiste qui a des concerts')">supprimer l'artiste</a>
     {% endif %}
 
 </div>

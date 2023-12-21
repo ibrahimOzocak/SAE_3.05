@@ -17,23 +17,23 @@
             {% endif %}
         </div>
         <label for="nom">Nom de la salle :</label>
-        <input type="textarea" id="nom" name="nom" required value="{{ salle[3] }}">
+        <input type="textarea" id="nom" name="nom" required value="{{ salle[3] }}" maxlength="42">
         <label for="description">Description :</label>
-        <input type="textarea" id="description" name="description" required value="{{ salle[7] }}">
+        <input type="textarea" id="description" name="description" required value="{{ salle[7] }}" maxlength="500">
         <label for="loge">Loge :</label>
-        <input type="textfield" id="loge" name="loge" required value="{{ salle[2] }}">
+        <input type="textfield" id="loge" name="loge" required value="{{ salle[2] }}" maxlength="42">
         <label for="nombre de places">Nombre de places :</label>
-        <input type="textfield" id="nombre de places" name="nombre de places" required value="{{ salle[4] }}">
+        <input type="number" id="nombre de places" name="nombre de places" required value="{{ salle[4] }}">
         <label for="adresse">Adresse :</label>
-        <input type="textfield" id="adresse" name="adresse" required value="{{ salle[8] }}">
+        <input type="textfield" id="adresse" name="adresse" required value="{{ salle[8] }}" maxlength="500">
         <label for="telephone">Téléphone :</label>
-        <input type="textfield" id="telephone" name="telephone" required value="{{ salle[9] }}">
+        <input type="textfield" id="telephone" name="telephone" required value="{{ salle[9] }}" maxlength="42">
         <label for="profondeur scene">Profondeur scene :</label>
-        <input type="textfield" id="profondeur scene" name="profondeur scene" required value="{{ salle[5] }}">
+        <input type="number" id="profondeur scene" name="profondeur scene" required value="{{ salle[5] }}">
         <label for="longueur scene">Longueur scene :</label>
-        <input type="textfield" id="longueur scene" name="longueur scene" required value="{{ salle[6] }}">
+        <input type="number" id="longueur scene" name="longueur scene" required value="{{ salle[6] }}">
         <label for="type">Type :</label>
-        <select name="type" id="type">
+        <select name="type" id="type" required>
             {% for type in types %}
             <option value="{{ type[0] }}" {% if type[0] == type_salle[0] %}selected{% endif %}>{{ type[1] }}</option>
             {% endfor %}

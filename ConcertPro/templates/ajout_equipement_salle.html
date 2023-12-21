@@ -9,7 +9,7 @@
     <section>
         {% for equipement in equipements %}
         <label for="{{ equipement[0] }}">{{ equipement[1] }}</label>
-        <input type="number" name="{{ equipement[0] }}" min="0" value="{{ equipement[2] }}"/>
+        <input type="number" name="{{ equipement[0] }}" min="0" value="{{ equipement[2] }}" required/>
         <input type="hidden" name="hidden{{ equipement[0] }}" value="{{ equipement[2] }}"/>
         {% endfor %}
     </section>

@@ -14,9 +14,9 @@
 
         <div>
             <label for="titre">Titre du concert</label>
-            <input type="text" name="titre"/>
+            <input type="text" name="titre" maxlength="42" required/>
             <label for="date_debut">Date de début</label>
-            <input type="date" name="date_debut"/>
+            <input type="date" name="date_debut" required/>
             <label for="heure_debut">Heure de début (hh:mm)</label>
             <input type="time" name="heure_debut" min="00:00" max="23:59" required/>
             <label for="duree">Durée (hh:mm)</label>
@@ -41,7 +41,7 @@
             </section>
             <section class="section_creer sec2c">
                 <label for="nuits">Nombre de nuits</label>
-                <input type="number" name="nuits" min="0" value="0"/>
+                <input type="number" name="nuits" min="0" value="0" required/>
             </section>
             <section class="section_creer sec3">
                 <label for="salle">Salle</label>

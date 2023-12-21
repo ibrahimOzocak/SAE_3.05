@@ -8,9 +8,7 @@
 <div class="container">
     {% for i in range(b|length) %}
         <p>{{ b[i] }} : {{info[i]}}</p>
-        
     {% endfor %}
-
 </div>
 <a class="bouton" href="{{ url_for('rider', informations=','.join(info)) }}">Télécharger en format PDF</a>       
 <a class="bouton" href="{{ url_for('save_artiste_to_rider', informations=','.join(info)) }}"> Sauvegarder dans la base de donnée </a>

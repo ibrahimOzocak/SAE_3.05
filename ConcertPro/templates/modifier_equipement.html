@@ -8,7 +8,7 @@
 <div class="container">
     <form method="POST" action="{{ url_for('confirmer_modif_equipement', id_equipement=equipement[0], nom_equipement=equipement[1]) }}">
         <label for="equipement">Equipement :</label>
-        <input type="textfield" id="equipement" name="equipement" required value="{{ equipement[1] }}">
+        <input type="textfield" id="equipement" name="equipement" required value="{{ equipement[1] }}" maxlength="42">
         <button type="submit">Appliquer les modifications</button>
     </form>
 </div>

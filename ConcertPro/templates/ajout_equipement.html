@@ -7,7 +7,7 @@
 <form action="{{ url_for('save_equipement') }}" method="POST" enctype="multipart/form-data">
     <section class="nouvel_equipement">
         <label for="nom_equipement">Nom de l'équipement</label>
-        <input type="text" name="nom_equipement"/>
+        <input type="text" name="nom_equipement" maxlength="42" required/>
     </section>
     <input class="valider" type="submit" id="valider" name="valider" value="Valider l'ajout de cet équipement"/>
 </form>
