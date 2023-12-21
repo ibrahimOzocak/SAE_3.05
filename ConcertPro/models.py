@@ -1603,6 +1603,14 @@ def add_logement_artiste(id_concert, id_artiste, id_logement, nb_nuit):
 
 
 def get_type_salle(id_salle):
+    """Fonction permettant de récupérer le type d'une salle
+
+    Args:
+        id_salle (int): L'identifiant de la salle
+
+    Returns:
+        list: Le type d'une salle
+    """
     try:
         cursor = get_cursor()
         requete = "SELECT id_type, type_place_s FROM Type_Salle JOIN Salle ON Salle.id_type_salle = Type_Salle.id_type WHERE id_salle = %s;"
@@ -1616,6 +1624,12 @@ def get_type_salle(id_salle):
 
 
 def confirmer_modif_equipement(id_equipement, nom_equipement):
+    """Fonction permettant de confirmer la modification d'un équipement
+
+    Args:
+        id_equipement (int): L'identifiant de l'équipement
+        nom_equipement (str): Le nom de l'équipement
+    """
     try:
         cursor = get_cursor()
         requete = "UPDATE Equipement SET nom_equipement = %s WHERE id_equipement = %s;"
