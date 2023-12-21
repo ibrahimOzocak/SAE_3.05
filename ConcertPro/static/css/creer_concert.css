@@ -156,7 +156,7 @@ label{
     color: black;
 }
 
-.sec3 {
+.sec3,.sec4 {
     display: flex;
     justify-content: space-between; /* Aligne les éléments à gauche, au centre et à droite */
     align-items: center; /* Centre verticalement les éléments */
@@ -216,11 +216,7 @@ label{
     color: black;
 }
 
-.sec4 {
-    display: flex;
-    justify-content: space-between; /* Aligne les éléments à gauche, au centre et à droite */
-    align-items: center; /* Centre verticalement les éléments */
-}
+
 
 .sec4 label, .sec4 textarea{
     flex: 1; /* Partage l'espace disponible de manière égale entre les éléments */
