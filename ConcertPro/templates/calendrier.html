@@ -6,7 +6,7 @@
 {% block content %}
 <section id="Agenda">
     <h2><span>Agenda de la semaine</span> </h2>
-    <form method="POST" action="{{ url_for('calendrier_redirection') }}">
+    <form class="valid" method="POST" action="{{ url_for('calendrier_redirection') }}">
         <input type="date" name="date">
         <input type="submit" value="Valider">
     </form>

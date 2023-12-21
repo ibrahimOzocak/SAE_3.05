@@ -16,7 +16,12 @@
     align-items: center; /* Centre verticalement tout le contenu */
 }
 
-
+.retour{
+    width: 50px;
+    position: absolute;
+    left: 0;
+    margin: 20px;
+}
 
 
 .infos{
