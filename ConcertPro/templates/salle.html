@@ -43,8 +43,8 @@
     </div>
 </div>
 <div class="bouton">
-    <a href="{{ url_for('modifier_salle', id_salle=salle[0]) }}" class="modifier">modifier la salle</a>
-    <a href="{{ url_for('ajout_equipement_salle', id_salle=salle[0]) }}" class="modifier">modifier le matériel</a>
-    <a href="{{ url_for('supprimer_salle', id_salle=salle[0]) }}" class="supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette salle, cette action est irréversible?');">supprimer la salle</a>
+    <a href="{{ url_for('modifier_salle', id_salle=salle[0]) }}" class="modifier">Modifier la salle</a>
+    <a href="{{ url_for('ajout_equipement_salle', id_salle=salle[0]) }}" class="modifier">Modifier le matériel</a>
+    <a href="{{ url_for('supprimer_salle', id_salle=salle[0]) }}" class="supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette salle, cette action est irréversible?');">Supprimer la salle</a>
 </div>
 {% endblock %}
