@@ -5,12 +5,8 @@
 {% endblock %}
 {% block content %}
 <h2>{{ equipement[1] }}</h2>
-<div>
-    <a href="{{ url_for('supprimer_equipement', id_equipement=equipement[0]) }}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette equipement, cette action est irréversible??');">supprimer l'equipement</a>
-</div>
 <div class="bouton">
     <a href="{{ url_for('modifier_equipement', id_equipement=equipement[0]) }}" class="modifier">modifier l'equipement</a>
     <a href="{{ url_for('supprimer_equipement', id_equipement=equipement[0]) }}" class="supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette equipement,  cette action est irréversible??');">supprimer l'equipement</a>
 </div>
-
 {% endblock %}

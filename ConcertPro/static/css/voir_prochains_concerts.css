@@ -34,7 +34,13 @@
 .img_acc {
     width: 100%;
     border-radius: 10px 10px 0 0;
+    height: auto;
+}
+
+.div_img{
+    width: 100%;
     height: 26vh;
+    overflow: hidden;
 }
 
 .img_art{
@@ -46,6 +52,7 @@
     left: -100px;
     top: -70px;
 }
+
 .personne{
     display: flex;
 }
@@ -102,6 +109,3 @@ a{
     margin-bottom: 1%;
 }
 
-.nomLogement{
-    margin-bottom: 15%;
-}
