@@ -52,6 +52,7 @@
     left: -100px;
     top: -70px;
 }
+
 .personne{
     display: flex;
 }
@@ -108,6 +109,3 @@ a{
     margin-bottom: 1%;
 }
 
-.nomLogement{
-    margin-bottom: 15%;
-}

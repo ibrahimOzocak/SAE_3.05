@@ -14,28 +14,28 @@
 
         <div>
             <label for="titre">Nom de la salle</label>
-            <input type="text" name="titre"/>
+            <input type="text" name="titre" value=""/>
             <label for="place">Nombre de place</label>
-            <input type="text" name="place"/>
+            <input type="text" name="place" value="0"/>
             <section class="section_creer sec6">
                 <label for="typeplace">Type de salle</label>
                 <select name="type_salle">
                     {% for type_salle in types %}
-                    <option>{{ type_salle[0] }}</option>
+                    <option value="{{ type_salle[0] }}">{{ type_salle[1] }}</option>
                     {% endfor %}
                 </select>
                 <a href="{{ url_for('ajout_type_salle') }}"><button type="button">Créer un nouveau type</button></a>
             </section>
             <label for="profondeur">Profondeur de la scene</label>
-            <input type="text" name="profondeur"/>
+            <input type="text" name="profondeur" value="0"/>
             <label for="longueur">Longeur de la scene</label>
-            <input type="text" name="longueur"/>
+            <input type="text" name="longueur" value="0"/>
             <label for="adresse">Adresse de la salle</label>
-            <input type="text" name="adresse"/>
+            <input type="text" name="adresse" value=""/>
             <label for="postalville">Code postal et ville de la salle (ex : 45000 Orléans)</label>
-            <input type="text" name="postalville"/> 
+            <input type="text" name="postalville" value=""/> 
             <label for="telephone">Numéro de téléphone de la salle</label>
-            <input type="text" name="telephone"/>
+            <input type="text" name="telephone" value=""/>
             <div>
                 <input type="checkbox" id="accueilpmr" name="accueilpmr"/>
                 <label for="accueilpmr">La salle accueille les personnes à mobilité réduite</label>
@@ -44,10 +44,6 @@
                 <input type="checkbox" id="loge" name="loge"/>
                 <label for="loge">La salle possède une loge</label>  
             </div>
-            <label for="nomequipement">Nom de l'équipement</label>
-            <input type="text" name="nomequipement"/> 
-            <label for="quantitedispo">Quantité disponible</label>
-            <input type="text" name="quantitedispo"/> 
             <label for="description">Description</label>
             <input type="text" name="description"/> 
         </div>
