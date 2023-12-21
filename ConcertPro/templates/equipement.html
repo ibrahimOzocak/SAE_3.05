@@ -9,7 +9,7 @@
     <h2>{{ equipement[1] }}</h2>
 </div>
 <div class="bouton">
-    <a href="{{ url_for('modifier_equipement', id_equipement=equipement[0]) }}" class="modifier">Modifier l'equipement</a>
-    <a href="{{ url_for('supprimer_equipement', id_equipement=equipement[0]) }}" class="supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette equipement,  cette action est irréversible??');">Supprimer l'equipement</a>
+    <a href="{{ url_for('modifier_equipement', id_equipement=equipement[0]) }}" class="modifier">Modifier l'équipement</a>
+    <a href="{{ url_for('supprimer_equipement', id_equipement=equipement[0]) }}" class="supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette equipement,  cette action est irréversible??');">Supprimer l'équipement</a>
 </div>
 {% endblock %}
