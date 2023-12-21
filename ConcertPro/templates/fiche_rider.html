@@ -12,4 +12,5 @@
 </div>
 <a class="bouton" href="{{ url_for('rider', informations=','.join(info)) }}">Télécharger en format PDF</a>       
 <a class="bouton" href="{{ url_for('save_artiste_to_rider', informations=','.join(info)) }}"> Sauvegarder dans la base de donnée </a>
+<a class="bouton" href="{{ url_for('modifier_rider', informations = ','.join(info), base = ','.join(b))}}"> Modifier le rider </a>
 {% endblock %}

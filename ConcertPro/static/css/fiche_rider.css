@@ -39,3 +39,8 @@ main{
     left: 0;
     margin: 20px;
 }
+
+textarea{
+    width: 50em;
+    height: 10em;
+}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/fiche_rider.css')}}">
+{% endblock %}
+{% block content %}
+<a href="{{url_for('afficher_rider')}}"><img class="retour" src="../static/images/retour.png" alt=""></a>
+<form method="post" action="">
+    <div class="container">
+        {% for i in range(b|length) %}
+            {% if b[i] == "Horodateur" or b[i] == "Identifiant" %}
+                <p>{{ b[i] }} : {{ info[i] }}</p>
+            {% elif b[i] in ["Nom", "Prénom", "Lieu de naissance", "Adresse", "N° sécurité sociale", "N° CNI"] %}
+                <p>{{ b[i] }} : </p>
+                <input type="text" id="textInput{{ i }}" name="textInput{{ i }}" value="{{ info[i] }}" />
+            {% elif b[i] in ["Date d'expiration", "Date de délivrance", "Date de naissance"] %}
+                <p>{{ b[i] }} : </p>
+                <input type="date" id="textDate{{ i }}" name="textDate{{ i }}" value="{{ info[i] }}">
+            {% else %}
+            <p>{{ b[i] }} : </p>
+            <textarea id="textarea{{ i }}" name="textarea{{ i }}">{{ info[i] }}</textarea></p>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <button type="submit" class=""> Valider la modification </button>
+</form>
+<div class="annuler">
+    <a href="{{ url_for('fiche_rider', informations = ','.join(info), base = ','.join(b))}}">Annuler les modifications</a>
+</div>
+{% endblock %}
