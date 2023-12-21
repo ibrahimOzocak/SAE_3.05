@@ -607,6 +607,27 @@ def confirmer_modif_artiste(id_artiste, nom_artiste, prenom_artiste,
                             lieu_de_naissance, adresse, numero_secu_sociale,
                             cni, date_delivrance_cni, date_expiration_cni,
                             carte_reduction, genre_musical, photo):
+    """Fonction permettant de confirmer la modification d'un artiste
+
+    Args:
+        id_artiste (int): L'identifiant du artiste
+        nom_artiste (str): Le nom de l'artiste
+        prenom_artiste (str): Le prenom de l'artiste
+        nom_de_scene (str): Le nom de scene de l'artiste
+        mail (str): Le mail de l'artiste
+        telephone (int): Le telephone de l'artiste
+        date_de_naissance (str): La date de naissance de l'artiste
+        lieu_de_naissance (str): Le lieu de naissance de l'artiste
+        addresse (str): L'adresse de l'artiste
+        numero_secu_sociale (str): Le numero de securite sociale de l'artiste
+        cni (str): La cni de l'artiste
+        date_delivrance_cni (str): La date de delivrance de la cni de l'artiste
+        date_expiration_cni (str): La date d'expiration de la cni de l'artiste
+        carte_reduction (str): La carte de reduction de l'artiste
+        genre_musical (str): Le genre musical de l'artiste
+        photo (bytes): La photo de l'artiste
+
+    """
     try:
         get_image(id_artiste, "artiste", photo)
         cursor = get_cursor()
@@ -656,6 +677,22 @@ def confirmer_modif_artiste(id_artiste, nom_artiste, prenom_artiste,
 def confirmer_modif_salle(id_salle, nom, description, loge, nombre_place,
                           adresse, telephone, profondeur_scene, longueur_scene,
                           photo):
+    """Fonction permettant de confirmer la modification d'un artiste
+
+    Args:
+        id_salle (int): L'identifiant de la salle
+        nom (str): Le nom de la salle
+        description (str): La description de la salle
+        loge (str): Loge ou pas
+        nombre_place (int): Le nombre de place de la salle
+        adresse (str): L'adresse de la salle
+        telephone (int): Le telephone de la salle
+        profondeur_scene (int): La profondeur de la scene
+        longueur_scene (int): La longueur de la scene
+        photo (bytes): La photo de la salle
+
+    """
+    
     try:
         cursor = get_cursor()
 
@@ -1017,6 +1054,14 @@ def add_artiste_concert(id_concert, id_artiste):
 
 
 def get_concerts_artiste(id_artiste):
+    """Fonction permettant de récupérer tout les concerts d'un artiste
+
+    Args:
+        id_artiste (int): L'identifiant de l'artiste
+
+    Returns:
+        list: Tout les concerts d'un artiste
+    """
     try:
         cursor = get_cursor()
         requete = "SELECT Concert.* FROM Participer NATURAL JOIN Concert WHERE id_artiste = %s;"
@@ -1030,6 +1075,14 @@ def get_concerts_artiste(id_artiste):
 
 
 def get_equipement(id):
+    """Fonction permettant de récupérer un équipement dans la base de données
+
+    Args:
+        id (int): L'identifiant de l'équipement
+
+    Returns:
+        list: L'équipement
+    """
     try:
         cursor = get_cursor()
         requete = "SELECT * FROM Equipement where id_equipement= %s"
@@ -1043,6 +1096,14 @@ def get_equipement(id):
 
 
 def get_equipement_salle(id_salle):
+    """Fonction permettant de récupérer les équipements d'une salle
+
+    Args:
+        id_salle (int): L'identifiant de la salle
+
+    Returns:
+        list: Les équipements d'une salle
+    """
     try:
         cursor = get_cursor()
         requete = "SELECT id_equipement,nom_equipement,quantite FROM Posseder NATURAL JOIN Equipement WHERE id_salle = %s;"
@@ -1056,6 +1117,15 @@ def get_equipement_salle(id_salle):
 
 
 def get_equipement_concert(id_concert, id_artiste):
+    """Fonction permettant de récupérer les équipements d'un concert
+
+    Args:
+        id_concert (int): L'identifiant du concert
+        id_artiste (int): L'identifiant de l'artiste
+
+    Returns:
+        list: Les équipements d'un concert
+    """
     try:
         cursor = get_cursor()
         requete = "SELECT id_equipement,nom_equipement,quantite FROM Concert NATURAL JOIN Besoin_equipement_artiste NATURAL JOIN Equipement WHERE id_concert = %s and id_artiste = %s;"
@@ -1072,6 +1142,15 @@ def get_equipement_concert(id_concert, id_artiste):
 
 
 def categoriser_equipements1(id_concert, id_artiste):
+    """Fonction permettant de trier les équipements d'un concert selon si on les possède ou non
+
+    Args:
+        id_concert (int): L'identifiant du concert
+        id_artiste (int): L'identifiant de l'artiste
+
+    Returns:
+        _type_: _description_
+    """
     try:
         cursor = get_cursor()
         requete = "SELECT id_equipement, nom_equipement, quantite, quantite_posseder FROM Concert NATURAL JOIN Besoin_equipement_artiste NATURAL JOIN Equipement WHERE id_concert = %s and id_artiste = %s;"
@@ -1099,6 +1178,15 @@ def categoriser_equipements1(id_concert, id_artiste):
 
 
 def categoriser_equipements(id_concert, id_artiste):
+    """Fonction permettant de trier les équipements d'un concert selon si on les possède
+
+    Args:
+        id_concert (int): L'identifiant du concert
+        id_artiste (int): L'identifiant de l'artiste
+
+    Returns:
+        list : Les équipements possédés
+    """
     try:
         cursor = get_cursor()
         requete = "SELECT id_equipement, nom_equipement, quantite, quantite_posseder FROM Concert NATURAL JOIN Besoin_equipement_artiste NATURAL JOIN Equipement WHERE id_concert = %s and id_artiste = %s;"
@@ -1116,6 +1204,11 @@ def categoriser_equipements(id_concert, id_artiste):
 
 
 def equipements():
+    """Fonction permettant de récupérer tout les équipements
+
+    Returns:
+        list: Tout les équipements
+    """
     equipements = []
     try:
         cursor = get_cursor()
@@ -1131,6 +1224,14 @@ def equipements():
 
 
 def get_equipements_concert(id_concert):
+    """Fonction permettant de récupérer les équipements d'un concert
+
+    Args:
+        id_concert (int): L'identifiant du concert
+
+    Returns:
+        list: Les équipements d'un concert
+    """
     try:
         cursor = get_cursor()
         requete = "SELECT id_equipement,nom_equipement,quantite,quantite_posseder FROM Concert NATURAL JOIN Besoin_equipement_artiste NATURAL JOIN Equipement WHERE id_concert = %s;"
@@ -1157,6 +1258,14 @@ def get_id_quantite_equipements_concert(id_concert):
 
 
 def get_tous_equipements_concert(id_concert):
+    """Fonction permettant de récupérer tout les équipements necessaire d'un concert
+
+    Args:
+        id_concert (int): L'identifiant du concert
+
+    Returns:
+        list: Tout les équipements necessaire d'un concert
+    """
     try:
         cursor = get_cursor()
         requete = "SELECT id_equipement, nom_equipement, IFNULL(quantite,0) FROM Equipement e NATURAL LEFT JOIN Concert NATURAL LEFT JOIN Besoin_equipement_artiste NATURAL LEFT JOIN Equipement WHERE id_concert = %s;"
@@ -1170,6 +1279,14 @@ def get_tous_equipements_concert(id_concert):
 
 
 def get_tous_equipements_salle(id_salle):
+    """Fonction permettant de récupérer tout les équipements d'une salle
+
+    Args:
+        id_salle (int): L'identifiant de la salle
+
+    Returns:
+        list : Tout les équipements d'une salle
+    """
     try:
         cursor = get_cursor()
         requete = "SELECT id_equipement, nom_equipement, IFNULL(quantite,0) FROM Equipement e NATURAL LEFT JOIN Salle NATURAL LEFT JOIN Posseder NATURAL LEFT JOIN Equipement WHERE id_salle = %s;"
@@ -1183,6 +1300,15 @@ def get_tous_equipements_salle(id_salle):
 
 
 def get_equipements_disponible(id_concert, id_salle):
+    """Fonction permettant de récupérer les équipements que l'on possede pour un concert
+
+    Args:
+        id_concert (int): L'identifiant du concert
+        id_salle (int): L'identifiant de la salle
+
+    Returns:
+        list: Les équipements que l'on possede pour un concert
+    """
     equipements_concert = get_equipements_concert(id_concert)
     try:
         cursor = get_cursor()
@@ -1206,22 +1332,30 @@ def get_equipements_disponible(id_concert, id_salle):
     return None
 
 
-def save_artiste(id_artiste,
-                 nom_artiste,
-                 prenom_artiste,
-                 mail,
-                 telephone,
-                 date_de_naissance,
-                 lieu_de_naissance,
-                 adresse,
-                 securite_sociale,
-                 cni,
-                 date_delivrance_cni,
-                 date_expiration_cni,
-                 carte_reduction,
-                 genre_musique,
-                 nom_scene,
-                 conge_spectacle="Non"):
+def save_artiste(id_artiste, nom_artiste, prenom_artiste, mail, telephone,
+                 date_de_naissance, lieu_de_naissance, adresse, securite_sociale,
+                 cni, date_delivrance_cni, date_expiration_cni, carte_reduction,
+                 genre_musique, nom_scene, conge_spectacle="Non"):
+    """Fonction permettant de sauvegarder un artiste dans la base de données
+
+    Args:
+        id_artiste (int): L'identifiant de l'artiste
+        nom_artiste (str): Le nom de l'artiste
+        prenom_artiste (str): Le prenom de l'artiste
+        mail (str): L'adresse mail de l'artiste
+        telephone (str): Le numéro de téléphone de l'artiste
+        date_de_naissance (str): La date de naissance de l'artiste
+        lieu_de_naissance (str): Le lieu de naissance de l'artiste
+        adresse (str): L'adresse de l'artiste
+        securite_sociale (str): Le numéro de sécurité sociale de l'artiste
+        cni (_type_): Le cni de l'artiste
+        date_delivrance_cni (str): La date de délivrance du cni de l'artiste
+        date_expiration_cni (str): La date d'expiration du cni de l'artiste
+        carte_reduction (str): La carte de réduction de l'artiste
+        genre_musique (str): Le genre musical de l'artiste
+        nom_scene (str): Le nom de scène de l'artiste
+        conge_spectacle (str, optional): L'artiste a t'il des conges ou non. Defaults to "Non".
+    """
     try:
         cursor = get_cursor()
         req = "INSERT INTO Artiste (id_artiste, nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_naissance, adresse, securite_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction, nom_style_musique, nom_scene,conge_spectacle) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s)"
@@ -1238,6 +1372,14 @@ def save_artiste(id_artiste,
 
 
 def save_equipement_concert(id_concert, id_equipement, quantite):
+    """Fonction permettant de sauvegarder un équipement pour un concert dans la base de données
+
+    Args:
+        id_concert (int): L'identifiant du concert
+        id_equipement (int): L'identifiant de l'équipement
+        quantite (int): La quantité de l'équipement
+
+    """
     try:
         cursor = get_cursor()
         requete = "UPDATE Besoin_equipement_artiste SET quantite_posseder = %s WHERE id_concert = %s and id_equipement = %s;"
@@ -1258,6 +1400,16 @@ def save_necessaire_concert(id_concert,
                             quantite,
                             id_artiste,
                             ancienne_quantite=0):
+    """Fonction permettant de mettre a jour la quantite d'équipement pour un concert dans la base de données
+
+    Args:
+        id_concert (int): L'identifiant du concert
+        id_equipement (int): L'identifiant de l'équipement
+        quantite (int): La quantité de l'équipement
+        id_artiste (int): L'identifiant de l'artiste
+        ancienne_quantite (int, optional): La quantite qu'il avait avant modification. Defaults to 0.
+
+    """
     try:
         if quantite == 0:
             cursor = get_cursor()
@@ -1299,6 +1451,15 @@ def save_equipement_salle(id_salle,
                           id_equipement,
                           quantite,
                           ancienne_quantite=0):
+    """Fonction permettant de mettre a jour la quantite d'équipement pour une salle dans la base de données
+
+    Args:
+        id_salle (int): L'identifiant de la salle
+        id_equipement (int): L'identifiant de l'équipement
+        quantite (int): La quantité de l'équipement
+        ancienne_quantite (int, optional): La quantite qu'il avait avant modification . Defaults to 0.
+
+    """
     try:
         if quantite == 0:
             cursor = get_cursor()
@@ -1335,6 +1496,15 @@ def save_equipement_salle(id_salle,
 
 
 def get_logement_artiste(id_concert, id_artiste):
+    """Fonction permettant de récupérer le logement d'un artiste pour un concert
+
+    Args:
+        id_concert (int): L'identifiant du concert
+        id_artiste (int): L'identifiant de l'artiste
+
+    Returns:
+        _type_: _description_
+    """
     try:
         cursor = get_cursor()
         requete = "SELECT id_logement, nom_etablissement, nb_nuit FROM Logement NATURAL JOIN Loger WHERE id_artiste = %s AND id_concert=%s;"
@@ -1351,6 +1521,13 @@ def get_logement_artiste(id_concert, id_artiste):
 
 
 def supprimer_logement_artiste(id_concert, id_artiste):
+    """Fonction permettant de supprimer le logement d'un artiste pour un concert
+
+    Args:
+        id_concert (int): _description_
+        id_artiste (int): L'identifiant de l'artiste
+
+    """
     try:
         cursor = get_cursor()
         requete = "DELETE FROM Loger WHERE id_artiste = %s AND id_concert=%s;"
@@ -1366,6 +1543,15 @@ def supprimer_logement_artiste(id_concert, id_artiste):
 
 
 def add_logement_artiste(id_concert, id_artiste, id_logement, nb_nuit):
+    """Fonction permettant d'ajouter un logement pour un artiste pour un concert
+
+    Args:
+        id_concert (int): L'identifiant du concert
+        id_artiste (int): L'identifiant de l'artiste
+        id_logement (int): L'identifiant du logement
+        nb_nuit (int): Le nombre de nuit
+
+    """
     try:
         cursor = get_cursor()
         requete = "INSERT INTO Loger (id_artiste, id_concert, id_logement, nb_nuit) VALUES(%s, %s, %s, %s)"
