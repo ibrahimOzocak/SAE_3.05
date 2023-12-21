@@ -10,6 +10,10 @@ import googleapiclient.discovery
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 from urllib.parse import unquote
+from datetime import datetime
+from weasyprint import HTML, CSS
+
+
 
 HEURES_DECALAGE_1 = [
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
@@ -334,21 +338,21 @@ def confirmer_modif_salle(id_salle):
 @app.route('/artiste/<id_artiste>/modifier')
 def modifier_artiste(id_artiste):
     """page de l'artiste <id_artiste>"""
-    artiste = mo.get_artiste(id_artiste)
+    lartiste = mo.get_artiste(id_artiste)
     styles = mo.styles_musisque()
     return render_template('modifier_artiste.html',
-                           artiste=artiste,
+                           artiste=lartiste,
                            styles=styles)
 
 
 @app.route('/salle/<id_salle>/modifier')
 def modifier_salle(id_salle):
     """page de la salle <id_salle>"""
-    salle = mo.get_salle(id_salle)
+    la_salle = mo.get_salle(id_salle)
     type_salle = mo.get_type_salle(id_salle)
     types = mo.get_type_salles()
     return render_template('modifier_salle.html',
-                           salle=salle,
+                           salle=la_salle,
                            type_salle=type_salle,
                            types=types)
 
@@ -426,18 +430,17 @@ def modifier_rider():
     informations = unquote(informations).split(',')
     base = request.args.get('base')
     base = unquote(base).split(',')
-    if "/" in informations[4]:
+    if '/' in informations[4]:
         informations[4] = convert_date_format(informations[4])
-    if "/" in informations[10]:
+    if '/' in informations[10]:
         informations[10] = convert_date_format(informations[10])
-    if "/" in informations[11]:
+    if '/' in informations[11]:
         informations[11] = convert_date_format(informations[11])
-    return render_template("modifier_rider.html", b=base, info=informations)
+    return render_template('modifier_rider.html', b=base, info=informations)
 
 def convert_date_format(date_str):
-    from datetime import datetime
-    date_obj = datetime.strptime(date_str, "%d/%m/%Y")
-    nouvelle_date_str = date_obj.strftime("%Y-%m-%d")
+    date_obj = datetime.strptime(date_str, '%d/%m/%Y')
+    nouvelle_date_str = date_obj.strftime('%Y-%m-%d')
     return nouvelle_date_str
 
 
@@ -495,8 +498,8 @@ def supprimer_logement(id_logement):
 @app.route('/logement/<id_logement>/modifier')
 def modifier_logement(id_logement):
     """page de l'artiste <id_logement>"""
-    logement = mo.get_logement(id_logement)
-    return render_template('modifier_logement.html', logement=logement)
+    le_logement = mo.get_logement(id_logement)
+    return render_template('modifier_logement.html', logement=le_logement)
 
 
 @app.route('/modif_logement/<id_logement>', methods=('POST', ))
@@ -603,8 +606,8 @@ def voir_equipements():
 @app.route('/equipement/<id_equipement>')
 def equipement(id_equipement):
     """page de l'equipement <id_equipement>"""
-    equipement = mo.get_equipement(id_equipement)
-    return render_template('equipement.html', equipement=equipement)
+    lequipement = mo.get_equipement(id_equipement)
+    return render_template('equipement.html', equipement=lequipement)
 
 
 @app.route('/save_equipement', methods=('POST', ))
@@ -676,8 +679,8 @@ def supprimer_equipement(id_equipement):
 @app.route('/equipement/<id_equipement>/modifier')
 def modifier_equipement(id_equipement):
     """modifier l'equipement' <id_equipement>"""
-    equipement = mo.get_equipement(id_equipement)
-    return render_template('modifier_equipement.html', equipement=equipement)
+    lequipement = mo.get_equipement(id_equipement)
+    return render_template('modifier_equipement.html', equipement=lequipement)
 
 
 @app.route('/confirmer_equipement/<id_equipement>', methods=('POST', ))
@@ -762,9 +765,8 @@ def afficher_rider():
     spreadsheet_id = '1kpj-WOIBMWlcQ0UjUBzClUZHpHbAcNtbs1boWUaYemM'
     result = service.spreadsheets().values().get(
         spreadsheetId=spreadsheet_id, range='reponse_formulaire').execute()
-    values = result.get('values', [])
-    
-    return render_template("afficher_rider.html",
+    values = result.get('values', [])    
+    return render_template('afficher_rider.html',
                            values=values)
 
 
@@ -773,7 +775,6 @@ def rider():
     informations = request.args.get('informations')
     informations = unquote(informations).split(',')
     html_content = render_template('rider.html', informations=informations)
-    from weasyprint import HTML, CSS
     css_path = './ConcertPro/static/css/rider.css'
     pdf = HTML(string=html_content).write_pdf(
         stylesheets=[CSS(filename=css_path)])
