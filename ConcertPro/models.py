@@ -659,6 +659,19 @@ def remove_logement(id_logement):
 def remove_artiste(id):
     try:
         cursor = get_cursor()
+        
+        import json
+        try:
+            with open("./ConcertPro/static/json/rider.json", 'r') as fichier:
+                data = json.load(fichier)
+            for d in data:
+                if id == str(d[1]):
+                    data.remove(d)
+            with open("./ConcertPro/static/json/rider.json", 'w') as fichier:
+                json.dump(data, fichier, indent=2)
+        except Exception as e:
+            print(e.args)
+        
         req = "DELETE FROM Artiste where id_artiste= %s"
         cursor.execute(req, (id, ))
         db.commit()
@@ -1037,9 +1050,7 @@ def save_artiste(id_artiste,
         req = "SELECT * FROM Style_musique WHERE nom_style_musique = %s;"
         cursor.execute(req, (genre_musique, ))
         info = cursor.fetchall()
-        print(info)
         if(info == []):
-            print("on vient ici")
             req = "INSERT INTO Style_musique (nom_style_musique) VALUES(%s)"
             cursor.execute(req, (genre_musique, ))
             db.commit()
