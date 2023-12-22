@@ -10,8 +10,6 @@ import googleapiclient.discovery
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 from urllib.parse import unquote
-from datetime import datetime
-from weasyprint import HTML, CSS
 
 
 
@@ -776,6 +774,7 @@ def rider():
     informations = unquote(informations).split(',')
     html_content = render_template('rider.html', informations=informations)
     css_path = './ConcertPro/static/css/rider.css'
+    from weasyprint import HTML, CSS
     pdf = HTML(string=html_content).write_pdf(
         stylesheets=[CSS(filename=css_path)])
     response = make_response(pdf)
