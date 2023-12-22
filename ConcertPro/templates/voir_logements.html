@@ -13,5 +13,10 @@
             </a>
         </div>
     {% endfor %}
+    {% if logements|length == 0 %}
+    <div class="sous-conteneur">
+        <p>Aucun logement n'a été trouvé</p>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}

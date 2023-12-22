@@ -38,13 +38,13 @@
             {% endif %}
             {% endfor %}
         </div>
-        
-
-
         <a class="voir" href="{{ url_for('concert', id=concerts[i][0]) }}">Voir profil  <span>+</span></a>
-
-
     </div>
     {% endfor %}
+    {% if concerts|length == 0 %}
+    <div class="sous-conteneur">
+        <p>Aucun concert n'a été trouvé</p>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}

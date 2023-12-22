@@ -24,7 +24,7 @@ HEURES_DECALAGE_2 = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22]
 @app.route('/')
 def accueil():
     """page d'accueil"""
-    jour = datetime.datetime.now()
+    jour = datetime.datetime.now().replace(hour=0,minute=0,second=0,microsecond=0)
     heures = HEURES_DECALAGE_2
     lundi = (jour + datetime.timedelta(days=-(jour.weekday() + 1)) +
              datetime.timedelta(days=1)).replace(hour=0,
@@ -512,7 +512,7 @@ def confirmer_modif_logement(id_logement):
 
 # calendrier
 @app.route('/calendrier/<jour>')
-def calendrier(jour=datetime.datetime.now()):
+def calendrier(jour=datetime.datetime.now().replace(hour=0,minute=0,second=0,microsecond=0)):
     """page du calendrier au jour <jour>"""
     heures = HEURES_DECALAGE_1
     if type(jour) == str:

@@ -48,8 +48,7 @@ def prochains_concerts():
     try:
         cursor = get_cursor()
         req1 = (
-            "SELECT c1, c2 "
-            "FROM Concert "
+            "SELECT * FROM Concert "
             "WHERE date_heure_concert >= NOW() "
             "ORDER BY date_heure_concert ASC;"
         )
@@ -1015,7 +1014,7 @@ def concerts_agenda(heures=HEURES1, jour=JOUR_VOULU):
                     fin_horaire = datetime.time(hour=h + pas)
                 debut_horaire = datetime.time(hour=h)
                 # ajouter le concert si il est dans l'intervalle horaire
-                if fin_depassement > fin_horaire:
+                if fin_depassement >= fin_horaire:
                     agenda[1][h].append((concert[0], concert[1]))
     return agenda
 
