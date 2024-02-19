@@ -227,8 +227,6 @@ def get_salle(id):
         request = "SELECT * FROM Salle WHERE id_salle = %s"
         cursor.execute(request, (id, ))
         info = cursor.fetchall()
-        if info[0][-2] is not None:
-            get_image(int(info[0][0]), "salle", info[0][-2])
         close_cursor(cursor)
         return info[0] if info else None
     except Exception as e:

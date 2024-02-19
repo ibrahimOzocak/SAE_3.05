@@ -10,8 +10,8 @@ import googleapiclient.discovery
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 from urllib.parse import unquote
-
-
+import base64
+from flask import Markup
 
 HEURES_DECALAGE_1 = [
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
@@ -56,6 +56,10 @@ def plan_feu():
 def string_filter(value):
     return str(value)
 
+@app.template_filter('byte_to_image')
+def byte_to_image(byte):
+    image_base64 = base64.b64encode(byte).decode('utf-8')
+    return Markup(f'<img class="img_acc" src="data:image/png;base64,{image_base64}" alt="Image">')
 
 # concert
 @app.route('/creer_concert')
@@ -120,6 +124,7 @@ def concert(id):
     """page pour le concert <id>"""
     le_concert = mo.get_concert(id)
     la_salle = mo.get_salle(le_concert[5])
+    print(la_salle)
     lartiste = mo.get_artiste(le_concert[4])
     necessaire = mo.categoriser_equipements(id, lartiste[0])
     address = la_salle[8]
@@ -139,7 +144,6 @@ def concert(id):
                            necessaire=necessaire,
                            logement=logement_artiste,
                            map_path=c._repr_html_() if c else None)
-
 
 @app.route('/concert/<id>/supprimer')
 def supprimer_concert(id):
