@@ -442,22 +442,6 @@ def supprimer_artiste(id_artiste):
     mo.remove_artiste(id_artiste)
     return redirect(url_for('voir_artistes'))
 
-
-@app.route('/fiche_rider/modifier_rider')
-def modifier_rider():
-    """modifier le rider"""
-    informations = request.args.get('informations')
-    informations = unquote(informations).split(',')
-    base = request.args.get('base')
-    base = unquote(base).split(',')
-    if '/' in informations[4]:
-        informations[4] = convert_date_format(informations[4])
-    if '/' in informations[10]:
-        informations[10] = convert_date_format(informations[10])
-    if '/' in informations[11]:
-        informations[11] = convert_date_format(informations[11])
-    return render_template('modifier_rider.html', b=base, info=informations)
-
 def convert_date_format(date_str):
     print(date_str)
     date_obj = datetime.datetime.strptime(date_str, '%d/%m/%Y')
