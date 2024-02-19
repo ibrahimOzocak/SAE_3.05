@@ -100,8 +100,18 @@ def save_concert():
     minute_duree = datetime.datetime.strptime(request.form['duree'],
                                               '%H:%M').time().minute
     duree_concert = heure_duree * 60 + minute_duree
-    id_artiste = request.form['artiste']
-    id_salle = request.form['salle']
+    
+    id_artiste = request.form.get('artiste')
+    if 'artiste' in request.form:
+        id_artiste = request.form['artiste']
+    else:
+        id_artiste = None
+    
+    if 'salle' in request.form:
+        id_salle = request.form['salle']
+    else:
+        id_salle = None
+        
     description_concert = request.form['description']
     photo = request.files['image']
     logement_artiste = request.form['logement']
@@ -121,17 +131,24 @@ def concert(id):
     le_concert = mo.get_concert(id)
     la_salle = mo.get_salle(le_concert[5])
     lartiste = mo.get_artiste(le_concert[4])
-    necessaire = mo.categoriser_equipements(id, lartiste[0])
-    address = la_salle[8]
-    coor = getCoordonnee(address)
+    if lartiste != None:
+        necessaire = mo.categoriser_equipements(id, lartiste[0])
+        logement_artiste = mo.get_logement_artiste(le_concert[0], lartiste[0])
+    else:
+        necessaire = []
+        logement_artiste = None
+        lartiste = []
+    if la_salle != None:
+        address = la_salle[8]
+        coor = getCoordonnee(address)
+        c = None
+        if coor is not None:
+            coordinates = (coor[0], coor[2])
+            if coordinates:
+                lat, lng = coordinates
+                c = folium.Map(location=[lat, lng], zoom_start=20)
+                c.save('test.html')
     c = None
-    logement_artiste = mo.get_logement_artiste(le_concert[0], lartiste[0])
-    if coor is not None:
-        coordinates = (coor[0], coor[2])
-        if coordinates:
-            lat, lng = coordinates
-            c = folium.Map(location=[lat, lng], zoom_start=20)
-            c.save('test.html')
     return render_template('concert.html',
                            concert=le_concert,
                            salle=la_salle,
