@@ -14,7 +14,7 @@
             </div>
             {% else %}
             <div class="div_img">
-                <p>{{ artiste[-1] | byte_to_image }}</p>
+                {{ artiste[-1] | byte_to_image }}
             </div>
             {% endif %}
             <p>{{ artiste[4] }}</p> 
