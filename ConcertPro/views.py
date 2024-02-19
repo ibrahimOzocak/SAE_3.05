@@ -52,12 +52,6 @@ def plan_feu():
     return render_template('plan_feu.html')
 
 
-@app.route('/aide')
-def aide():
-    """page du plan feu"""
-    return render_template('aide.html')
-
-
 @app.template_filter('str')
 def string_filter(value):
     return str(value)

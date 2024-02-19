@@ -4,6 +4,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/creer_concert.css')}}"> 
 {% endblock %}
 {% block content %}
+<img onclick="aide()" class="aide" src="../static/images/question.png" alt="" >
 <form role="form" method="POST" action="{{ url_for('save_concert') }}" enctype="multipart/form-data">
     <a id="copyButton">Copier le lien du questionnaire du rider pour l'envoyer à l'artiste</a>
 
@@ -18,12 +19,12 @@
             alert('Lien copié dans le presse-papiers !');
         });
     </script>
-    <div class="container">
+    <div class="container" id="image">
         <input type="file" name="image" id="image-input">
         <script src="{{ url_for('static', filename='js/charge_img.js') }}"></script>
         <img id="image-charge" src="" alt="Glisser/Déposer une image" width=10% height=10%>
     </div>
-    <section class="section_creer sec1">
+    <section class="section_creer sec1" id="infos">
 
         <div>
             <label for="titre">Titre du concert</label>
@@ -41,7 +42,7 @@
                     <option value="{{ artiste[0] }}">{{ artiste[3] }} {{ artiste[4] }}</option>
                     {% endfor %}
                 </select>
-                <a href="{{ url_for('ajout_artiste') }}" target="_blank"><button type="button">Creer un nouvel artiste</button></a>
+                <a id="artiste" href="{{ url_for('ajout_artiste') }}" target="_blank"><button type="button">Creer un nouvel artiste</button></a>
             </section>
             <section class="section_creer sec2b">
                 <label for="logement">Logement de l'artiste</label>
@@ -63,7 +64,7 @@
                     <option value="{{ salles[i][0]}}">{{ salles[i][3] }} ({{ types[salles[i][0]] }})</option>
                     {% endfor %}
                 </select>
-                <a href="{{ url_for('ajout_nouvelle_salle') }}" target="_blank"><button type="button">Créer une nouvelle salle</button></a>
+                <a id="salle" href="{{ url_for('ajout_nouvelle_salle') }}" target="_blank"><button type="button">Créer une nouvelle salle</button></a>
             </section>
             <section class="section_creer sec4">
                 <label for="description">Description du concert (max 500)</label>
@@ -72,6 +73,138 @@
         </div>
     </section>
     
-    <input type="submit" value="Enregistrer le concert">
+    <input type="submit" value="Enregistrer le concert" id="save">
 </form>
+
+<script>
+
+function scrollToElement(element) {
+    window.scrollTo({
+        top: element.offsetTop - 100,
+        behavior: 'smooth'
+    });
+}
+
+function aide() {
+    var confirmation = confirm("Voulez-vous démarrer le tutoriel ?");
+    if (confirmation) {
+        var numero1 = document.createElement('div');
+        numero1.innerText = "Copier le lien du questionnaire pour l'envoyer à l'artiste !";
+        numero1.style.position = "absolute";
+        var copyButton = document.getElementById("copyButton");
+
+        numero1.style.top = copyButton.offsetTop + "px";
+        numero1.style.left = (copyButton.offsetLeft + copyButton.offsetWidth + 10) + "px";
+        document.body.appendChild(numero1);
+
+        var boutonOk = document.createElement('button');
+        boutonOk.innerText = "OK";
+        boutonOk.addEventListener('click', function() {
+
+            var numero2 = document.createElement('div');
+            numero2.innerText = "Inserer une image / vous pouvez créer un concert sans image";
+            numero2.style.position = "absolute";
+            var image = document.getElementById("image");
+            scrollToElement(image);
+
+            numero2.style.top = image.offsetTop + "px";
+            numero2.style.left = (image.offsetLeft + image.offsetWidth + 10) + "px";
+            document.body.appendChild(numero2);
+
+            var nouveauBoutonOk = document.createElement('button');
+            nouveauBoutonOk.innerText = "OK";
+            nouveauBoutonOk.addEventListener('click', function() {
+
+                var numero3 = document.createElement('div');
+                numero3.innerText = "Remplissez les informations du concert";
+                numero3.style.position = "absolute";
+                var infos = document.getElementById("infos");
+                scrollToElement(infos);
+
+                numero3.style.top = infos.offsetTop + "px";
+                numero3.style.left = (infos.offsetLeft + infos.offsetWidth + 10) + "px";
+                document.body.appendChild(numero3);
+
+                var nouveauBoutonOk3 = document.createElement('button');
+                nouveauBoutonOk3.innerText = "OK";
+                nouveauBoutonOk3.addEventListener('click', function() {
+
+                    var numero4 = document.createElement('div');
+                    numero4.innerText = "Un artiste n'est pas nécessaire a la création du concert ";
+                    numero4.style.position = "absolute";
+                    var artiste = document.getElementById("artiste");
+                    scrollToElement(artiste);
+
+                    numero4.style.top = artiste.offsetTop + "px";
+                    numero4.style.left = (artiste.offsetLeft + artiste.offsetWidth + 30) + "px";
+                    document.body.appendChild(numero4);
+
+                    var nouveauBoutonOk4 = document.createElement('button');
+                    nouveauBoutonOk4.innerText = "OK";
+                    nouveauBoutonOk4.addEventListener('click', function() {
+
+                        var numero5 = document.createElement('div');
+                        numero5.innerText = "Une salle n'est pas nécessaire a la création du concert ";
+                        numero5.style.position = "absolute";
+                        var salle = document.getElementById("salle");
+                        scrollToElement(salle);
+
+                        numero5.style.top = salle.offsetTop + "px";
+                        numero5.style.left = (salle.offsetLeft + salle.offsetWidth + 30) + "px";
+
+                        document.body.appendChild(numero5);
+
+                        var nouveauBoutonOk5 = document.createElement('button');
+                        nouveauBoutonOk5.innerText = "OK";
+                        nouveauBoutonOk5.addEventListener('click', function() {
+
+                            var numero6 = document.createElement('div');
+                            numero6.innerText = "Cliquez sur le bouton 'Enregistrer le concert' pour sauvegarder les informations";
+                            numero6.style.position = "absolute";
+                            var save = document.getElementById("save");
+                            scrollToElement(save);
+
+                            numero6.style.top = save.offsetTop + "px";
+                            numero6.style.left = (save.offsetLeft + save.offsetWidth + 30) + "px";
+                            document.body.appendChild(numero6);
+                            var nouveauBoutonOk6 = document.createElement('button');
+                            nouveauBoutonOk6.innerText = "OK";
+                            nouveauBoutonOk6.addEventListener('click', function() {
+                                numero6.remove();
+                                nouveauBoutonOk6.remove();
+                            });
+                            numero6.appendChild(nouveauBoutonOk6);
+
+                            numero5.remove();
+                            nouveauBoutonOk5.remove();
+                        });
+
+                        numero5.appendChild(nouveauBoutonOk5);
+                        numero4.remove();
+                        nouveauBoutonOk4.remove();
+                    });
+
+                    numero4.appendChild(nouveauBoutonOk4);
+                    numero3.remove();
+                    nouveauBoutonOk3.remove();
+                });
+
+                numero3.appendChild(nouveauBoutonOk3);
+                numero2.remove();
+                nouveauBoutonOk.remove();
+            });
+
+            numero2.appendChild(nouveauBoutonOk);
+            numero1.remove();
+            boutonOk.remove();
+        });
+
+        numero1.appendChild(boutonOk);
+    }
+}
+
+
+
+
+</script>
 {% endblock %}

@@ -267,3 +267,9 @@ form{
     opacity: 0.7;
     transition: 0.5s ease-in-out;
 }
+
+.aide{
+    width: 50px;
+    margin: 10px;
+    cursor: pointer;
+}
