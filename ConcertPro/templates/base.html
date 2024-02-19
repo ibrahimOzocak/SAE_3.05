@@ -97,6 +97,7 @@
     <img class="logo" src="{{ url_for('static', filename='images/logo.jpg')}}" alt="">
 
   </header>
+  <a href="{{url_for('aide')}}"><img class="aide" src="../static/images/question.png" alt=""></a>
   <main class="main">
     {% block content %}
     {% endblock %}
