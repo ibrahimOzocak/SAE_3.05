@@ -55,12 +55,6 @@ def prochains_concerts():
         execute_query(cursor, req1)
         infos = cursor.fetchall()
         close_cursor(cursor)
-        for i in infos:
-            if i[-1] is not None:
-                try:
-                    get_image(int(i[0]), "concerts", i[-1])
-                except Exception as e:
-                    print(e.args)
         return infos
     except Exception as e:
         print(e.args)
@@ -164,32 +158,6 @@ def save_image(photo):
         print(e.args)
     return None
 
-
-def get_image(id_value, repository_name, image_data):
-    """Fonction qui permet d'enregister la data d'une image dans un fichier png
-    dans le dossier voulu
-
-    Args:
-        id_value (int): La valeur de l'identifiant
-        repository_name (str): Le nom du dossier
-        image_data (bytes): La data de l'image
-    """
-    if id_value is None or image_data is None:
-        print("No valid input data")
-        return
-    try:
-        if not isinstance(image_data, bytes):
-            image_data.seek(0)
-            image_data = image_data.read()
-        if len(image_data) > 0:
-            image = Image.open(BytesIO(image_data))
-            image = image.convert("RGB")
-            nom_fichier = f"ConcertPro/static/images/{repository_name}/{str(id_value)}.jpg"
-            image.save(nom_fichier)
-    except Exception as e:
-        print(f"Error processing image: {str(e)}")
-
-
 # fonctions utiles pour les templates
 def get_concert(id):
     """Fonction permettant de récupérer un concert dans la base de données
@@ -203,11 +171,6 @@ def get_concert(id):
         requete = "SELECT * FROM Concert where id_concert= %s"
         cursor.execute(requete, (id, ))
         info = cursor.fetchall()
-        if info[0][-1] is not None:
-            try:
-                get_image(int(info[0][0]), "concerts", info[0][-1])
-            except Exception:
-                pass
         close_cursor(cursor)
         return info[0]
     except Exception as e:
@@ -343,11 +306,6 @@ def historique_concerts():
         info = cursor.fetchall()
         for i in info:
             list_historique_concerts.append(i)
-            if i[-1] is not None:
-                try:
-                    get_image(int(i[0]), "concerts", i[-1])
-                except Exception as e:
-                    print(e.args)
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
@@ -368,11 +326,6 @@ def concerts():
         info = cursor.fetchall()
         for i in info:
             les_concerts.append(i)
-            if i[-1] is not None:
-                try:
-                    get_image(int(i[0]), "concerts", i[-1])
-                except Exception as e:
-                    print(e.args)
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
@@ -393,8 +346,6 @@ def salles():
         info = cursor.fetchall()
         for i in info:
             list_salles.append(i)
-            if i[-2] is not None:
-                get_image(int(i[0]), "salle", i[-2])
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
@@ -407,28 +358,16 @@ def artistes():
     Returns:
         List: Tout les artistes
     """
-    les_artistes = []
     try:
         cursor = get_cursor()
         requete = "SELECT * FROM Artiste"
         cursor.execute(requete)
         info = cursor.fetchall()
-        for i in info:
-            if i[-1] is not None and len(i[-1]) != 0:
-                get_image(int(i[0]), "artiste", i[-1])
-            else:
-                i2 = []
-                for ind in range(len(i)):
-                    if ind == len(i) - 1:
-                        i2.append(None)
-                    else:
-                        i2.append(i[ind])
-                i = i2
-            les_artistes.append(i)
         close_cursor(cursor)
+        return info
     except Exception as e:
         print(e.args)
-    return les_artistes
+    return []
 
 
 def logements():
@@ -445,8 +384,6 @@ def logements():
         info = cursor.fetchall()
         for i in info:
             les_logements.append(i)
-            if i[-1] is not None:
-                get_image(i[0], "logement", i[-1])  # Probleme avec les images
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
@@ -591,7 +528,6 @@ def confirmer_modif_concert(id_concert, nom_concert, date_heure_concert,
     try:
         cursor = get_cursor()
         if photo.filename != "":
-            get_image(int(id_concert), "concerts", photo)
             requete = f"UPDATE Concert SET nom_concert = %s, date_heure_concert = %s, duree_concert = %s, id_artiste = %s, id_salle = %s, description_concert = %s, photo = %s WHERE id_concert = %s"
             execute_query(
                 cursor, requete,
@@ -636,11 +572,8 @@ def confirmer_modif_artiste(id_artiste, nom_artiste, prenom_artiste,
 
     """
     try:
-        get_image(id_artiste, "artiste", photo)
         cursor = get_cursor()
         if photo.filename != "":
-            print("none")
-            get_image(int(id_artiste), "artiste", photo)
             requete = """
                 UPDATE Artiste SET
                 telephone = %s, mail = %s,
@@ -701,7 +634,6 @@ def confirmer_modif_salle(id_salle, nom, description, loge, nombre_place,
     try:
         cursor = get_cursor()
         if photo.filename != "":
-            get_image(id_salle, "salle", photo)
             requete = """
                 UPDATE Salle SET
                 nom_salle = %s,

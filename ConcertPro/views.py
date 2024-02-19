@@ -58,6 +58,8 @@ def string_filter(value):
 
 @app.template_filter('byte_to_image')
 def byte_to_image(byte):
+    if(byte == None):
+        return Markup(f'<img class="img_acc"  src="static/images/aucune_image.png" alt="img">')
     image_base64 = base64.b64encode(byte).decode('utf-8')
     return Markup(f'<img class="img_acc" src="data:image/png;base64,{image_base64}" alt="Image">')
 
@@ -126,7 +128,10 @@ def concert(id):
     la_salle = mo.get_salle(le_concert[5])
     print(la_salle)
     lartiste = mo.get_artiste(le_concert[4])
-    necessaire = mo.categoriser_equipements(id, lartiste[0])
+    if lartiste is not None:
+        necessaire = mo.categoriser_equipements(id, lartiste[0])
+    else:
+        necessaire = []
     address = la_salle[8]
     coor = getCoordonnee(address)
     c = None
