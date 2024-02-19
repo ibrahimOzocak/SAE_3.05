@@ -1,4 +1,4 @@
-from flask import redirect, render_template, request, url_for, make_response
+from flask import redirect, render_template, request, url_for, make_response, Markup
 import folium
 from .app import app, db
 import datetime
@@ -11,7 +11,6 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 from urllib.parse import unquote
 import base64
-from flask import Markup
 
 HEURES_DECALAGE_1 = [
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
@@ -460,7 +459,8 @@ def modifier_rider():
     return render_template('modifier_rider.html', b=base, info=informations)
 
 def convert_date_format(date_str):
-    date_obj = datetime.strptime(date_str, '%d/%m/%Y')
+    print(date_str)
+    date_obj = datetime.datetime.strptime(date_str, '%d/%m/%Y')
     nouvelle_date_str = date_obj.strftime('%Y-%m-%d')
     return nouvelle_date_str
 
