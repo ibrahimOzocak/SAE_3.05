@@ -18,7 +18,7 @@
     </section>
     <input class="valider" type="submit" id="valider" name="valider" value="Valider l'ajout de ces équipements"/>
 </form>
-<p>
-    <a href="{{ url_for('concert', id=id_concert) }}" class="supprimer">Revenir à la page du concert sans modifier les équipements</a>
-</p>
+<div class="annuler">
+    <a href="{{ url_for('concert', id=id_concert) }}">Revenir à la page du concert sans modifier les équipements</a>
+</div>
 {% endblock %}
