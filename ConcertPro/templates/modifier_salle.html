@@ -13,7 +13,7 @@
             {% if salle[-2] is none %}
             <img id="image-charge" class="img_acc" src="" alt="Glisser/Déposer une image">
             {% else %}
-            <img id="image-charge" class="img_acc" src="{{ url_for('static', filename='images/salles/' + salle[0]|str + '.jpg') }}" alt="image pas réussi à charger">
+            {{ salle[-2] | byte_to_image(id='image-charge') }}
             {% endif %}
         </div>
         <label for="nom">Nom de la salle :</label>
