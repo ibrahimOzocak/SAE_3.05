@@ -318,8 +318,11 @@ def voir_artistes():
 def artiste(id_artiste):
     """page de l'artiste <id_artiste>"""
     lartiste = mo.get_artiste(id_artiste)
+    dates = (datetime.datetime.strptime(lartiste[5], '%Y-%m-%d %H:%M:%S').strftime('%d/%m/%Y'),
+             lartiste[11].strftime('%d/%m/%Y'),
+             lartiste[12].strftime('%d/%m/%Y'))
     concerts = mo.get_concerts_artiste(id_artiste)
-    return render_template('artiste.html', artiste=lartiste, concerts=concerts)
+    return render_template('artiste.html', artiste=lartiste, dates=dates, concerts=concerts)
 
 
 @app.route('/confirmer_artiste/<id_artiste>', methods=('POST', ))
@@ -330,13 +333,13 @@ def confirmer_modif_artiste(id_artiste):
     nom_de_scene = request.form['nom_de_scene']
     mail = request.form['mail']
     telephone = request.form['telephone']
-    date_de_naissance = request.form['date_de_naissance']
+    date_de_naissance = request.form['date_naissance']+ " 00:00:00"
     lieu_de_naissance = request.form['lieu_de_naissance']
     adresse = request.form['adresse']
     numero_secu_sociale = request.form['numero_secu_sociale']
     cni = request.form['cni']
-    date_delivrance_cni = request.form['date_delivrance_cni']
-    date_expiration_cni = request.form['date_expiration_cni']
+    date_delivrance_cni = request.form['date_delivrance']
+    date_expiration_cni = request.form['date_expiration']
     carte_reduction = request.form['carte_de_reduction']
     genre_musical = request.form['genre']
     photo = request.files['image']
@@ -372,9 +375,13 @@ def confirmer_modif_salle(id_salle):
 def modifier_artiste(id_artiste):
     """page de l'artiste <id_artiste>"""
     lartiste = mo.get_artiste(id_artiste)
+    dates = (datetime.datetime.strptime(lartiste[5], '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d'),
+             lartiste[11].strftime('%Y-%m-%d'),
+             lartiste[12].strftime('%Y-%m-%d'))
     styles = mo.styles_musisque()
     return render_template('modifier_artiste.html',
                            artiste=lartiste,
+                           dates=dates,
                            styles=styles)
 
 
