@@ -4,6 +4,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/voir_prochains_concerts.css')}}"> 
 {% endblock %}
 {% block content %}
+<a href="{{ url_for('ajout_nouvelle_salle') }}"> <img src="{{ url_for('static', filename='images/plus.png') }}" > </a>
 <div class="conteneur">
     {% for salle in salles %}
     <div class="sous-conteneur">

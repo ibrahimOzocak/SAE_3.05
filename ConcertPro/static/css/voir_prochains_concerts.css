@@ -20,7 +20,10 @@
     font-size: small;
 }
 
-
+body{
+    background-color: #121212;
+    color: white;
+}
 
 .sous-conteneur:hover .voir{
     color: white;
