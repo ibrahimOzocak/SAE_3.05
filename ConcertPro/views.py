@@ -609,14 +609,7 @@ def save_equipement():
     """sauvegarde d'un equipement"""
     nom_equipement = request.form['nom_equipement']
     id_equipement = mo.get_id_equipement_max() + 1
-    try:
-        cursor = mo.get_cursor()
-        req = 'INSERT INTO Equipement (id_equipement, nom_equipement) VALUES(%s, %s)'
-        cursor.execute(req, (id_equipement, nom_equipement))
-        db.commit()
-        mo.close_cursor(cursor)
-    except Exception as e:
-        print(e.args)
+    mo.save_equipement(id_equipement, nom_equipement)
     return redirect(url_for('equipement', id_equipement=id_equipement))
 
 
@@ -697,14 +690,7 @@ def save_type_salle():
     """sauvegarde d'un type de salle"""
     nom_type_salle = request.form['nom_type_salle']
     id_type_salle = mo.get_id_type_salle_max() + 1
-    try:
-        cursor = mo.get_cursor()
-        req = 'INSERT INTO Type_Salle (id_type, type_place_s) VALUES(%s, %s)'
-        cursor.execute(req, (id_type_salle, nom_type_salle))
-        db.commit()
-        mo.close_cursor(cursor)
-    except Exception as e:
-        print(e.args)
+    mo.save_type_salle(id_type_salle, nom_type_salle)
     return redirect(url_for('accueil'))
 
 
@@ -718,15 +704,8 @@ def ajout_style_musique():
 @app.route('/save_style_musique', methods=('POST', ))
 def save_style_musique():
     """sauvegarde d'un style de musique"""
-    style_musique = request.form['nom_style_musique']
-    try:
-        cursor = mo.get_cursor()
-        req = 'INSERT INTO Style_musique VALUES(%s)'
-        cursor.execute(req, (style_musique, ))
-        db.commit()
-        mo.close_cursor(cursor)
-    except Exception as e:
-        print(e.args)
+    nom_style_musique = request.form['nom_style_musique']
+    mo.save_style_musique(nom_style_musique)
     return redirect(url_for('accueil'))
 
 

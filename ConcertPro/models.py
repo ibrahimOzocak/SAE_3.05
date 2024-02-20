@@ -1607,3 +1607,56 @@ def confirmer_modif_equipement(id_equipement, nom_equipement):
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
+
+
+def save_style_musique(nom_style_musique):
+    """Fonction permettant de sauvegarder un style de musique dans la base de données
+
+    Args:
+        nom_style_musique (str): Le nom du style de musique
+
+    """
+    try:
+        cursor = get_cursor()
+        requete = "INSERT INTO Style_musique (nom_style_musique) VALUES(%s)"
+        execute_query(cursor, requete, (nom_style_musique, ))
+        db.commit()
+        close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+
+
+def save_equipement(id_equipement, nom_equipement):
+    """Fonction permettant de sauvegarder un équipement dans la base de données
+
+    Args:
+        id_equipement (int): L'identifiant de l'équipement
+        nom_equipement (str): Le nom de l'équipement
+
+    """
+    try:
+        cursor = get_cursor()
+        requete = "INSERT INTO Equipement (id_equipement, nom_equipement) VALUES(%s, %s)"
+        execute_query(cursor, requete, (id_equipement, nom_equipement, ))
+        db.commit()
+        close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+
+
+def save_type_salle(id_type, type_place_s):
+    """Fonction permettant de sauvegarder un type de salle dans la base de données
+
+    Args:
+        id_type (int): L'identifiant du type de salle
+        type_place_s (str): Le type de salle
+
+    """
+    try:
+        cursor = get_cursor()
+        requete = "INSERT INTO Type_Salle (id_type, type_place_s) VALUES(%s, %s)"
+        execute_query(cursor, requete, (id_type, type_place_s, ))
+        db.commit()
+        close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
