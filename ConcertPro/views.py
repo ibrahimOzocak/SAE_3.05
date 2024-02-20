@@ -73,10 +73,10 @@ def creer_concert():
                            logements=mo.logements())
 
 
-@app.route('/voir_prochains_concerts')
-def voir_prochains_concerts():
+@app.route('/voir_concerts')
+def voir_concerts():
     """page qui affiche les concerts à venir"""
-    return render_template('voir_prochains_concerts.html',
+    return render_template('voir_concerts.html',
                            concerts=mo.prochains_concerts(),
                            artistes=mo.artistes(),
                            salles=mo.salles())
@@ -167,7 +167,7 @@ def concert(id):
 def supprimer_concert(id):
     """supprime le concert <id>"""
     mo.remove_concert(id)
-    return redirect(url_for('voir_prochains_concerts'))
+    return redirect(url_for('voir_concerts'))
 
 
 @app.route('/concert/<id_concert>/modifier')

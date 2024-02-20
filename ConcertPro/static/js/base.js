@@ -21,6 +21,14 @@ function toggleContainerClass(){
     }
 }
 
+document.addEventListener('click', function(event) {
+   if (!event.target.closest('.menu-link') && !event.target.closest('.menu-close') && !event.target.closest('.menu')) {
+      if(document.querySelector("#menu").classList.contains("active")){
+        toggleContainerClass();
+      }
+   }
+});
+
 document.addEventListener('DOMContentLoaded', () => {
   var header = document.querySelector("#header");
   var lastScrollValue = 0;
