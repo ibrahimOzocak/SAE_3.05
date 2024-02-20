@@ -174,12 +174,14 @@ def supprimer_concert(id):
 def modifier_concert(id_concert):
     """modifier le concert <id_concert>"""
     le_concert = mo.get_concert(id_concert)
+    date_heure = (le_concert[2].strftime('%Y-%m-%d'), le_concert[2].strftime('%H:%M'))
     liste_salle = mo.salles()
     liste_artiste = mo.artistes()
     logements = mo.logements()
     logement_artiste = mo.get_logement_artiste(le_concert[0], le_concert[4])
     return render_template('modifier_concert.html',
                            concert=le_concert,
+                           date_heure=date_heure,
                            salles=liste_salle,
                            artistes=liste_artiste,
                            logements=logements,
@@ -201,8 +203,10 @@ def confirmer_modif_concert(id_concert):
         id_salle = request.form['salle']
     else:
         id_salle = None
-    date_heure_concert = request.form['date_heure_concert']
-    duree_concert = request.form['duree_concert']
+    heure_concert = request.form['heure_debut']
+    date_heure_concert = datetime.datetime.strptime(request.form['date_debut'], '%Y-%m-%d') + datetime.timedelta(hours=int(heure_concert.split(':')[0]), minutes=int(heure_concert.split(':')[1]))
+    duree = datetime.datetime.strptime(request.form['duree'], '%H:%M').time()
+    duree_concert = duree.hour * 60 + duree.minute
     description_concert = request.form['description_concert']
     photo = request.files['image']
     le_logement = request.form['logement']

@@ -18,7 +18,7 @@
     </div>
     <div class="infos">
         <p>Date : {{ concert[2] }}</p>
-        <p>Durée : {{ concert[3] }} minutes</p>
+        <p>Durée : {{ concert[3]//60 }}h{% if concert[3]%60<10 %}0{% endif %}{{ concert[3]%60 }}</p>
         <p>Nom de l'artiste : <a href="{{ url_for('artiste', id_artiste=artiste[0]) }}">{{ artiste[3] }}</a></p>
         <p>Nom de la salle : <a href="{{ url_for('salle', id=salle[0]) }}">{{ salle[3] }}</a></p>
         <p>Description : {{ concert[6] }}</p>
