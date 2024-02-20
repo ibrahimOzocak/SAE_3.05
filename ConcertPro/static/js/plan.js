@@ -113,7 +113,7 @@ function redrawCanvas() {
 }
 
 function downloadPDF() {
-  const element = document.getElementById('canvas');
+  const element = document.getElementById('dessin');
   html2pdf(element);
 }
 
