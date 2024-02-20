@@ -21,7 +21,7 @@ CREATE TABLE Artiste (
   mail VARCHAR(42),
   nom_artiste VARCHAR(42),
   prenom_artiste VARCHAR(42),
-  date_de_naissance VARCHAR(42),
+  date_de_naissance TIMESTAMP,
   lieu_naissance VARCHAR(42),
   adresse VARCHAR(42),
   securite_sociale VARCHAR(42),

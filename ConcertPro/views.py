@@ -317,9 +317,7 @@ def voir_artistes():
 def artiste(id_artiste):
     """page de l'artiste <id_artiste>"""
     lartiste = mo.get_artiste(id_artiste)
-    dates = (datetime.datetime.strptime(lartiste[5], '%Y-%m-%d %H:%M:%S').strftime('%d/%m/%Y'),
-             lartiste[11].strftime('%d/%m/%Y'),
-             lartiste[12].strftime('%d/%m/%Y'))
+    dates = (lartiste[5].strftime('%d/%m/%Y'), lartiste[11].strftime('%d/%m/%Y'), lartiste[12].strftime('%d/%m/%Y'))
     concerts = mo.get_concerts_artiste(id_artiste)
     return render_template('artiste.html', artiste=lartiste, dates=dates, concerts=concerts)
 
@@ -374,9 +372,7 @@ def confirmer_modif_salle(id_salle):
 def modifier_artiste(id_artiste):
     """page de l'artiste <id_artiste>"""
     lartiste = mo.get_artiste(id_artiste)
-    dates = (datetime.datetime.strptime(lartiste[5], '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d'),
-             lartiste[11].strftime('%Y-%m-%d'),
-             lartiste[12].strftime('%Y-%m-%d'))
+    dates = (lartiste[5].strftime('%Y-%m-%d'), lartiste[11].strftime('%Y-%m-%d'), lartiste[12].strftime('%Y-%m-%d'))
     styles = mo.styles_musisque()
     return render_template('modifier_artiste.html',
                            artiste=lartiste,
