@@ -17,7 +17,7 @@ HEURES_DECALAGE_1 = [
     21, 22, 23
 ]
 HEURES_DECALAGE_2 = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22]
-
+referer = None
 
 # accueil
 @app.route('/')
@@ -129,7 +129,6 @@ def save_concert():
     if logement_artiste != '':
         mo.add_logement_artiste(id, id_artiste, logement_artiste, nuit)
     return redirect(url_for('concert', id=id))
-
 
 @app.route('/concert/<id>')
 def concert(id):
