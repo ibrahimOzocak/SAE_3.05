@@ -257,6 +257,24 @@ def get_id_type_salle(nom):
     return None
 
 
+def styles_musique_artiste(id_artiste):
+    """Fonction permettant de récupérer les styles de musique d'un artiste
+
+    Args:
+        id_artiste (int): L'identifiant de l'artiste
+
+    """
+    try:
+        cursor = get_cursor()
+        request = "SELECT nom_style_musique FROM Jouer WHERE id_artiste = %s"
+        cursor.execute(request, (id_artiste, ))
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        return info
+    except Exception as e:
+        print(e.args)
+
+
 def styles_musisque():
     """Fonction permettant de récupérer tout les styles de musique
 
@@ -549,7 +567,7 @@ def confirmer_modif_artiste(id_artiste, nom_artiste, prenom_artiste,
                             nom_de_scene, mail, telephone, date_de_naissance,
                             lieu_de_naissance, adresse, numero_secu_sociale,
                             cni, date_delivrance_cni, date_expiration_cni,
-                            carte_reduction, genre_musical, photo):
+                            carte_reduction, style_musique, photo):
     """Fonction permettant de confirmer la modification d'un artiste
 
     Args:
@@ -567,7 +585,7 @@ def confirmer_modif_artiste(id_artiste, nom_artiste, prenom_artiste,
         date_delivrance_cni (str): La date de delivrance de la cni de l'artiste
         date_expiration_cni (str): La date d'expiration de la cni de l'artiste
         carte_reduction (str): La carte de reduction de l'artiste
-        genre_musical (str): Le genre musical de l'artiste
+        style_musique (str): Le genre musical de l'artiste
         photo (bytes): La photo de l'artiste
 
     """
@@ -581,15 +599,21 @@ def confirmer_modif_artiste(id_artiste, nom_artiste, prenom_artiste,
                 date_de_naissance = %s, lieu_naissance = %s, adresse = %s,
                 securite_sociale = %s, cni = %s, date_delivrance_cni = %s,
                 date_expiration_cni = %s, carte_reduction = %s, 
-                nom_style_musique = %s, nom_scene = %s, photo = %s
+                nom_scene = %s, photo = %s
                 WHERE id_artiste = %s
             """
             execute_query(cursor, requete,
                           (telephone, mail, nom_artiste, prenom_artiste,
                            date_de_naissance, lieu_de_naissance, adresse,
                            numero_secu_sociale, cni, date_delivrance_cni,
-                           date_expiration_cni, carte_reduction, genre_musical,
+                           date_expiration_cni, carte_reduction,
                            nom_de_scene, save_image(photo), id_artiste))
+            # modifier les styles de musique de l'artiste dans la table Jouer
+            requete = "DELETE FROM Jouer WHERE id_artiste = %s"
+            execute_query(cursor, requete, (id_artiste, ))
+            for style in style_musique:
+                requete = "INSERT INTO Jouer (id_artiste, nom_style_musique) VALUES(%s, %s)"
+                execute_query(cursor, requete, (id_artiste, style))
         else:
             requete = """
                 UPDATE Artiste SET
@@ -598,15 +622,21 @@ def confirmer_modif_artiste(id_artiste, nom_artiste, prenom_artiste,
                 date_de_naissance = %s, lieu_naissance = %s, adresse = %s,
                 securite_sociale = %s, cni = %s, date_delivrance_cni = %s,
                 date_expiration_cni = %s, carte_reduction = %s,
-                nom_style_musique = %s, nom_scene = %s
+                nom_scene = %s
                 WHERE id_artiste = %s
             """
             execute_query(cursor, requete,
                           (telephone, mail, nom_artiste, prenom_artiste,
                            date_de_naissance, lieu_de_naissance, adresse,
                            numero_secu_sociale, cni, date_delivrance_cni,
-                           date_expiration_cni, carte_reduction, genre_musical,
+                           date_expiration_cni, carte_reduction,
                            nom_de_scene, id_artiste))
+            # modifier les styles de musique de l'artiste dans la table Jouer
+            requete = "DELETE FROM Jouer WHERE id_artiste = %s"
+            execute_query(cursor, requete, (id_artiste, ))
+            for style in style_musique:
+                requete = "INSERT INTO Jouer (id_artiste, nom_style_musique) VALUES(%s, %s)"
+                execute_query(cursor, requete, (id_artiste, style))
         db.commit()
         close_cursor(cursor)
     except Exception as e:
@@ -807,6 +837,10 @@ def remove_artiste(id):
         except Exception as e:
             print(e.args)
 
+        # supprimer les styles de musique de l'artiste dans la table Jouer
+        req = "DELETE FROM Jouer where id_artiste= %s"
+        cursor.execute(req, (id, ))
+        db.commit()
         req = "DELETE FROM Artiste where id_artiste= %s"
         cursor.execute(req, (id, ))
         db.commit()
@@ -1293,7 +1327,7 @@ def save_artiste(id_artiste,
                  date_delivrance_cni,
                  date_expiration_cni,
                  carte_reduction,
-                 genre_musique,
+                 style_musique,
                  nom_scene,
                  conge_spectacle="Non"):
     """Fonction permettant de sauvegarder un artiste dans la base de données
@@ -1312,28 +1346,34 @@ def save_artiste(id_artiste,
         date_delivrance_cni (str): La date de délivrance du cni de l'artiste
         date_expiration_cni (str): La date d'expiration du cni de l'artiste
         carte_reduction (str): La carte de réduction de l'artiste
-        genre_musique (str): Le genre musical de l'artiste
+        style_musique (str): Le genre musical de l'artiste
         nom_scene (str): Le nom de scène de l'artiste
         conge_spectacle (str, optional): L'artiste a t'il des conges ou non. Defaults to "Non".
     """
     try:
         cursor = get_cursor()
 
-        req = "SELECT * FROM Style_musique WHERE nom_style_musique = %s;"
-        cursor.execute(req, (genre_musique, ))
-        info = cursor.fetchall()
-        if info == []:
-            req = "INSERT INTO Style_musique (nom_style_musique) VALUES(%s)"
-            cursor.execute(req, (genre_musique, ))
-            db.commit()
-        req = "INSERT INTO Artiste (id_artiste, nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_naissance, adresse, securite_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction, nom_style_musique, nom_scene,conge_spectacle) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s)"
+        for style in style_musique:
+            req = "SELECT * FROM Style_musique WHERE nom_style_musique = %s;"
+            cursor.execute(req, (style, ))
+            info = cursor.fetchall()
+            if info == []:
+                req = "INSERT INTO Style_musique (nom_style_musique) VALUES(%s)"
+                cursor.execute(req, (style, ))
+                db.commit()
+        req = "INSERT INTO Artiste (id_artiste, nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_naissance, adresse, securite_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction, nom_scene,conge_spectacle) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s)"
         cursor.execute(
             req,
             (id_artiste, nom_artiste, prenom_artiste, mail, telephone,
              date_de_naissance, lieu_de_naissance, adresse, securite_sociale,
              cni, date_delivrance_cni, date_expiration_cni, carte_reduction,
-             genre_musique, nom_scene, conge_spectacle))
+             nom_scene, conge_spectacle))
         db.commit()
+        # ajouter les styles à Jouer
+        for style in style_musique:
+            req = "INSERT INTO Jouer (id_artiste, nom_style_musique) VALUES(%s, %s)"
+            cursor.execute(req, (id_artiste, style))
+            db.commit()
         close_cursor(cursor)
     except Exception as e:
         print(e.args)

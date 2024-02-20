@@ -288,54 +288,6 @@ def supprimer_salle(id_salle):
     return redirect(url_for('voir_salles'))
 
 
-# artiste
-@app.route('/ajout_artiste')
-def ajout_artiste():
-    """page d'ajout d'un artiste"""
-    return render_template('ajout_artiste.html', styles=mo.styles_musisque())
-
-
-@app.route('/voir_artistes')
-def voir_artistes():
-    """page voir les artistes"""
-    return render_template('voir_artistes.html', artistes=mo.artistes())
-
-
-@app.route('/artiste/<id_artiste>')
-def artiste(id_artiste):
-    """page de l'artiste <id_artiste>"""
-    lartiste = mo.get_artiste(id_artiste)
-    concerts = mo.get_concerts_artiste(id_artiste)
-    return render_template('artiste.html', artiste=lartiste, concerts=concerts)
-
-
-@app.route('/confirmer_artiste/<id_artiste>', methods=('POST', ))
-def confirmer_modif_artiste(id_artiste):
-    """sauvegarde d'un artiste"""
-    prenom_artiste = request.form['prenom']
-    nom_artiste = request.form['nom']
-    nom_de_scene = request.form['nom_de_scene']
-    mail = request.form['mail']
-    telephone = request.form['telephone']
-    date_de_naissance = request.form['date_de_naissance']
-    lieu_de_naissance = request.form['lieu_de_naissance']
-    adresse = request.form['adresse']
-    numero_secu_sociale = request.form['numero_secu_sociale']
-    cni = request.form['cni']
-    date_delivrance_cni = request.form['date_delivrance_cni']
-    date_expiration_cni = request.form['date_expiration_cni']
-    carte_reduction = request.form['carte_de_reduction']
-    genre_musical = request.form['genre']
-    photo = request.files['image']
-    mo.confirmer_modif_artiste(id_artiste, prenom_artiste, nom_artiste,
-                               nom_de_scene, mail, telephone,
-                               date_de_naissance, lieu_de_naissance, adresse,
-                               numero_secu_sociale, cni, date_delivrance_cni,
-                               date_expiration_cni, carte_reduction,
-                               genre_musical, photo)
-    return redirect(url_for('artiste', id_artiste=id_artiste))
-
-
 @app.route('/confirmer_salle/<id_salle>', methods=('POST', ))
 def confirmer_modif_salle(id_salle):
     """sauvegarde d'un artiste"""
@@ -355,16 +307,6 @@ def confirmer_modif_salle(id_salle):
     return redirect(url_for('salle', id=id_salle))
 
 
-@app.route('/artiste/<id_artiste>/modifier')
-def modifier_artiste(id_artiste):
-    """page de l'artiste <id_artiste>"""
-    lartiste = mo.get_artiste(id_artiste)
-    styles = mo.styles_musisque()
-    return render_template('modifier_artiste.html',
-                           artiste=lartiste,
-                           styles=styles)
-
-
 @app.route('/salle/<id_salle>/modifier')
 def modifier_salle(id_salle):
     """page de la salle <id_salle>"""
@@ -375,6 +317,67 @@ def modifier_salle(id_salle):
                            salle=la_salle,
                            type_salle=type_salle,
                            types=types)
+
+
+# artiste
+@app.route('/ajout_artiste')
+def ajout_artiste():
+    """page d'ajout d'un artiste"""
+    return render_template('ajout_artiste.html', styles=mo.styles_musisque())
+
+
+@app.route('/voir_artistes')
+def voir_artistes():
+    """page voir les artistes"""
+    return render_template('voir_artistes.html', artistes=mo.artistes())
+
+
+@app.route('/artiste/<id_artiste>')
+def artiste(id_artiste):
+    """page de l'artiste <id_artiste>"""
+    lartiste = mo.get_artiste(id_artiste)
+    styles = mo.styles_musique_artiste(id_artiste)
+    concerts = mo.get_concerts_artiste(id_artiste)
+    return render_template('artiste.html', artiste=lartiste, styles=styles, concerts=concerts)
+
+
+@app.route('/confirmer_artiste/<id_artiste>', methods=('POST', ))
+def confirmer_modif_artiste(id_artiste):
+    """sauvegarde d'un artiste"""
+    prenom_artiste = request.form['prenom']
+    nom_artiste = request.form['nom']
+    nom_de_scene = request.form['nom_de_scene']
+    mail = request.form['mail']
+    telephone = request.form['telephone']
+    date_de_naissance = request.form['date_de_naissance']
+    lieu_de_naissance = request.form['lieu_de_naissance']
+    adresse = request.form['adresse']
+    numero_secu_sociale = request.form['numero_secu_sociale']
+    cni = request.form['cni']
+    date_delivrance_cni = request.form['date_delivrance_cni']
+    date_expiration_cni = request.form['date_expiration_cni']
+    carte_reduction = request.form['carte_de_reduction']
+    style_musical = request.form.getlist('genre')
+    photo = request.files['image']
+    mo.confirmer_modif_artiste(id_artiste, prenom_artiste, nom_artiste,
+                               nom_de_scene, mail, telephone,
+                               date_de_naissance, lieu_de_naissance, adresse,
+                               numero_secu_sociale, cni, date_delivrance_cni,
+                               date_expiration_cni, carte_reduction,
+                               style_musical, photo)
+    return redirect(url_for('artiste', id_artiste=id_artiste))
+
+
+@app.route('/artiste/<id_artiste>/modifier')
+def modifier_artiste(id_artiste):
+    """page de l'artiste <id_artiste>"""
+    lartiste = mo.get_artiste(id_artiste)
+    styles_musique_artiste = mo.styles_musique_artiste(id_artiste)
+    styles = mo.styles_musisque()
+    return render_template('modifier_artiste.html',
+                            artiste=lartiste,
+                            styles_musique_artiste=styles_musique_artiste,
+                            styles=styles)
 
 
 @app.route('/save_artiste', methods=('POST', ))
@@ -396,12 +399,12 @@ def save_artiste():
     date_expiration_cni = datetime.datetime.strptime(
         request.form['date_expiration'], '%Y-%m-%d')
     carte_reduction = request.form['carte_train']
-    genre_musical = request.form['genre']
+    style_musical = request.form.getlist('genre')
     id_artiste = mo.get_id_artiste_max() + 1
     mo.save_artiste(id_artiste, nom_artiste, prenom_artiste, mail, telephone,
                     date_de_naissance, lieu_de_naissance, adresse,
                     securite_sociale, cni, date_delivrance_cni,
-                    date_expiration_cni, carte_reduction, genre_musical,
+                    date_expiration_cni, carte_reduction, style_musical,
                     nom_scene)
     return redirect(url_for('artiste', id_artiste=id_artiste))
 
@@ -813,6 +816,27 @@ def getCoordonnee(address):
             return res
     except requests.exceptions.RequestException as e:
         print(f'Erreur lors de la requête HTTP : {e}')
+
+
+@app.route('/ajout_style_musique')
+def ajout_style_musique():
+    """page d'ajout d'un style de musique"""
+    return render_template('ajout_style_musique.html')
+
+
+@app.route('/save_style_musique', methods=('POST', ))
+def save_style_musique():
+    """sauvegarde d'un style de musique"""
+    style_musique = request.form['nom_style_musique']
+    try:
+        cursor = mo.get_cursor()
+        req = 'INSERT INTO Style_musique VALUES(%s)'
+        cursor.execute(req, (style_musique, ))
+        db.commit()
+        mo.close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+    return redirect(url_for('accueil'))
 
 
 # Gestion des erreurs

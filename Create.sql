@@ -30,10 +30,8 @@ CREATE TABLE Artiste (
   date_delivrance_cni TIMESTAMP,
   date_expiration_cni TIMESTAMP,
   carte_reduction VARCHAR(42),
-  nom_style_musique VARCHAR(42),
   nom_scene VARCHAR(42),
   photo LONGBLOB,
-  FOREIGN KEY (nom_style_musique) REFERENCES Style_musique (nom_style_musique)
 );
 
 CREATE TABLE Jouer (
