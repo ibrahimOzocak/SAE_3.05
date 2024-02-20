@@ -1,39 +1,22 @@
+*{
+  padding: 0;
+  margin: 0;
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital@0;1&display=swap');
 html, body {
-	padding-top: 7vh;
-	margin: 0;
   font-family: 'Poppins', sans-serif;
 }
 
-header{
-  display: flex;
-  justify-content: space-between;
-  border-bottom: thin black solid;
-  padding-bottom: 1%;
-  position: fixed;
-  width: 100%;
-  z-index: 1000000;
-  background-color: white;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  top: 0;
-}
-
-#header.hidden {
-  top: -110px;
-}
-
 #header{
-  transition: top 0.3s;
-  transition-delay: 0.2s;
-}
-
-header>div{
   display: flex;
-  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: #242424;
 }
 
 body * {
-	text-shadow: none;
+  text-shadow: none;
   text-decoration: none;
 }
 
@@ -53,12 +36,44 @@ p {
   margin-right: 40px;
 }
 
-.titre{
-  margin-top: auto;
+#title {
+  filter: drop-shadow(0 0 0.6em rgba(255, 255, 255, 0.2)) drop-shadow(0 0 1em rgba(0, 150, 255, 0.2));
+  transition: filter 0.3s ease-in-out;
+  position: relative;
+  display: block;
+  text-align: right;
+  font-size: 2em;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+  z-index: 1;
+  margin: 0;
+  background: linear-gradient(45deg, #00bfff, #00ff00);
+  background-clip: text;
+  padding: 0.5em 0.3em;
 }
 
-.logo{
-  width: 100px;
+#title:hover {
+    cursor: pointer;
+    filter: drop-shadow(0 0 0.6em rgba(255, 255, 255, 0.5)) drop-shadow(0 0 1em rgba(0, 150, 255, 0.5));
+}
+
+#title:hover::before{
+    width: 150%;
+}
+
+#title:before {
+    width: 125%;
+    content: "";
+    position: absolute;
+    transition: width 0.3s ease-in-out;
+    height: 100%;
+    top: 0;
+    right: 0;
+    background: linear-gradient(45deg, #00bfff, #00ff00);
+    z-index: -1;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 30% 100%);
+    filter: blur(0.6em) brightness(1.2);
 }
 
 /* Menu Styles */
@@ -116,8 +131,6 @@ p {
 ul, ol {
   list-style: none;
   text-decoration: none;
-  margin: 0;
-  padding: 0;
 }
 
 #menu ul.mobile-nav > li > a {
@@ -135,7 +148,6 @@ ul, ol {
   display: block;
   color: black;
   background-color: white;
-  padding: 15px 30px;
   border-top: 1px solid black;
   text-decoration: none;
 }
@@ -274,7 +286,6 @@ ul, ol {
 
 footer> ul{
   border-top: thin black solid;
-  padding-top: 2%;
   justify-content: space-around;
   display: flex;
   margin-bottom: 5vh;

@@ -1,6 +1,6 @@
 body {
     margin: 0;
-    background-color: white;
+    background-color: #121212;
     color: black;
 }
 
@@ -71,10 +71,6 @@ h2 {
 
 span {
     border-bottom: solid black 2px;
-}
-
-h1 {
-    margin-top: 75px;
 }
 
 div {
