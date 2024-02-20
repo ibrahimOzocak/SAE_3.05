@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/accueil.css')}}"> 
 {% endblock %}
 {% block content %}
-<h2><span>Prochains concerts</span> </h2>
+<p class="titre-p"><span>Les prochains concerts</span> </p>
 <section>
     <ul class="ul_acc">
         {% if concerts|length == 0 %}
@@ -19,12 +19,10 @@
         <li class="li_acc">
             <div class="concert">
                 <a class="a" href="{{ url_for('concert', id=concerts[i][0]) }}">
-                    {% if concerts[i][-1] is none %}
-                    <img class="img_acc"  src="{{ url_for('static', filename='images/aucune_image.png') }}" alt="img">
-                    {% else %}
-                    {{ concerts[i][-1] | byte_to_image }}
-                    {% endif %}
-                    <p>{{ concerts[i][1] }}</p>
+                    <div class="img">
+                        {{ concerts[i][-1] | byte_to_image }}
+                    </div>
+                    <p class="position-relative">{{ concerts[i][1] }}</p>
                 </a>
             </div>
         </li>
@@ -34,12 +32,10 @@
     </ul>
 </section>
 <section id="Agenda">
-    <h2><span>Agenda de la semaine</span></h2>
+    <p class="titre-p"><span>Agenda de la semaine</span></p>
+    <p id="semaine">Semaine du {{ date_lundi }} au {{ date_dimanche }}</p>
     <a  href="{{ url_for('calendrier', jour=date_lundi) }}" class='agenda'>Acceder aux agendas</a>
     <table>
-        <thead>
-            <th colspan="8">semaine du {{ date_lundi }} au {{ date_dimanche }}</th>
-        </thead>
         <tbody>
             <tr>
                 <th></th>
