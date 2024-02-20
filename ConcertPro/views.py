@@ -136,6 +136,7 @@ def concert(id):
     le_concert = mo.get_concert(id)
     la_salle = mo.get_salle(le_concert[5])
     lartiste = mo.get_artiste(le_concert[4])
+    couts=mo.somme_couts(id)
     if lartiste != None:
         necessaire = mo.categoriser_equipements(id, lartiste[0])
         logement_artiste = mo.get_logement_artiste(le_concert[0], lartiste[0])
@@ -160,8 +161,10 @@ def concert(id):
                            artiste=lartiste,
                            necessaire=necessaire,
                            logement=logement_artiste,
+                           couts=couts,
                            map_path=c._repr_html_() if c else None)
-
+                           
+                           
 @app.route('/concert/<id>/supprimer')
 def supprimer_concert(id):
     """supprime le concert <id>"""
@@ -731,6 +734,22 @@ def save_type_salle():
         mo.close_cursor(cursor)
     except Exception as e:
         print(e.args)
+    return redirect(url_for('accueil'))
+
+@app.route('/couts/<id_concert>')
+def couts(id_concert):
+    """page des couts"""
+    return render_template('couts.html', couts=mo.couts(id_concert))
+
+@app.route('/modifier_couts/<id>', methods=('POST', ))
+def modifier_couts(id):
+    """modifier les couts"""
+    materiel = request.form['materiel']
+    salle = request.form['salle']
+    artiste = request.form['artiste']
+    logement = request.form['logement']
+    autre = request.form['autre']
+    mo.modifier_couts(id, materiel, salle, artiste, logement, autre)
     return redirect(url_for('accueil'))
 
 
