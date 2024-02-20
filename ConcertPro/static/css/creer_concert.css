@@ -1,17 +1,17 @@
-Centre la section sec1
 
 body{
-    background-color: white;
-}
+    background-color: #121212;
+    color: white;
+  }
 
 .sec1 {
     justify-content: center;
     align-items: center;
     flex-wrap: wrap; /* Permet aux éléments de descendre en cas de réduction de la largeur de l'écran */
-    background-color: white;
+    background-color: #242424;
     padding: 20px; /* Ajoute un peu d'espace autour de la section */
     border-radius: 10px; /* Arrondit les coins de la section */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Ajoute une ombre douce à la section */
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); /* Ajoute une ombre douce à la section */
     margin-top: 20px;
     width: 70vw;
 }
@@ -41,7 +41,7 @@ form{
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid black;
+    border: 1px solid white;
   }
   
   #image-input {
@@ -78,10 +78,10 @@ form{
     width: 100%;
     padding: 10px;
     border: none;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid white;
     margin-bottom: 15px;
-    background-color: white;
-    color: black;
+    background-color: #242424;
+    color: white;
     outline: none; /* Retire la bordure de focus */
 }
 
@@ -135,7 +135,6 @@ form{
     display: flex;
     justify-content: space-between; /* Aligne les éléments à gauche, au centre et à droite */
     align-items: center; /* Centre verticalement les éléments */
-    background-color: white;
 }
 
 .sec2 label, .sec2 select, .sec2 button {
@@ -146,7 +145,7 @@ form{
 }
 
 label{
-    color: black;
+    color: white;
 }
 
 .sec2 select{
