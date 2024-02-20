@@ -47,6 +47,6 @@
         <p>Aucun concert n'a été trouvé</p>
     </div>
     {% endif %}
-    <img class="plus" src = "{{ url_for('static', filename='images/plus.png')}}" alt="image">
+    <a href="{{ url_for('creer_concert') }}"><img class="plus" src = "{{ url_for('static', filename='images/plus.png')}}" alt="image"></a>
 </div>
 {% endblock %}
