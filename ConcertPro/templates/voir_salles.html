@@ -2,9 +2,10 @@
 {% block styles %}
 {{ super() }}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/voir_prochains_concerts.css')}}"> 
+<link rel="stylesheet" href="{{ url_for('static', filename='css/boutonPlus.css')}}"> 
 {% endblock %}
 {% block content %}
-<a href="{{ url_for('ajout_nouvelle_salle') }}"> <img src="{{ url_for('static', filename='images/plus.png') }}" > </a>
+<a  href="{{ url_for('ajout_nouvelle_salle') }}"> <img class="plus" src="{{ url_for('static', filename='images/plus.png') }}" > </a>
 <div class="conteneur">
     {% for salle in salles %}
     <div class="sous-conteneur">
