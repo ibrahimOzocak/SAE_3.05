@@ -33,9 +33,11 @@
 </section>
 <section id="Agenda">
     <p class="titre-p"><span>Agenda de la semaine</span></p>
-    <p id="semaine">Semaine du {{ date_lundi }} au {{ date_dimanche }}</p>
-    <a  href="{{ url_for('calendrier', jour=date_lundi) }}" class='agenda'>Acceder aux agendas</a>
-    <table>
+    <div id="flex-wrapper">
+        <p id="semaine">Semaine du {{ date_lundi }} au {{ date_dimanche }}</p>
+        <a href="{{ url_for('calendrier', jour=date_lundi) }}" id='agenda'>Accéder aux agendas</a>
+    </div>
+    <table border="1">
         <tbody>
             <tr>
                 <th></th>

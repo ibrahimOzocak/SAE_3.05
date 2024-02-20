@@ -12,17 +12,19 @@ body {
 
 .concert{
     position: relative;
-    margin: 3em 1em;
+    margin: 3em 3em;
     overflow: hidden;
 }
 
 .img_acc {
-    width: 20em;
-    height: 15em;
+    width: 30em;
+    height: 20em;
 }
 
 #semaine{
     color: white;
+    margin: 1.1em;
+    font-size: 1.2em;
 }
 
 .position-relative{
@@ -47,17 +49,24 @@ body {
 }
 
 table {
-    text-align: center;
     width: 70%;
-    margin: 0 auto;
-    margin-top: 30px;
-    background-color: white; /* Couleur de fond du tableau */
-    
+    margin: 2em auto;
+    background-color: #242424;
+    border-collapse: collapse;
 }
 
-td, th {
-    border: solid 2px rgb(120, 120, 120);
-    padding: 10px;
+th, td {
+    border: 1px solid white;
+    color: white;
+    background-color: #242424;
+    text-align: left;
+    padding: 8px;
+    font-weight: normal;
+}
+
+th a, td a{
+    color: rgb(134, 255, 170);
+    font-weight: normal;
 }
 
 .titre-p {
@@ -73,26 +82,24 @@ div {
     text-align: center;
 }
 
-.agenda {
-    display: block;
-    width: 200px;
-    margin: 20px auto;
-    padding: 10px;
-    background-color: black;
-    color: white;
-    text-align: center;
-    text-decoration: none;
-    border-radius: 5px;
+#flex-wrapper{
+    display: flex;
+    justify-content: space-between;
 }
-
-.agenda:hover {
-    opacity: 0.8;
-    transition: 0.3s ease-in-out;
-}
-
 
 .a:hover{
     opacity: 0.7;
     transition: all 0.3s ease-in-out;
     text-decoration: underline;
-  }
+}
+
+#agenda{
+    margin: 1em;
+    font-size: 1.2em;
+    color: white;
+}
+
+#agenda:hover{
+    color: #1DB954;
+    transition: all 0.3s ease-in-out;
+}
