@@ -734,37 +734,6 @@ def modifier_couts(id):
     return redirect(url_for('accueil'))
 
 
-# style musique
-@app.route('/ajout_style_musique')
-def ajout_style_musique():
-    """page d'ajout d'un style de musique"""
-    return render_template('ajout_style_musique.html')
-
-
-@app.route('/save_style_musique', methods=('POST', ))
-def save_style_musique():
-    """sauvegarde d'un style de musique"""
-    nom_style_musique = request.form['nom_style_musique']
-    mo.save_style_musique(nom_style_musique)
-    return redirect(url_for('accueil'))
-
-@app.route('/couts/<id_concert>')
-def couts(id_concert):
-    """page des couts"""
-    return render_template('couts.html', couts=mo.couts(id_concert))
-
-@app.route('/modifier_couts/<id>', methods=('POST', ))
-def modifier_couts(id):
-    """modifier les couts"""
-    materiel = request.form['materiel']
-    salle = request.form['salle']
-    artiste = request.form['artiste']
-    logement = request.form['logement']
-    autre = request.form['autre']
-    mo.modifier_couts(id, materiel, salle, artiste, logement, autre)
-    return redirect(url_for('accueil'))
-
-
 # autres
 def generate_pdf_file(file_path, title, content):
     # Créer le fichier PDF
