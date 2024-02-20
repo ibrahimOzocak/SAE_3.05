@@ -45,23 +45,6 @@ def accueil():
                            date_dimanche=dimanche.strftime('%d-%m-%Y'))
 
 
-@app.route('/plan_feu')
-def plan_feu():
-    """page du plan feu"""
-    return render_template('plan_feu.html')
-
-
-@app.template_filter('str')
-def string_filter(value):
-    return str(value)
-
-@app.template_filter('byte_to_image')
-def byte_to_image(byte, id="", classe=""):
-    if(byte == None):
-        return Markup(f'<img id="{id}" class="img_acc {classe}"  src="static/images/aucune_image.png" alt="img">')
-    image_base64 = base64.b64encode(byte).decode('utf-8')
-    return Markup(f'<img id="{id}" class="img_acc {classe}" src="data:image/png;base64,{image_base64}" alt="Image">')
-
 # concert
 @app.route('/creer_concert')
 def creer_concert():
@@ -445,12 +428,6 @@ def supprimer_artiste(id_artiste):
     mo.remove_artiste(id_artiste)
     return redirect(url_for('voir_artistes'))
 
-def convert_date_format(date_str):
-    print(date_str)
-    date_obj = datetime.datetime.strptime(date_str, '%d/%m/%Y')
-    nouvelle_date_str = date_obj.strftime('%Y-%m-%d')
-    return nouvelle_date_str
-
 
 # logement
 @app.route('/logement/<id_logement>')
@@ -699,7 +676,7 @@ def confirmer_modif_equipement(id_equipement):
     return redirect(url_for('equipement', id_equipement=id_equipement))
 
 
-#type_salle
+# type_salle
 @app.route('/ajout_type_salle')
 def ajout_type_salle():
     """page d'ajout d'un type de salle"""
@@ -722,6 +699,29 @@ def save_type_salle():
     return redirect(url_for('accueil'))
 
 
+# style musique
+@app.route('/ajout_style_musique')
+def ajout_style_musique():
+    """page d'ajout d'un style de musique"""
+    return render_template('ajout_style_musique.html')
+
+
+@app.route('/save_style_musique', methods=('POST', ))
+def save_style_musique():
+    """sauvegarde d'un style de musique"""
+    style_musique = request.form['nom_style_musique']
+    try:
+        cursor = mo.get_cursor()
+        req = 'INSERT INTO Style_musique VALUES(%s)'
+        cursor.execute(req, (style_musique, ))
+        db.commit()
+        mo.close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+    return redirect(url_for('accueil'))
+
+
+# autres
 def generate_pdf_file(file_path, title, content):
     # Créer le fichier PDF
     pdf = canvas.Canvas(file_path, pagesize=letter)
@@ -803,6 +803,25 @@ def fiche_rider():
     return render_template('fiche_rider.html', b=base, info=informations)
 
 
+@app.route('/plan_feu')
+def plan_feu():
+    """page du plan feu"""
+    return render_template('plan_feu.html')
+
+
+@app.template_filter('str')
+def string_filter(value):
+    return str(value)
+
+
+@app.template_filter('byte_to_image')
+def byte_to_image(byte, id="", classe=""):
+    if(byte == None):
+        return Markup(f'<img id="{id}" class="img_acc {classe}"  src="static/images/aucune_image.png" alt="img">')
+    image_base64 = base64.b64encode(byte).decode('utf-8')
+    return Markup(f'<img id="{id}" class="img_acc {classe}" src="data:image/png;base64,{image_base64}" alt="Image">')
+
+# à mettre ailleurs
 def getCoordonnee(address):
     try:
         encoded_address = requests.utils.quote(address, safe='')
@@ -818,25 +837,11 @@ def getCoordonnee(address):
         print(f'Erreur lors de la requête HTTP : {e}')
 
 
-@app.route('/ajout_style_musique')
-def ajout_style_musique():
-    """page d'ajout d'un style de musique"""
-    return render_template('ajout_style_musique.html')
-
-
-@app.route('/save_style_musique', methods=('POST', ))
-def save_style_musique():
-    """sauvegarde d'un style de musique"""
-    style_musique = request.form['nom_style_musique']
-    try:
-        cursor = mo.get_cursor()
-        req = 'INSERT INTO Style_musique VALUES(%s)'
-        cursor.execute(req, (style_musique, ))
-        db.commit()
-        mo.close_cursor(cursor)
-    except Exception as e:
-        print(e.args)
-    return redirect(url_for('accueil'))
+def convert_date_format(date_str):
+    print(date_str)
+    date_obj = datetime.datetime.strptime(date_str, '%d/%m/%Y')
+    nouvelle_date_str = date_obj.strftime('%Y-%m-%d')
+    return nouvelle_date_str
 
 
 # Gestion des erreurs
