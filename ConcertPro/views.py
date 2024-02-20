@@ -17,7 +17,7 @@ HEURES_DECALAGE_1 = [
     21, 22, 23
 ]
 HEURES_DECALAGE_2 = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22]
-
+referer = None
 
 # accueil
 @app.route('/')
@@ -73,10 +73,10 @@ def creer_concert():
                            logements=mo.logements())
 
 
-@app.route('/voir_prochains_concerts')
-def voir_prochains_concerts():
+@app.route('/voir_concerts')
+def voir_concerts():
     """page qui affiche les concerts à venir"""
-    return render_template('voir_prochains_concerts.html',
+    return render_template('voir_concerts.html',
                            concerts=mo.prochains_concerts(),
                            artistes=mo.artistes(),
                            salles=mo.salles())
@@ -130,7 +130,6 @@ def save_concert():
         mo.add_logement_artiste(id, id_artiste, logement_artiste, nuit)
     return redirect(url_for('concert', id=id))
 
-
 @app.route('/concert/<id>')
 def concert(id):
     """page pour le concert <id>"""
@@ -167,7 +166,7 @@ def concert(id):
 def supprimer_concert(id):
     """supprime le concert <id>"""
     mo.remove_concert(id)
-    return redirect(url_for('voir_prochains_concerts'))
+    return redirect(url_for('voir_concerts'))
 
 
 @app.route('/concert/<id_concert>/modifier')
