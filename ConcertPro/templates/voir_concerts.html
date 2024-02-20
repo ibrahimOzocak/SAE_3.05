@@ -24,7 +24,7 @@
         {% endfor %}
         <h1>{{ concerts[i][1] }}</h1>
         <div class="personne">
-            <img class="img_card" src = "{{ url_for('static', filename='images/Personne.png')}}" alt="img">
+            <img class="img_card" src = "{{ url_for('static', filename='images/Personne.png')}}" alt="image">
             {% for a in artistes%}
             {% if a[0] == concerts[i][4] %}
             <p>Artiste : {{ a[-2] }} </p>
