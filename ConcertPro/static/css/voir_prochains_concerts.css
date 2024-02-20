@@ -1,3 +1,7 @@
+body{
+    background-color: #121212;
+}
+
 /* Créez un conteneur pour les images */
 .conteneur {
     display: flex;
@@ -14,7 +18,7 @@
     box-shadow: 0 0 10px #da57001a;
     margin-top: 20px;
     border: solid 0.1px black;
-    background-color: white;
+    background-color: #242424;
     height: fit-content;
     overflow: hidden;
     font-size: small;
