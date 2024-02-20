@@ -21,7 +21,7 @@ CREATE TABLE Artiste (
   mail VARCHAR(42),
   nom_artiste VARCHAR(42),
   prenom_artiste VARCHAR(42),
-  date_de_naissance VARCHAR(42),
+  date_de_naissance TIMESTAMP,
   lieu_naissance VARCHAR(42),
   adresse VARCHAR(42),
   securite_sociale VARCHAR(42),
@@ -131,4 +131,16 @@ CREATE TABLE Participer (
   FOREIGN KEY (id_artiste) REFERENCES Artiste (id_artiste),
   FOREIGN KEY (id_concert) REFERENCES Concert (id_concert)
 );
+
+CREATE TABLE DetailsCouts (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    id_concert INT,
+    cout_materiels DECIMAL(10, 2),
+    cout_artiste DECIMAL(10, 2),
+    cout_logement DECIMAL(10, 2),
+    cout_autres DECIMAL(10, 2),
+    cout_salles DECIMAL(10, 2),
+    FOREIGN KEY (id_concert) REFERENCES Concert (id_concert)
+);
+
 

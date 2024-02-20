@@ -21,13 +21,13 @@
         <p>Styles musicaux : {% for i in range (styles|length) %}{{ styles[i][0] }}{% if i < styles|length - 1 %}, {% endif %}{% endfor %}{% if styles|length == 0 %}pas de genre{% endif %}</p>
         <p>Mail : {{ artiste[2] }}</p>
         <p>Téléphone : {{ artiste[1] }}</p>
-        <p>Date de naissance : {{ artiste[5] }}</p>
+        <p>Date de naissance : {{ dates[0] }}</p>
         <p>Lieu de naissance : {{ artiste[6] }}</p>
         <p>Adresse : {{ artiste[7] }}</p>
         <p>Numéro de sécurité sociale : {{ artiste[8] }}</p>
         <p>Cni : {{ artiste[10] }}</p>
-        <p>Date de délivrance du cni : {{ artiste[11] }}</p>
-        <p>Date d'expiration du cni : {{ artiste[12] }}</p>
+        <p>Date de délivrance du cni : {{ dates[1] }}</p>
+        <p>Date d'expiration du cni : {{ dates[2] }}</p>
         <p>Carte réduction : {{ artiste[13] }}</p>
     </div>
 </div>

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/afficher_rider.css')}}"> 
+{% endblock %}
+{% block content %}
+<div class="">
+    <form action="{{ url_for('modifier_couts', id=couts[0][0]) }}" method="post">
+    <p> Cout matériel :  <input name="materiel" required value="{{ couts[0][2] }}"> </p>
+    <p> Cout artiste : <input name="artiste" required value="{{ couts[0][3] }}"> </p>
+    <p> Cout salle : <input name="salle" required value="{{ couts[0][6] }}"> </p>
+    <p> Cout logement : <input name="logement" required value="{{ couts[0][4] }}"> </p>
+    <p> Cout autre : <input name="autre" required value="{{ couts[0][5] }}"> </p>
+
+    <button type="submit">Modifier</button>
+    </form>
+</div>
+{% endblock %}

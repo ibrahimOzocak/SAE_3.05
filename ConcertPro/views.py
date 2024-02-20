@@ -17,7 +17,7 @@ HEURES_DECALAGE_1 = [
     21, 22, 23
 ]
 HEURES_DECALAGE_2 = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22]
-
+referer = None
 
 # accueil
 @app.route('/')
@@ -56,10 +56,10 @@ def creer_concert():
                            logements=mo.logements())
 
 
-@app.route('/voir_prochains_concerts')
-def voir_prochains_concerts():
+@app.route('/voir_concerts')
+def voir_concerts():
     """page qui affiche les concerts à venir"""
-    return render_template('voir_prochains_concerts.html',
+    return render_template('voir_concerts.html',
                            concerts=mo.prochains_concerts(),
                            artistes=mo.artistes(),
                            salles=mo.salles())
@@ -113,13 +113,13 @@ def save_concert():
         mo.add_logement_artiste(id, id_artiste, logement_artiste, nuit)
     return redirect(url_for('concert', id=id))
 
-
 @app.route('/concert/<id>')
 def concert(id):
     """page pour le concert <id>"""
     le_concert = mo.get_concert(id)
     la_salle = mo.get_salle(le_concert[5])
     lartiste = mo.get_artiste(le_concert[4])
+    couts=mo.somme_couts(id)
     if lartiste != None:
         necessaire = mo.categoriser_equipements(id, lartiste[0])
         logement_artiste = mo.get_logement_artiste(le_concert[0], lartiste[0])
@@ -144,25 +144,29 @@ def concert(id):
                            artiste=lartiste,
                            necessaire=necessaire,
                            logement=logement_artiste,
+                           couts=couts,
                            map_path=c._repr_html_() if c else None)
-
+                           
+                           
 @app.route('/concert/<id>/supprimer')
 def supprimer_concert(id):
     """supprime le concert <id>"""
     mo.remove_concert(id)
-    return redirect(url_for('voir_prochains_concerts'))
+    return redirect(url_for('voir_concerts'))
 
 
 @app.route('/concert/<id_concert>/modifier')
 def modifier_concert(id_concert):
     """modifier le concert <id_concert>"""
     le_concert = mo.get_concert(id_concert)
+    date_heure = (le_concert[2].strftime('%Y-%m-%d'), le_concert[2].strftime('%H:%M'))
     liste_salle = mo.salles()
     liste_artiste = mo.artistes()
     logements = mo.logements()
     logement_artiste = mo.get_logement_artiste(le_concert[0], le_concert[4])
     return render_template('modifier_concert.html',
                            concert=le_concert,
+                           date_heure=date_heure,
                            salles=liste_salle,
                            artistes=liste_artiste,
                            logements=logements,
@@ -184,8 +188,10 @@ def confirmer_modif_concert(id_concert):
         id_salle = request.form['salle']
     else:
         id_salle = None
-    date_heure_concert = request.form['date_heure_concert']
-    duree_concert = request.form['duree_concert']
+    heure_concert = request.form['heure_debut']
+    date_heure_concert = datetime.datetime.strptime(request.form['date_debut'], '%Y-%m-%d') + datetime.timedelta(hours=int(heure_concert.split(':')[0]), minutes=int(heure_concert.split(':')[1]))
+    duree = datetime.datetime.strptime(request.form['duree'], '%H:%M').time()
+    duree_concert = duree.hour * 60 + duree.minute
     description_concert = request.form['description_concert']
     photo = request.files['image']
     le_logement = request.form['logement']
@@ -328,9 +334,10 @@ def voir_artistes():
 def artiste(id_artiste):
     """page de l'artiste <id_artiste>"""
     lartiste = mo.get_artiste(id_artiste)
+    dates = (lartiste[5].strftime('%d/%m/%Y'), lartiste[11].strftime('%d/%m/%Y'), lartiste[12].strftime('%d/%m/%Y'))
     styles = mo.styles_musique_artiste(id_artiste)
     concerts = mo.get_concerts_artiste(id_artiste)
-    return render_template('artiste.html', artiste=lartiste, styles=styles, concerts=concerts)
+    return render_template('artiste.html', artiste=lartiste, dates=dates, styles=styles, concerts=concerts)
 
 
 @app.route('/confirmer_artiste/<id_artiste>', methods=('POST', ))
@@ -341,13 +348,13 @@ def confirmer_modif_artiste(id_artiste):
     nom_de_scene = request.form['nom_de_scene']
     mail = request.form['mail']
     telephone = request.form['telephone']
-    date_de_naissance = request.form['date_de_naissance']
+    date_de_naissance = request.form['date_naissance']+ " 00:00:00"
     lieu_de_naissance = request.form['lieu_de_naissance']
     adresse = request.form['adresse']
     numero_secu_sociale = request.form['numero_secu_sociale']
     cni = request.form['cni']
-    date_delivrance_cni = request.form['date_delivrance_cni']
-    date_expiration_cni = request.form['date_expiration_cni']
+    date_delivrance_cni = request.form['date_delivrance']
+    date_expiration_cni = request.form['date_expiration']
     carte_reduction = request.form['carte_de_reduction']
     style_musical = request.form.getlist('genre')
     photo = request.files['image']
@@ -364,10 +371,12 @@ def confirmer_modif_artiste(id_artiste):
 def modifier_artiste(id_artiste):
     """page de l'artiste <id_artiste>"""
     lartiste = mo.get_artiste(id_artiste)
+    dates = (lartiste[5].strftime('%Y-%m-%d'), lartiste[11].strftime('%Y-%m-%d'), lartiste[12].strftime('%Y-%m-%d'))
     styles_musique_artiste = mo.styles_musique_artiste(id_artiste)
     styles = mo.styles_musisque()
     return render_template('modifier_artiste.html',
                             artiste=lartiste,
+                            dates=dates,
                             styles_musique_artiste=styles_musique_artiste,
                             styles=styles)
 
@@ -706,6 +715,53 @@ def save_style_musique():
     """sauvegarde d'un style de musique"""
     nom_style_musique = request.form['nom_style_musique']
     mo.save_style_musique(nom_style_musique)
+    return redirect(url_for('accueil'))
+
+@app.route('/couts/<id_concert>')
+def couts(id_concert):
+    """page des couts"""
+    return render_template('couts.html', couts=mo.couts(id_concert))
+
+@app.route('/modifier_couts/<id>', methods=('POST', ))
+def modifier_couts(id):
+    """modifier les couts"""
+    materiel = request.form['materiel']
+    salle = request.form['salle']
+    artiste = request.form['artiste']
+    logement = request.form['logement']
+    autre = request.form['autre']
+    mo.modifier_couts(id, materiel, salle, artiste, logement, autre)
+    return redirect(url_for('accueil'))
+
+
+# style musique
+@app.route('/ajout_style_musique')
+def ajout_style_musique():
+    """page d'ajout d'un style de musique"""
+    return render_template('ajout_style_musique.html')
+
+
+@app.route('/save_style_musique', methods=('POST', ))
+def save_style_musique():
+    """sauvegarde d'un style de musique"""
+    nom_style_musique = request.form['nom_style_musique']
+    mo.save_style_musique(nom_style_musique)
+    return redirect(url_for('accueil'))
+
+@app.route('/couts/<id_concert>')
+def couts(id_concert):
+    """page des couts"""
+    return render_template('couts.html', couts=mo.couts(id_concert))
+
+@app.route('/modifier_couts/<id>', methods=('POST', ))
+def modifier_couts(id):
+    """modifier les couts"""
+    materiel = request.form['materiel']
+    salle = request.form['salle']
+    artiste = request.form['artiste']
+    logement = request.form['logement']
+    autre = request.form['autre']
+    mo.modifier_couts(id, materiel, salle, artiste, logement, autre)
     return redirect(url_for('accueil'))
 
 

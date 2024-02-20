@@ -309,6 +309,61 @@ def get_styles_musique_artiste(id_artiste):
         print(e.args)
     return None
 
+def couts(id_concert):
+    """Fonction permettant de récupérer le cout d'un concert
+
+    Args:
+        id_concert (int): L'identifiant du concert
+
+    """
+    try:
+        cursor = get_cursor()
+        request = "SELECT * FROM DetailsCouts WHERE id_concert = %s"
+        cursor.execute(request, (id_concert, ))
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        return info
+    except Exception as e:
+        print(e.args)
+    return None
+
+def modifier_couts(id, materiel, salle, artiste, logement, autre):
+    """Fonction permettant de modifier le cout d'un concert
+    
+    Args:
+        id (int): L'identifiant du concert
+materiel, salle, artiste, logement, autre
+    """
+    try:
+        cursor = get_cursor()
+        request = "Update DetailsCouts SET cout_materiels = %s , cout_salles = %s, cout_artiste = %s, cout_logement = %s, cout_autres = %s WHERE id_concert = %s"
+        cursor.execute(request, (materiel, salle, artiste, logement, autre, id))
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        return info
+    except Exception as e:
+        print(e.args)
+    return None
+
+def somme_couts(id_concert):
+    """Fonction permettant de récupérer la somme des couts d'un concert
+
+    Args:
+        id_concert (int): L'identifiant du concert
+
+    """
+    try:
+        cursor = get_cursor()
+        request = "SELECT SUM(cout_materiels + cout_salles + cout_artiste + cout_logement + cout_autres) FROM DetailsCouts WHERE id_concert = %s"
+        cursor.execute(request, (id_concert, ))
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        return info[0][0]
+    except Exception as e:
+        print(e.args)
+    return None
+    
+       
 
 def historique_concerts():
     """Fonction permettant de récupérer les concerts passés
