@@ -16,10 +16,11 @@
             {{ concert[-1] | byte_to_image(id='image-charge') }}
             {% endif %}
         </div>
-        <label for="nom_concert">Nom du concert :</label>
+        <label for="nom_concert">Nom du concert <span style="color: orange;">*</span></label>
         <input type="textfield" id="nom_concert" name="nom_concert" required value="{{ concert[1] }}" maxlength="42">
         <label for="artiste">Artiste</label>
         <select name="artiste">
+            <option value="">-- Sélectionner un artiste --</option>
             {% for a in artistes %}
                 <option value="{{ a[0] }}" {% if concert[4] == a[0] %}selected{% endif %}>
                     {{ a[3] }} {{ a[4] }}
@@ -27,30 +28,32 @@
             {% endfor %}
         </select>
         <input type="hidden" name="ancien_artiste" value="{{ concert[4] }}">
-        <label for="logement">Logement de l'artiste :</label>
+        <label for="logement">Logement de l'artiste </label>
         <select name="logement">
+            <option value="">-- Sélectionner un logement --</option>
             {% for l in logements %}
                 <option value="{{ l[0] }}" {% if logement_artiste[0] == l[0] %}selected{% endif %}>
                     {{ l[2] }}
                 </option>
             {% endfor %}
         </select>
-        <label for="nuits">Nombre de nuits :</label>
-        <input type="number" id="nuits" name="nuits" required value="{{ logement_artiste[2] }}" min="0">
+        <label for="nuits">Nombre de nuits </label>
+        <input type="number" id="nuits" name="nuits" value="{{ logement_artiste[2] }}" min="0">
         <label for="salle">Salle :</label>
         <select name="salle">
+            <option value="">-- Sélectionner une salle --</option>
             {% for salle in salles %}
                 <option value="{{ salle[0] }}" {% if concert[5] == salle[0] %}selected{% endif %}>
                     {{ salle[3] }} 
                 </option>
             {% endfor %}
         </select>
-        <label for="date_heure_concert">Date et heure du concert :</label>
+        <label for="date_heure_concert">Date et heure du concert <span style="color: orange;">*</span></label>
         <input type="textfield" id="date_heure_concert" name="date_heure_concert" required value="{{ concert[2] }}">
-        <label for="duree_concert">La durée du concert :</label>
+        <label for="duree_concert">La durée du concert <span style="color: orange;">*</span></label>
         <input type="textfield" id="duree_concert" name="duree_concert" required value="{{ concert[3] }}">
-        <label for="description_concert">Description du concert :</label>
-        <input type="textfield" id="description_concert" name="description_concert" required value="{{ concert[6] }}" maxlength="500">
+        <label for="description_concert">Description du concert </label>
+        <input type="textfield" id="description_concert" name="description_concert" value="{{ concert[6] }}" maxlength="500">
         <button type="submit">Appliquer les modifications</button>
     </form>
 </div>

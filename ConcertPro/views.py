@@ -90,12 +90,12 @@ def save_concert():
     duree_concert = heure_duree * 60 + minute_duree
     
     id_artiste = request.form.get('artiste')
-    if 'artiste' in request.form:
+    if 'artiste' in request.form and request.form['artiste'] != '':
         id_artiste = request.form['artiste']
     else:
         id_artiste = None
     
-    if 'salle' in request.form:
+    if 'salle' in request.form and request.form['salle'] != '':
         id_salle = request.form['salle']
     else:
         id_salle = None
@@ -109,7 +109,8 @@ def save_concert():
     mo.save_concert(id, nom_concert, date_heure_concert, duree_concert,
                     id_artiste, id_salle, description_concert, photo)
     mo.add_artiste_concert(id, id_artiste)
-    mo.add_logement_artiste(id, id_artiste, logement_artiste, nuit)
+    if logement_artiste != '':
+        mo.add_logement_artiste(id, id_artiste, logement_artiste, nuit)
     return redirect(url_for('concert', id=id))
 
 
@@ -118,7 +119,6 @@ def concert(id):
     """page pour le concert <id>"""
     le_concert = mo.get_concert(id)
     la_salle = mo.get_salle(le_concert[5])
-    print(la_salle)
     lartiste = mo.get_artiste(le_concert[4])
     if lartiste != None:
         necessaire = mo.categoriser_equipements(id, lartiste[0])
@@ -173,8 +173,17 @@ def modifier_concert(id_concert):
 def confirmer_modif_concert(id_concert):
     """sauvegarde d'un concert"""
     nom_concert = request.form['nom_concert']
-    id_artiste = request.form['artiste']
-    id_salle = request.form['salle']
+    id_artiste = request.form.get('artiste')
+    
+    if 'artiste' in request.form and request.form['artiste'] != '':
+        id_artiste = request.form['artiste']
+    else:
+        id_artiste = None
+        
+    if 'salle' in request.form and request.form['salle'] != '':
+        id_salle = request.form['salle']
+    else:
+        id_salle = None
     date_heure_concert = request.form['date_heure_concert']
     duree_concert = request.form['duree_concert']
     description_concert = request.form['description_concert']
