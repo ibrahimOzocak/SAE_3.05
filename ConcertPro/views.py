@@ -190,8 +190,17 @@ def modifier_concert(id_concert):
 def confirmer_modif_concert(id_concert):
     """sauvegarde d'un concert"""
     nom_concert = request.form['nom_concert']
-    id_artiste = request.form['artiste']
-    id_salle = request.form['salle']
+    id_artiste = request.form.get('artiste')
+    
+    if 'artiste' in request.form and request.form['artiste'] != '':
+        id_artiste = request.form['artiste']
+    else:
+        id_artiste = None
+        
+    if 'salle' in request.form and request.form['salle'] != '':
+        id_salle = request.form['salle']
+    else:
+        id_salle = None
     date_heure_concert = request.form['date_heure_concert']
     duree_concert = request.form['duree_concert']
     description_concert = request.form['description_concert']

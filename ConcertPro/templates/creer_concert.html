@@ -37,8 +37,8 @@
             <section class="section_creer sec2">
                 <label for="artiste">Artiste</label>
                 <select name="artiste">
-                    {% for artiste in artistes %}
                     <option value="">-- Sélectionner un artiste --</option>
+                    {% for artiste in artistes %}
                     <option value="{{ artiste[0] }}">{{ artiste[3] }} {{ artiste[4] }}</option>
                     {% endfor %}
                 </select>
@@ -47,8 +47,8 @@
             <section class="section_creer sec2b">
                 <label for="logement">Logement de l'artiste</label>
                 <select name="logement">
-                    {% for logement in logements %}
                     <option value="" >-- Sélectionner un logement --</option>
+                    {% for logement in logements %}
                     <option value="{{ logement[0] }}">{{ logement[2] }}</option>
                     {% endfor %}
                 </select>
@@ -61,8 +61,8 @@
             <section class="section_creer sec3">
                 <label for="salle">Salle</label>
                 <select name="salle">
-                    {% for i in range(salles|length) %}
                     <option value="">-- Sélectionner une salle --</option>
+                    {% for i in range(salles|length) %}
                     <option value="{{ salles[i][0]}}">{{ salles[i][3] }} ({{ types[salles[i][0]] }})</option>
                     {% endfor %}
                 </select>
