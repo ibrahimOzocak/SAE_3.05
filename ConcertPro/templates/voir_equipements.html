@@ -2,6 +2,7 @@
 {% block styles %}
 {{ super() }}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/voir_prochains_concerts.css')}}"> 
+<link rel="stylesheet" href="{{ url_for('static', filename='css/boutonPlus.css')}}"> 
 {% endblock %}
 {% block content %}
 <div class="conteneur">
@@ -18,7 +19,5 @@
     </div>
     {% endif %}
 </div>
-<div class="ajout-btn-equipement">
-    <a id="ajout_equipement" href="{{ url_for( 'ajout_equipement' )}}">+</a>
-</div>
+<a href="{{ url_for('ajout_equipement') }}"><img class="plus" src = "{{ url_for('static', filename='images/plus.png')}}" alt="image"></a>
 {% endblock %}

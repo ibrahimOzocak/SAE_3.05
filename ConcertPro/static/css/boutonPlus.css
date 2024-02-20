@@ -1,0 +1,10 @@
+.plus{
+    background: transparent !important;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    width: 3em;
+    aspect-ratio: 1/1;
+    margin: 2em;
+    cursor: pointer;
+}

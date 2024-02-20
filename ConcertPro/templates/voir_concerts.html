@@ -2,6 +2,7 @@
 {% block styles %}
 {{ super() }}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/voir_prochains_concerts.css')}}"> 
+<link rel="stylesheet" href="{{ url_for('static', filename='css/boutonPlus.css')}}"> 
 {% endblock %}
 {% block content %}
 <div class="conteneur">
@@ -23,7 +24,7 @@
         {% endfor %}
         <h1>{{ concerts[i][1] }}</h1>
         <div class="personne">
-            <img class="img_card" src = "{{ url_for('static', filename='images/Personne.png')}}" alt="img">
+            <img class="img_card" src = "{{ url_for('static', filename='images/Personne.png')}}" alt="image">
             {% for a in artistes%}
             {% if a[0] == concerts[i][4] %}
             <p>Artiste : {{ a[-2] }} </p>
@@ -46,5 +47,6 @@
         <p>Aucun concert n'a été trouvé</p>
     </div>
     {% endif %}
+    <a href="{{ url_for('creer_concert') }}"><img class="plus" src = "{{ url_for('static', filename='images/plus.png')}}" alt="image"></a>
 </div>
 {% endblock %}
