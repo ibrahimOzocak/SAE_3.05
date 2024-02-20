@@ -13,7 +13,7 @@
     <section class="section_creer sec1">
 
         <div>
-            <label for="titre">Nom de la salle</label>
+            <label for="titre">Nom de la salle <span style="color: orange;">*</span></label>
             <input type="text" name="titre" maxlength="42" required/>
             <label for="place">Nombre de place</label>
             <input type="number" name="place" value="0" required min="0"/>
@@ -30,12 +30,12 @@
             <input type="number" name="profondeur" value="0" required min="0"/>
             <label for="longueur">Longeur de la scene</label>
             <input type="number" name="longueur" value="0" required min="0"/>
-            <label for="adresse">Adresse de la salle</label>
+            <label for="adresse">Adresse de la salle <span style="color: orange;">*</span></label>
             <input type="text" name="adresse" maxlength="250" required/>
-            <label for="postalville">Code postal et ville de la salle (ex : 45000 Orléans)</label>
+            <label for="postalville">Code postal et ville de la salle (ex : 45000 Orléans) <span style="color: orange;">*</span></label>
             <input type="text" name="postalville" maxlength="250" required/>
             <label for="telephone">Numéro de téléphone de la salle</label>
-            <input type="text" name="telephone" maxlength="42" required/>
+            <input type="text" name="telephone" maxlength="42"/>
             <div>
                 <input type="checkbox" id="accueilpmr" name="accueilpmr"/>
                 <label for="accueilpmr">La salle accueille les personnes à mobilité réduite</label>

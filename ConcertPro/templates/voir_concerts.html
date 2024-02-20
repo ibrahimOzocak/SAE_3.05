@@ -38,7 +38,7 @@
             {% endif %}
             {% endfor %}
         </div>
-        <a class="voir" href="{{ url_for('concert', id=concerts[i][0]) }}">Voir profil  <span>+</span></a>
+        <a class="voir" href="{{ url_for('concert', id=concerts[i][0]) }}">Voir plus  <span>+</span></a>
     </div>
     {% endfor %}
     {% if concerts|length == 0 %}
