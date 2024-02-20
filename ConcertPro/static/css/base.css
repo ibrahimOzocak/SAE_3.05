@@ -21,7 +21,7 @@ body * {
 }
 
 p {
- color: black;
+ color: white;
  text-decoration: none;
 }
 
@@ -80,7 +80,7 @@ p {
 
 #menu {
    position: fixed;
-   top: 0;
+   top: 4.5em;
    bottom: 0;
    width: 260px;
    left: -260px;
@@ -134,39 +134,28 @@ ul, ol {
 }
 
 #menu ul.mobile-nav > li > a {
-  background: black;
-  color: #FFFFFF;
-  font-size: 24px;
-  cursor: default;
-}
-
-.mobile-nav ul.sub-menu {
+  display: block;
+  padding: 10px 20px;
+  color: white;
+  text-decoration: none;
+  background-color: #242424;
+  border-top: 1px solid black;
   text-transform: uppercase;
 }
 
 .mobile-nav a {
   display: block;
-  color: black;
-  background-color: white;
-  border-top: 1px solid black;
+  padding: 10px 20px;
+  color: white;
   text-decoration: none;
+  background-color: #242424;
+  border-top: 1px solid black;
+  text-transform: uppercase;
 }
 
 .deroulant{
   display: flex;
   text-align: center;
-
-
-}
-
-.menu-close{
-  width: 50px;
-  position: fixed;
-  left: 270px;
-  z-index: 10000000;
-  margin: 10px;
-  top: 0;
-  cursor: pointer;
 }
 
 .mobile-nav a:hover{
@@ -174,7 +163,21 @@ ul, ol {
     color: #FFFFFF;
 }
 
+.menu-item a{
+  padding: 2em;
+}
+
 /* Nav Icon */
+
+/*
+.menu-link {
+  transition: transform 1s ease-in-out;
+}
+
+.menu-link:hover {
+  transform: rotate(360deg);
+}
+*/
 
 #nav-icon {
   width: 30px;
