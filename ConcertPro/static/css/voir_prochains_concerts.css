@@ -9,65 +9,62 @@ body{
     justify-content: space-evenly;
 }
 
-.img_acc {
-    width: 30em;
-    aspect-ratio: 16/9;
-    border-radius: 10px 10px 0 0;
-}
-
-.img_art{
-    border-radius: 50%;
-    width: 5em;
-    height: 5em;
-    z-index: 100000;
-    position: relative;
-    bottom: 2.5em;
-    left: 2em;
-}
-
-.personne{
-    position: relative;
-    top: -2em;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 1em 0.4em;
-}
-
-.personne .img_card{
-    width: 2em;
-    aspect-ratio: 1/1;
-}
-h1{
-    color: white;
-    position: absolute;
-    top: 0;
-    padding: 0.2em;
-    background-color: black;
-}
-
 .sous-conteneur{
-    font-size: 2em;
     display: flex;
-    flex-direction: row;
     justify-content: center;
+    width: 20%;
+    height: fit-content;
+    flex-direction: column;
+    border: solid 1px white;
+    border-radius: 5px;
+}
+
+.img_card{
+    width: 50px;
+}
+
+.div_img{
     width: 100%;
+    overflow: hidden;   
+    height: 50%; 
+    border-radius: 5px;
 }
 
-.voir{
+.div_img img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+
+
+.personne {
+    display: flex;
+    align-items: center;
+    margin: 10px;
+}
+
+.personne p{
+    font-size: medium;
+}
+
+
+.sous-conteneur h1{
+    font-size: xx-large;
+    color: white;
+    text-align: center;
+}
+
+.sous-conteneur a{
+    display: flex;
+    justify-content: center;
+    font-size: large;
     color: black;
-    text-decoration: none;
     background-color: white;
-    position: relative;
-    bottom: 1.5em;
-    left: 23em;
-    padding: 0.5em;
-    border-radius: 10px;
-    transition: background-color 0.5s;
 }
 
-.voir:hover{
-    color: #1DB954;
-    transition: color 0.5s ease-in-out;
-    transform: scale(1.1);
+.sous-conteneur a:hover span{
+    margin-left: 5px;
+    transition: all ease 0.5s;
 }

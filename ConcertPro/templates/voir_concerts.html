@@ -9,9 +9,9 @@
     {% for i in range (concerts|length) %}
     <div class="sous-conteneur">
         {% if concerts[i][-1] is none %}
-        <div class="div_img">
-            <img class="img_acc"  src="{{ url_for('static', filename='images/aucune_image.png') }}" alt="img">
-        </div>
+            <div class="div_img">
+                <img class="img_acc"  src="{{ url_for('static', filename='images/aucune_image.png') }}" alt="img">
+            </div>
         {% else %}
         <div class="div_img">
             {{ concerts[i][-1] | byte_to_image }}
