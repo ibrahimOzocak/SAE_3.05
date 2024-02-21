@@ -97,9 +97,22 @@ div {
     margin: 1em;
     font-size: 1.2em;
     color: white;
+    text-decoration: underline;
 }
 
 #agenda:hover{
+    color: #1DB954;
+    transition: all 0.3s ease-in-out;
+}
+
+#add_concert{
+    margin: 1em;
+    font-size: 1.2em;
+    color: white;
+    text-decoration: underline;
+}
+
+#add_concert:hover{
     color: #1DB954;
     transition: all 0.3s ease-in-out;
 }

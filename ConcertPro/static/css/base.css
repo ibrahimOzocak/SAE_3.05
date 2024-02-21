@@ -288,11 +288,14 @@ ul, ol {
 }
 
 footer> ul{
-  border-top: thin black solid;
+  border-top: thin white solid;
   justify-content: space-around;
   display: flex;
-  margin-bottom: 5vh;
+  color: white;
+}
 
+footer > ul > li{
+  padding: 1em;
 }
 
 .footer {
