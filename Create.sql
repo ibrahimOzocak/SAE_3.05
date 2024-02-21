@@ -31,7 +31,7 @@ CREATE TABLE Artiste (
   date_expiration_cni TIMESTAMP,
   carte_reduction VARCHAR(42),
   nom_scene VARCHAR(42),
-  photo LONGBLOB,
+  photo LONGBLOB
 );
 
 CREATE TABLE Jouer (
