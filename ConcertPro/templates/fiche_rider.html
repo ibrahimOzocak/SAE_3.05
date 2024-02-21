@@ -4,10 +4,16 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/fiche_rider.css')}}">
 {% endblock %}
 {% block content %}
-<a href="{{url_for('afficher_rider')}}"><img class="retour" src="../static/images/retour.png" alt=""></a>
+<div class="tete-page">
+    <a href="{{url_for('afficher_rider')}}"><img class="retour" src="../static/images/retour.png" alt="fleche"></a>
+    <h1>Fiche Rider</h1>
+</div>
 <div class="container">
     {% for i in range(b|length) %}
-        <p>{{ b[i] }} : {{info[i]}}</p>
+    <div class="info">
+            <p class="title">{{ b[i] }} : </p>
+            <p class="res">{{info[i]}}</p>
+    </div>
     {% endfor %}
 </div>
 <a class="bouton" href="{{ url_for('rider', informations=','.join(info)) }}">Télécharger en format PDF</a>       

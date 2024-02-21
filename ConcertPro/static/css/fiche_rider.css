@@ -1,15 +1,69 @@
+body{
+    background-color: #121212;
+}
+
+.tete-page{
+    display: flex;
+    width: 100%;
+    margin: 1em 0 1em 1em;
+    color: white;
+    align-items: center;
+}
+
+.tete-page h1{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    text-decoration: underline 2px;
+    text-underline-offset: 0.25em;
+}
+
+.retour{
+    width: 3em;
+    aspect-ratio: 1/1;
+    transition: 0.3s;
+}
+
+.retour:hover{
+    transform: scale(1.05);
+}
+
+
 .container{
     padding: 20px; /* Espacement intérieur */
-    border: 1px solid #948c8c; /* Bordure */
-    border-radius: 10px; /* Coins arrondis */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Ombre légère */
-   
+    margin-top: 1em;
     justify-content: center;
     align-items: center;
     display: flex;
     flex-direction: column;
-    width: 60vw;
+    width: 40vw;
     height: auto;
+    background-color: #343434;
+}
+
+.info{
+    display: flex;
+    justify-content: space-around;
+    margin: 0.25em  auto 0.25em 0;
+    align-items: center;
+    width: 100%;
+    border-bottom: solid 1px #808080;
+    
+}
+
+.title{
+    margin:0.35em auto 0.35em 0;
+    font-weight: bold;
+}
+
+.res{
+    text-align: right;
+}
+
+p{
+    color: white;
+    opacity: 0.8;
 }
 
 main{
@@ -21,8 +75,8 @@ main{
  
 .bouton{
     border-radius: 10px;
-    border: solid 1px black;
-    background-color: black;
+    border: solid 0.5px #121212;
+    background-color: #343434;
     color: white;
     padding: 10px;
     margin: 10px;
@@ -31,13 +85,6 @@ main{
 .bouton:hover{
     opacity: 0.8;
     transition: 0.3s ease-in-out;
-}
-
-.retour{
-    width: 50px;
-    position: absolute;
-    left: 0;
-    margin: 20px;
 }
 
 textarea{
