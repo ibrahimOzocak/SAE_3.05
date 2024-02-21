@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS DetailsCouts;
 DROP TABLE IF EXISTS Participer;
 DROP TABLE IF EXISTS Loger;
 DROP TABLE IF EXISTS Besoin_equipement_artiste;
@@ -11,4 +12,3 @@ DROP TABLE IF EXISTS Artiste;
 DROP TABLE IF EXISTS Logement;
 DROP TABLE IF EXISTS Equipement;
 DROP TABLE IF EXISTS Style_musique;
-
