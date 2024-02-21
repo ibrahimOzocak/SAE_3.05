@@ -1,10 +1,13 @@
+body{
+    background-color: #121212;
+    color: white;
+}
+
 .fiche{
     width: calc(25% - 20px);
     padding: 20px; /* Espacement intérieur */
-    border: 1px solid #948c8c; /* Bordure */
-    border-radius: 10px; /* Coins arrondis */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Ombre légère */
-   
+    box-shadow: 0 0 0.5em rgba(0, 0, 0, 0.9); /* Ombre légère */
+    background-color: #343434;
     justify-content: center;
     align-items: center;
     display: flex;
@@ -17,4 +20,18 @@
     flex-wrap: wrap;
     padding: 20px;
     justify-content: space-evenly;
+}
+
+.fiche a{
+    color: white;
+    text-decoration: underline;
+    text-underline-offset: 0.35em;
+    font-size: 110%;
+    opacity: 0.8;
+    transition: transform 0.5s, opacity 0.5s;
+}
+
+.fiche a:hover{
+    transform: scale(1.15);
+    opacity: 1;
 }
