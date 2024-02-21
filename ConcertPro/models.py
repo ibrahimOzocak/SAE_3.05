@@ -1412,7 +1412,7 @@ def save_artiste(id_artiste,
                 req = "INSERT INTO Style_musique (id_style_musique) VALUES(%s)"
                 cursor.execute(req, (style, ))
                 db.commit()
-        req = "INSERT INTO Artiste (id_artiste, nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_naissance, adresse, securite_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction, nom_scene,conge_spectacle) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s)"
+        req = "INSERT INTO Artiste (id_artiste, nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_naissance, adresse, securite_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction, nom_scene,conge_spectacle) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s)"
         cursor.execute(
             req,
             (id_artiste, nom_artiste, prenom_artiste, mail, telephone,

@@ -339,7 +339,9 @@ def voir_artistes():
 def artiste(id_artiste):
     """page de l'artiste <id_artiste>"""
     lartiste = mo.get_artiste(id_artiste)
-    dates = (lartiste[5].strftime('%d/%m/%Y'), lartiste[11].strftime('%d/%m/%Y'), lartiste[12].strftime('%d/%m/%Y'))
+    dates = (lartiste[5].strftime('%d/%m/%Y'), 
+             lartiste[11].strftime('%d/%m/%Y'), 
+             lartiste[12].strftime('%d/%m/%Y'))
     styles = mo.styles_musique_artiste(id_artiste)
     concerts = mo.get_concerts_artiste(id_artiste)
     return render_template('artiste.html', artiste=lartiste, dates=dates, styles=styles, concerts=concerts)
@@ -407,6 +409,12 @@ def save_artiste():
     carte_reduction = request.form['carte_train']
     style_musical = request.form.getlist('genre')
     id_artiste = mo.get_id_artiste_max() + 1
+    print(date_de_naissance)
+    print(id_artiste, nom_artiste, prenom_artiste, mail, telephone,
+                    date_de_naissance, lieu_de_naissance, adresse,
+                    securite_sociale, cni, date_delivrance_cni,
+                    date_expiration_cni, carte_reduction, style_musical,
+                    nom_scene)
     mo.save_artiste(id_artiste, nom_artiste, prenom_artiste, mail, telephone,
                     date_de_naissance, lieu_de_naissance, adresse,
                     securite_sociale, cni, date_delivrance_cni,
