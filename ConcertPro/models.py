@@ -86,6 +86,28 @@ def save_concert(id, nom_concert, date_heure_concert, duree_concert,
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
+        
+def save_couts(id_concert, cout_materiels, cout_salles, cout_artiste, cout_logement, cout_autres):
+    """Fonction permettant de sauvegarder les couts d'un concert dans la base de données
+
+    Args:
+        id_concert (int): L'identifiant du concert
+        cout_materiels (int): Le cout des materiels
+        cout_salles (int): Le cout des salles
+        cout_artiste (int): Le cout des artistes
+        cout_logement (int): Le cout des logements
+        cout_autres (int): Le cout des autres
+    """
+    try:
+        cursor = get_cursor()
+        req = "INSERT INTO DetailsCouts (id_concert, cout_materiels, cout_salles, cout_artiste, cout_logement, cout_autres) VALUES(%s, %s, %s, %s, %s, %s)"
+        cursor.execute(
+            req,
+            (id_concert, cout_materiels, cout_salles, cout_artiste, cout_logement, cout_autres))
+        db.commit()
+        close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
 
 
 def save_salle(id, nom_salle, nb_places, profondeur_scene, longueur_scene,
