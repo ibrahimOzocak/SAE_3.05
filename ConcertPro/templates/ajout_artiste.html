@@ -28,7 +28,7 @@
         <label for="lieu_naissance">Lieu de Naissance:</label>
         <input type="text" id="lieu_naissance" name="lieu_naissance" required maxlength="42">
         <label for="adresse">Adresse:</label>
-        <input type="text" id="adresse" name="adresse" required maxlength="42">
+        <input type="text" id="adresse" name="adresse" required maxlength="500">
         <label for="num_secu_sociale">Numéro de Sécurité Sociale:</label>
         <input type="text" id="num_secu_sociale" name="num_secu_sociale" required maxlength="42">
         <label for="conge_spectacle">Congé pour le Spectacle:</label>
@@ -44,8 +44,6 @@
         <input type="date" id="date_expiration" name="date_expiration" required>
         <label for="carte_train">Carte de Réduction Train:</label>
         <input type="text" id="carte_train" name="carte_train" required maxlength="42">
-        <label for="comment">Commentaire (max. 500 caractères):</label>
-        <textarea id="comment" name="comment" rows="4" maxlength="500"></textarea>
         <button type="submit" id="submitBtn">Valider</button>
     </form>
 </div>

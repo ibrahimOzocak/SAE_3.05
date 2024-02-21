@@ -8,7 +8,7 @@ body {
 }
 
 div {
-    max-width: 600px; /* ou une autre valeur selon vos besoins */
+    max-width: 600px;
     margin: auto;
 }
 
@@ -20,4 +20,6 @@ div {
     text-align: left;
 }
 
-/* Ajoutez d'autres styles selon vos besoins */
+p{
+    color: black !important;
+}

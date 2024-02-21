@@ -9,7 +9,7 @@ CREATE TABLE Equipement (
 
 CREATE TABLE Logement (
   id_logement INT PRIMARY KEY NOT NULL,
-  adresse_ville_codepostal VARCHAR(42),
+  adresse_ville_codepostal VARCHAR(500),
   nom_etablissement VARCHAR(42),
   nb_etoile INT,
   photo LONGBLOB
@@ -23,7 +23,7 @@ CREATE TABLE Artiste (
   prenom_artiste VARCHAR(42),
   date_de_naissance TIMESTAMP,
   lieu_naissance VARCHAR(42),
-  adresse VARCHAR(42),
+  adresse VARCHAR(500),
   securite_sociale VARCHAR(42),
   conge_spectacle VARCHAR(42),
   cni VARCHAR(42),
@@ -135,11 +135,11 @@ CREATE TABLE Participer (
 CREATE TABLE DetailsCouts (
     id INT PRIMARY KEY AUTO_INCREMENT,
     id_concert INT,
-    cout_materiels DECIMAL(10, 2),
-    cout_artiste DECIMAL(10, 2),
-    cout_logement DECIMAL(10, 2),
-    cout_autres DECIMAL(10, 2),
-    cout_salles DECIMAL(10, 2),
+    cout_materiels DECIMAL(10, 2) NULL,
+    cout_artiste DECIMAL(10, 2) NULL,
+    cout_logement DECIMAL(10, 2) NULL,
+    cout_autres DECIMAL(10, 2) NULL,
+    cout_salles DECIMAL(10, 2) NULL,
     FOREIGN KEY (id_concert) REFERENCES Concert (id_concert)
 );
 
