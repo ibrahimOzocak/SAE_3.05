@@ -31,6 +31,8 @@
             {% for a in artistes%}
             {% if a[0] == concerts[i][4] %}
             <p>Artiste : {{ a[-2] }} </p>
+            {%else%}
+            <p>Artiste : Aucun artiste associé</p>
             {% endif %}
             {% endfor %}
         </div>
@@ -42,6 +44,8 @@
             {% for s in salles%}
             {% if s[0] == concerts[i][5] %}
             <p>Salle : {{ s[8] }} </p>
+            {%else%}
+            <p>Salle : Aucune salle associé</p>
             {% endif %}
             {% endfor %}
         </div>
