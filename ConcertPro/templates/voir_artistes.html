@@ -24,8 +24,8 @@
     </div>
     {% endfor %}
     {% if artistes|length == 0 %}
-    <div class="sous-conteneur">
-        <p>Aucun artiste n'a été trouvé</p>
+    <div>
+        <p class="no-result">Aucun artiste n'a été trouvé</p>
     </div>
     {% endif %}
     <a href="{{ url_for('ajout_artiste') }}"><img class="plus" src = "{{ url_for('static', filename='images/plus.png')}}" alt="image"></a>

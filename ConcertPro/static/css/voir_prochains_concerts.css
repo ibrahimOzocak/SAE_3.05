@@ -83,3 +83,7 @@ body{
     margin-left: 5px;
     transition: all ease 0.5s;
 }
+
+.no-result{
+    font-size: 2em;
+}

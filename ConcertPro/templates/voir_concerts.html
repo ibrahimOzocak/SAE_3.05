@@ -49,8 +49,8 @@
     </div>
     {% endfor %}
     {% if concerts|length == 0 %}
-    <div class="sous-conteneur">
-        <p>Aucun concert n'a été trouvé</p>
+    <div>
+        <p class="no-result">Aucun concert n'a été trouvé</p>
     </div>
     {% endif %}
     <a href="{{ url_for('creer_concert') }}"><img class="plus" src = "{{ url_for('static', filename='images/plus.png')}}" alt="image"></a>
