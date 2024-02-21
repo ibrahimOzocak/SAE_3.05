@@ -174,7 +174,8 @@ def modifier_concert(id_concert):
                            salles=liste_salle,
                            artistes=liste_artiste,
                            logements=logements,
-                           logement_artiste=logement_artiste)
+                           logement_artiste=logement_artiste,
+                           types=mo.type_salle())
 
 
 @app.route('/modifier_concert/<id_concert>', methods=('POST', ))
