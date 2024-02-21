@@ -1,0 +1,40 @@
+body{
+    background-color: #121212;
+    color: white;
+}
+
+p{
+    margin: 20px;
+}
+
+input{
+    background-color: #121212;
+    color: white;
+    border:none;
+    border-bottom: solid 1px white;
+}
+
+button{
+    margin: 20px;
+    background-color: #242424;
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    border:solid 1px white;
+    float: left;
+    cursor: pointer;
+}
+
+button:hover{
+    opacity: 0.7;
+    transition: ease-in-out 0.3s;
+}
+
+.modif{
+    text-align: right;
+    width: 20vw;
+}
+
+strong{
+    float: left;
+}
