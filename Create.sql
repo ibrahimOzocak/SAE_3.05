@@ -1,5 +1,6 @@
 CREATE TABLE Style_musique (
-  nom_style_musique VARCHAR(42) PRIMARY KEY NOT NULL
+  id_style_musique INT PRIMARY KEY NOT NULL,
+  nom_style_musique VARCHAR(42) UNIQUE NOT NULL
 );
 
 CREATE TABLE Equipement (
@@ -36,10 +37,10 @@ CREATE TABLE Artiste (
 
 CREATE TABLE Jouer (
   id_artiste INT NOT NULL,
-  nom_style_musique VARCHAR(42) NOT NULL,
-  PRIMARY KEY (id_artiste, nom_style_musique),
+  id_style_musique VARCHAR(42) NOT NULL,
+  PRIMARY KEY (id_artiste, id_style_musique),
   FOREIGN KEY (id_artiste) REFERENCES Artiste (id_artiste),
-  FOREIGN KEY (nom_style_musique) REFERENCES Style_musique (nom_style_musique)
+  FOREIGN KEY (id_style_musique) REFERENCES Style_musique (id_style_musique)
 );
 
 CREATE TABLE Type_Salle (
@@ -100,26 +101,21 @@ CREATE TABLE Posseder (
 
 CREATE TABLE Besoin_equipement_artiste (
   id_concert INT NOT NULL,
-  id_artiste INT NOT NULL,
   id_equipement INT NOT NULL,
   quantite INT,
   quantite_posseder INT,
-  PRIMARY KEY (id_concert, id_artiste, id_equipement),
+  PRIMARY KEY (id_concert, id_equipement),
   FOREIGN KEY (id_equipement) REFERENCES Equipement (id_equipement),
-  FOREIGN KEY (id_artiste) REFERENCES Artiste (id_artiste),
   FOREIGN KEY (id_concert) REFERENCES Concert (id_concert)
 );
 
 CREATE TABLE Loger (
-  id_artiste INT NOT NULL,
   id_logement INT NOT NULL,
   id_concert INT NOT NULL,
-  nb_personne INT,
   nb_nuit INT,
-  PRIMARY KEY (id_artiste, id_logement, id_concert),
+  PRIMARY KEY (id_logement, id_concert),
   FOREIGN KEY (id_concert) REFERENCES Concert (id_concert),
-  FOREIGN KEY (id_logement) REFERENCES Logement (id_logement),
-  FOREIGN KEY (id_artiste) REFERENCES Artiste (id_artiste)
+  FOREIGN KEY (id_logement) REFERENCES Logement (id_logement)
 );
 
 CREATE TABLE Participer (

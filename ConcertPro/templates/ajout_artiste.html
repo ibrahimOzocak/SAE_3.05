@@ -16,7 +16,7 @@
         <label for="genre">Styles musicaux :</label>
         <select name="genre" id="genre" multiple>
             {% for style in styles %}
-            <option>{{ style[0] }}</option>
+            <option value="{{ style[0] }}">{{ style[1] }}</option>
             {% endfor %}
         </select>
         <label for="mail">Email:</label>

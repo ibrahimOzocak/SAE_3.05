@@ -18,7 +18,7 @@
     </div>
     <div class="infos">
         <p>Nom de scène : {{ artiste[-2] }}</p>
-        <p>Styles musicaux : {% for i in range (styles|length) %}{{ styles[i][0] }}{% if i < styles|length - 1 %}, {% endif %}{% endfor %}{% if styles|length == 0 %}pas de genre{% endif %}</p>
+        <p>Styles musicaux : {% for i in range (styles|length) %}{{ styles[i][1] }}{% if i < styles|length - 1 %}, {% endif %}{% endfor %}{% if styles|length == 0 %}pas de genre{% endif %}</p>
         <p>Mail : {{ artiste[2] }}</p>
         <p>Téléphone : {{ artiste[1] }}</p>
         <p>Date de naissance : {{ dates[0] }}</p>
