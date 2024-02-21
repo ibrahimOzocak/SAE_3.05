@@ -1,0 +1,129 @@
+/* Créez un conteneur pour les images */
+.conteneur {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+    justify-content: space-evenly;
+}
+
+/* Ajustez la largeur des images */
+.sous-conteneur{
+    width: calc(25% - 20px); /* 25% pour 4 images par ligne avec espacement */
+    text-align: center; /* Centrez le contenu horizontalement */
+    border-radius: 10px;
+    box-shadow: 0 0 10px #da57001a;
+    margin-top: 20px;
+    border: solid 0.1px black;
+    background-color: white;
+    height: fit-content;
+    overflow: hidden;
+    font-size: small;
+}
+
+
+
+.sous-conteneur:hover .voir{
+    color: white;
+    background-color: black;
+    transition: 0.5s ease-in-out;
+
+  
+}
+
+/* Ajustez la largeur et la hauteur des images */
+.img_acc {
+    width: 100%;
+    border-radius: 10px 10px 0 0;
+    height: auto;
+}
+
+.div_img{
+    width: 100%;
+    height: 26vh;
+    overflow: hidden;
+}
+
+.img_art{
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    z-index: 100000;
+    position: relative;
+    left: -100px;
+    top: -70px;
+}
+
+.personne{
+    display: flex;
+}
+
+.personne img{
+    width: 40px;
+    height: 40px;
+    margin: 5px;
+}
+
+.voir{
+    color: black;
+    padding: 10px;
+    padding-right: 0;
+    padding-left: 0;
+    display: inline-block; /* Fait en sorte que le lien occupe seulement l'espace nécessaire */
+    width: 100%;
+    border-top: solid 0.1px rgb(122, 122, 122);
+}
+
+
+a.voir:hover span {
+    margin-left: 5px; /* Ajoute un espacement à gauche du span */
+    transition: 0.4s ease-in-out;
+}
+
+a{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-weight: bold;
+}
+
+#ajout_equipement{
+    color: white;
+    border: solid 1px black;
+    border-radius: 5px;
+    background-color: black;
+    padding: 10px;
+}
+
+.ajout-btn-equipement{
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.ajout-btn-equipement:hover{
+    opacity: 0.8;
+    transition: 0.3s ease-in-out;
+}
+
+.ajouter-log{
+    border: solid 1px;
+    border-radius: 20px;
+    background-color: blue;
+    color: white;
+    width: 200px;
+    padding: 50px;
+}
+
+.img_acc{
+    margin-bottom: 2%;
+}
+
+.addrLogement{
+    margin-bottom: 1%;
+}
+
+.plus{
+    background-color: black;
+    color: white;
+    padding: 5px;
+}

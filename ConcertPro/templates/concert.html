@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/concert.css')}}"> 
+{% endblock %}
+{% block content %}
+<a href="{{url_for('voir_prochains_concerts')}}"><img class="retour" src="../static/images/retour.png" alt=""></a>
+<div class="titre">
+    <h2>{{ concert[1] }}</h2>
+</div>
+<div class="container">
+    <div class="sous-container">
+        {% if concert[-1] is none %}
+        <img class="img_acc"  src="{{ url_for('static', filename='images/aucune_image.png') }}" alt="img">
+        {% else %}
+        {{ concert[-1] | byte_to_image }}
+        {% endif %}
+    </div>
+    <div class="infos">
+        <p>Date : {{ concert[2] }}</p>
+        <p>Durée : {{ concert[3] }} minutes</p>
+        <p>Nom de l'artiste : <a href="{{ url_for('artiste', id_artiste=artiste[0]) }}">{{ artiste[3] }}</a></p>
+        <p>Nom de la salle : <a href="{{ url_for('salle', id=salle[0]) }}">{{ salle[3] }}</a></p>
+        <p>Description : {{ concert[6] }}</p>
+        <p>Logement de l'artiste : {% if logement != none %}<a href="{{ url_for('logement', id_logement=logement[0]) }}">{{ logement[1] }}</a> ({{ logement[2] }} nuit{% if logement[2] > 1 %}s{% endif %}) {% else %} pas de logement associé {% endif %}</p>
+        <p>Matériel :</p>
+        {% for i in range (necessaire|length) %}
+            <a href="{{ url_for('equipement', id_equipement=necessaire[i][0]) }}">{{ necessaire[i][1] }} ({{ necessaire[i][3] }}/{{ necessaire[i][2] }}) {% if necessaire[i][3] < necessaire[i][2] %} (manque {{ necessaire[i][2] - necessaire[i][3] }}) {% endif %}</a>
+        {% endfor %}
+        {% if necessaire|length == 0 %}
+        <p>Aucun matériel nécessaire</p>
+        {% endif %}
+    </div>
+    <div>
+        {% if map_path %}
+            {{ map_path | safe }}
+        {% else %}
+            <p>Carte non disponible</p>
+        {% endif %}
+    </div>
+</div>
+<div class="bouton">
+    <a href="{{ url_for('modifier_concert', id_concert=concert[0]) }}" class="modifier">Modifier le concert</a>
+    <a href="{{ url_for('ajout_necessaire_concert', id_concert=concert[0]) }}" class="modifier">Modifier le matériel nécessaire</a>
+    <a href="{{ url_for('ajout_equipement_concert', id_concert=concert[0]) }}" class="modifier">Modifier le matériel manquant</a>
+    {% if concert is not none %}
+        <a href="{{ url_for('supprimer_concert', id=concert[0]) }}" class="supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce concert, cette action est irréversible?');">Supprimer le concert</a>
+    {% endif %}
+</div>
+{% endblock %}

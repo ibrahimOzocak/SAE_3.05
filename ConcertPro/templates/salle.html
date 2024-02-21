@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/concert.css')}}"> 
+{% endblock %}
+{% block content %}
+<a href="{{url_for('voir_salles')}}"><img class="retour" src="../static/images/retour.png" alt=""></a>
+<div class="titre">
+    <h2>{{ salle[3] }}</h2>
+</div>
+<div class="container">
+    <div class="sous-container">
+        {% if salle is not none %}
+        {% if salle[-2] is none %}
+        <img class="img_acc"  src="{{ url_for('static', filename='images/aucune_image.png') }}" alt="aucune image">
+        {% else %}
+        {{salle[-2] | byte_to_image}}
+        {% endif %}
+        {% endif %}
+    </div>
+    <div class="infos">
+        <p>Description : {{ salle[7] }}</p>
+        <p>Loge : {{ salle[2] }}</p>
+        <p>Nombre de places : {{ salle[4] }}</p>
+        <p>Adresse : {{ salle[8] }}</p>
+        <p>Téléphone : {{ salle[9] }}</p>
+        <p>Profondeur scene : {{ salle[5] }}</p>
+        <p>Longueur scene : {{ salle[6] }} </p>
+        <p>Type : {{ type_salle[1] }}</p>
+        <p>Matériel disponible dans la salle :</p>
+        {% for i in range (equipement|length) %}
+            <a href="{{ url_for('equipement', id_equipement=equipement[i][0]) }}">{{ equipement[i][2] }} {{ equipement[i][1] }}</a>
+        {% endfor %}
+        {% if equipement|length == 0 %}
+        <p>Aucun matériel dans la salle</p>
+        {% endif %}
+    </div>
+    <div>
+        {% if map_path %}
+            {{ map_path | safe }}
+        {% else %}
+            <p>Carte non disponible</p>
+        {% endif %}
+    </div>
+</div>
+<div class="bouton">
+    <a href="{{ url_for('modifier_salle', id_salle=salle[0]) }}" class="modifier">Modifier la salle</a>
+    <a href="{{ url_for('ajout_equipement_salle', id_salle=salle[0]) }}" class="modifier">Modifier le matériel</a>
+    <a href="{{ url_for('supprimer_salle', id_salle=salle[0]) }}" class="supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette salle, cette action est irréversible?');">Supprimer la salle</a>
+</div>
+{% endblock %}

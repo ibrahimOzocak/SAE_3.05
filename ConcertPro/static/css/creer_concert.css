@@ -1,0 +1,269 @@
+Centre la section sec1
+
+body{
+    background-color: white;
+}
+
+.sec1 {
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; /* Permet aux éléments de descendre en cas de réduction de la largeur de l'écran */
+    background-color: white;
+    padding: 20px; /* Ajoute un peu d'espace autour de la section */
+    border-radius: 10px; /* Arrondit les coins de la section */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Ajoute une ombre douce à la section */
+    margin-top: 20px;
+    width: 70vw;
+}
+
+form{
+    margin: 10px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    position: relative;
+    width: 70vw;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+  
+  #image-charge {
+
+    width: 100%;
+    height: 50vh;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+  }
+  
+  #image-input {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    opacity: 0;
+    z-index: 2;
+  }
+  
+
+  .sec1 div:first-child {
+    grid-column: 1;
+    grid-row: 0;
+  }
+  
+  .sec1 div:last-child {
+    grid-column: 2;
+    padding: 10px;
+  }
+
+.sec1>div>div{
+    display: flex;
+    margin-bottom: 6px;
+}
+
+/* Agrandit les champs de saisie */
+.sec1 > div input[type="text"],
+.sec1 > div input[type="date"],
+.sec1 > div input[type="time"],
+.sec1 > div input[type="number"],
+.sec1 > div select {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-bottom: 1px solid black;
+    margin-bottom: 15px;
+    background-color: white;
+    color: black;
+    outline: none; /* Retire la bordure de focus */
+}
+
+
+
+/* Agrandit le bouton de soumission */
+.sec1 input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: black;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Ajoute un espacement entre les sections */
+.section_creer {
+    margin-bottom: 20px;
+}
+
+/* Style pour le bouton "Créer un nouvel artiste" et "Créer une nouvelle salle" */
+.sec2 button,
+.sec3 button,
+.sec2b button {
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 10px;
+    width: 15vw;
+}
+
+/* Ajoute un espacement entre les boutons */
+.sec2 button,
+.sec3 button,
+.sec2b button {
+    margin-top: 10px;
+}
+
+
+.part2{
+    padding: 20px; /* Ajoute un peu d'espace autour de la section */
+    border-radius: 10px; /* Arrondit les coins de la section */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Ajoute une ombre douce à la section */
+    margin-top: 20px;
+}
+
+.sec2 {
+    display: flex;
+    justify-content: space-between; /* Aligne les éléments à gauche, au centre et à droite */
+    align-items: center; /* Centre verticalement les éléments */
+    background-color: white;
+}
+
+.sec2 label, .sec2 select, .sec2 button {
+    flex: 1; /* Partage l'espace disponible de manière égale entre les éléments */
+    margin: 5px; /* Ajoute une marge autour des éléments pour les espacer */
+    height: 40px;
+
+}
+
+label{
+    color: black;
+}
+
+.sec2 select{
+    border: none;
+    border-bottom: solid 1px black;
+    background-color: white;
+    color: black;
+}
+
+.sec3,.sec4 {
+    display: flex;
+    justify-content: space-between; /* Aligne les éléments à gauche, au centre et à droite */
+    align-items: center; /* Centre verticalement les éléments */
+}
+
+.sec3 label, .sec3 select, .sec3 button {
+    flex: 1; /* Partage l'espace disponible de manière égale entre les éléments */
+    margin: 5px; /* Ajoute une marge autour des éléments pour les espacer */
+    height: 40px;
+
+}
+
+.sec3 select{
+    border: none;
+    border-bottom: solid 1px black;
+    background-color: white;
+    color: black;
+}
+
+.sec2b {
+    display: flex;
+    justify-content: space-between; /* Aligne les éléments à gauche, au centre et à droite */
+    align-items: center; /* Centre verticalement les éléments */
+}
+
+.sec2b label, .sec2b select, .sec2b button {
+    flex: 1; /* Partage l'espace disponible de manière égale entre les éléments */
+    margin: 5px; /* Ajoute une marge autour des éléments pour les espacer */
+    height: 40px;
+
+}
+
+.sec2b select{
+    border: none;
+    border-bottom: solid 1px black;
+    background-color: white;
+    color: black;
+}
+
+.sec2c {
+    display: flex;
+    justify-content: space-between; /* Aligne les éléments à gauche, au centre et à droite */
+    align-items: center; /* Centre verticalement les éléments */
+}
+
+.sec2c label, .sec2c select, .sec2c button {
+    flex: 1; /* Partage l'espace disponible de manière égale entre les éléments */
+    margin: 5px; /* Ajoute une marge autour des éléments pour les espacer */
+    height: 40px;
+
+}
+
+.sec2c select{
+    border: none;
+    border-bottom: solid 1px black;
+    background-color: white;
+    color: black;
+}
+
+
+
+.sec4 label, .sec4 textarea{
+    flex: 1; /* Partage l'espace disponible de manière égale entre les éléments */
+    margin: 5px; /* Ajoute une marge autour des éléments pour les espacer */
+    resize: none; /* Prevent resizing */
+}
+
+.sec4 textarea{
+    flex: 2;
+    height: 100px;
+}
+
+input[type="submit"]{
+    font-size: 30px;
+    margin-top: 20px;
+    align-self: center;
+    padding: 10px;
+    border-radius: 10px;
+    color: white;
+    background-color: black;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover{
+    opacity: 0.7;
+    transition: 0.5s ease-in-out;
+}
+
+
+form{
+    display: flex;
+    flex-direction: column;
+}
+
+#copyButton{
+    font-size: 15px;
+    margin-top: 10px;
+    align-self: center;
+    padding: 10px;
+    border-radius: 10px;
+    color: white;
+    background-color: black;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+#copyButton:hover{
+    opacity: 0.7;
+    transition: 0.5s ease-in-out;
+}

@@ -1,0 +1,114 @@
+.sous-container img{
+    width: 20vw;
+    margin-left: 50px;
+
+}
+.sous-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container {
+    margin-top:10vh;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center; /* Centre verticalement tout le contenu */
+}
+
+.retour{
+    width: 50px;
+    position: absolute;
+    left: 0;
+    margin: 20px;
+}
+
+
+.infos{
+    padding: 20px; /* Espacement intérieur */
+    border: 1px solid #948c8c; /* Bordure */
+    border-radius: 10px; /* Coins arrondis */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Ombre légère */
+   
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    width: 30vw;
+    height: auto;
+}
+
+.supprimer{
+    border: solid 1px;
+    background-color: red;
+    color: white;
+    padding: 20px;
+    border-radius: 20px;
+    font-size: 20px;
+    margin: 20px;
+}
+
+.supprimer:hover{
+    opacity: 0.7;
+    transition: ease-in-out 0.3s;
+}
+
+.bouton{
+    display: flex;
+    justify-content: center;
+    margin: 50px;
+    
+}
+
+
+.modifier{
+    border: solid 1px;
+    background-color: blue;
+    color: white;
+    padding: 20px;
+    border-radius: 20px;
+    font-size: 20px;
+    margin: 20px;
+}
+
+button > a {
+    text-decoration: none;
+    color: white;
+}
+
+.modifier:hover{
+    opacity: 0.7;
+    transition: ease-in-out 0.3s;
+}
+
+
+
+.conteneur {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+    justify-content: space-evenly;
+}
+
+/* Ajustez la largeur des images */
+.sous-conteneur{
+    max-width: calc(25% - 20px); /* 25% pour 4 images par ligne avec espacement */
+    text-align: center; /* Centrez le contenu horizontalement */
+}
+
+/* Ajustez la largeur et la hauteur des images */
+.sous-conteneur img {
+    width: 20vw;
+    border-radius: 10px;
+    height: 30vh;
+}
+
+.titre{
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.titre h2{
+    margin: 0;
+}

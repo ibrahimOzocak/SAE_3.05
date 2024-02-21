@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/ajout_logement.css') }}"> 
+{% endblock %}
+{% block content %}
+<form action="{{ url_for('save_type_salle') }}" method="POST" enctype="multipart/form-data">
+    <section class="nouveau_type">
+        <label for="nom_type_salle">Nom type salle</label>
+        <input type="text" name="nom_type_salle" maxlength="42" required/> 
+    </section>
+    <input type="submit" id="valider" name="valider" value="Valider l'ajout de ce type de salle"/>
+</form>
+{% endblock %}

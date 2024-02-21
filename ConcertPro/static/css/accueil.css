@@ -1,0 +1,105 @@
+body {
+    background-color: #121212;
+    color: white;
+}
+
+.ul_acc {
+    display: flex;
+    list-style: none;
+    align-items: center;
+}
+
+
+.concert{
+    position: relative;
+    margin: 3em 3em;
+    overflow: hidden;
+}
+
+.img_acc {
+    width: 30em;
+    height: 20em;
+}
+
+#semaine{
+    color: white;
+    margin: 1.1em;
+    font-size: 1.2em;
+}
+
+.position-relative{
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 100%;
+    padding: 0.8em;
+    transform: translateX(-50%);
+    background-color: black;
+    color: white;
+}
+
+.img_acc:hover {
+    opacity: 0.8;
+    transition: all 0.3s;
+}
+
+.banniere {
+    width: 100vw;
+    height: 30vh;
+}
+
+table {
+    width: 70%;
+    margin: 2em auto;
+    background-color: #242424;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid white;
+    color: white;
+    background-color: #242424;
+    text-align: left;
+    padding: 8px;
+    font-weight: normal;
+}
+
+th a, td a{
+    color: rgb(134, 255, 170);
+    font-weight: normal;
+}
+
+.titre-p {
+    margin-bottom: 2vw;
+    font-size: 40px;
+    color: white;
+    border-bottom: solid rgb(255, 255, 255, 0.5) 0.01em;
+    margin: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+div {
+    text-align: center;
+}
+
+#flex-wrapper{
+    display: flex;
+    justify-content: space-between;
+}
+
+.a:hover{
+    opacity: 0.7;
+    transition: all 0.3s ease-in-out;
+    text-decoration: underline;
+}
+
+#agenda{
+    margin: 1em;
+    font-size: 1.2em;
+    color: white;
+}
+
+#agenda:hover{
+    color: #1DB954;
+    transition: all 0.3s ease-in-out;
+}

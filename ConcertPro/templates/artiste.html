@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/concert.css')}}"> 
+{% endblock %}
+{% block content %}
+<a href="{{url_for('voir_artistes')}}"><img class="retour" src="../static/images/retour.png" alt=""></a>
+<div class="titre">
+    <h2>{{ artiste[3] }} {{ artiste[4] }}</h2>
+</div>
+<div class="container">
+    <div class="sous-container">
+        {% if artiste[-1] is none %}
+        <img class="img_acc" src="{{ url_for('static', filename='images/aucune_image.png') }}" alt="img">
+        {% else %}
+        {{ artiste[-1] | byte_to_image }}
+        {% endif %}
+    </div>
+    <div class="infos">
+        <p>Nom de scène : {{ artiste[-2] }}</p>
+        <p>Styles musicaux : {{ artiste[14] }}</p>
+        <p>Mail : {{ artiste[2] }}</p>
+        <p>Téléphone : {{ artiste[1] }}</p>
+        <p>Date de naissance : {{ artiste[5] }}</p>
+        <p>Lieu de naissance : {{ artiste[6] }}</p>
+        <p>Adresse : {{ artiste[7] }}</p>
+        <p>Numéro de sécurité sociale : {{ artiste[8] }}</p>
+        <p>Cni : {{ artiste[10] }}</p>
+        <p>Date de délivrance du cni : {{ artiste[11] }}</p>
+        <p>Date d'expiration du cni : {{ artiste[12] }}</p>
+        <p>Carte réduction : {{ artiste[13] }}</p>
+    </div>
+</div>
+<div class="bouton">
+    <a class="modifier" href="{{ url_for('modifier_artiste', id_artiste=artiste[0]) }} " class="modifier">Modifier l'artiste</a>
+    {% if concerts|length ==  0 %}
+    <a class="supprimer"  href="{{ url_for('supprimer_artiste', id_artiste=artiste[0]) }}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer {{ artiste[16] }}, cette action est irréversible?');">Supprimer l'artiste</a>
+    {% else %}
+    <a class="supprimer" href="#" onclick="alert('Vous ne pouvez pas supprimer un artiste qui a des concerts.')">Supprimer l'artiste</a>
+    {% endif %}
+
+</div>
+<h2>Les concerts</h2>
+<div class="conteneur">
+    {% for i in range (concerts|length) %}
+    <div class="sous-conteneur">
+        <a href="{{ url_for('concert', id=concerts[i][0]) }}">
+            {% if concerts[i][-1] is none %}
+            <img class="img_acc"  src="{{ url_for('static', filename='images/aucune_image.png') }}" alt="img">
+            {% else %}
+            <img class="img_acc" src="{{ url_for('static', filename='images/concerts/' + concerts[i][0]|str + '.jpg') }}" alt="img">
+            {% endif %}
+            <p>{{ concerts[i][1] }}</p>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

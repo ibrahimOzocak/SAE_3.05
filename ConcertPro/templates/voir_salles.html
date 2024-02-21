@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/voir_prochains_concerts.css')}}"> 
+{% endblock %}
+{% block content %}
+<div class="conteneur">
+    {% for salle in salles %}
+    <div class="sous-conteneur">
+        <a href="{{ url_for('salle', id=salle[0]) }}">
+            {% if salle[-1] is none %}
+            <div class="div_img">
+            <img class="img_acc"  src="{{ url_for('static', filename='images/aucune_image.png') }}" alt="aucune image">
+
+            </div>
+            {% else %}
+            <div class="div_img">
+            {{salle[-2] | byte_to_image}}
+
+            </div>
+            {% endif %}
+            <p>{{ salle[3] }}</p>
+        </a>
+    </div>
+    {% endfor %}
+    {% if salles|length == 0 %}
+    <div class="sous-conteneur">
+        <p>Aucune salle n'a été trouvée</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
