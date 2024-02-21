@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 {% block styles %}
 {{ super() }}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/voir_prochains_concerts.css')}}"> 
+<link rel="stylesheet" href="{{ url_for('static', filename='css/voir_equipements.css')}}"> 
 <link rel="stylesheet" href="{{ url_for('static', filename='css/boutonPlus.css')}}"> 
 {% endblock %}
 {% block content %}
 <div class="conteneur">
     {% for equipement in equipements %}
         <div class="sous-conteneur">
-            <a href="{{ url_for('equipement', id_equipement=equipement[0]) }}">
+            <a class="under" href="{{ url_for('equipement', id_equipement=equipement[0]) }}">
                 <p>{{ equipement[1] }}</p>
             </a>
         </div>

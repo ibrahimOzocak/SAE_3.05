@@ -150,19 +150,23 @@ textarea{
     color: #1DB954;
 }
 
-#copyButton{
-    color: white;
-    border: 0.01em solid white;
-    padding: 0.5em;
-    font-size: 1em;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: color 0.5s;
-    position: absolute;
-    top: 2%;
-    right: 35%;
+.padding-top{
+    margin-top: 1em;
 }
 
-#copyButton:hover{
-    color: #1DB954;
+.resize{
+    width: 50%;
+}
+
+.rz{
+    width: 25%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+
+.margin{
+    margin: 0.5em;
 }

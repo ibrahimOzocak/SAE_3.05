@@ -1,16 +1,43 @@
+body{
+    background-color: #121212;
+}
+
 .conteneur {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
     padding: 20px;
+    justify-content: space-evenly;
 }
 
-.div_proc {
-    max-width: calc(25% - 20px); 
-    text-align: center; 
+.sous-conteneur{
+    display: flex;
+    justify-content: center;
+    width: 20%;
+    height: fit-content;
+    flex-direction: column;
+    border: solid 1px white;
+    border-radius: 5px;
+    text-align: center;
 }
 
-.div_proc img {
+.img_card{
+    width: 50px;
+}
+
+.div_img{
     width: 100%;
-    height: auto;
+    overflow: hidden;    
+    height: 50%;  
+    border-radius: 5px;
+}
+
+.div_img img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+p{
+    padding: 1em;
 }
