@@ -1,0 +1,40 @@
+body{
+    background-color: #121212;
+}
+
+.conteneur {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+    justify-content: space-evenly;
+}
+
+
+.sous-conteneur{
+    display: flex;
+    justify-content: center;
+    width: 20%;
+    height: fit-content;
+    flex-direction: column;
+    border: solid 1px white;
+    border-radius: 5px;
+}
+
+.sous-conteneur p{
+    text-align: center;
+    margin: 5px;
+}
+
+.div_img{
+    width: 100%;
+    overflow: hidden;   
+    height: 50%; 
+    border-radius: 5px;
+}
+
+.div_img img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+}
