@@ -4,7 +4,6 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/afficher_rider.css')}}"> 
 {% endblock %}
 {% block content %}
-{% if couts|length > 0%}
 <div class="">
     <form action="{{ url_for('modifier_couts', id=couts[0][0]) }}" method="post">
                 <p> Cout matériel :  <input name="materiel" required value="{{ couts[0][2] }}"> </p>
@@ -14,7 +13,6 @@
                 <p> Cout autre : <input name="autre" required value="{{ couts[0][5] }}"> </p>
     <button type="submit">Modifier</button>
     </form>
-{% endif %}
-    <a href="{{ url_for('concert', id=couts[1]) }}">Retour</a>
+    <a href="{{ url_for('concert', id=couts[0][1]) }}">Retour</a>
 </div>
 {% endblock %}

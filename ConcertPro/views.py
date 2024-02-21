@@ -109,6 +109,7 @@ def save_concert():
     mo.save_concert(id, nom_concert, date_heure_concert, duree_concert,
                     id_artiste, id_salle, description_concert, photo)
     mo.add_artiste_concert(id, id_artiste)
+    mo.save_couts(id, 0, 0, 0, 0, 0)
     if logement_artiste != '':
         mo.add_logement_artiste(id, logement_artiste, nuit)
     return redirect(url_for('concert', id=id))
@@ -738,7 +739,7 @@ def modifier_couts(id):
     logement = request.form['logement']
     autre = request.form['autre']
     mo.modifier_couts(id, materiel, salle, artiste, logement, autre)
-    return redirect(url_for('accueil'))
+    return redirect(url_for('concert', id=id))
 
 
 # autres
