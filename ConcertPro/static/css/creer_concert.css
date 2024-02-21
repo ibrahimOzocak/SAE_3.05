@@ -10,6 +10,7 @@ body{
 
 form{
     margin: 1em;
+    position: relative;
 }
 
 #partie-one,
@@ -130,4 +131,38 @@ textarea{
 .lien_blank:hover button{
     color: #1DB954;
     transition: color 0.5s;
+}
+
+#ajouter_concert{
+    color: white;
+    border: 0.01em solid white;
+    padding: 0.5em;
+    font-size: 1.5em;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: color 0.5s;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+#ajouter_concert:hover{
+    color: #1DB954;
+}
+
+#copyButton{
+    color: white;
+    border: 0.01em solid white;
+    padding: 0.5em;
+    font-size: 1em;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: color 0.5s;
+    position: absolute;
+    top: 2%;
+    right: 35%;
+}
+
+#copyButton:hover{
+    color: #1DB954;
 }

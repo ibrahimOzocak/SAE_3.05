@@ -80,5 +80,19 @@
         <label class="nuits" for="description">Description du concert (max 500)</label>
         <textarea id="desc" name="description" maxlength="500"></textarea>
     </div>
+    <input id="ajouter_concert" type="submit" value="Enregistrer le concert">
+    <a id="copyButton">Copier le lien du questionnaire du rider pour l'envoyer à l'artiste</a>
+
+    <script>
+        document.getElementById('copyButton').addEventListener('click', function() {
+            var tempInput = document.createElement('input');
+            tempInput.value = 'https://forms.gle/DDBavXAagG24taCZA';
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            alert('Lien copié dans le presse-papiers !');
+        });
+    </script>
 </form>
 {% endblock %}
