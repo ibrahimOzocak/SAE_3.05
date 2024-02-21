@@ -851,12 +851,14 @@ def getCoordonnee(address):
         encoded_address = requests.utils.quote(address, safe='')
         api_url = f'https://nominatim.openstreetmap.org/search?format=json&q={encoded_address}'
         # Effectuer la requête HTTP
-        response = requests.get(api_url)
+        response = requests.get(api_url, timeout=5) # timeout=5 : attendre 5 secondes au maximum
         response.raise_for_status()  # Vérifier s'il y a des erreurs HTTP
         response_dict = json.loads(response.text)
         for item in response_dict:
             res = item['boundingbox']
             return res
+    except requests.exceptions.Timeout as e:
+        print(f'Erreur de timeout : {e}')
     except requests.exceptions.RequestException as e:
         print(f'Erreur lors de la requête HTTP : {e}')
 
