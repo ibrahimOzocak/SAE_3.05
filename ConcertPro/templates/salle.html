@@ -19,21 +19,23 @@
         {% endif %}
     </div>
     <div class="infos">
-        <p>Description : {{ salle[7] }}</p>
-        <p>Loge : {{ salle[2] }}</p>
-        <p>Nombre de places : {{ salle[4] }}</p>
-        <p>Adresse : {{ salle[8] }}</p>
-        <p>Téléphone : {{ salle[9] }}</p>
-        <p>Profondeur scene : {{ salle[5] }}</p>
-        <p>Longueur scene : {{ salle[6] }} </p>
-        <p>Type : {{ type_salle[1] }}</p>
-        <p>Matériel disponible dans la salle :</p>
-        {% for i in range (equipement|length) %}
+        <p> <strong> Description :</strong> {{ salle[7] }}</p>
+        <p> <strong> Loge :</strong> {{ salle[2] }}</p>
+        <p> <strong> Nombre de places :</strong> {{ salle[4] }}</p>
+        <p> <strong> Adresse :</strong> {{ salle[8] }}</p>
+        <p> <strong> Téléphone :</strong> {{ salle[9] }}</p>
+        <p> <strong> Profondeur scene :</strong> {{ salle[5] }}</p>
+        <p> <strong> Longueur scene :</strong> {{ salle[6] }} </p>
+        <p> <strong> Type :</strong> {{ type_salle[1] }}</p>
+        <p> <strong> Matériel disponible dans la salle :</strong>  
+            {% for i in range (equipement|length) %}
             <a href="{{ url_for('equipement', id_equipement=equipement[i][0]) }}">{{ equipement[i][2] }} {{ equipement[i][1] }}</a>
         {% endfor %}
         {% if equipement|length == 0 %}
-        <p>Aucun matériel dans la salle</p>
+        Aucun matériel dans la salle
         {% endif %}
+        </p>
+        
     </div>
     <div>
         {% if map_path %}
