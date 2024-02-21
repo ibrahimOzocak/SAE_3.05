@@ -30,7 +30,7 @@
         {% if necessaire|length == 0 %}
         <p>Aucun matériel nécessaire</p>
         {% endif %}
-        <a href="{{ url_for('couts', id_concert=concert[0])}}">Couts total : {{couts}} </a>
+        <a href="{{ url_for('couts', id_concert=concert[0])}}">Coût total : {{couts}} </a>
     </div>
     <div>
         {% if map_path %}
