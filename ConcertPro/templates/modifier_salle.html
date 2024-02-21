@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/modif.css')}}"> 
 {% endblock %}
 {% block content %}
-<h2>{{ salle[4] }} {{ salle[3] }}</h2>
+<h2>{{ salle[3] }}</h2>
 <div class="container">
     <form method="POST" action="{{ url_for('confirmer_modif_salle', id_salle=salle[0], nom_salle=salle[3]) }}" enctype="multipart/form-data">
         <div class="container">

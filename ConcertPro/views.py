@@ -127,17 +127,20 @@ def concert(id):
         necessaire = []
         logement_artiste = None
         lartiste = []
+    map_path = None
     if la_salle != None:
         address = la_salle[8]
-        coor = getCoordonnee(address)
-        c = None
-        if coor is not None:
-            coordinates = (coor[0], coor[2])
-            if coordinates:
-                lat, lng = coordinates
-                c = folium.Map(location=[lat, lng], zoom_start=20)
-                c.save('test.html')
-    c = None
+        try:
+            coor = getCoordonnee(address)
+            if coor is not None:
+                coordinates = (coor[0], coor[2])
+                if coordinates:
+                    lat, lng = coordinates
+                    c = folium.Map(location=[lat, lng], zoom_start=20)
+                    folium.Marker(location=[lat, lng], popup=la_salle[3] + ": " + la_salle[8]).add_to(c)
+                    map_path = c._repr_html_() if c else None
+        except:
+            pass
     return render_template('concert.html',
                            concert=le_concert,
                            salle=la_salle,
@@ -145,7 +148,7 @@ def concert(id):
                            necessaire=necessaire,
                            logement=logement_artiste,
                            couts=couts,
-                           map_path=c._repr_html_() if c else None)
+                           map_path=map_path)
                            
                            
 @app.route('/concert/<id>/supprimer')
@@ -224,24 +227,28 @@ def salle(id):
     lequipement = mo.get_equipement_salle(id)
     type_salle = mo.get_type_salle(id)
 
-    # Utilisez la vraie adresse du salle ici
+    # Utilisez la vraie adresse de la salle ici
     address = la_salle[8]
-    coor = getCoordonnee(address)
     # Gérez le cas où les coordonnées ne sont pas disponibles
-    c = None
-    if coor is not None:
-        # Obtenez les coordonnées réelles en fonction de l'adresse
-        coordinates = (coor[0], coor[2])
-        # Vérifiez si les coordonnées sont disponibles
-        if coordinates:
-            lat, lng = coordinates
-            c = folium.Map(location=[lat, lng], zoom_start=20)
-            c.save('test.html')
+    map_path = None
+    try:
+        coor = getCoordonnee(address)
+        if coor is not None:
+            # Obtenez les coordonnées réelles en fonction de l'adresse
+            coordinates = (coor[0], coor[2])
+            # Vérifiez si les coordonnées sont disponibles
+            if coordinates:
+                lat, lng = coordinates
+                c = folium.Map(location=[lat, lng], zoom_start=20)
+                folium.Marker(location=[lat, lng], popup=la_salle[3] + ": " + la_salle[8]).add_to(c)
+                map_path = c._repr_html_() if c else None
+    except:
+        pass
     return render_template('salle.html',
                            salle=la_salle,
                            equipement=lequipement,
                            type_salle=type_salle,
-                           map_path=c._repr_html_() if c else None)
+                           map_path=map_path)
 
 
 @app.route('/voir_salles')
@@ -454,19 +461,23 @@ def logement(id_logement):
     logement = mo.get_logement(id_logement)
     # Utilisez la vraie adresse du logement ici
     address = logement[1]
-    coor = getCoordonnee(address)
     # Obtenez les coordonnées réelles en fonction de l'adresse
-    c = None
-    if coor is not None:
-        coordinates = (coor[0], coor[2])
-        # Vérifiez si les coordonnées sont disponibles
-        if coordinates:
-            lat, lng = coordinates
-            c = folium.Map(location=[lat, lng], zoom_start=20)
-            c.save('test.html')
+    map_path = None
+    try:
+        coor = getCoordonnee(address)
+        if coor is not None:
+            coordinates = (coor[0], coor[2])
+            # Vérifiez si les coordonnées sont disponibles
+            if coordinates:
+                lat, lng = coordinates
+                c = folium.Map(location=[lat, lng], zoom_start=20)
+                folium.Marker(location=[lat, lng], popup=logement[2] + ": " + logement[1]).add_to(c)
+                map_path = c._repr_html_() if c else None
+    except:
+        pass
     return render_template('logement.html',
                            logement=logement,
-                           map_path=c._repr_html_() if c else None)
+                           map_path=map_path)
 
 
 @app.route('/ajout_logement')
