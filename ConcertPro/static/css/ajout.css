@@ -1,16 +1,17 @@
+body{
+    color: white;
+    background-color: #121212;
+}
+
 section{
-    background-color: white; /* Couleur de fond */
-    padding: 40px; /* Espacement intérieur */
-    border: 1px solid #ccc; /* Bordure */
-    border-radius: 10px; /* Coins arrondis */
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Ombre légère */ 
+    padding: 2.5em; 
     justify-content: center;
     align-items: center;
     display: flex;
     flex-direction: column;
     width: 50vw;
     height: auto;
-    margin: 30px;
+    margin: 2em;
 }
 
 form{
@@ -45,7 +46,9 @@ div input[type="text"] {
 }
 
 label{
-    margin: 10px;
+    margin: 0.5em;
+    font-size: 1.5em;
+    font-weight: bold;
 }
 
 section input{
@@ -53,11 +56,11 @@ section input{
     height: 30px;
     padding: 10px;
     border: none;
-    border-bottom: 1px solid black;
-    margin-bottom: 15px;
-    background-color: white;
-    color: black;
-    outline: none; /* Retire la bordure de focus */
+    border-bottom: 0.15em solid white;
+    background-color: transparent;
+    color: white;
+    outline: none; 
+    font-size: 110%;
 }
 
 .annuler{
@@ -78,4 +81,16 @@ section input{
 
 .annuler a{
     color: white;
+}
+
+.retour{
+    width: 3em;
+    aspect-ratio: 1/1;
+    float: left;
+    margin: 1em 0 0 0.5em;
+    transition: 0.3s;
+}
+
+.retour:hover{
+    transform: scale(1.05);
 }
