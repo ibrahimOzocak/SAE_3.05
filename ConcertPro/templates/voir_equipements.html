@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block styles %}
 {{ super() }}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/voir_prochains_concerts.css')}}"> 
+<link rel="stylesheet" href="{{ url_for('static', filename='css/voir_equipement.css')}}"> 
 <link rel="stylesheet" href="{{ url_for('static', filename='css/boutonPlus.css')}}"> 
 {% endblock %}
 {% block content %}
@@ -9,13 +9,13 @@
     {% for equipement in equipements %}
         <div class="sous-conteneur">
             <a href="{{ url_for('equipement', id_equipement=equipement[0]) }}">
-                <p>{{ equipement[1] }}</p>
+                <p class="name">{{ equipement[1] }}</p>
             </a>
         </div>
     {% endfor %}
     {% if equipements|length == 0 %}
     <div class="sous-conteneur">
-        <p>Aucun équipement n'a été trouvé</p>
+        <p class="aucun">Aucun équipement n'a été trouvé</p>
     </div>
     {% endif %}
 </div>
