@@ -37,7 +37,7 @@ CREATE TABLE Artiste (
 
 CREATE TABLE Jouer (
   id_artiste INT NOT NULL,
-  id_style_musique VARCHAR(42) NOT NULL,
+  id_style_musique INT NOT NULL,
   PRIMARY KEY (id_artiste, id_style_musique),
   FOREIGN KEY (id_artiste) REFERENCES Artiste (id_artiste),
   FOREIGN KEY (id_style_musique) REFERENCES Style_musique (id_style_musique)
