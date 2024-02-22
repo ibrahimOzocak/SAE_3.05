@@ -1,10 +1,10 @@
 CREATE TABLE Style_musique (
-  id_style_musique INT PRIMARY KEY NOT NULL,
+  id_style_musique INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   nom_style_musique VARCHAR(42) UNIQUE NOT NULL
 );
 
 CREATE TABLE Equipement (
-  id_equipement INT PRIMARY KEY NOT NULL,
+  id_equipement INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   nom_equipement VARCHAR(42) UNIQUE
 );
 
