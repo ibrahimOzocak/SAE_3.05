@@ -13,7 +13,7 @@ body{
     display: flex;
     justify-content: center;
     width: 20%;
-    height: fit-content;
+    height: 30vh;
     flex-direction: column;
     border: solid 1px white;
     border-radius: 5px;
@@ -28,11 +28,12 @@ body{
 .div_img{
     width: 100%;
     overflow: hidden;    
-    height: 50%;  
+    height: 25vh;  
     border-radius: 5px;
 }
 
 .div_img img{
+    margin-top: 1px;
     width: 100%;
     height: 100%;
     object-fit: cover;
