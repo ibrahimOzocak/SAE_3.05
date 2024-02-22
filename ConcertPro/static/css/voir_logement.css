@@ -1,0 +1,28 @@
+body{
+    background-color: #121212;
+    color: white;
+}
+
+.conteneur {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+    justify-content: space-evenly;
+}
+
+.sous-conteneur{
+    display: flex;
+    width: 20%;
+    height: fit-content;
+    justify-content: center;
+    flex-direction: column;
+    border: solid 1px white;
+    border-radius: 5px;
+    position: relative;
+    margin: 1em;
+    padding: 10px;
+}
+
+.test{
+    text-align: center;
+}
