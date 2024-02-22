@@ -31,7 +31,7 @@
                     </select>
                 </div>
                 <div class="items padding-top">
-                    <label class="lien_blank" for="profondeur">Profondeur de la scene</label>
+                    <label class="lien_blank" for="profondeur">Profondeur de la scene (en m)</label>
                     {% if salle is none %}
                     <input type="number" name="profondeur" value="0" required min="0"/>
                     {% else %}
@@ -39,7 +39,7 @@
                     {% endif %}
                 </div>
                 <div class="items padding-top">
-                    <label for="longueur">Longeur de la scene</label>
+                    <label for="longueur">Longeur de la scene (en m)</label>
                     {% if salle is none %}
                     <input type="number" name="longueur" value="0" required min="0"/>
                     {% else %}
