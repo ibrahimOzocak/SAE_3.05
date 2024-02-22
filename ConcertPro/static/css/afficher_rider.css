@@ -6,6 +6,7 @@ body{
 .fiche{
     width: calc(25% - 20px);
     padding: 20px; /* Espacement intérieur */
+    margin: 0.8em 0;
     box-shadow: 0 0 0.5em rgba(0, 0, 0, 0.9); /* Ombre légère */
     background-color: #343434;
     justify-content: center;
