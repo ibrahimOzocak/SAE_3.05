@@ -1563,6 +1563,8 @@ def get_logement_artiste(id_concert):
         execute_query(cursor, requete, (id_concert,))
         info = cursor.fetchall()
         close_cursor(cursor)
+        if info == []:
+            return None
         return info[0]
     except Exception as e:
         print(e.args)

@@ -119,12 +119,13 @@ def concert(id):
     """page pour le concert <id>"""
     le_concert = mo.get_concert(id)
     la_salle = mo.get_salle(le_concert[5])
-    lartiste = mo.get_artiste(le_concert[4])
+    if le_concert[4] is not None:
+        lartiste = mo.get_artiste(le_concert[4])
+    else:
+        lartiste = []
     couts=mo.somme_couts(id)
     necessaire = mo.categoriser_equipements(id)
     logement_artiste = mo.get_logement_artiste(le_concert[0])
-    if lartiste == None:
-        lartiste = []
     map_path = None
     if la_salle != None:
         address = la_salle[8]
