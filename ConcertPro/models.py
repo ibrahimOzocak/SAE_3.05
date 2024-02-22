@@ -707,7 +707,7 @@ def confirmer_modif_artiste(id_artiste, nom_artiste, prenom_artiste,
 
 def confirmer_modif_salle(id_salle, nom, description, loge, nombre_place,
                           adresse, telephone, profondeur_scene, longueur_scene,
-                          photo, id_type_salle):
+                          photo, id_type_salle, acces_pmr):
     """Fonction permettant de confirmer la modification d'un artiste
 
     Args:
@@ -721,6 +721,7 @@ def confirmer_modif_salle(id_salle, nom, description, loge, nombre_place,
         profondeur_scene (int): La profondeur de la scene
         longueur_scene (int): La longueur de la scene
         photo (bytes): La photo de la salle
+        acces_pmr (str): Acces pmr ou pas
 
     """
     try:
@@ -737,12 +738,13 @@ def confirmer_modif_salle(id_salle, nom, description, loge, nombre_place,
                 profondeur_scene = %s,
                 longueur_scene = %s,
                 photo = %s,
+                accueil_pmr = %s,
                 id_type_salle = %s
                 WHERE id_salle = %s;
             """
             params = (nom, description, loge, nombre_place, adresse,
                       telephone, profondeur_scene, longueur_scene,
-                      save_image(photo), id_type_salle, id_salle)
+                      save_image(photo), acces_pmr, id_type_salle, id_salle)
             print(save_image(photo))
         else:
             requete = """
@@ -755,12 +757,13 @@ def confirmer_modif_salle(id_salle, nom, description, loge, nombre_place,
                 telephone_salle = %s,
                 profondeur_scene = %s,
                 longueur_scene = %s,
-                id_type_salle = %s
+                id_type_salle = %s,
+                accueil_pmr = %s
                 WHERE id_salle = %s;
             """
             params = (nom, description, loge, nombre_place, adresse, telephone,
                       profondeur_scene, longueur_scene, id_type_salle,
-                      id_salle)
+                      acces_pmr, id_salle)
         execute_query(cursor, requete, params)
         db.commit()
         close_cursor(cursor)

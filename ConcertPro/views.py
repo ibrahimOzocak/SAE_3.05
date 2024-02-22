@@ -296,7 +296,14 @@ def confirmer_modif_salle(id_salle):
     """sauvegarde d'un artiste"""
     nom = request.form['titre']
     description = request.form['description']
-    loge = request.form['loge']
+    if 'loge' in request.form:
+        loge = 'oui'
+    else:
+        loge = 'non'
+    if 'accueilpmr' in request.form:
+        acces_pmr = 'oui'
+    else:
+        acces_pmr = 'non'
     nombre_place = request.form['place']
     adresse = request.form['adresse']
     telephone = request.form['telephone']
@@ -306,7 +313,7 @@ def confirmer_modif_salle(id_salle):
     type_place = request.form['type_salle']
     mo.confirmer_modif_salle(id_salle, nom, description, loge, nombre_place,
                              adresse, telephone, profondeur_scene,
-                             longueur_scene, photo, type_place)
+                             longueur_scene, photo, type_place, acces_pmr)
     return redirect(url_for('salle', id=id_salle))
 
 
