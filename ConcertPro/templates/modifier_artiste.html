@@ -45,7 +45,7 @@
         <label for="genre">Genre musical :</label>
         <select name="genre" id="genre" multiple>
             {% for style in styles %}
-            <option value="{{ style[0] }}" {% for style_artiste in styles_musique_artiste %}{% if style[0] in style_artiste %}selected{% endif %}{% endfor %}>{{ style[0] }}</option>
+            <option value="{{ style[0] }}" {% for style_artiste in styles_musique_artiste %}{% if style[0] == style_artiste[0] %}selected{% endif %}{% endfor %}>{{ style[1] }}</option>
             {% endfor %}
         </select>
         <button type="submit">Appliquer les modifications</button>

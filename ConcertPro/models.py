@@ -87,6 +87,7 @@ def save_concert(id, nom_concert, date_heure_concert, duree_concert,
     except Exception as e:
         print(e.args)
         
+
 def save_couts(id_concert, cout_materiels, cout_salles, cout_artiste, cout_logement, cout_autres):
     """Fonction permettant de sauvegarder les couts d'un concert dans la base de données
 
@@ -179,6 +180,7 @@ def save_image(photo):
     except Exception as e:
         print(e.args)
     return None
+
 
 # fonctions utiles pour les templates
 def get_concert(id):
@@ -288,13 +290,14 @@ def styles_musique_artiste(id_artiste):
     """
     try:
         cursor = get_cursor()
-        request = "SELECT nom_style_musique FROM Jouer WHERE id_artiste = %s"
+        request = "SELECT id_style_musique, nom_style_musique FROM Jouer NATURAL JOIN Style_musique WHERE id_artiste = %s"
         cursor.execute(request, (id_artiste, ))
         info = cursor.fetchall()
         close_cursor(cursor)
         return info
     except Exception as e:
         print(e.args)
+    return None
 
 
 def styles_musisque():
@@ -312,24 +315,6 @@ def styles_musisque():
         print(e.args)
     return None
 
-
-def get_styles_musique_artiste(id_artiste):
-    """Fonction permettant de récupérer les styles de musique d'un artiste
-
-    Args:
-        id_artiste (int): L'identifiant de l'artiste
-
-    """
-    try:
-        cursor = get_cursor()
-        request = "SELECT nom_style_musique FROM Artiste WHERE id_artiste = %s"
-        cursor.execute(request, (id_artiste, ))
-        info = cursor.fetchall()
-        close_cursor(cursor)
-        return info
-    except Exception as e:
-        print(e.args)
-    return None
 
 def couts(id_concert):
     """Fonction permettant de récupérer le cout d'un concert
@@ -349,6 +334,7 @@ def couts(id_concert):
         print(e.args)
     return None
 
+
 def modifier_couts(id, materiel, salle, artiste, logement, autre):
     """Fonction permettant de modifier le cout d'un concert
     
@@ -366,6 +352,7 @@ materiel, salle, artiste, logement, autre
     except Exception as e:
         print(e.args)
     return None
+
 
 def somme_couts(id_concert):
     """Fonction permettant de récupérer la somme des couts d'un concert
@@ -386,7 +373,6 @@ def somme_couts(id_concert):
     return None
     
        
-
 def historique_concerts():
     """Fonction permettant de récupérer les concerts passés
 
@@ -689,7 +675,7 @@ def confirmer_modif_artiste(id_artiste, nom_artiste, prenom_artiste,
             requete = "DELETE FROM Jouer WHERE id_artiste = %s"
             execute_query(cursor, requete, (id_artiste, ))
             for style in style_musique:
-                requete = "INSERT INTO Jouer (id_artiste, nom_style_musique) VALUES(%s, %s)"
+                requete = "INSERT INTO Jouer (id_artiste, id_style_musique) VALUES(%s, %s)"
                 execute_query(cursor, requete, (id_artiste, style))
         else:
             requete = """
@@ -712,7 +698,7 @@ def confirmer_modif_artiste(id_artiste, nom_artiste, prenom_artiste,
             requete = "DELETE FROM Jouer WHERE id_artiste = %s"
             execute_query(cursor, requete, (id_artiste, ))
             for style in style_musique:
-                requete = "INSERT INTO Jouer (id_artiste, nom_style_musique) VALUES(%s, %s)"
+                requete = "INSERT INTO Jouer (id_artiste, id_style_musique) VALUES(%s, %s)"
                 execute_query(cursor, requete, (id_artiste, style))
         db.commit()
         close_cursor(cursor)
@@ -926,7 +912,7 @@ def remove_artiste(id):
         print(e.args)
 
 
-def remvove_equipement(id):
+def remove_equipement(id):
     """Fonction permettant de supprimer un équipement dans la base de données
 
     Args:
@@ -1179,23 +1165,19 @@ def get_equipement_salle(id_salle):
     return None
 
 
-def get_equipement_concert(id_concert, id_artiste):
+def get_equipement_concert(id_concert):
     """Fonction permettant de récupérer les équipements d'un concert
 
     Args:
         id_concert (int): L'identifiant du concert
-        id_artiste (int): L'identifiant de l'artiste
 
     Returns:
         list: Les équipements d'un concert
     """
     try:
         cursor = get_cursor()
-        requete = "SELECT id_equipement,nom_equipement,quantite FROM Concert NATURAL JOIN Besoin_equipement_artiste NATURAL JOIN Equipement WHERE id_concert = %s and id_artiste = %s;"
-        execute_query(cursor, requete, (
-            id_concert,
-            id_artiste,
-        ))
+        requete = "SELECT id_equipement,nom_equipement,quantite FROM Concert NATURAL JOIN Besoin_equipement_artiste NATURAL JOIN Equipement WHERE id_concert = %s;"
+        execute_query(cursor, requete, (id_concert,))
         info = cursor.fetchall()
         close_cursor(cursor)
         return info
@@ -1204,23 +1186,19 @@ def get_equipement_concert(id_concert, id_artiste):
     return None
 
 
-def categoriser_equipements1(id_concert, id_artiste):
+def categoriser_equipements1(id_concert):
     """Fonction permettant de trier les équipements d'un concert selon si on les possède ou non
 
     Args:
         id_concert (int): L'identifiant du concert
-        id_artiste (int): L'identifiant de l'artiste
 
     Returns:
         _type_: _description_
     """
     try:
         cursor = get_cursor()
-        requete = "SELECT id_equipement, nom_equipement, quantite, quantite_posseder FROM Concert NATURAL JOIN Besoin_equipement_artiste NATURAL JOIN Equipement WHERE id_concert = %s and id_artiste = %s;"
-        execute_query(cursor, requete, (
-            id_concert,
-            id_artiste,
-        ))
+        requete = "SELECT id_equipement, nom_equipement, quantite, quantite_posseder FROM Concert NATURAL JOIN Besoin_equipement_artiste NATURAL JOIN Equipement WHERE id_concert = %s;"
+        execute_query(cursor, requete, (id_concert,))
         equipements = cursor.fetchall()
         close_cursor(cursor)
         possedes = [
@@ -1237,23 +1215,19 @@ def categoriser_equipements1(id_concert, id_artiste):
         return None, None
 
 
-def categoriser_equipements(id_concert, id_artiste):
+def categoriser_equipements(id_concert):
     """Fonction permettant de trier les équipements d'un concert selon si on les possède
 
     Args:
         id_concert (int): L'identifiant du concert
-        id_artiste (int): L'identifiant de l'artiste
 
     Returns:
         list : Les équipements possédés
     """
     try:
         cursor = get_cursor()
-        requete = "SELECT id_equipement, nom_equipement, quantite, quantite_posseder FROM Concert NATURAL JOIN Besoin_equipement_artiste NATURAL JOIN Equipement WHERE id_concert = %s and id_artiste = %s;"
-        execute_query(cursor, requete, (
-            id_concert,
-            id_artiste,
-        ))
+        requete = "SELECT id_equipement, nom_equipement, quantite, quantite_posseder FROM Concert NATURAL JOIN Besoin_equipement_artiste NATURAL JOIN Equipement WHERE id_concert = %s;"
+        execute_query(cursor, requete, (id_concert,))
         equipements = cursor.fetchall()
         close_cursor(cursor)
         return equipements
@@ -1431,14 +1405,14 @@ def save_artiste(id_artiste,
         cursor = get_cursor()
 
         for style in style_musique:
-            req = "SELECT * FROM Style_musique WHERE nom_style_musique = %s;"
+            req = "SELECT * FROM Style_musique WHERE id_style_musique = %s;"
             cursor.execute(req, (style, ))
             info = cursor.fetchall()
             if info == []:
-                req = "INSERT INTO Style_musique (nom_style_musique) VALUES(%s)"
+                req = "INSERT INTO Style_musique (id_style_musique) VALUES(%s)"
                 cursor.execute(req, (style, ))
                 db.commit()
-        req = "INSERT INTO Artiste (id_artiste, nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_naissance, adresse, securite_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction, nom_scene,conge_spectacle) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s)"
+        req = "INSERT INTO Artiste (id_artiste, nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_naissance, adresse, securite_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction, nom_scene,conge_spectacle) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s)"
         cursor.execute(
             req,
             (id_artiste, nom_artiste, prenom_artiste, mail, telephone,
@@ -1448,7 +1422,7 @@ def save_artiste(id_artiste,
         db.commit()
         # ajouter les styles à Jouer
         for style in style_musique:
-            req = "INSERT INTO Jouer (id_artiste, nom_style_musique) VALUES(%s, %s)"
+            req = "INSERT INTO Jouer (id_artiste, id_style_musique) VALUES(%s, %s)"
             cursor.execute(req, (id_artiste, style))
             db.commit()
         close_cursor(cursor)
@@ -1482,7 +1456,6 @@ def save_equipement_concert(id_concert, id_equipement, quantite):
 def save_necessaire_concert(id_concert,
                             id_equipement,
                             quantite,
-                            id_artiste,
                             ancienne_quantite=0):
     """Fonction permettant de mettre a jour la quantite d'équipement pour un concert dans la base de données
 
@@ -1490,7 +1463,6 @@ def save_necessaire_concert(id_concert,
         id_concert (int): L'identifiant du concert
         id_equipement (int): L'identifiant de l'équipement
         quantite (int): La quantité de l'équipement
-        id_artiste (int): L'identifiant de l'artiste
         ancienne_quantite (int, optional): La quantite qu'il avait avant modification. Defaults to 0.
 
     """
@@ -1516,11 +1488,10 @@ def save_necessaire_concert(id_concert,
             close_cursor(cursor)
         else:
             cursor = get_cursor()
-            requete = "INSERT INTO Besoin_equipement_artiste (id_concert, id_equipement, id_artiste, quantite, quantite_posseder) VALUES(%s, %s, %s, %s, %s)"
+            requete = "INSERT INTO Besoin_equipement_artiste (id_concert, id_equipement, quantite, quantite_posseder) VALUES(%s, %s, %s, %s, %s)"
             execute_query(cursor, requete, (
                 id_concert,
                 id_equipement,
-                id_artiste,
                 quantite,
                 0,
             ))
@@ -1577,67 +1548,59 @@ def save_equipement_salle(id_salle,
         print(e.args)
 
 
-def get_logement_artiste(id_concert, id_artiste):
+def get_logement_artiste(id_concert):
     """Fonction permettant de récupérer le logement d'un artiste pour un concert
 
     Args:
         id_concert (int): L'identifiant du concert
-        id_artiste (int): L'identifiant de l'artiste
 
     Returns:
-        _type_: _description_
+        list: Le logement d'un artiste pour un concert
     """
     try:
         cursor = get_cursor()
-        requete = "SELECT id_logement, nom_etablissement, nb_nuit FROM Logement NATURAL JOIN Loger WHERE id_artiste = %s AND id_concert=%s;"
-        execute_query(cursor, requete, (
-            id_artiste,
-            id_concert,
-        ))
+        requete = "SELECT id_logement, nom_etablissement, nb_nuit FROM Logement NATURAL JOIN Loger WHERE id_concert=%s;"
+        execute_query(cursor, requete, (id_concert,))
         info = cursor.fetchall()
         close_cursor(cursor)
+        if info == []:
+            return None
         return info[0]
     except Exception as e:
         print(e.args)
     return None
 
 
-def supprimer_logement_artiste(id_concert, id_artiste):
+def supprimer_logement_artiste(id_concert):
     """Fonction permettant de supprimer le logement d'un artiste pour un concert
 
     Args:
-        id_concert (int): _description_
-        id_artiste (int): L'identifiant de l'artiste
+        id_concert (int): L'identifiant du concert
 
     """
     try:
         cursor = get_cursor()
-        requete = "DELETE FROM Loger WHERE id_artiste = %s AND id_concert=%s;"
-        execute_query(cursor, requete, (
-            id_artiste,
-            id_concert,
-        ))
+        requete = "DELETE FROM Loger WHERE AND id_concert=%s;"
+        execute_query(cursor, requete, (id_concert,))
         db.commit()
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
 
 
-def add_logement_artiste(id_concert, id_artiste, id_logement, nb_nuit):
+def add_logement_artiste(id_concert, id_logement, nb_nuit):
     """Fonction permettant d'ajouter un logement pour un artiste pour un concert
 
     Args:
         id_concert (int): L'identifiant du concert
-        id_artiste (int): L'identifiant de l'artiste
         id_logement (int): L'identifiant du logement
         nb_nuit (int): Le nombre de nuit
 
     """
     try:
         cursor = get_cursor()
-        requete = "INSERT INTO Loger (id_artiste, id_concert, id_logement, nb_nuit) VALUES(%s, %s, %s, %s)"
+        requete = "INSERT INTO Loger (id_concert, id_logement, nb_nuit) VALUES(%s, %s, %s)"
         execute_query(cursor, requete, (
-            id_artiste,
             id_concert,
             id_logement,
             nb_nuit,
@@ -1686,17 +1649,36 @@ def confirmer_modif_equipement(id_equipement, nom_equipement):
         print(e.args)
 
 
-def save_style_musique(nom_style_musique):
+def get_id_style_musique_max():
+    """Fonction permettant de récupérer l'identifiant maximum d'un style de musique
+
+    Returns:
+        int: L'identifiant maximum d'un style de musique
+    """
+    try:
+        cursor = get_cursor()
+        requete = "SELECT MAX(id_style_musique) FROM Style_musique;"
+        cursor.execute(requete)
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        return info[0][0]
+    except Exception as e:
+        print(e.args)
+    return None
+
+
+def save_style_musique(id_style_musique, nom_style_musique):
     """Fonction permettant de sauvegarder un style de musique dans la base de données
 
     Args:
+        id_style_musique (int): L'identifiant du style de musique
         nom_style_musique (str): Le nom du style de musique
 
     """
     try:
         cursor = get_cursor()
-        requete = "INSERT INTO Style_musique (nom_style_musique) VALUES(%s)"
-        execute_query(cursor, requete, (nom_style_musique, ))
+        requete = "INSERT INTO Style_musique (id_style_musique, nom_style_musique) VALUES(%s, %s)"
+        execute_query(cursor, requete, (id_style_musique, nom_style_musique, ))
         db.commit()
         close_cursor(cursor)
     except Exception as e:
