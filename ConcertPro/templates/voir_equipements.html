@@ -9,7 +9,6 @@
     {% for equipement in equipements %}
         <div class="sous-conteneur">
             <a href="{{ url_for('equipement', id_equipement=equipement[0]) }}">
-                <a href="{{url_for('afficher_rider')}}"><img class="retour" src="../static/images/retour.png" alt="fleche"></a>
                 <p class="name">{{ equipement[1] }}</p>
             </a>
         </div>

@@ -14,6 +14,7 @@ body{
     background-color: #242424;
     overflow: hidden;
     padding: 1em 3em;
+    margin: 0.5em;
     box-shadow: 0 0 0.5em rgba(0, 0, 0, 0.9);
 }
 
@@ -26,14 +27,13 @@ body{
 
 .name:hover{
     opacity: 1;
-    transform: scale(1.15);
+    transform: scale(1.08);
 }
 
 p{
     color: white;
     opacity: 0.8;
     font-size: 200%;
-    font-weight: bold;
 }
 
 

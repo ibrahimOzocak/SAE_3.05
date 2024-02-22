@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/ajout.css') }}"> 
 {% endblock %}
 {% block content %}
+<a href="{{url_for('voir_equipements')}}"><img class="retour" src="../static/images/retour.png" alt="fleche"></a>
 <form action="{{ url_for('save_equipement') }}" method="POST" enctype="multipart/form-data">
     <section class="nouvel_equipement">
         <label for="nom_equipement">Nom de l'équipement</label>

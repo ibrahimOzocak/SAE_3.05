@@ -11,6 +11,14 @@ body{
     align-items: center;
 }
 
+.tete-page h1{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    text-decoration: underline 2px;
+    text-underline-offset: 0.25em;
+}
+
 .bouton{
     border-radius: 10px;
     border: solid 0.5px #121212;
@@ -23,6 +31,12 @@ body{
 .bouton:hover{
     opacity: 0.8;
     transition: 0.3s ease-in-out;
+}
+
+.btn{
+    display: flex;
+    justify-content: center;
+    margin-top: 3em;
 }
 
 .retour{
