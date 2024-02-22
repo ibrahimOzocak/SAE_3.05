@@ -1496,7 +1496,7 @@ def save_necessaire_concert(id_concert,
             close_cursor(cursor)
         else:
             cursor = get_cursor()
-            requete = "INSERT INTO Besoin_equipement_artiste (id_concert, id_equipement, quantite, quantite_posseder) VALUES(%s, %s, %s, %s, %s)"
+            requete = "INSERT INTO Besoin_equipement_artiste (id_concert, id_equipement, quantite, quantite_posseder) VALUES(%s, %s, %s, %s)"
             execute_query(cursor, requete, (
                 id_concert,
                 id_equipement,
