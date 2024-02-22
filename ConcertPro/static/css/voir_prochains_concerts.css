@@ -11,15 +11,17 @@ body{
 
 .sous-conteneur{
     display: flex;
-    justify-content: center;
     width: 20%;
-    height: fit-content;
-    max-height: 50vh;
+    height: 50vh;
     flex-direction: column;
     border: solid 1px white;
     border-radius: 5px;
     position: relative;
     margin: 1em;
+}
+
+.nom_art{
+    z-index: 1;
 }
 
 .addrLogement,.nomLogement{
@@ -43,7 +45,7 @@ body{
     height: 70px;
     border-radius: 50%;
     position: absolute;
-    top: 250px;
+    top: 21vh;
     left: 30px;
 }
 
@@ -95,6 +97,9 @@ body{
     font-size: large;
     color: black;
     background-color: white;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 
 .sous-conteneur a:hover span{

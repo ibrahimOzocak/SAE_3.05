@@ -22,7 +22,7 @@
             {{ a[-1] | byte_to_image(classe='img_art') }}
         {% endif %}
         {% endfor %}
-        <h1>{{ concerts[i][1] }}</h1>
+        <h1 class="nom_art"  >{{ concerts[i][1] }}</h1>
         <div class="personne">
             <img class="img_card" src = "{{ url_for('static', filename='images/Personne.png')}}" alt="image">
             {% for a in artistes%}
