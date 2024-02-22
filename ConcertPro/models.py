@@ -1013,7 +1013,7 @@ def concerts_agenda(heures=HEURES1, jour=JOUR_VOULU):
                 if not (debut_concert >= fin_horaire
                         or fin_concert < debut_horaire):
                     agenda[date_debut.weekday() + 1][h].append(
-                        (concert[0], concert[1]))
+                        (concert[0], concert[1], date_debut < datetime.datetime.now()))
             if depassement > 0:
                 fin_depassement = datetime.time(hour=depassement,
                                                 minute=minute_c)
@@ -1027,7 +1027,7 @@ def concerts_agenda(heures=HEURES1, jour=JOUR_VOULU):
                     if fin_depassement > fin_horaire:
                         j = date_debut.weekday() + 2
                         if j < 8:
-                            agenda[j][h].append((concert[0], concert[1]))
+                            agenda[j][h].append((concert[0], concert[1], date_debut < datetime.datetime.now()))
         elif datetime.timedelta(
                 days=-(jour.weekday() + 1)) == date_debut.replace(
                     hour=0, minute=0) - jour:
@@ -1048,7 +1048,7 @@ def concerts_agenda(heures=HEURES1, jour=JOUR_VOULU):
                 debut_horaire = datetime.time(hour=h)
                 # ajouter le concert si il est dans l'intervalle horaire
                 if fin_depassement >= fin_horaire:
-                    agenda[1][h].append((concert[0], concert[1]))
+                    agenda[1][h].append((concert[0], concert[1], date_debut < datetime.datetime.now()))
     return agenda
 
 

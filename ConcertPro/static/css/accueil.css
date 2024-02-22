@@ -64,8 +64,13 @@ th, td {
     font-weight: normal;
 }
 
-th a, td a{
+.prochain{
     color: rgb(134, 255, 170);
+    font-weight: normal;
+}
+
+.passe{
+    color: rgb(255, 134, 134);
     font-weight: normal;
 }
 
@@ -87,7 +92,13 @@ div {
     justify-content: space-between;
 }
 
-.a:hover{
+.prochain:hover{
+    opacity: 0.7;
+    transition: all 0.3s ease-in-out;
+    text-decoration: underline;
+}
+
+.passe:hover{
     opacity: 0.7;
     transition: all 0.3s ease-in-out;
     text-decoration: underline;
