@@ -5,6 +5,9 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/boutonPlus.css')}}"> 
 {% endblock %}
 {% block content %}
+{% if concerts|length != 0 %}
+<p class="title">Prochains concerts</p>
+{% endif %}
 <div class="conteneur">
     {% for i in range (concerts|length) %}
     <div class="sous-conteneur">
@@ -22,7 +25,7 @@
             {{ a[-1] | byte_to_image(classe='img_art') }}
         {% endif %}
         {% endfor %}
-        <h1 class="nom_art"  >{{ concerts[i][1] }}</h1>
+        <h1 class="nom_art">{{ concerts[i][1] }}</h1>
         <div class="personne">
             <img class="img_card" src = "{{ url_for('static', filename='images/Personne.png')}}" alt="image">
             {% for a in artistes%}
@@ -50,7 +53,56 @@
         <a class="voir" href="{{ url_for('concert', id=concerts[i][0]) }}">Voir plus <span>+</span></a>
     </div>
     {% endfor %}
-    {% if concerts|length == 0 %}
+</div>
+{% if anciens_concerts|length != 0 %}
+<p class="title">Concerts passés</p>
+{% endif %}
+<div class="conteneur">
+    {% for i in range (anciens_concerts|length) %}
+    <div class="sous-conteneur">
+        {% if anciens_concerts[i][-1] is none %}
+            <div class="div_img">
+                <img class="img_acc"  src="{{ url_for('static', filename='images/aucune_image.png') }}" alt="img">
+            </div>
+        {% else %}
+        <div class="div_img">
+            {{ anciens_concerts[i][-1] | byte_to_image }}
+        </div>
+        {% endif %}
+        {% for a in artistes%}
+        {% if a[0] == anciens_concerts[i][4] %}
+            {{ a[-1] | byte_to_image(classe='img_art') }}
+        {% endif %}
+        {% endfor %}
+        <h1 class="nom_art">{{ anciens_concerts[i][1] }}</h1>
+        <div class="personne">
+            <img class="img_card" src = "{{ url_for('static', filename='images/Personne.png')}}" alt="image">
+            {% for a in artistes%}
+            {% if a[0] == anciens_concerts[i][4] %}
+            <p>Artiste : {{ a[-2] }} </p>
+            {%else%}
+            <p>Artiste : Aucun artiste associé</p>
+            {% endif %}
+            {% endfor %}
+            {% if artistes|length == 0 %}
+            <p>Artiste : Aucun artiste associé</p>
+            {% endif %}
+        </div>
+        <div class="personne">
+            <img class="img_card" src = "{{ url_for('static', filename='images/localisateur.png')}}" alt="img">
+            {% for s in salles %}
+                {% if s[0] == anciens_concerts[i][5] %}
+                    <p>Salle : {{ s[8] }} </p>
+                {% endif %}
+            {% endfor %}
+            {% if anciens_concerts[i][5] is none %}
+                <p>Salle : Aucune salle associée</p>
+            {% endif %}
+        </div>
+        <a class="voir" href="{{ url_for('concert', id=anciens_concerts[i][0]) }}">Voir plus <span>+</span></a>
+    </div>
+    {% endfor %}
+    {% if concerts|length == 0 and anciens_concerts|length == 0 %}
     <div>
         <p class="no-result">Aucun concert n'a été trouvé</p>
     </div>

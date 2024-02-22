@@ -28,6 +28,14 @@ body{
     color: black;
 }
 
+.title{
+    color: red;
+    font-size: 2em;
+    text-align: center;
+    margin-top: 1em;
+    font-weight: bold;
+    text-decoration: underline;
+}
 
 .img_card{
     width: 50px;

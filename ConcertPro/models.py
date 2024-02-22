@@ -39,28 +39,6 @@ def execute_query(cursor, query, params=None):
         cursor.execute(query)
 
 
-def prochains_concerts():
-    """Fonction permettant de récupérer les prochains concerts
-
-    Returns:
-        list: Les prochains concerts
-    """
-    try:
-        cursor = get_cursor()
-        req1 = (
-            "SELECT * FROM Concert "
-            "WHERE date_heure_concert >= NOW() "
-            "ORDER BY date_heure_concert ASC;"
-        )
-        execute_query(cursor, req1)
-        infos = cursor.fetchall()
-        close_cursor(cursor)
-        return infos
-    except Exception as e:
-        print(e.args)
-        return []
-
-
 def save_concert(id, nom_concert, date_heure_concert, duree_concert,
                  id_artiste, id_salle, description_concert, photo):
     """Fonction permettant de sauvegarder un concert dans la base de données
@@ -371,8 +349,28 @@ def somme_couts(id_concert):
         print(e.args)
     return None
     
+def prochains_concerts():
+    """Fonction permettant de récupérer les prochains concerts
+
+    Returns:
+        list: Les prochains concerts
+    """
+    try:
+        cursor = get_cursor()
+        req1 = (
+            "SELECT * FROM Concert "
+            "WHERE date_heure_concert >= NOW() "
+            "ORDER BY date_heure_concert ASC;"
+        )
+        execute_query(cursor, req1)
+        infos = cursor.fetchall()
+        close_cursor(cursor)
+        return infos
+    except Exception as e:
+        print(e.args)
+        return []
        
-def all_concerts():
+def historique_concert():
     """Fonction permettant de récupérer les concerts passés
 
     Returns:
@@ -381,7 +379,7 @@ def all_concerts():
     list_historique_concerts = []
     try:
         cursor = get_cursor()
-        requete = "SELECT * FROM Concert where date_heure_concert < NOW()"
+        requete = "SELECT * FROM Concert where date_heure_concert < NOW() ORDER BY date_heure_concert ASC;"
         cursor.execute(requete)
         info = cursor.fetchall()
         for i in info:

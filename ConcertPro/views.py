@@ -60,18 +60,10 @@ def creer_concert():
 def voir_concerts():
     """page qui affiche les concerts à venir"""
     return render_template('voir_concerts.html',
-                           concerts=mo.all_concerts(),
+                           concerts=mo.prochains_concerts(),
+                           anciens_concerts = mo.historique_concert(),
                            artistes=mo.artistes(),
                            salles=mo.salles())
-
-
-@app.route('/historique_concert')
-def historique_concerts():
-    """page qui affiche les concerts passés"""
-    return render_template('historique_concerts.html',
-                           concerts=mo.all_concerts(),
-                           salles=mo.salles(),
-                           artistes=mo.artistes())
 
 
 @app.route('/save_concert', methods=('POST', ))
