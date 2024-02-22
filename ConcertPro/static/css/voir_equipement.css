@@ -20,8 +20,7 @@ body{
 
 .name{
     opacity: 0.8;
-    text-decoration: underline;
-    text-underline-offset: 0.35em;
+    font-weight: bold;
     transition: transform 0.5s, opacity 0.5s;
 }
 

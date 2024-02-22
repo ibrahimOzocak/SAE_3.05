@@ -5,7 +5,7 @@ body{
 
 .fiche{
     width: calc(25% - 20px);
-    padding: 20px; /* Espacement intérieur */
+    padding: 1.25em; /* Espacement intérieur */
     margin: 0.8em 0;
     box-shadow: 0 0 0.5em rgba(0, 0, 0, 0.9); /* Ombre légère */
     background-color: #343434;
@@ -25,14 +25,13 @@ body{
 
 .fiche a{
     color: white;
-    text-decoration: underline;
-    text-underline-offset: 0.35em;
-    font-size: 110%;
+    font-size: 150%;
+    font-weight: bold;
     opacity: 0.8;
     transition: transform 0.5s, opacity 0.5s;
 }
 
 .fiche a:hover{
-    transform: scale(1.15);
+    transform: scale(1.08);
     opacity: 1;
 }
