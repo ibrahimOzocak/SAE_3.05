@@ -17,9 +17,9 @@
                 <label for="nom_scene">Nom de scène:</label>
                 <input type="text" id="nom_scene" name="nom_scene" required maxlength="42">
                 <label for="genre">Styles musicaux :</label>
-                <select name="genre" id="genre" multiple>
+                <select name="genre" id="genre" type="multiple">
                     {% for style in styles %}
-                    <option>{{ style[0] }}</option>
+                    <option>{{ style[1] }}</option>
                     {% endfor %}
                 </select>
                 <label for="mail">Email:</label>
