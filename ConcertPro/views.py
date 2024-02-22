@@ -296,16 +296,16 @@ def supprimer_salle(id_salle):
 @app.route('/confirmer_salle/<id_salle>', methods=('POST', ))
 def confirmer_modif_salle(id_salle):
     """sauvegarde d'un artiste"""
-    nom = request.form['nom']
+    nom = request.form['titre']
     description = request.form['description']
     loge = request.form['loge']
-    nombre_place = request.form['nombre de places']
+    nombre_place = request.form['place']
     adresse = request.form['adresse']
     telephone = request.form['telephone']
-    profondeur_scene = request.form['profondeur scene']
-    longueur_scene = request.form['longueur scene']
+    profondeur_scene = request.form['profondeur']
+    longueur_scene = request.form['longueur']
     photo = request.files['image']
-    type_place = request.form['type']
+    type_place = request.form['type_salle']
     mo.confirmer_modif_salle(id_salle, nom, description, loge, nombre_place,
                              adresse, telephone, profondeur_scene,
                              longueur_scene, photo, type_place)

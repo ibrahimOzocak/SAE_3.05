@@ -25,9 +25,6 @@
         <h1>{{ concerts[i][1] }}</h1>
         <div class="personne">
             <img class="img_card" src = "{{ url_for('static', filename='images/Personne.png')}}" alt="image">
-            {% if artistes|length == 0 %}
-            <p>Artiste : Aucun artiste associé</p>
-            {% endif %}
             {% for a in artistes%}
             {% if a[0] == concerts[i][4] %}
             <p>Artiste : {{ a[-2] }} </p>
@@ -35,19 +32,20 @@
             <p>Artiste : Aucun artiste associé</p>
             {% endif %}
             {% endfor %}
+            {% if artistes|length == 0 %}
+            <p>Artiste : Aucun artiste associé</p>
+            {% endif %}
         </div>
         <div class="personne">
             <img class="img_card" src = "{{ url_for('static', filename='images/localisateur.png')}}" alt="img">
-            {% if salles|length == 0 %}
-            <p>Salle : Aucune salle associé</p>
-            {% endif %}
             {% for s in salles%}
             {% if s[0] == concerts[i][5] %}
             <p>Salle : {{ s[8] }} </p>
-            {%else%}
-            <p>Salle : Aucune salle associé</p>
             {% endif %}
             {% endfor %}
+            {% if salles|length == 0 %}
+            <p>Salle : Aucune salle associé</p>
+            {% endif %}
         </div>
         <a class="voir" href="{{ url_for('concert', id=concerts[i][0]) }}">Voir plus <span>+</span></a>
     </div>
