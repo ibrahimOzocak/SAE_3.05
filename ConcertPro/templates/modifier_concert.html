@@ -86,7 +86,7 @@
     </div>
     <div class="mettre-dessous">
         <label class="nuits" for="description_concert">Description du concert (max 500)</label>
-        <textarea id="desc" name="description_concert" value="{{ concert[6] }}" maxlength="500"></textarea>
+        <textarea id="desc" name="description_concert" maxlength="500">{{ concert[6] }}</textarea>
     </div>
     <input type="text" value="{{ concert[4] }}" name="ancien_artiste" hidden>
     <input id="ajouter_concert" type="submit" value="Modifier le concert">

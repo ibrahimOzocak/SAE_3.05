@@ -268,11 +268,9 @@ def save_salle():
     longueur_scene = request.form['longueur']
     adresse_salle = request.form['adresse']
     telephone_salle = request.form['telephone']
-    code_postal_salle = request.form['postalville']
     type_place = request.form['type_salle']
     description_salle = request.form['description']
     photo = request.files['image']
-    adresse_salle = adresse_salle + ', ' + code_postal_salle
     loge = 'non'
     acces_pmr = 'non'
     for elem in request.form:

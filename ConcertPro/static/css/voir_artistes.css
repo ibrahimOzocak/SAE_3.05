@@ -38,3 +38,7 @@ body{
     object-fit: cover;
     border-radius: 5px;
 }
+
+.no-result{
+    font-size: 2em;
+}

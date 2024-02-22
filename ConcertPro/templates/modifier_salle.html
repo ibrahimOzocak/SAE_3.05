@@ -1,12 +1,11 @@
 {% extends 'base.html' %}
 {% block styles %}
-{{ super() }}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/modif.css')}}"> 
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/creer_concert.css') }}">
 {% endblock %}
 {% block content %}
-<h2>{{ salle[3] }}</h2>
-<div class="container">
-    <form method="POST" action="{{ url_for('confirmer_modif_salle', id_salle=salle[0], nom_salle=salle[3]) }}" enctype="multipart/form-data">
+<form role="form" method="POST" action="{{ url_for('save_salle') }}" enctype="multipart/form-data">
+    <div id="partie-one">
         <div class="container">
             <input type="file" name="image" id="image-input">
             <script src="{{ url_for('static', filename='js/charge_img.js') }}"></script>
@@ -16,32 +15,74 @@
             {{ salle[-2] | byte_to_image(id='image-charge') }}
             {% endif %}
         </div>
-        <label for="nom">Nom de la salle :</label>
-        <input type="textarea" id="nom" name="nom" required value="{{ salle[3] }}" maxlength="42">
-        <label for="description">Description :</label>
-        <input type="textarea" id="description" name="description" required value="{{ salle[7] }}" maxlength="500">
-        <label for="loge">Loge :</label>
-        <input type="textfield" id="loge" name="loge" required value="{{ salle[2] }}" maxlength="42">
-        <label for="nombre de places">Nombre de places :</label>
-        <input type="number" id="nombre de places" name="nombre de places" required value="{{ salle[4] }}">
-        <label for="adresse">Adresse :</label>
-        <input type="textfield" id="adresse" name="adresse" required value="{{ salle[8] }}" maxlength="500">
-        <label for="telephone">Téléphone :</label>
-        <input type="textfield" id="telephone" name="telephone" required value="{{ salle[9] }}" maxlength="42">
-        <label for="profondeur scene">Profondeur scene :</label>
-        <input type="number" id="profondeur scene" name="profondeur scene" required value="{{ salle[5] }}">
-        <label for="longueur scene">Longueur scene :</label>
-        <input type="number" id="longueur scene" name="longueur scene" required value="{{ salle[6] }}">
-        <label for="type">Type :</label>
-        <select name="type" id="type" required>
-            {% for type in types %}
-            <option value="{{ type[0] }}" {% if type[0] == type_salle[0] %}selected{% endif %}>{{ type[1] }}</option>
-            {% endfor %}
-        </select>
-        <button type="submit">Appliquer les modifications</button>
-    </form>
-</div>
-<div class="annuler">
-    <a href="{{ url_for('salle', id=salle[0]) }}">Annuler les modifications</a>
-</div>
+        <div id="partie-principal">
+            <label for="titre">Nom de la salle <span style="color: orange;">*</span></label>
+            <input type="text" name="titre" maxlength="42" value="{{ salle[3] }}" required/>
+            <div id="partie-principal-two">
+                <div class="items">
+                    <div class="mettre-droite">
+                        <label for="typeplace">Type de salle <span style="color: orange;">*</span></label>
+                        <a class="lien_blank" href="{{ url_for('ajout_type_salle') }}"><button type="button">Créer un nouveau type</button></a>
+                    </div>
+                    <select name="type_salle" required>
+                        {% for type_salle in types %}
+                        <option value="{{ type_salle[0] }}" {% if types[0] == type_salle[0] %}selected{% endif %}>{{ type_salle[1] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="items padding-top">
+                    <label class="lien_blank" for="profondeur">Profondeur de la scene</label>
+                    {% if salle is none %}
+                    <input type="number" name="profondeur" value="0" required min="0"/>
+                    {% else %}
+                    <input type="number" name="profondeur" value="{{ salle[5] }}" required min="0"/>
+                    {% endif %}
+                </div>
+                <div class="items padding-top">
+                    <label for="longueur">Longeur de la scene</label>
+                    {% if salle is none %}
+                    <input type="number" name="longueur" value="0" required min="0"/>
+                    {% else %}
+                    <input type="number" name="longueur" value="{{ salle[6] }}" required min="0"/>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="seconde-partie">
+        <div id="partie-one">
+            <div class="mettre-dessous">
+                <label for="adresse">Adresse, code postal et ville de la salle <span style="color: orange;">*</span></label>
+                <input type="text" name="adresse" value="{{ salle[8] }}" maxlength="250" required/>
+            </div>
+            <div class="mettre-dessous">
+                <label for="place">Nombre de place</label>
+                {% if salle is not none %}
+                <input type="number" name="place" value="{{ salle[4] }}" required min="0"/>
+                {% else %}
+                <input type="number" name="place" value="0" required min="0"/>
+                {% endif %}
+            </div>
+        </div>
+        <div id="partie-two">
+            <div class="mettre-dessous resize">
+                <label for="telephone">Numéro de téléphone de la salle</label>
+                <input type="text" name="telephone" value="{{ salle[9] }}" maxlength="42"/>
+            </div>
+            <div class="rz">
+                <input class="margin" type="checkbox" {% if salle[-1] == 'oui' %}checked{% endif %} id="accueilpmr" name="accueilpmr"/>
+                <label for="accueilpmr">La salle accueille les personnes à mobilité réduite</label>
+            </div>
+            <div class="rz">
+                <input class="margin" type="checkbox" id="loge" name="loge" {% if salle[2] == 'oui' %}checked{% endif %}/>
+                <label for="loge">La salle possède une loge</label>  
+            </div>
+        </div>
+    </div>
+    <div class="mettre-dessous">
+        <label class="nuits" for="description">Description de la salle (max 500)</label>
+        <textarea id="desc" name="description" maxlength="500">{{ salle[7] }}</textarea>
+    </div>
+    <input id="ajouter_concert" type="submit" value="Modifier la salle">
+</form>
 {% endblock %}

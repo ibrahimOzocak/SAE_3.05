@@ -17,21 +17,21 @@
             <div id="partie-principal-two">
                 <div class="items">
                     <div class="mettre-droite">
-                        <label for="typeplace">Type de salle</label>
+                        <label for="typeplace">Type de salle <span style="color: orange;">*</span></label>
                         <a class="lien_blank" href="{{ url_for('ajout_type_salle') }}"><button type="button">Créer un nouveau type</button></a>
                     </div>
-                    <select name="type_salle">
+                    <select name="type_salle" required>
                         {% for type_salle in types %}
                         <option value="{{ type_salle[0] }}">{{ type_salle[1] }}</option>
                         {% endfor %}
                     </select>
                 </div>
                 <div class="items padding-top">
-                    <label class="lien_blank" for="profondeur">Profondeur de la scene</label>
+                    <label class="lien_blank" for="profondeur">Profondeur de la scene (en m)</label>
                     <input type="number" name="profondeur" value="0" required min="0"/>
                 </div>
                 <div class="items padding-top">
-                    <label for="longueur">Longeur de la scene</label>
+                    <label for="longueur">Longeur de la scene (en m)</label>
                     <input type="number" name="longueur" value="0" required min="0"/>
                 </div>
             </div>
@@ -40,12 +40,8 @@
     <div id="seconde-partie">
         <div id="partie-one">
             <div class="mettre-dessous">
-                <label for="adresse">Adresse de la salle <span style="color: orange;">*</span></label>
+                <label for="adresse">Adresse, code postal et ville de la salle <span style="color: orange;">*</span></label>
                 <input type="text" name="adresse" maxlength="250" required/>
-            </div>
-            <div class="mettre-dessous">
-                <label for="postalville">Code postal et ville de la salle (ex : 45000 Orléans) <span style="color: orange;">*</span></label>
-                <input type="text" name="postalville" maxlength="250" required/>
             </div>
             <div class="mettre-dessous">
                 <label for="place">Nombre de place</label>
