@@ -1,5 +1,10 @@
+body{
+    background-color: #121212;
+}
+
 #canvas {
-    border: 1px solid #000;
+    border: 1px solid white;
+    background-color: #242424;
   }
 
 .buttons{
@@ -16,21 +21,6 @@
   margin: 20px;
 }
 
-button{
-  margin: 5px;
-  background-color: black;
-  color: white;
-  padding: 10px;
-  border-radius: 10px;
-  cursor: pointer;
-  box-shadow: none;
-}
-
-button:hover{
-  opacity: 0.8;
-  transition: 0.3s;
-}
-
 input{
   margin: 5px;
 }
@@ -40,4 +30,22 @@ input{
   align-items: center;
   justify-content: center;
   flex-direction: column;
+}
+
+button{
+  color: white;
+  background: none;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: underline;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+button:hover{
+  color: #1ED760;
+  transition: color 0.5s;
 }

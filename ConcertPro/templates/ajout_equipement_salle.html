@@ -1,21 +1,59 @@
 {% extends 'base.html' %}
 {% block styles %}
     {{ super() }}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/ajout.css') }}"> 
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/ajout_equipement_salle.css') }}"> 
 {% endblock %}
 {% block content %}
-<h2>Modification du matériel nécessairde la salle</h2>
+<h2>Modification du matériel nécessaire de la salle</h2>
+
+<input type="text" id="searchBar" placeholder="Rechercher un équipement">
 <form action="{{ url_for('save_equipements_salle', id_salle=id_salle) }}" method="POST" enctype="multipart/form-data">
-    <section>
+    <section id="equipementsSection">
         {% for equipement in equipements %}
         <label for="{{ equipement[0] }}">{{ equipement[1] }}</label>
         <input type="number" name="{{ equipement[0] }}" min="0" value="{{ equipement[2] }}" required/>
         <input type="hidden" name="hidden{{ equipement[0] }}" value="{{ equipement[2] }}"/>
         {% endfor %}
     </section>
+
     <input class="valider" type="submit" id="valider" name="valider" value="Valider l'ajout de ces équipements"/>
 </form>
 <div class="annuler">
-    <a href="{{ url_for('salle', id=id_salle) }}">Revenir à la page de la salle sans modifier ses équipements</a>
+    <a href="{{ url_for('salle', id=id_salle) }}">Retour</a>
 </div>
+
+<script>
+    const searchBar = document.getElementById('searchBar');
+    const equipementsSection = document.getElementById('equipementsSection');
+    const equipementsData = {{ equipements|tojson }};
+
+    searchBar.addEventListener('input', (event) => {
+        const searchQuery = event.target.value.toLowerCase();
+        const filteredEquipements = equipementsData.filter(equipement => equipement[1].toLowerCase().includes(searchQuery));
+
+        equipementsSection.innerHTML = '';
+        filteredEquipements.forEach(equipement => {
+            const label = document.createElement('label');
+            label.setAttribute('for', equipement[0]);
+            label.textContent = equipement[1];
+
+            const input = document.createElement('input');
+            input.setAttribute('type', 'number');
+            input.setAttribute('name', equipement[0]);
+            input.setAttribute('min', '0');
+            input.setAttribute('value', equipement[2]);
+            input.setAttribute('required', '');
+
+            const hiddenInput = document.createElement('input');
+            hiddenInput.setAttribute('type', 'hidden');
+            hiddenInput.setAttribute('name', `hidden${equipement[0]}`);
+            hiddenInput.setAttribute('value', equipement[2]);
+
+            equipementsSection.appendChild(label);
+            equipementsSection.appendChild(input);
+            equipementsSection.appendChild(hiddenInput);
+        });
+    });
+</script>
+
 {% endblock %}

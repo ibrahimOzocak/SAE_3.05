@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block styles %}
 {{ super() }}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/voir_prochains_concerts.css')}}"> 
+<link rel="stylesheet" href="{{ url_for('static', filename='css/voir_artistes.css')}}"> 
 <link rel="stylesheet" href="{{ url_for('static', filename='css/boutonPlus.css')}}"> 
 {% endblock %}
 {% block content %}
@@ -18,14 +18,13 @@
                 {{ artiste[-1] | byte_to_image }}
             </div>
             {% endif %}
-            <p>{{ artiste[4] }}</p> 
-            <p>{{ artiste[3] }}</p>
+            <p>{{ artiste[4] }}  {{ artiste[3] }}</p> 
         </a>
     </div>
     {% endfor %}
     {% if artistes|length == 0 %}
-    <div class="sous-conteneur">
-        <p>Aucun artiste n'a été trouvé</p>
+    <div>
+        <p class="no-result">Aucun artiste n'a été trouvé</p>
     </div>
     {% endif %}
     <a href="{{ url_for('ajout_artiste') }}"><img class="plus" src = "{{ url_for('static', filename='images/plus.png')}}" alt="image"></a>

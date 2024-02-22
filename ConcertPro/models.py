@@ -296,8 +296,7 @@ def styles_musique_artiste(id_artiste):
         close_cursor(cursor)
         return info
     except Exception as e:
-        print(e.args)
-    return None
+        return []
 
 
 def styles_musisque():
@@ -818,6 +817,11 @@ def remove_concert(id):
         req = "DELETE FROM Participer where id_concert= %s"
         cursor.execute(req, (id, ))
         close_cursor(cursor)
+        # suppression detailscouts
+        cursor = get_cursor()
+        req = "DELETE FROM DetailsCouts where id_concert= %s"
+        cursor.execute(req, (id, ))
+        close_cursor(cursor)
         # suppression du concert
         cursor = get_cursor()
         req = "DELETE FROM Concert where id_concert= %s"
@@ -860,8 +864,9 @@ def remove_salle(id):
         cursor.execute(req, (id, ))
         db.commit()
         close_cursor(cursor)
+        return True
     except Exception as e:
-        print(e.args)
+        return False
 
 
 def remove_logement(id_logement):
