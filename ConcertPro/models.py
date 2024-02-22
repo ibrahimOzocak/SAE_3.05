@@ -294,7 +294,7 @@ def styles_musique_artiste(id_artiste):
         close_cursor(cursor)
         return info
     except Exception as e:
-        print(e.args)
+        return []
 
 
 def styles_musisque():
