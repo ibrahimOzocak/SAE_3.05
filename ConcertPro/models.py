@@ -372,7 +372,7 @@ def somme_couts(id_concert):
     return None
     
        
-def historique_concerts():
+def all_concerts():
     """Fonction permettant de récupérer les concerts passés
 
     Returns:

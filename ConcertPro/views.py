@@ -60,7 +60,7 @@ def creer_concert():
 def voir_concerts():
     """page qui affiche les concerts à venir"""
     return render_template('voir_concerts.html',
-                           concerts=mo.prochains_concerts(),
+                           concerts=mo.all_concerts(),
                            artistes=mo.artistes(),
                            salles=mo.salles())
 
@@ -69,7 +69,7 @@ def voir_concerts():
 def historique_concerts():
     """page qui affiche les concerts passés"""
     return render_template('historique_concerts.html',
-                           concerts=mo.historique_concerts(),
+                           concerts=mo.all_concerts(),
                            salles=mo.salles(),
                            artistes=mo.artistes())
 

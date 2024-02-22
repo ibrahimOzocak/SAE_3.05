@@ -38,13 +38,13 @@
         </div>
         <div class="personne">
             <img class="img_card" src = "{{ url_for('static', filename='images/localisateur.png')}}" alt="img">
-            {% for s in salles%}
-            {% if s[0] == concerts[i][5] %}
-            <p>Salle : {{ s[8] }} </p>
-            {% endif %}
+            {% for s in salles %}
+                {% if s[0] == concerts[i][5] %}
+                    <p>Salle : {{ s[8] }} </p>
+                {% endif %}
             {% endfor %}
-            {% if salles|length == 0 %}
-            <p>Salle : Aucune salle associé</p>
+            {% if concerts[i][5] is none %}
+                <p>Salle : Aucune salle associée</p>
             {% endif %}
         </div>
         <a class="voir" href="{{ url_for('concert', id=concerts[i][0]) }}">Voir plus <span>+</span></a>
