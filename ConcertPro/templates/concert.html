@@ -20,7 +20,7 @@
         <p><strong>Date:</strong>   {{ concert[2] }}</p>
         <p><strong>Durée:</strong>  {{ concert[3]//60 }}h{% if concert[3]%60<10 %}0{% endif %}{{ concert[3]%60 }}</p>
         <p><strong>Nom de l'artiste:</strong>  <a href="{{ url_for('artiste', id_artiste=artiste[0]) }}">{{ artiste[3] }}</a></p>
-        <p><strong>Nom de la salle:</strong>  <a href="{{ url_for('salle', id=salle[0]) }}">{{ salle[3] }} +</a></p>
+        <p><strong>Nom de la salle:</strong>  <a href="{{ url_for('salle', id=salle[0]) }}">{{ salle[3] }}</a></p>
         <p><strong>Description:</strong>  {{ concert[6] }}</p>
         <p><strong>Logement de l'artiste:</strong>  {% if logement != none %}<a href="{{ url_for('logement', id_logement=logement[0]) }}">{{ logement[1] }}</a> ({{ logement[2] }} nuit{% if logement[2] > 1 %}s{% endif %}) {% else %} pas de logement associé {% endif %}</p>
         <p><strong>Matériel:</strong> 

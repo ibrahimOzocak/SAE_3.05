@@ -1,9 +1,8 @@
 from flask import redirect, render_template, request, url_for, make_response, Markup
 import folium
-from .app import app, db
+from .app import app
 import datetime
 from . import models as mo
-import requests
 import json
 from google.oauth2 import service_account
 import googleapiclient.discovery
@@ -17,7 +16,6 @@ HEURES_DECALAGE_1 = [
     21, 22, 23
 ]
 HEURES_DECALAGE_2 = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22]
-referer = None
 
 # accueil
 @app.route('/')
@@ -106,6 +104,7 @@ def save_concert():
         mo.add_logement_artiste(id, logement_artiste, nuit)
     return redirect(url_for('concert', id=id))
 
+
 @app.route('/concert/<id>')
 def concert(id):
     """page pour le concert <id>"""
@@ -122,7 +121,7 @@ def concert(id):
     if la_salle != None:
         address = la_salle[8]
         try:
-            coor = getCoordonnee(address)
+            coor = mo.getCoordonnee(address)
             if coor is not None:
                 coordinates = (coor[0], coor[2])
                 if coordinates:
@@ -227,7 +226,7 @@ def salle(id):
     # Gérez le cas où les coordonnées ne sont pas disponibles
     map_path = None
     try:
-        coor = getCoordonnee(address)
+        coor = mo.getCoordonnee(address)
         if coor is not None:
             # Obtenez les coordonnées réelles en fonction de l'adresse
             coordinates = (coor[0], coor[2])
@@ -449,7 +448,7 @@ def save_artiste_to_rider():
             mo.save_style_musique(id, style)
         styles_id.append(id)
 
-    # changement des dates en datetime
+    # changement des dates str en datetime
     informations[4] = datetime.datetime.strptime(informations[4], '%d/%m/%Y')
     informations[10] = datetime.datetime.strptime(informations[10], '%d/%m/%Y')
     informations[11] = datetime.datetime.strptime(informations[11], '%d/%m/%Y')
@@ -481,7 +480,7 @@ def logement(id_logement):
     # Obtenez les coordonnées réelles en fonction de l'adresse
     map_path = None
     try:
-        coor = getCoordonnee(address)
+        coor = mo.getCoordonnee(address)
         if coor is not None:
             coordinates = (coor[0], coor[2])
             # Vérifiez si les coordonnées sont disponibles
@@ -745,6 +744,8 @@ def save_style_musique():
     mo.save_style_musique(id_style_musique, nom_style_musique)
     return redirect(url_for('accueil'))
 
+
+# couts
 @app.route('/couts/<id_concert>')
 def couts(id_concert):
     """page des couts"""
@@ -762,7 +763,7 @@ def modifier_couts(id):
     return redirect(url_for('concert', id=id))
 
 
-# autres
+# rider
 def generate_pdf_file(file_path, title, content):
     """Générer un fichier PDF"""
     # Créer le fichier PDF
@@ -848,12 +849,14 @@ def fiche_rider():
     return render_template('fiche_rider.html', b=base, info=informations)
 
 
+# plan feu
 @app.route('/plan_feu')
 def plan_feu():
     """page du plan feu"""
     return render_template('plan_feu.html')
 
 
+# autres
 @app.template_filter('str')
 def string_filter(value):
     """filtre pour transformer une valeur en chaine de caractères"""
@@ -867,32 +870,6 @@ def byte_to_image(byte, id="", classe=""):
         return Markup(f'<img id="{id}" class="img_acc {classe}"  src="static/images/aucune_image.png" alt="img">')
     image_base64 = base64.b64encode(byte).decode('utf-8')
     return Markup(f'<img id="{id}" class="img_acc {classe}" src="data:image/png;base64,{image_base64}" alt="Image">')
-
-# à mettre ailleurs
-def getCoordonnee(address):
-    """Obtenir les coordonnées géographiques d'une adresse"""
-    try:
-        encoded_address = requests.utils.quote(address, safe='')
-        api_url = f'https://nominatim.openstreetmap.org/search?format=json&q={encoded_address}'
-        # Effectuer la requête HTTP
-        response = requests.get(api_url, timeout=5) # timeout=5 : attendre 5 secondes au maximum
-        response.raise_for_status()  # Vérifier s'il y a des erreurs HTTP
-        response_dict = json.loads(response.text)
-        for item in response_dict:
-            res = item['boundingbox']
-            return res
-    except requests.exceptions.Timeout as e:
-        print(f'Erreur de timeout : {e}')
-    except requests.exceptions.RequestException as e:
-        print(f'Erreur lors de la requête HTTP : {e}')
-
-
-def convert_date_format(date_str):
-    """Convertir une date de format JJ/MM/AAAA en format AAAA-MM-JJ"""
-    print(date_str)
-    date_obj = datetime.datetime.strptime(date_str, '%d/%m/%Y')
-    nouvelle_date_str = date_obj.strftime('%Y-%m-%d')
-    return nouvelle_date_str
 
 
 # Gestion des erreurs

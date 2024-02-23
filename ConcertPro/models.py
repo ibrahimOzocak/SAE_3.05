@@ -1,9 +1,8 @@
 import mysql.connector
-from PIL import Image
 import io
-from io import BytesIO
 import datetime
 import json
+import requests
 
 HEURES1 = [
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
@@ -268,27 +267,6 @@ def add_artiste_concert(id_concert, id_artiste):
     return None
 
 
-def get_equipement_concert(id_concert):
-    """Fonction permettant de récupérer les équipements d'un concert
-
-    Args:
-        id_concert (int): L'identifiant du concert
-
-    Returns:
-        list: Les équipements d'un concert
-    """
-    try:
-        cursor = get_cursor()
-        requete = "SELECT id_equipement,nom_equipement,quantite FROM Concert NATURAL JOIN Besoin_equipement_artiste NATURAL JOIN Equipement WHERE id_concert = %s;"
-        execute_query(cursor, requete, (id_concert,))
-        info = cursor.fetchall()
-        close_cursor(cursor)
-        return info
-    except Exception as e:
-        print(e.args)
-    return None
-
-
 def get_equipements_concert(id_concert):
     """Fonction permettant de récupérer les équipements d'un concert
 
@@ -301,19 +279,6 @@ def get_equipements_concert(id_concert):
     try:
         cursor = get_cursor()
         requete = "SELECT id_equipement,nom_equipement,quantite,quantite_posseder FROM Concert NATURAL JOIN Besoin_equipement_artiste NATURAL JOIN Equipement WHERE id_concert = %s;"
-        execute_query(cursor, requete, (id_concert, ))
-        info = cursor.fetchall()
-        close_cursor(cursor)
-        return info
-    except Exception as e:
-        print(e.args)
-    return None
-
-
-def get_id_quantite_equipements_concert(id_concert):
-    try:
-        cursor = get_cursor()
-        requete = "SELECT id_equipement, quantite FROM Concert NATURAL JOIN Besoin_equipement_artiste NATURAL JOIN Equipement WHERE id_concert = %s;"
         execute_query(cursor, requete, (id_concert, ))
         info = cursor.fetchall()
         close_cursor(cursor)
@@ -339,39 +304,6 @@ def get_tous_equipements_concert(id_concert):
         info = cursor.fetchall()
         close_cursor(cursor)
         return info
-    except Exception as e:
-        print(e.args)
-    return None
-
-
-def get_equipements_disponible(id_concert, id_salle):
-    """Fonction permettant de récupérer les équipements que l'on possede pour un concert
-
-    Args:
-        id_concert (int): L'identifiant du concert
-        id_salle (int): L'identifiant de la salle
-
-    Returns:
-        list: Les équipements que l'on possede pour un concert
-    """
-    equipements_concert = get_equipements_concert(id_concert)
-    try:
-        cursor = get_cursor()
-        requete = "SELECT id_equipement,nom_equipement,quantite FROM Salle NATURAL JOIN Posseder NATURAL JOIN Equipement WHERE id_salle = %s;"
-        execute_query(cursor, requete, (id_salle, ))
-        infos = cursor.fetchall()
-        close_cursor(cursor)
-        equipements = []
-        deja_vu = []
-        for e in infos:
-            if e[1] not in deja_vu:
-                equipements.append(e)
-                deja_vu.append(e[1])
-        for e in equipements_concert:
-            if e[1] not in deja_vu:
-                equipements.append(e)
-                deja_vu.append(e[1])
-        return equipements
     except Exception as e:
         print(e.args)
     return None
@@ -1262,44 +1194,6 @@ def save_artiste(id_artiste,
 
 
 # agenda
-def concerts_agenda1(heures, jour_voulu):
-    """renvoie un agenda des concerts de la semaine du jour voulu
-
-    Args:
-        heures (list): Les heures
-        jour_voulu (int): Le jour voulu
-
-    Returns:
-        dict: L'agenda des concerts de la semaine du jour voulu
-    """
-    agenda = {}
-    for i in range(1, 8):
-        agenda[i] = {}
-        for heure in heures:
-            agenda[i][heure] = []
-    date_deb_semaine = jour_voulu - datetime.timedelta(
-        days=jour_voulu.weekday())
-    date_fin_semaine = date_deb_semaine + datetime.timedelta(days=6)
-    for concert in concerts():
-        date_deb = concert[2]
-        date_fin = date_deb
-        duree = concert[3]
-        while date_deb.minute + duree > 59:
-            date_fin += datetime.timedelta(hours=1)
-            duree -= 60
-        date_fin = date_fin.replace(minute=date_deb.minute + duree)
-        if date_deb_semaine.date() <= date_deb.date() <= date_fin_semaine.date(
-        ):
-            a = agenda[date_deb.weekday() + 1]
-            hour = date_deb.hour
-            while hour not in a.keys():
-                hour -= 1
-            a[hour].append(concert[1])
-        elif date_deb_semaine <= date_fin <= date_fin_semaine:
-            pass
-    return agenda
-
-
 def concerts_agenda(heures=HEURES1, jour=JOUR_VOULU):
     """renvoie un agenda des concerts de la semaine du jour voulu"""
     #initialisation de l'agenda
@@ -1473,35 +1367,6 @@ def remove_equipement(id):
         print(e.args)
 
 
-def categoriser_equipements1(id_concert):
-    """Fonction permettant de trier les équipements d'un concert selon si on les possède ou non
-
-    Args:
-        id_concert (int): L'identifiant du concert
-
-    Returns:
-        _type_: _description_
-    """
-    try:
-        cursor = get_cursor()
-        requete = "SELECT id_equipement, nom_equipement, quantite, quantite_posseder FROM Concert NATURAL JOIN Besoin_equipement_artiste NATURAL JOIN Equipement WHERE id_concert = %s;"
-        execute_query(cursor, requete, (id_concert,))
-        equipements = cursor.fetchall()
-        close_cursor(cursor)
-        possedes = [
-            equipement for equipement in equipements
-            if equipement[3] >= equipement[2]
-        ]
-        non_possedes = [
-            equipement for equipement in equipements
-            if equipement[3] < equipement[2]
-        ]
-        return possedes, non_possedes
-    except Exception as e:
-        print(e.args)
-        return None, None
-
-
 def categoriser_equipements(id_concert):
     """Fonction permettant de trier les équipements d'un concert selon si on les possède
 
@@ -1657,28 +1522,6 @@ def save_type_salle(id_type, type_place_s):
         print(e.args)
 
 
-def get_id_type_salle(nom):
-    """Fonction permettant de récupérer l'identifiant d'un type de salle
-
-    Args:
-        nom (str): Le nom du type de salle
-
-    """
-    try:
-        cursor = get_cursor()
-        request = "SELECT id_type FROM Type_Salle where type_place_s= %s"
-        cursor.execute(request, (nom, ))
-        info = cursor.fetchall()
-        close_cursor(cursor)
-        if info == []:
-            # à la place rajouter le type dans la base de données
-            return 1
-        return info[0][0]
-    except Exception as e:
-        print(e.args)
-    return None
-
-
 def get_id_type_salle_max():
     """Fonction permettant de récupérer l'identifiant du type de salle le plus grand
 
@@ -1751,3 +1594,21 @@ def save_image(photo):
     except Exception as e:
         print(e.args)
     return None
+
+
+def getCoordonnee(address):
+    """Obtenir les coordonnées géographiques d'une adresse"""
+    try:
+        encoded_address = requests.utils.quote(address, safe='')
+        api_url = f'https://nominatim.openstreetmap.org/search?format=json&q={encoded_address}'
+        # Effectuer la requête HTTP
+        response = requests.get(api_url, timeout=5) # timeout=5 : attendre 5 secondes au maximum
+        response.raise_for_status()  # Vérifier s'il y a des erreurs HTTP
+        response_dict = json.loads(response.text)
+        for item in response_dict:
+            res = item['boundingbox']
+            return res
+    except requests.exceptions.Timeout as e:
+        print(f'Erreur de timeout : {e}')
+    except requests.exceptions.RequestException as e:
+        print(f'Erreur lors de la requête HTTP : {e}')
