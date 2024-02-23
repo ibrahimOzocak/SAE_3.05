@@ -1,0 +1,38 @@
+body{
+    background-color: #121212;
+
+}
+
+.conteneur{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-top: 50px;
+}
+
+.sous-conteneur{
+    border: 0.1em solid white;
+    padding: 1em 5em;
+}
+
+.under p{
+    color: white;
+    text-decoration: none;
+    text-decoration: underline;
+}
+
+.sous-conteneur:hover{
+    background-color: #1f1f1f;
+    transition: 0.5s;
+}
+
+.sous-conteneur .under:hover p{
+    color: #1ED760;
+    transition: color 0.5s;
+}
+
+.no-result{
+    font-size: 2em;
+}

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/voir_equipement.css')}}"> 
+<link rel="stylesheet" href="{{ url_for('static', filename='css/boutonPlus.css')}}"> 
+{% endblock %}
+{% block content %}
+<div class="conteneur">
+    {% for equipement in equipements %}
+        <div class="sous-conteneur">
+            <a href="{{ url_for('equipement', id_equipement=equipement[0]) }}">
+                <p class="name">{{ equipement[1] }}</p>
+            </a>
+        </div>
+    {% endfor %}
+    {% if equipements|length == 0 %}
+    <div>
+        <p class="no-result aucun">Aucun équipement n'a été trouvé</p>
+    </div>
+    {% endif %}
+</div>
+<a href="{{ url_for('ajout_equipement') }}"><img class="plus" src = "{{ url_for('static', filename='images/plus.png')}}" alt="image"></a>
+{% endblock %}

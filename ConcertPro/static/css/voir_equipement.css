@@ -1,0 +1,38 @@
+body{
+    color: white;
+    background-color: #121212;
+}
+
+.conteneur {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1.5em;
+    justify-content: space-evenly;
+}
+
+.sous-conteneur{
+    background-color: #242424;
+    overflow: hidden;
+    padding: 1em 3em;
+    margin: 0.5em;
+    box-shadow: 0 0 0.5em rgba(0, 0, 0, 0.9);
+}
+
+.name{
+    opacity: 0.8;
+    font-weight: bold;
+    transition: transform 0.5s, opacity 0.5s;
+}
+
+.name:hover{
+    opacity: 1;
+    transform: scale(1.08);
+}
+
+p{
+    color: white;
+    opacity: 0.8;
+    font-size: 200%;
+}
+
+
