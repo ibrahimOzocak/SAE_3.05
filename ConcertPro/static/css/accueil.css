@@ -64,6 +64,15 @@ th, td {
     font-weight: normal;
 }
 
+td a {
+    color: white;
+}
+
+td a:hover {
+    color: gray;
+    transition: all 0.3s ease-in-out;
+}
+
 .prochain{
     color: rgb(134, 255, 170);
     font-weight: normal;
