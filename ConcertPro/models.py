@@ -17,6 +17,7 @@ db = mysql.connector.connect(host="servinfo-maria",
                              database="DBsevellec")
 
 
+# Fonctions utiles pour les templates
 def get_cursor():
     return db.cursor()
 
@@ -39,6 +40,7 @@ def execute_query(cursor, query, params=None):
         cursor.execute(query)
 
 
+# concert
 def save_concert(id, nom_concert, date_heure_concert, duree_concert,
                  id_artiste, id_salle, description_concert, photo):
     """Fonction permettant de sauvegarder un concert dans la base de données
@@ -64,8 +66,409 @@ def save_concert(id, nom_concert, date_heure_concert, duree_concert,
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
+
+
+def get_concert(id):
+    """Fonction permettant de récupérer un concert dans la base de données
+
+    Args:
+        id (int): L'identifiant du concert
+
+    """
+    try:
+        cursor = get_cursor()
+        requete = "SELECT * FROM Concert where id_concert= %s"
+        cursor.execute(requete, (id, ))
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        return info[0]
+    except Exception as e:
+        print(e.args)
+    return None
+    
+
+def prochains_concerts():
+    """Fonction permettant de récupérer les prochains concerts
+
+    Returns:
+        list: Les prochains concerts
+    """
+    try:
+        cursor = get_cursor()
+        req1 = (
+            "SELECT * FROM Concert "
+            "WHERE date_heure_concert >= NOW() "
+            "ORDER BY date_heure_concert ASC;"
+        )
+        execute_query(cursor, req1)
+        infos = cursor.fetchall()
+        close_cursor(cursor)
+        return infos
+    except Exception as e:
+        print(e.args)
+        return []
+       
+
+def historique_concert():
+    """Fonction permettant de récupérer les concerts passés
+
+    Returns:
+        List: Les concerts passés
+    """
+    list_historique_concerts = []
+    try:
+        cursor = get_cursor()
+        requete = "SELECT * FROM Concert where date_heure_concert < NOW() ORDER BY date_heure_concert ASC;"
+        cursor.execute(requete)
+        info = cursor.fetchall()
+        for i in info:
+            list_historique_concerts.append(i)
+        close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+    return list_historique_concerts
+
+
+def concerts():
+    """Fonction permettant de récupérer tout les concerts
+
+    Returns:
+        list: Tout les concerts
+    """
+    les_concerts = []
+    try:
+        cursor = get_cursor()
+        requete = "SELECT * FROM Concert"
+        cursor.execute(requete)
+        info = cursor.fetchall()
+        for i in info:
+            les_concerts.append(i)
+        close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+    return les_concerts
+
+
+def get_id_concert_max():
+    """Fonction permettant de récupérer l'identifiant du concert le plus grand
+
+    Returns:
+        int: L'identifiant du concert le plus grand
+    """
+    try:
+        cursor = get_cursor()
+        requete = "SELECT MAX(id_concert) FROM Concert"
+        cursor.execute(requete)
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        val = info[0][0]
+        if val is not None:
+            return info[0][0]
+    except Exception as e:
+        print(e.args)
+    return 0
+
+
+def confirmer_modif_concert(id_concert, nom_concert, date_heure_concert,
+                            duree_concert, id_artiste, id_salle,
+                            description_concert, photo):
+    """Fonction permettant de confirmer la modification d'un concert
+
+    Args:
+        id_concert (int): L'identifiant du concert
+        nom_concert (str): Le nom du concert
+        date_heure_concert (str): La date et l'heure du concert
+        duree_concert (int): La durée du concert
+        id_artiste (int): L'identifiant de l'artiste
+        id_salle (int): L'identifiant de la salle
+        description_concert (str): La description du concert
+        photo (bytes): La photo du concert
+    """
+    try:
+        cursor = get_cursor()
+        if photo.filename != "":
+            requete = f"UPDATE Concert SET nom_concert = %s, date_heure_concert = %s, duree_concert = %s, id_artiste = %s, id_salle = %s, description_concert = %s, photo = %s WHERE id_concert = %s"
+            execute_query(
+                cursor, requete,
+                (nom_concert, date_heure_concert, duree_concert, id_artiste,
+                 id_salle, description_concert, save_image(photo), id_concert))
+        else:
+            requete = f"UPDATE Concert SET nom_concert = %s, date_heure_concert = %s, duree_concert = %s, id_artiste = %s, id_salle = %s, description_concert = %s WHERE id_concert = %s"
+            execute_query(
+                cursor, requete,
+                (nom_concert, date_heure_concert, duree_concert, id_artiste,
+                 id_salle, description_concert, id_concert))
+        db.commit()
+        close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+
+
+def remove_concert(id):
+    """Fonction permettant de supprimer un concert dans la base de données
+
+    Args:
+        id (int): L'identifiant du concert
+    """
+    try:
+        # suppression dans avoir
+        cursor = get_cursor()
+        req = "DELETE FROM Avoir where id_concert= %s"
+        cursor.execute(req, (id, ))
+        close_cursor(cursor)
+        # suppression dans besoin_equipement_artiste
+        cursor = get_cursor()
+        req = "DELETE FROM Besoin_equipement_artiste where id_concert= %s"
+        cursor.execute(req, (id, ))
+        close_cursor(cursor)
+        # suppression dans loger
+        cursor = get_cursor()
+        req = "DELETE FROM Loger where id_concert= %s"
+        cursor.execute(req, (id, ))
+        close_cursor(cursor)
+        # suppression dans participer
+        cursor = get_cursor()
+        req = "DELETE FROM Participer where id_concert= %s"
+        cursor.execute(req, (id, ))
+        close_cursor(cursor)
+        # suppression detailscouts
+        cursor = get_cursor()
+        req = "DELETE FROM DetailsCouts where id_concert= %s"
+        cursor.execute(req, (id, ))
+        close_cursor(cursor)
+        # suppression du concert
+        cursor = get_cursor()
+        req = "DELETE FROM Concert where id_concert= %s"
+        cursor.execute(req, (id, ))
+        db.commit()
+        close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+
+
+def add_artiste_concert(id_concert, id_artiste):
+    """Fonction permettant d'ajouter un artiste à un concert
+
+    Args:
+        id_concert (int): L'identifiant du concert
+        id_artiste (int): L'identifiant de l'artiste
+
+    """
+    try:
+        cursor = get_cursor()
+        requete = "INSERT INTO Participer (id_concert, id_artiste) VALUES(%s, %s)"
+        cursor.execute(requete, (
+            id_concert,
+            id_artiste,
+        ))
+        db.commit()
+        close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+    return None
+
+
+def get_equipement_concert(id_concert):
+    """Fonction permettant de récupérer les équipements d'un concert
+
+    Args:
+        id_concert (int): L'identifiant du concert
+
+    Returns:
+        list: Les équipements d'un concert
+    """
+    try:
+        cursor = get_cursor()
+        requete = "SELECT id_equipement,nom_equipement,quantite FROM Concert NATURAL JOIN Besoin_equipement_artiste NATURAL JOIN Equipement WHERE id_concert = %s;"
+        execute_query(cursor, requete, (id_concert,))
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        return info
+    except Exception as e:
+        print(e.args)
+    return None
+
+
+def get_equipements_concert(id_concert):
+    """Fonction permettant de récupérer les équipements d'un concert
+
+    Args:
+        id_concert (int): L'identifiant du concert
+
+    Returns:
+        list: Les équipements d'un concert
+    """
+    try:
+        cursor = get_cursor()
+        requete = "SELECT id_equipement,nom_equipement,quantite,quantite_posseder FROM Concert NATURAL JOIN Besoin_equipement_artiste NATURAL JOIN Equipement WHERE id_concert = %s;"
+        execute_query(cursor, requete, (id_concert, ))
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        return info
+    except Exception as e:
+        print(e.args)
+    return None
+
+
+def get_id_quantite_equipements_concert(id_concert):
+    try:
+        cursor = get_cursor()
+        requete = "SELECT id_equipement, quantite FROM Concert NATURAL JOIN Besoin_equipement_artiste NATURAL JOIN Equipement WHERE id_concert = %s;"
+        execute_query(cursor, requete, (id_concert, ))
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        return info
+    except Exception as e:
+        print(e.args)
+    return None
+
+
+def get_tous_equipements_concert(id_concert):
+    """Fonction permettant de récupérer tout les équipements necessaire d'un concert
+
+    Args:
+        id_concert (int): L'identifiant du concert
+
+    Returns:
+        list: Tout les équipements necessaire d'un concert
+    """
+    try:
+        cursor = get_cursor()
+        requete = "SELECT id_equipement, nom_equipement, IFNULL(quantite,0) FROM Equipement e NATURAL LEFT JOIN Concert NATURAL LEFT JOIN Besoin_equipement_artiste NATURAL LEFT JOIN Equipement WHERE id_concert = %s;"
+        execute_query(cursor, requete, (id_concert, ))
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        return info
+    except Exception as e:
+        print(e.args)
+    return None
+
+
+def get_equipements_disponible(id_concert, id_salle):
+    """Fonction permettant de récupérer les équipements que l'on possede pour un concert
+
+    Args:
+        id_concert (int): L'identifiant du concert
+        id_salle (int): L'identifiant de la salle
+
+    Returns:
+        list: Les équipements que l'on possede pour un concert
+    """
+    equipements_concert = get_equipements_concert(id_concert)
+    try:
+        cursor = get_cursor()
+        requete = "SELECT id_equipement,nom_equipement,quantite FROM Salle NATURAL JOIN Posseder NATURAL JOIN Equipement WHERE id_salle = %s;"
+        execute_query(cursor, requete, (id_salle, ))
+        infos = cursor.fetchall()
+        close_cursor(cursor)
+        equipements = []
+        deja_vu = []
+        for e in infos:
+            if e[1] not in deja_vu:
+                equipements.append(e)
+                deja_vu.append(e[1])
+        for e in equipements_concert:
+            if e[1] not in deja_vu:
+                equipements.append(e)
+                deja_vu.append(e[1])
+        return equipements
+    except Exception as e:
+        print(e.args)
+    return None
+
+
+def save_equipement_concert(id_concert, id_equipement, quantite):
+    """Fonction permettant de sauvegarder un équipement pour un concert dans la base de données
+
+    Args:
+        id_concert (int): L'identifiant du concert
+        id_equipement (int): L'identifiant de l'équipement
+        quantite (int): La quantité de l'équipement
+
+    """
+    try:
+        cursor = get_cursor()
+        requete = "UPDATE Besoin_equipement_artiste SET quantite_posseder = %s WHERE id_concert = %s and id_equipement = %s;"
+        execute_query(cursor, requete, (
+            quantite,
+            id_concert,
+            id_equipement,
+        ))
+        db.commit()
+        close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+
+
+def save_necessaire_concert(id_concert,
+                            id_equipement,
+                            quantite,
+                            ancienne_quantite=0):
+    """Fonction permettant de mettre a jour la quantite d'équipement pour un concert dans la base de données
+
+    Args:
+        id_concert (int): L'identifiant du concert
+        id_equipement (int): L'identifiant de l'équipement
+        quantite (int): La quantité de l'équipement
+        ancienne_quantite (int, optional): La quantite qu'il avait avant modification. Defaults to 0.
+
+    """
+    try:
+        if quantite == 0:
+            cursor = get_cursor()
+            requete = "DELETE FROM Besoin_equipement_artiste WHERE id_concert = %s and id_equipement = %s;"
+            execute_query(cursor, requete, (
+                id_concert,
+                id_equipement,
+            ))
+            db.commit()
+            close_cursor(cursor)
+        elif ancienne_quantite > 0:
+            cursor = get_cursor()
+            requete = "UPDATE Besoin_equipement_artiste SET quantite = %s WHERE id_concert = %s and id_equipement = %s;"
+            execute_query(cursor, requete, (
+                quantite,
+                id_concert,
+                id_equipement,
+            ))
+            db.commit()
+            close_cursor(cursor)
+        else:
+            cursor = get_cursor()
+            requete = "INSERT INTO Besoin_equipement_artiste (id_concert, id_equipement, quantite, quantite_posseder) VALUES(%s, %s, %s, %s)"
+            execute_query(cursor, requete, (
+                id_concert,
+                id_equipement,
+                quantite,
+                0,
+            ))
+            db.commit()
+            close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+
+
+def remove_participer(id_concert, id_artiste):
+    """Fonction permettant de supprimer un artiste d'un concert dans la base de données
+
+    Args:
+        id_concert (int): L'identifiant du concert
+        id_artiste (int): L'identifiant de l'artiste
+    """
+    try:
+        cursor = get_cursor()
+        req = "DELETE FROM Participer where id_concert= %s and id_artiste = %s"
+        cursor.execute(req, (
+            id_concert,
+            id_artiste,
+        ))
+        db.commit()
+        close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
         
 
+# couts
 def save_couts(id_concert, cout_materiels, cout_salles, cout_artiste, cout_logement, cout_autres):
     """Fonction permettant de sauvegarder les couts d'un concert dans la base de données
 
@@ -87,210 +490,6 @@ def save_couts(id_concert, cout_materiels, cout_salles, cout_artiste, cout_logem
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
-
-
-def save_salle(id, nom_salle, nb_places, profondeur_scene, longueur_scene,
-               telephone_salle, type_place, description_salle, photo,
-               adresse_salle, loge, acces_pmr):
-    """Fonction permettant de sauvegarder une salle dans la base de données
-
-    Args:
-        id (int): l'identifiant de la salle
-        nom_salle (str): le nom de la salle
-        nb_places (int): le nombre de places de la salle
-        profondeur_scene (int): la profondeur de la scene
-        longueur_scene (int): la longueur de la scene
-        telephone_salle (int): le telephone de la salle
-        type_place (str): le type de place de la salle
-        description_salle (str): la description de la salle
-        photo (bytes): la photo de la salle
-        adresse_salle (str): l'aadresse de la salle
-        loge (str): Loge ou pas
-        acces_pmr (str): Acces pmr ou pas
-    """
-    try:
-        cursor = get_cursor()
-        req = "INSERT INTO Salle (id_salle, id_type_salle, loge, nom_salle, nb_places, profondeur_scene, longueur_scene, description_salle,adresse_salle,telephone_salle, accueil_pmr, photo) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-        cursor.execute(
-            req, (id, type_place, loge, nom_salle, nb_places, profondeur_scene,
-                  longueur_scene, description_salle, adresse_salle,
-                  telephone_salle, acces_pmr, save_image(photo)))
-        db.commit()
-        close_cursor(cursor)
-    except Exception as e:
-        print(e.args)
-
-
-def save_logement(id, nom_etablissement, adresse_ville_codepostal, nb_etoile):
-    """Fonction permettant de sauvegarder un logement dans la base de données
-
-    Args:
-        id (int): L'identifiant du logement
-        nom_etablissement (str): Le nom de l'etablissement
-        adresse_ville_codepostal (str): L'adresse de l'etablissement
-        nb_etoile (int): Le nombre d'etoile de l'etablissement
-    """
-    try:
-        cursor = get_cursor()
-        req = "INSERT INTO Logement (id_logement, nom_etablissement, adresse_ville_codepostal, nb_etoile, photo) VALUES(%s, %s, %s, %s, %s)"
-        cursor.execute(
-            req,
-            (id, nom_etablissement, adresse_ville_codepostal, nb_etoile, None))
-        db.commit()
-        close_cursor(cursor)
-    except Exception as e:
-        print(e.args)
-
-
-def save_image(photo):
-    """Fonction permettant de sauvegarder une image dans la base de données
-
-    Args:
-        photo (bytes): La photo à sauvegarder"""
-
-    try:
-        if photo.filename != "":
-            photo.seek(0)
-            image_data = photo.read()
-            image_bytesio = io.BytesIO(image_data)
-            blob = image_bytesio.read()
-            return blob
-    except Exception as e:
-        print(e.args)
-    return None
-
-
-# fonctions utiles pour les templates
-def get_concert(id):
-    """Fonction permettant de récupérer un concert dans la base de données
-
-    Args:
-        id (int): L'identifiant du concert
-
-    """
-    try:
-        cursor = get_cursor()
-        requete = "SELECT * FROM Concert where id_concert= %s"
-        cursor.execute(requete, (id, ))
-        info = cursor.fetchall()
-        close_cursor(cursor)
-        return info[0]
-    except Exception as e:
-        print(e.args)
-    return None
-
-
-def get_salle(id):
-    """Fonction permettant de récupérer une salle dans la base de données
-
-    Args:
-        id (int): L'identifiant de la salle
-
-    """
-    try:
-        cursor = get_cursor()
-        request = "SELECT * FROM Salle WHERE id_salle = %s"
-        cursor.execute(request, (id, ))
-        info = cursor.fetchall()
-        close_cursor(cursor)
-        return info[0] if info else None
-    except Exception as e:
-        print(e.args)
-        return None
-
-
-def get_logement(id_logement):
-    """Fonction permettant de récupérer un logement dans la base de données
-
-    Args:
-        id_logement (int): L'identifiant du logement
-
-    """
-    try:
-        cursor = get_cursor()
-        request = "SELECT * FROM Logement where id_logement = %s"
-        cursor.execute(request, (id_logement, ))
-        info = cursor.fetchall()
-        close_cursor(cursor)
-        return info[0]
-    except Exception as e:
-        print(e.args)
-    return None
-
-
-def get_artiste(id):
-    """Fonction permettant de récupérer un artiste dans la base de données
-
-    Args:
-        id (int): L'identifiant de l'artiste
-
-    """
-    try:
-        cursor = get_cursor()
-        request = "SELECT * FROM Artiste where id_artiste= %s"
-        cursor.execute(request, (id, ))
-        info = cursor.fetchall()
-        close_cursor(cursor)
-        return info[0]
-    except Exception as e:
-        print(e.args)
-    return None
-
-
-def get_id_type_salle(nom):
-    """Fonction permettant de récupérer l'identifiant d'un type de salle
-
-    Args:
-        nom (str): Le nom du type de salle
-
-    """
-    try:
-        cursor = get_cursor()
-        request = "SELECT id_type FROM Type_Salle where type_place_s= %s"
-        cursor.execute(request, (nom, ))
-        info = cursor.fetchall()
-        close_cursor(cursor)
-        if info == []:
-            # à la place rajouter le type dans la base de données
-            return 1
-        return info[0][0]
-    except Exception as e:
-        print(e.args)
-    return None
-
-
-def styles_musique_artiste(id_artiste):
-    """Fonction permettant de récupérer les styles de musique d'un artiste
-
-    Args:
-        id_artiste (int): L'identifiant de l'artiste
-
-    """
-    try:
-        cursor = get_cursor()
-        request = "SELECT id_style_musique, nom_style_musique FROM Jouer NATURAL JOIN Style_musique WHERE id_artiste = %s"
-        cursor.execute(request, (id_artiste, ))
-        info = cursor.fetchall()
-        close_cursor(cursor)
-        return info
-    except Exception as e:
-        return []
-
-
-def styles_musisque():
-    """Fonction permettant de récupérer tout les styles de musique
-
-    """
-    try:
-        cursor = get_cursor()
-        request = "SELECT * FROM Style_musique"
-        cursor.execute(request)
-        info = cursor.fetchall()
-        close_cursor(cursor)
-        return info
-    except Exception as e:
-        print(e.args)
-    return None
 
 
 def couts(id_concert):
@@ -348,66 +547,79 @@ def somme_couts(id_concert):
     except Exception as e:
         print(e.args)
     return None
-    
-def prochains_concerts():
-    """Fonction permettant de récupérer les prochains concerts
 
-    Returns:
-        list: Les prochains concerts
+
+# salle
+def save_salle(id, nom_salle, nb_places, profondeur_scene, longueur_scene,
+               telephone_salle, type_place, description_salle, photo,
+               adresse_salle, loge, acces_pmr):
+    """Fonction permettant de sauvegarder une salle dans la base de données
+
+    Args:
+        id (int): l'identifiant de la salle
+        nom_salle (str): le nom de la salle
+        nb_places (int): le nombre de places de la salle
+        profondeur_scene (int): la profondeur de la scene
+        longueur_scene (int): la longueur de la scene
+        telephone_salle (int): le telephone de la salle
+        type_place (str): le type de place de la salle
+        description_salle (str): la description de la salle
+        photo (bytes): la photo de la salle
+        adresse_salle (str): l'aadresse de la salle
+        loge (str): Loge ou pas
+        acces_pmr (str): Acces pmr ou pas
     """
     try:
         cursor = get_cursor()
-        req1 = (
-            "SELECT * FROM Concert "
-            "WHERE date_heure_concert >= NOW() "
-            "ORDER BY date_heure_concert ASC;"
-        )
-        execute_query(cursor, req1)
-        infos = cursor.fetchall()
+        req = "INSERT INTO Salle (id_salle, id_type_salle, loge, nom_salle, nb_places, profondeur_scene, longueur_scene, description_salle,adresse_salle,telephone_salle, accueil_pmr, photo) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        cursor.execute(
+            req, (id, type_place, loge, nom_salle, nb_places, profondeur_scene,
+                  longueur_scene, description_salle, adresse_salle,
+                  telephone_salle, acces_pmr, save_image(photo)))
+        db.commit()
         close_cursor(cursor)
-        return infos
     except Exception as e:
         print(e.args)
-        return []
-       
-def historique_concert():
-    """Fonction permettant de récupérer les concerts passés
 
-    Returns:
-        List: Les concerts passés
+
+def get_salle(id):
+    """Fonction permettant de récupérer une salle dans la base de données
+
+    Args:
+        id (int): L'identifiant de la salle
+
     """
-    list_historique_concerts = []
     try:
         cursor = get_cursor()
-        requete = "SELECT * FROM Concert where date_heure_concert < NOW() ORDER BY date_heure_concert ASC;"
-        cursor.execute(requete)
+        request = "SELECT * FROM Salle WHERE id_salle = %s"
+        cursor.execute(request, (id, ))
         info = cursor.fetchall()
-        for i in info:
-            list_historique_concerts.append(i)
         close_cursor(cursor)
+        return info[0] if info else None
     except Exception as e:
         print(e.args)
-    return list_historique_concerts
+        return None
 
 
-def concerts():
-    """Fonction permettant de récupérer tout les concerts
+def get_type_salle(id_salle):
+    """Fonction permettant de récupérer le type d'une salle
+
+    Args:
+        id_salle (int): L'identifiant de la salle
 
     Returns:
-        list: Tout les concerts
+        list: Le type d'une salle
     """
-    les_concerts = []
     try:
         cursor = get_cursor()
-        requete = "SELECT * FROM Concert"
-        cursor.execute(requete)
+        requete = "SELECT id_type, type_place_s FROM Type_Salle JOIN Salle ON Salle.id_type_salle = Type_Salle.id_type WHERE id_salle = %s;"
+        execute_query(cursor, requete, (id_salle, ))
         info = cursor.fetchall()
-        for i in info:
-            les_concerts.append(i)
         close_cursor(cursor)
+        return info[0]
     except Exception as e:
         print(e.args)
-    return les_concerts
+    return None
 
 
 def salles():
@@ -430,22 +642,216 @@ def salles():
     return list_salles
 
 
-def artistes():
-    """Fonction permettant de récupérer tout les artistes
+def get_id_salle_max():
+    """Fonction permettant de récupérer l'identifiant de la salle le plus grand
 
     Returns:
-        List: Tout les artistes
+        int : L'identifiant de la salle le plus grand
     """
     try:
         cursor = get_cursor()
-        requete = "SELECT * FROM Artiste"
+        requete = "SELECT MAX(id_salle) FROM Salle"
         cursor.execute(requete)
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        val = info[0][0]
+        if val is not None:
+            return info[0][0]
+    except Exception as e:
+        print(e.args)
+    return 0
+
+
+def confirmer_modif_salle(id_salle, nom, description, loge, nombre_place,
+                          adresse, telephone, profondeur_scene, longueur_scene,
+                          photo, id_type_salle, acces_pmr):
+    """Fonction permettant de confirmer la modification d'un artiste
+
+    Args:
+        id_salle (int): L'identifiant de la salle
+        nom (str): Le nom de la salle
+        description (str): La description de la salle
+        loge (str): Loge ou pas
+        nombre_place (int): Le nombre de place de la salle
+        adresse (str): L'adresse de la salle
+        telephone (int): Le telephone de la salle
+        profondeur_scene (int): La profondeur de la scene
+        longueur_scene (int): La longueur de la scene
+        photo (bytes): La photo de la salle
+        acces_pmr (str): Acces pmr ou pas
+
+    """
+    try:
+        cursor = get_cursor()
+        if photo.filename != "":
+            requete = """
+                UPDATE Salle SET
+                nom_salle = %s,
+                description_salle = %s,
+                loge = %s,
+                nb_places = %s,
+                adresse_salle = %s,
+                telephone_salle = %s,
+                profondeur_scene = %s,
+                longueur_scene = %s,
+                photo = %s,
+                accueil_pmr = %s,
+                id_type_salle = %s
+                WHERE id_salle = %s;
+            """
+            params = (nom, description, loge, nombre_place, adresse,
+                      telephone, profondeur_scene, longueur_scene,
+                      save_image(photo), acces_pmr, id_type_salle, id_salle)
+            print(save_image(photo))
+        else:
+            requete = """
+                UPDATE Salle SET
+                nom_salle = %s,
+                description_salle = %s,
+                loge = %s,
+                nb_places = %s,
+                adresse_salle = %s,
+                telephone_salle = %s,
+                profondeur_scene = %s,
+                longueur_scene = %s,
+                id_type_salle = %s,
+                accueil_pmr = %s
+                WHERE id_salle = %s;
+            """
+            params = (nom, description, loge, nombre_place, adresse, telephone,
+                      profondeur_scene, longueur_scene, id_type_salle,
+                      acces_pmr, id_salle)
+        execute_query(cursor, requete, params)
+        db.commit()
+        close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+
+
+def remove_salle(id):
+    """Fonction permettant de supprimer une salle dans la base de données
+
+    Args:
+        id (int): L'identifiant de la salle
+    """
+    try:
+        cursor = get_cursor()
+        req = "DELETE FROM Salle where id_salle= %s"
+        cursor.execute(req, (id, ))
+        db.commit()
+        close_cursor(cursor)
+        return True
+    except Exception as e:
+        return False
+
+
+def get_equipement_salle(id_salle):
+    """Fonction permettant de récupérer les équipements d'une salle
+
+    Args:
+        id_salle (int): L'identifiant de la salle
+
+    Returns:
+        list: Les équipements d'une salle
+    """
+    try:
+        cursor = get_cursor()
+        requete = "SELECT id_equipement,nom_equipement,quantite FROM Posseder NATURAL JOIN Equipement WHERE id_salle = %s;"
+        execute_query(cursor, requete, (id_salle, ))
         info = cursor.fetchall()
         close_cursor(cursor)
         return info
     except Exception as e:
         print(e.args)
-    return []
+    return None
+
+
+def save_equipement_salle(id_salle,
+                          id_equipement,
+                          quantite,
+                          ancienne_quantite=0):
+    """Fonction permettant de mettre a jour la quantite d'équipement pour une salle dans la base de données
+
+    Args:
+        id_salle (int): L'identifiant de la salle
+        id_equipement (int): L'identifiant de l'équipement
+        quantite (int): La quantité de l'équipement
+        ancienne_quantite (int, optional): La quantite qu'il avait avant modification . Defaults to 0.
+
+    """
+    try:
+        if quantite == 0:
+            cursor = get_cursor()
+            requete = "DELETE FROM Posseder WHERE id_salle = %s and id_equipement = %s;"
+            execute_query(cursor, requete, (
+                id_salle,
+                id_equipement,
+            ))
+            db.commit()
+            close_cursor(cursor)
+        elif ancienne_quantite > 0:
+            cursor = get_cursor()
+            requete = "UPDATE Posseder SET quantite = %s WHERE id_salle = %s and id_equipement = %s;"
+            execute_query(cursor, requete, (
+                quantite,
+                id_salle,
+                id_equipement,
+            ))
+            db.commit()
+            close_cursor(cursor)
+        else:
+            cursor = get_cursor()
+            requete = "INSERT INTO Posseder (id_salle, id_equipement, quantite) VALUES(%s, %s, %s)"
+            execute_query(cursor, requete, (
+                id_salle,
+                id_equipement,
+                quantite,
+            ))
+            db.commit()
+            close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+
+
+# logement
+def save_logement(id, nom_etablissement, adresse_ville_codepostal, nb_etoile):
+    """Fonction permettant de sauvegarder un logement dans la base de données
+
+    Args:
+        id (int): L'identifiant du logement
+        nom_etablissement (str): Le nom de l'etablissement
+        adresse_ville_codepostal (str): L'adresse de l'etablissement
+        nb_etoile (int): Le nombre d'etoile de l'etablissement
+    """
+    try:
+        cursor = get_cursor()
+        req = "INSERT INTO Logement (id_logement, nom_etablissement, adresse_ville_codepostal, nb_etoile, photo) VALUES(%s, %s, %s, %s, %s)"
+        cursor.execute(
+            req,
+            (id, nom_etablissement, adresse_ville_codepostal, nb_etoile, None))
+        db.commit()
+        close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+
+
+def get_logement(id_logement):
+    """Fonction permettant de récupérer un logement dans la base de données
+
+    Args:
+        id_logement (int): L'identifiant du logement
+
+    """
+    try:
+        cursor = get_cursor()
+        request = "SELECT * FROM Logement where id_logement = %s"
+        cursor.execute(request, (id_logement, ))
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        return info[0]
+    except Exception as e:
+        print(e.args)
+    return None
 
 
 def logements():
@@ -468,66 +874,6 @@ def logements():
     return les_logements
 
 
-def get_id_concert_max():
-    """Fonction permettant de récupérer l'identifiant du concert le plus grand
-
-    Returns:
-        int: L'identifiant du concert le plus grand
-    """
-    try:
-        cursor = get_cursor()
-        requete = "SELECT MAX(id_concert) FROM Concert"
-        cursor.execute(requete)
-        info = cursor.fetchall()
-        close_cursor(cursor)
-        val = info[0][0]
-        if val is not None:
-            return info[0][0]
-    except Exception as e:
-        print(e.args)
-    return 0
-
-
-def get_id_artiste_max():
-    """Fonction permettant de récupérer l'identifiant de l'artiste le plus grand
-
-    Returns:
-        int: L'identifiant de l'artiste le plus grand
-    """
-    try:
-        cursor = get_cursor()
-        requete = "SELECT MAX(id_artiste) FROM Artiste"
-        cursor.execute(requete)
-        info = cursor.fetchall()
-        close_cursor(cursor)
-        val = info[0][0]
-        if val is not None:
-            return info[0][0]
-    except Exception as e:
-        print(e.args)
-    return 0
-
-
-def get_id_salle_max():
-    """Fonction permettant de récupérer l'identifiant de la salle le plus grand
-
-    Returns:
-        int : L'identifiant de la salle le plus grand
-    """
-    try:
-        cursor = get_cursor()
-        requete = "SELECT MAX(id_salle) FROM Salle"
-        cursor.execute(requete)
-        info = cursor.fetchall()
-        close_cursor(cursor)
-        val = info[0][0]
-        if val is not None:
-            return info[0][0]
-    except Exception as e:
-        print(e.args)
-    return 0
-
-
 def get_id_logement_max():
     """Fonction permettant de récupérer l'identifiant du logement le plus grand
 
@@ -548,79 +894,181 @@ def get_id_logement_max():
     return 0
 
 
-def get_id_equipement_max():
-    """Fonction permettant de récupérer l'identifiant de l'équipement le plus grand
-
-    Returns:
-        int: L'identifiant de l'équipement le plus grand
-    """
-    try:
-        cursor = get_cursor()
-        requete = "SELECT MAX(id_equipement) FROM Equipement"
-        cursor.execute(requete)
-        info = cursor.fetchall()
-        close_cursor(cursor)
-        val = info[0][0]
-        if val is not None:
-            return info[0][0]
-    except Exception as e:
-        print(e.args)
-    return 0
-
-
-def get_id_type_salle_max():
-    """Fonction permettant de récupérer l'identifiant du type de salle le plus grand
-
-    Returns:
-        int: L'identifiant du type de salle le plus grand
-    """
-    try:
-        cursor = get_cursor()
-        requete = "SELECT MAX(id_type) FROM Type_Salle"
-        cursor.execute(requete)
-        info = cursor.fetchall()
-        close_cursor(cursor)
-        val = info[0][0]
-        if val is not None:
-            return info[0][0]
-    except Exception as e:
-        print(e.args)
-    return 0
-
-
-def confirmer_modif_concert(id_concert, nom_concert, date_heure_concert,
-                            duree_concert, id_artiste, id_salle,
-                            description_concert, photo):
-    """Fonction permettant de confirmer la modification d'un concert
+def confirmer_modif_logement(id_logement, nom_etablissement, adresse,
+                             nb_etoile):
+    """Fonction permettant de confirmer la modification d'un logement
 
     Args:
-        id_concert (int): L'identifiant du concert
-        nom_concert (str): Le nom du concert
-        date_heure_concert (str): La date et l'heure du concert
-        duree_concert (int): La durée du concert
-        id_artiste (int): L'identifiant de l'artiste
-        id_salle (int): L'identifiant de la salle
-        description_concert (str): La description du concert
-        photo (bytes): La photo du concert
+        id_logement (int): L'identifiant du logement
+        nom_etablissement (str): Le nom de l'etablissement
+        adresse (str): L'adresse de l'etablissement
+        nb_etoile (int): Le nombre d'etoile de l'etablissement
+
     """
     try:
         cursor = get_cursor()
-        if photo.filename != "":
-            requete = f"UPDATE Concert SET nom_concert = %s, date_heure_concert = %s, duree_concert = %s, id_artiste = %s, id_salle = %s, description_concert = %s, photo = %s WHERE id_concert = %s"
-            execute_query(
-                cursor, requete,
-                (nom_concert, date_heure_concert, duree_concert, id_artiste,
-                 id_salle, description_concert, save_image(photo), id_concert))
-        else:
-            requete = f"UPDATE Concert SET nom_concert = %s, date_heure_concert = %s, duree_concert = %s, id_artiste = %s, id_salle = %s, description_concert = %s WHERE id_concert = %s"
-            execute_query(
-                cursor, requete,
-                (nom_concert, date_heure_concert, duree_concert, id_artiste,
-                 id_salle, description_concert, id_concert))
+        requete = f"UPDATE Logement SET nom_etablissement = %s,adresse_ville_codepostal = %s,nb_etoile = %s WHERE id_logement = %s"
+        execute_query(cursor, requete, (nom_etablissement, adresse, nb_etoile,
+                                        id_logement))
         db.commit()
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
+
+
+def remove_logement(id_logement):
+    """Fonction permettant de supprimer un logement dans la base de données
+
+    Args:
+        id_logement (int): L'identifiant du logement
+    """
+    try:
+        cursor = get_cursor()
+        req = "DELETE FROM Logement where id_logement= %s"
+        cursor.execute(req, (id_logement, ))
+        db.commit()
+        close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+
+
+def get_logement_artiste(id_concert):
+    """Fonction permettant de récupérer le logement d'un artiste pour un concert
+
+    Args:
+        id_concert (int): L'identifiant du concert
+
+    Returns:
+        list: Le logement d'un artiste pour un concert
+    """
+    try:
+        cursor = get_cursor()
+        requete = "SELECT id_logement, nom_etablissement, nb_nuit FROM Logement NATURAL JOIN Loger WHERE id_concert=%s;"
+        execute_query(cursor, requete, (id_concert,))
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        if info == []:
+            return None
+        return info[0]
+    except Exception as e:
+        print(e.args)
+    return None
+
+
+def supprimer_logement_artiste(id_concert):
+    """Fonction permettant de supprimer le logement d'un artiste pour un concert
+
+    Args:
+        id_concert (int): L'identifiant du concert
+
+    """
+    try:
+        cursor = get_cursor()
+        requete = "DELETE FROM Loger WHERE id_concert=%s;"
+        execute_query(cursor, requete, (id_concert,))
+        db.commit()
+        close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+
+
+def add_logement_artiste(id_concert, id_logement, nb_nuit):
+    """Fonction permettant d'ajouter un logement pour un artiste pour un concert
+
+    Args:
+        id_concert (int): L'identifiant du concert
+        id_logement (int): L'identifiant du logement
+        nb_nuit (int): Le nombre de nuit
+
+    """
+    try:
+        cursor = get_cursor()
+        requete = "INSERT INTO Loger (id_concert, id_logement, nb_nuit) VALUES(%s, %s, %s)"
+        execute_query(cursor, requete, (
+            id_concert,
+            id_logement,
+            nb_nuit,
+        ))
+        db.commit()
+        close_cursor(cursor)
+    except Exception as e:
+        print(e.args)
+
+
+# artiste
+def get_artiste(id):
+    """Fonction permettant de récupérer un artiste dans la base de données
+
+    Args:
+        id (int): L'identifiant de l'artiste
+
+    """
+    try:
+        cursor = get_cursor()
+        request = "SELECT * FROM Artiste where id_artiste= %s"
+        cursor.execute(request, (id, ))
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        return info[0]
+    except Exception as e:
+        print(e.args)
+    return None
+
+
+def styles_musique_artiste(id_artiste):
+    """Fonction permettant de récupérer les styles de musique d'un artiste
+
+    Args:
+        id_artiste (int): L'identifiant de l'artiste
+
+    """
+    try:
+        cursor = get_cursor()
+        request = "SELECT id_style_musique, nom_style_musique FROM Jouer NATURAL JOIN Style_musique WHERE id_artiste = %s"
+        cursor.execute(request, (id_artiste, ))
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        return info
+    except Exception as e:
+        return []
+
+
+def artistes():
+    """Fonction permettant de récupérer tout les artistes
+
+    Returns:
+        List: Tout les artistes
+    """
+    try:
+        cursor = get_cursor()
+        requete = "SELECT * FROM Artiste"
+        cursor.execute(requete)
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        return info
+    except Exception as e:
+        print(e.args)
+    return []
+
+
+def get_id_artiste_max():
+    """Fonction permettant de récupérer l'identifiant de l'artiste le plus grand
+
+    Returns:
+        int: L'identifiant de l'artiste le plus grand
+    """
+    try:
+        cursor = get_cursor()
+        requete = "SELECT MAX(id_artiste) FROM Artiste"
+        cursor.execute(requete)
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        val = info[0][0]
+        if val is not None:
+            return info[0][0]
+    except Exception as e:
+        print(e.args)
+    return 0
 
 
 def confirmer_modif_artiste(id_artiste, nom_artiste, prenom_artiste,
@@ -703,189 +1151,6 @@ def confirmer_modif_artiste(id_artiste, nom_artiste, prenom_artiste,
         print(e.args)
 
 
-def confirmer_modif_salle(id_salle, nom, description, loge, nombre_place,
-                          adresse, telephone, profondeur_scene, longueur_scene,
-                          photo, id_type_salle, acces_pmr):
-    """Fonction permettant de confirmer la modification d'un artiste
-
-    Args:
-        id_salle (int): L'identifiant de la salle
-        nom (str): Le nom de la salle
-        description (str): La description de la salle
-        loge (str): Loge ou pas
-        nombre_place (int): Le nombre de place de la salle
-        adresse (str): L'adresse de la salle
-        telephone (int): Le telephone de la salle
-        profondeur_scene (int): La profondeur de la scene
-        longueur_scene (int): La longueur de la scene
-        photo (bytes): La photo de la salle
-        acces_pmr (str): Acces pmr ou pas
-
-    """
-    try:
-        cursor = get_cursor()
-        if photo.filename != "":
-            requete = """
-                UPDATE Salle SET
-                nom_salle = %s,
-                description_salle = %s,
-                loge = %s,
-                nb_places = %s,
-                adresse_salle = %s,
-                telephone_salle = %s,
-                profondeur_scene = %s,
-                longueur_scene = %s,
-                photo = %s,
-                accueil_pmr = %s,
-                id_type_salle = %s
-                WHERE id_salle = %s;
-            """
-            params = (nom, description, loge, nombre_place, adresse,
-                      telephone, profondeur_scene, longueur_scene,
-                      save_image(photo), acces_pmr, id_type_salle, id_salle)
-            print(save_image(photo))
-        else:
-            requete = """
-                UPDATE Salle SET
-                nom_salle = %s,
-                description_salle = %s,
-                loge = %s,
-                nb_places = %s,
-                adresse_salle = %s,
-                telephone_salle = %s,
-                profondeur_scene = %s,
-                longueur_scene = %s,
-                id_type_salle = %s,
-                accueil_pmr = %s
-                WHERE id_salle = %s;
-            """
-            params = (nom, description, loge, nombre_place, adresse, telephone,
-                      profondeur_scene, longueur_scene, id_type_salle,
-                      acces_pmr, id_salle)
-        execute_query(cursor, requete, params)
-        db.commit()
-        close_cursor(cursor)
-    except Exception as e:
-        print(e.args)
-
-
-def confirmer_modif_logement(id_logement, nom_etablissement, adresse,
-                             nb_etoile):
-    """Fonction permettant de confirmer la modification d'un logement
-
-    Args:
-        id_logement (int): L'identifiant du logement
-        nom_etablissement (str): Le nom de l'etablissement
-        adresse (str): L'adresse de l'etablissement
-        nb_etoile (int): Le nombre d'etoile de l'etablissement
-
-    """
-    try:
-        cursor = get_cursor()
-        requete = f"UPDATE Logement SET nom_etablissement = %s,adresse_ville_codepostal = %s,nb_etoile = %s WHERE id_logement = %s"
-        execute_query(cursor, requete, (nom_etablissement, adresse, nb_etoile,
-                                        id_logement))
-        db.commit()
-        close_cursor(cursor)
-    except Exception as e:
-        print(e.args)
-
-
-def remove_concert(id):
-    """Fonction permettant de supprimer un concert dans la base de données
-
-    Args:
-        id (int): L'identifiant du concert
-    """
-    try:
-        # suppression dans avoir
-        cursor = get_cursor()
-        req = "DELETE FROM Avoir where id_concert= %s"
-        cursor.execute(req, (id, ))
-        close_cursor(cursor)
-        # suppression dans besoin_equipement_artiste
-        cursor = get_cursor()
-        req = "DELETE FROM Besoin_equipement_artiste where id_concert= %s"
-        cursor.execute(req, (id, ))
-        close_cursor(cursor)
-        # suppression dans loger
-        cursor = get_cursor()
-        req = "DELETE FROM Loger where id_concert= %s"
-        cursor.execute(req, (id, ))
-        close_cursor(cursor)
-        # suppression dans participer
-        cursor = get_cursor()
-        req = "DELETE FROM Participer where id_concert= %s"
-        cursor.execute(req, (id, ))
-        close_cursor(cursor)
-        # suppression detailscouts
-        cursor = get_cursor()
-        req = "DELETE FROM DetailsCouts where id_concert= %s"
-        cursor.execute(req, (id, ))
-        close_cursor(cursor)
-        # suppression du concert
-        cursor = get_cursor()
-        req = "DELETE FROM Concert where id_concert= %s"
-        cursor.execute(req, (id, ))
-        db.commit()
-        close_cursor(cursor)
-    except Exception as e:
-        print(e.args)
-
-
-def remove_participer(id_concert, id_artiste):
-    """Fonction permettant de supprimer un artiste d'un concert dans la base de données
-
-    Args:
-        id_concert (int): L'identifiant du concert
-        id_artiste (int): L'identifiant de l'artiste
-    """
-    try:
-        cursor = get_cursor()
-        req = "DELETE FROM Participer where id_concert= %s and id_artiste = %s"
-        cursor.execute(req, (
-            id_concert,
-            id_artiste,
-        ))
-        db.commit()
-        close_cursor(cursor)
-    except Exception as e:
-        print(e.args)
-
-
-def remove_salle(id):
-    """Fonction permettant de supprimer une salle dans la base de données
-
-    Args:
-        id (int): L'identifiant de la salle
-    """
-    try:
-        cursor = get_cursor()
-        req = "DELETE FROM Salle where id_salle= %s"
-        cursor.execute(req, (id, ))
-        db.commit()
-        close_cursor(cursor)
-        return True
-    except Exception as e:
-        return False
-
-
-def remove_logement(id_logement):
-    """Fonction permettant de supprimer un logement dans la base de données
-
-    Args:
-        id_logement (int): L'identifiant du logement
-    """
-    try:
-        cursor = get_cursor()
-        req = "DELETE FROM Logement where id_logement= %s"
-        cursor.execute(req, (id_logement, ))
-        db.commit()
-        close_cursor(cursor)
-    except Exception as e:
-        print(e.args)
-
-
 def remove_artiste(id):
     """Fonction permettant de supprimer un artiste dans la base de données
 
@@ -918,22 +1183,85 @@ def remove_artiste(id):
         print(e.args)
 
 
-def remove_equipement(id):
-    """Fonction permettant de supprimer un équipement dans la base de données
+def get_concerts_artiste(id_artiste):
+    """Fonction permettant de récupérer tout les concerts d'un artiste
 
     Args:
-        id (int): L'identifiant de l'équipement
+        id_artiste (int): L'identifiant de l'artiste
+
+    Returns:
+        list: Tout les concerts d'un artiste
     """
     try:
         cursor = get_cursor()
-        req = "DELETE FROM Equipement where id_equipement= %s"
-        cursor.execute(req, (id, ))
+        requete = "SELECT Concert.* FROM Participer NATURAL JOIN Concert WHERE id_artiste = %s;"
+        execute_query(cursor, requete, (id_artiste, ))
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        return info
+    except Exception as e:
+        print(e.args)
+    return None
+
+
+def save_artiste(id_artiste,
+                 nom_artiste,
+                 prenom_artiste,
+                 mail,
+                 telephone,
+                 date_de_naissance,
+                 lieu_de_naissance,
+                 adresse,
+                 securite_sociale,
+                 cni,
+                 date_delivrance_cni,
+                 date_expiration_cni,
+                 carte_reduction,
+                 style_musique,
+                 nom_scene,
+                 conge_spectacle="Non"):
+    """Fonction permettant de sauvegarder un artiste dans la base de données
+
+    Args:
+        id_artiste (int): L'identifiant de l'artiste
+        nom_artiste (str): Le nom de l'artiste
+        prenom_artiste (str): Le prenom de l'artiste
+        mail (str): L'adresse mail de l'artiste
+        telephone (str): Le numéro de téléphone de l'artiste
+        date_de_naissance (str): La date de naissance de l'artiste
+        lieu_de_naissance (str): Le lieu de naissance de l'artiste
+        adresse (str): L'adresse de l'artiste
+        securite_sociale (str): Le numéro de sécurité sociale de l'artiste
+        cni (str): Le cni de l'artiste
+        date_delivrance_cni (str): La date de délivrance du cni de l'artiste
+        date_expiration_cni (str): La date d'expiration du cni de l'artiste
+        carte_reduction (str): La carte de réduction de l'artiste
+        style_musique (str): Le genre musical de l'artiste
+        nom_scene (str): Le nom de scène de l'artiste
+        conge_spectacle (str, optional): L'artiste a t'il des conges ou non. Defaults to "Non".
+    """
+    try:
+        cursor = get_cursor()
+
+        req = "INSERT INTO Artiste (id_artiste, nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_naissance, adresse, securite_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction, nom_scene,conge_spectacle) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s)"
+        cursor.execute(
+            req,
+            (id_artiste, nom_artiste, prenom_artiste, mail, telephone,
+             date_de_naissance, lieu_de_naissance, adresse, securite_sociale,
+             cni, date_delivrance_cni, date_expiration_cni, carte_reduction,
+             nom_scene, conge_spectacle))
         db.commit()
+        # ajouter les styles à Jouer
+        for style in style_musique:
+            req = "INSERT INTO Jouer (id_artiste, id_style_musique) VALUES(%s, %s)"
+            cursor.execute(req, (id_artiste, style))
+            db.commit()
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
 
 
+# agenda
 def concerts_agenda1(heures, jour_voulu):
     """renvoie un agenda des concerts de la semaine du jour voulu
 
@@ -1052,81 +1380,60 @@ def concerts_agenda(heures=HEURES1, jour=JOUR_VOULU):
     return agenda
 
 
-def get_type_salles():
-    try:
-        cursor = get_cursor()
-        requete = "SELECT id_type,type_place_s FROM Type_Salle;"
-        cursor.execute(requete)
-        info = cursor.fetchall()
-        close_cursor(cursor)
-        return info
-    except Exception as e:
-        print(e.args)
-    return None
-
-
-def type_salle():
-    """Fonction permettant de récupérer tout les types de salle
-
-    Returns:
-        dict: Tout les types de salle
-    """
-    try:
-        cursor = get_cursor()
-        requete = "SELECT id_salle,type_place_s FROM Type_Salle JOIN Salle ON Type_Salle.id_type = Salle.id_type_salle;"
-        cursor.execute(requete)
-        info = cursor.fetchall()
-        close_cursor(cursor)
-        salle = {}
-        for id_salle, type_place in info:
-            salle[id_salle] = type_place
-        return salle
-    except Exception as e:
-        print(e.args)
-    return None
-
-
-def add_artiste_concert(id_concert, id_artiste):
-    """Fonction permettant d'ajouter un artiste à un concert
+# equipement
+def confirmer_modif_equipement(id_equipement, nom_equipement):
+    """Fonction permettant de confirmer la modification d'un équipement
 
     Args:
-        id_concert (int): L'identifiant du concert
-        id_artiste (int): L'identifiant de l'artiste
-
+        id_equipement (int): L'identifiant de l'équipement
+        nom_equipement (str): Le nom de l'équipement
     """
     try:
         cursor = get_cursor()
-        requete = "INSERT INTO Participer (id_concert, id_artiste) VALUES(%s, %s)"
-        cursor.execute(requete, (
-            id_concert,
-            id_artiste,
-        ))
+        requete = "UPDATE Equipement SET nom_equipement = %s WHERE id_equipement = %s;"
+        execute_query(cursor, requete, (nom_equipement, id_equipement))
         db.commit()
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
-    return None
 
 
-def get_concerts_artiste(id_artiste):
-    """Fonction permettant de récupérer tout les concerts d'un artiste
+def save_equipement(id_equipement, nom_equipement):
+    """Fonction permettant de sauvegarder un équipement dans la base de données
 
     Args:
-        id_artiste (int): L'identifiant de l'artiste
+        id_equipement (int): L'identifiant de l'équipement
+        nom_equipement (str): Le nom de l'équipement
 
-    Returns:
-        list: Tout les concerts d'un artiste
     """
     try:
         cursor = get_cursor()
-        requete = "SELECT Concert.* FROM Participer NATURAL JOIN Concert WHERE id_artiste = %s;"
-        execute_query(cursor, requete, (id_artiste, ))
-        info = cursor.fetchall()
+        requete = "INSERT INTO Equipement (id_equipement, nom_equipement) VALUES(%s, %s)"
+        execute_query(cursor, requete, (id_equipement, nom_equipement, ))
+        db.commit()
         close_cursor(cursor)
-        return info
     except Exception as e:
         print(e.args)
-    return None
+
+
+def get_id_equipement_max():
+    """Fonction permettant de récupérer l'identifiant de l'équipement le plus grand
+
+    Returns:
+        int: L'identifiant de l'équipement le plus grand
+    """
+    try:
+        cursor = get_cursor()
+        requete = "SELECT MAX(id_equipement) FROM Equipement"
+        cursor.execute(requete)
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        val = info[0][0]
+        if val is not None:
+            return info[0][0]
+    except Exception as e:
+        print(e.args)
+    return 0
 
 
 def get_equipement(id):
@@ -1150,46 +1457,20 @@ def get_equipement(id):
     return None
 
 
-def get_equipement_salle(id_salle):
-    """Fonction permettant de récupérer les équipements d'une salle
+def remove_equipement(id):
+    """Fonction permettant de supprimer un équipement dans la base de données
 
     Args:
-        id_salle (int): L'identifiant de la salle
-
-    Returns:
-        list: Les équipements d'une salle
+        id (int): L'identifiant de l'équipement
     """
     try:
         cursor = get_cursor()
-        requete = "SELECT id_equipement,nom_equipement,quantite FROM Posseder NATURAL JOIN Equipement WHERE id_salle = %s;"
-        execute_query(cursor, requete, (id_salle, ))
-        info = cursor.fetchall()
+        req = "DELETE FROM Equipement where id_equipement= %s"
+        cursor.execute(req, (id, ))
+        db.commit()
         close_cursor(cursor)
-        return info
     except Exception as e:
         print(e.args)
-    return None
-
-
-def get_equipement_concert(id_concert):
-    """Fonction permettant de récupérer les équipements d'un concert
-
-    Args:
-        id_concert (int): L'identifiant du concert
-
-    Returns:
-        list: Les équipements d'un concert
-    """
-    try:
-        cursor = get_cursor()
-        requete = "SELECT id_equipement,nom_equipement,quantite FROM Concert NATURAL JOIN Besoin_equipement_artiste NATURAL JOIN Equipement WHERE id_concert = %s;"
-        execute_query(cursor, requete, (id_concert,))
-        info = cursor.fetchall()
-        close_cursor(cursor)
-        return info
-    except Exception as e:
-        print(e.args)
-    return None
 
 
 def categoriser_equipements1(id_concert):
@@ -1262,61 +1543,6 @@ def equipements():
     return equipements
 
 
-def get_equipements_concert(id_concert):
-    """Fonction permettant de récupérer les équipements d'un concert
-
-    Args:
-        id_concert (int): L'identifiant du concert
-
-    Returns:
-        list: Les équipements d'un concert
-    """
-    try:
-        cursor = get_cursor()
-        requete = "SELECT id_equipement,nom_equipement,quantite,quantite_posseder FROM Concert NATURAL JOIN Besoin_equipement_artiste NATURAL JOIN Equipement WHERE id_concert = %s;"
-        execute_query(cursor, requete, (id_concert, ))
-        info = cursor.fetchall()
-        close_cursor(cursor)
-        return info
-    except Exception as e:
-        print(e.args)
-    return None
-
-
-def get_id_quantite_equipements_concert(id_concert):
-    try:
-        cursor = get_cursor()
-        requete = "SELECT id_equipement, quantite FROM Concert NATURAL JOIN Besoin_equipement_artiste NATURAL JOIN Equipement WHERE id_concert = %s;"
-        execute_query(cursor, requete, (id_concert, ))
-        info = cursor.fetchall()
-        close_cursor(cursor)
-        return info
-    except Exception as e:
-        print(e.args)
-    return None
-
-
-def get_tous_equipements_concert(id_concert):
-    """Fonction permettant de récupérer tout les équipements necessaire d'un concert
-
-    Args:
-        id_concert (int): L'identifiant du concert
-
-    Returns:
-        list: Tout les équipements necessaire d'un concert
-    """
-    try:
-        cursor = get_cursor()
-        requete = "SELECT id_equipement, nom_equipement, IFNULL(quantite,0) FROM Equipement e NATURAL LEFT JOIN Concert NATURAL LEFT JOIN Besoin_equipement_artiste NATURAL LEFT JOIN Equipement WHERE id_concert = %s;"
-        execute_query(cursor, requete, (id_concert, ))
-        info = cursor.fetchall()
-        close_cursor(cursor)
-        return info
-    except Exception as e:
-        print(e.args)
-    return None
-
-
 def get_tous_equipements_salle(id_salle):
     """Fonction permettant de récupérer tout les équipements d'une salle
 
@@ -1338,315 +1564,7 @@ def get_tous_equipements_salle(id_salle):
     return None
 
 
-def get_equipements_disponible(id_concert, id_salle):
-    """Fonction permettant de récupérer les équipements que l'on possede pour un concert
-
-    Args:
-        id_concert (int): L'identifiant du concert
-        id_salle (int): L'identifiant de la salle
-
-    Returns:
-        list: Les équipements que l'on possede pour un concert
-    """
-    equipements_concert = get_equipements_concert(id_concert)
-    try:
-        cursor = get_cursor()
-        requete = "SELECT id_equipement,nom_equipement,quantite FROM Salle NATURAL JOIN Posseder NATURAL JOIN Equipement WHERE id_salle = %s;"
-        execute_query(cursor, requete, (id_salle, ))
-        infos = cursor.fetchall()
-        close_cursor(cursor)
-        equipements = []
-        deja_vu = []
-        for e in infos:
-            if e[1] not in deja_vu:
-                equipements.append(e)
-                deja_vu.append(e[1])
-        for e in equipements_concert:
-            if e[1] not in deja_vu:
-                equipements.append(e)
-                deja_vu.append(e[1])
-        return equipements
-    except Exception as e:
-        print(e.args)
-    return None
-
-
-def save_artiste(id_artiste,
-                 nom_artiste,
-                 prenom_artiste,
-                 mail,
-                 telephone,
-                 date_de_naissance,
-                 lieu_de_naissance,
-                 adresse,
-                 securite_sociale,
-                 cni,
-                 date_delivrance_cni,
-                 date_expiration_cni,
-                 carte_reduction,
-                 style_musique,
-                 nom_scene,
-                 conge_spectacle="Non"):
-    """Fonction permettant de sauvegarder un artiste dans la base de données
-
-    Args:
-        id_artiste (int): L'identifiant de l'artiste
-        nom_artiste (str): Le nom de l'artiste
-        prenom_artiste (str): Le prenom de l'artiste
-        mail (str): L'adresse mail de l'artiste
-        telephone (str): Le numéro de téléphone de l'artiste
-        date_de_naissance (str): La date de naissance de l'artiste
-        lieu_de_naissance (str): Le lieu de naissance de l'artiste
-        adresse (str): L'adresse de l'artiste
-        securite_sociale (str): Le numéro de sécurité sociale de l'artiste
-        cni (str): Le cni de l'artiste
-        date_delivrance_cni (str): La date de délivrance du cni de l'artiste
-        date_expiration_cni (str): La date d'expiration du cni de l'artiste
-        carte_reduction (str): La carte de réduction de l'artiste
-        style_musique (str): Le genre musical de l'artiste
-        nom_scene (str): Le nom de scène de l'artiste
-        conge_spectacle (str, optional): L'artiste a t'il des conges ou non. Defaults to "Non".
-    """
-    try:
-        cursor = get_cursor()
-
-        req = "INSERT INTO Artiste (id_artiste, nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_naissance, adresse, securite_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction, nom_scene,conge_spectacle) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s)"
-        cursor.execute(
-            req,
-            (id_artiste, nom_artiste, prenom_artiste, mail, telephone,
-             date_de_naissance, lieu_de_naissance, adresse, securite_sociale,
-             cni, date_delivrance_cni, date_expiration_cni, carte_reduction,
-             nom_scene, conge_spectacle))
-        db.commit()
-        # ajouter les styles à Jouer
-        for style in style_musique:
-            req = "INSERT INTO Jouer (id_artiste, id_style_musique) VALUES(%s, %s)"
-            cursor.execute(req, (id_artiste, style))
-            db.commit()
-        close_cursor(cursor)
-    except Exception as e:
-        print(e.args)
-
-
-def save_equipement_concert(id_concert, id_equipement, quantite):
-    """Fonction permettant de sauvegarder un équipement pour un concert dans la base de données
-
-    Args:
-        id_concert (int): L'identifiant du concert
-        id_equipement (int): L'identifiant de l'équipement
-        quantite (int): La quantité de l'équipement
-
-    """
-    try:
-        cursor = get_cursor()
-        requete = "UPDATE Besoin_equipement_artiste SET quantite_posseder = %s WHERE id_concert = %s and id_equipement = %s;"
-        execute_query(cursor, requete, (
-            quantite,
-            id_concert,
-            id_equipement,
-        ))
-        db.commit()
-        close_cursor(cursor)
-    except Exception as e:
-        print(e.args)
-
-
-def save_necessaire_concert(id_concert,
-                            id_equipement,
-                            quantite,
-                            ancienne_quantite=0):
-    """Fonction permettant de mettre a jour la quantite d'équipement pour un concert dans la base de données
-
-    Args:
-        id_concert (int): L'identifiant du concert
-        id_equipement (int): L'identifiant de l'équipement
-        quantite (int): La quantité de l'équipement
-        ancienne_quantite (int, optional): La quantite qu'il avait avant modification. Defaults to 0.
-
-    """
-    try:
-        if quantite == 0:
-            cursor = get_cursor()
-            requete = "DELETE FROM Besoin_equipement_artiste WHERE id_concert = %s and id_equipement = %s;"
-            execute_query(cursor, requete, (
-                id_concert,
-                id_equipement,
-            ))
-            db.commit()
-            close_cursor(cursor)
-        elif ancienne_quantite > 0:
-            cursor = get_cursor()
-            requete = "UPDATE Besoin_equipement_artiste SET quantite = %s WHERE id_concert = %s and id_equipement = %s;"
-            execute_query(cursor, requete, (
-                quantite,
-                id_concert,
-                id_equipement,
-            ))
-            db.commit()
-            close_cursor(cursor)
-        else:
-            cursor = get_cursor()
-            requete = "INSERT INTO Besoin_equipement_artiste (id_concert, id_equipement, quantite, quantite_posseder) VALUES(%s, %s, %s, %s)"
-            execute_query(cursor, requete, (
-                id_concert,
-                id_equipement,
-                quantite,
-                0,
-            ))
-            db.commit()
-            close_cursor(cursor)
-    except Exception as e:
-        print(e.args)
-
-
-def save_equipement_salle(id_salle,
-                          id_equipement,
-                          quantite,
-                          ancienne_quantite=0):
-    """Fonction permettant de mettre a jour la quantite d'équipement pour une salle dans la base de données
-
-    Args:
-        id_salle (int): L'identifiant de la salle
-        id_equipement (int): L'identifiant de l'équipement
-        quantite (int): La quantité de l'équipement
-        ancienne_quantite (int, optional): La quantite qu'il avait avant modification . Defaults to 0.
-
-    """
-    try:
-        if quantite == 0:
-            cursor = get_cursor()
-            requete = "DELETE FROM Posseder WHERE id_salle = %s and id_equipement = %s;"
-            execute_query(cursor, requete, (
-                id_salle,
-                id_equipement,
-            ))
-            db.commit()
-            close_cursor(cursor)
-        elif ancienne_quantite > 0:
-            cursor = get_cursor()
-            requete = "UPDATE Posseder SET quantite = %s WHERE id_salle = %s and id_equipement = %s;"
-            execute_query(cursor, requete, (
-                quantite,
-                id_salle,
-                id_equipement,
-            ))
-            db.commit()
-            close_cursor(cursor)
-        else:
-            cursor = get_cursor()
-            requete = "INSERT INTO Posseder (id_salle, id_equipement, quantite) VALUES(%s, %s, %s)"
-            execute_query(cursor, requete, (
-                id_salle,
-                id_equipement,
-                quantite,
-            ))
-            db.commit()
-            close_cursor(cursor)
-    except Exception as e:
-        print(e.args)
-
-
-def get_logement_artiste(id_concert):
-    """Fonction permettant de récupérer le logement d'un artiste pour un concert
-
-    Args:
-        id_concert (int): L'identifiant du concert
-
-    Returns:
-        list: Le logement d'un artiste pour un concert
-    """
-    try:
-        cursor = get_cursor()
-        requete = "SELECT id_logement, nom_etablissement, nb_nuit FROM Logement NATURAL JOIN Loger WHERE id_concert=%s;"
-        execute_query(cursor, requete, (id_concert,))
-        info = cursor.fetchall()
-        close_cursor(cursor)
-        if info == []:
-            return None
-        return info[0]
-    except Exception as e:
-        print(e.args)
-    return None
-
-
-def supprimer_logement_artiste(id_concert):
-    """Fonction permettant de supprimer le logement d'un artiste pour un concert
-
-    Args:
-        id_concert (int): L'identifiant du concert
-
-    """
-    try:
-        cursor = get_cursor()
-        requete = "DELETE FROM Loger WHERE id_concert=%s;"
-        execute_query(cursor, requete, (id_concert,))
-        db.commit()
-        close_cursor(cursor)
-    except Exception as e:
-        print(e.args)
-
-
-def add_logement_artiste(id_concert, id_logement, nb_nuit):
-    """Fonction permettant d'ajouter un logement pour un artiste pour un concert
-
-    Args:
-        id_concert (int): L'identifiant du concert
-        id_logement (int): L'identifiant du logement
-        nb_nuit (int): Le nombre de nuit
-
-    """
-    try:
-        cursor = get_cursor()
-        requete = "INSERT INTO Loger (id_concert, id_logement, nb_nuit) VALUES(%s, %s, %s)"
-        execute_query(cursor, requete, (
-            id_concert,
-            id_logement,
-            nb_nuit,
-        ))
-        db.commit()
-        close_cursor(cursor)
-    except Exception as e:
-        print(e.args)
-
-
-def get_type_salle(id_salle):
-    """Fonction permettant de récupérer le type d'une salle
-
-    Args:
-        id_salle (int): L'identifiant de la salle
-
-    Returns:
-        list: Le type d'une salle
-    """
-    try:
-        cursor = get_cursor()
-        requete = "SELECT id_type, type_place_s FROM Type_Salle JOIN Salle ON Salle.id_type_salle = Type_Salle.id_type WHERE id_salle = %s;"
-        execute_query(cursor, requete, (id_salle, ))
-        info = cursor.fetchall()
-        close_cursor(cursor)
-        return info[0]
-    except Exception as e:
-        print(e.args)
-    return None
-
-
-def confirmer_modif_equipement(id_equipement, nom_equipement):
-    """Fonction permettant de confirmer la modification d'un équipement
-
-    Args:
-        id_equipement (int): L'identifiant de l'équipement
-        nom_equipement (str): Le nom de l'équipement
-    """
-    try:
-        cursor = get_cursor()
-        requete = "UPDATE Equipement SET nom_equipement = %s WHERE id_equipement = %s;"
-        execute_query(cursor, requete, (nom_equipement, id_equipement))
-        db.commit()
-        close_cursor(cursor)
-    except Exception as e:
-        print(e.args)
-
-
+# style_musique
 def get_id_style_musique_max():
     """Fonction permettant de récupérer l'identifiant maximum d'un style de musique
 
@@ -1704,24 +1622,23 @@ def save_style_musique(id_style_musique, nom_style_musique):
         print(e.args)
 
 
-def save_equipement(id_equipement, nom_equipement):
-    """Fonction permettant de sauvegarder un équipement dans la base de données
-
-    Args:
-        id_equipement (int): L'identifiant de l'équipement
-        nom_equipement (str): Le nom de l'équipement
+def styles_musique():
+    """Fonction permettant de récupérer tout les styles de musique
 
     """
     try:
         cursor = get_cursor()
-        requete = "INSERT INTO Equipement (id_equipement, nom_equipement) VALUES(%s, %s)"
-        execute_query(cursor, requete, (id_equipement, nom_equipement, ))
-        db.commit()
+        request = "SELECT * FROM Style_musique"
+        cursor.execute(request)
+        info = cursor.fetchall()
         close_cursor(cursor)
+        return info
     except Exception as e:
         print(e.args)
+    return None
 
 
+# type_salle
 def save_type_salle(id_type, type_place_s):
     """Fonction permettant de sauvegarder un type de salle dans la base de données
 
@@ -1738,3 +1655,99 @@ def save_type_salle(id_type, type_place_s):
         close_cursor(cursor)
     except Exception as e:
         print(e.args)
+
+
+def get_id_type_salle(nom):
+    """Fonction permettant de récupérer l'identifiant d'un type de salle
+
+    Args:
+        nom (str): Le nom du type de salle
+
+    """
+    try:
+        cursor = get_cursor()
+        request = "SELECT id_type FROM Type_Salle where type_place_s= %s"
+        cursor.execute(request, (nom, ))
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        if info == []:
+            # à la place rajouter le type dans la base de données
+            return 1
+        return info[0][0]
+    except Exception as e:
+        print(e.args)
+    return None
+
+
+def get_id_type_salle_max():
+    """Fonction permettant de récupérer l'identifiant du type de salle le plus grand
+
+    Returns:
+        int: L'identifiant du type de salle le plus grand
+    """
+    try:
+        cursor = get_cursor()
+        requete = "SELECT MAX(id_type) FROM Type_Salle"
+        cursor.execute(requete)
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        val = info[0][0]
+        if val is not None:
+            return info[0][0]
+    except Exception as e:
+        print(e.args)
+    return 0
+
+
+def get_type_salles():
+    """Fonction permettant de récupérer tout les types de salle"""
+    try:
+        cursor = get_cursor()
+        requete = "SELECT id_type,type_place_s FROM Type_Salle;"
+        cursor.execute(requete)
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        return info
+    except Exception as e:
+        print(e.args)
+    return None
+
+
+def type_salle():
+    """Fonction permettant de récupérer tout les types de salle
+
+    Returns:
+        dict: Tout les types de salle
+    """
+    try:
+        cursor = get_cursor()
+        requete = "SELECT id_salle,type_place_s FROM Type_Salle JOIN Salle ON Type_Salle.id_type = Salle.id_type_salle;"
+        cursor.execute(requete)
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        salle = {}
+        for id_salle, type_place in info:
+            salle[id_salle] = type_place
+        return salle
+    except Exception as e:
+        print(e.args)
+    return None
+
+
+# autres
+def save_image(photo):
+    """Fonction permettant de sauvegarder une image dans la base de données
+
+    Args:
+        photo (bytes): La photo à sauvegarder"""
+
+    try:
+        if photo.filename != "":
+            photo.seek(0)
+            image_data = photo.read()
+            image_bytesio = io.BytesIO(image_data)
+            blob = image_bytesio.read()
+            return blob
+    except Exception as e:
+        print(e.args)
+    return None

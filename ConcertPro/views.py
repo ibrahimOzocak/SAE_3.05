@@ -328,7 +328,7 @@ def modifier_salle(id_salle):
 @app.route('/ajout_artiste')
 def ajout_artiste():
     """page d'ajout d'un artiste"""
-    return render_template('ajout_artiste.html', styles=mo.styles_musisque())
+    return render_template('ajout_artiste.html', styles=mo.styles_musique())
 
 
 @app.route('/voir_artistes')
@@ -382,7 +382,7 @@ def modifier_artiste(id_artiste):
     lartiste = mo.get_artiste(id_artiste)
     dates = (lartiste[5].strftime('%Y-%m-%d'), lartiste[11].strftime('%Y-%m-%d'), lartiste[12].strftime('%Y-%m-%d'))
     styles_musique_artiste = mo.styles_musique_artiste(id_artiste)
-    styles = mo.styles_musisque()
+    styles = mo.styles_musique()
     return render_template('modifier_artiste.html',
                             artiste=lartiste,
                             dates=dates,
@@ -505,6 +505,7 @@ def ajout_logement():
 
 @app.route('/voir_logements')
 def voir_logements():
+    """page qui affiche les logements"""
     return render_template('voir_logements.html', logements=mo.logements())
 
 
@@ -763,6 +764,7 @@ def modifier_couts(id):
 
 # autres
 def generate_pdf_file(file_path, title, content):
+    """Générer un fichier PDF"""
     # Créer le fichier PDF
     pdf = canvas.Canvas(file_path, pagesize=letter)
     # Calculer la position horizontale pour centrer le texte
@@ -804,6 +806,7 @@ def generate_pdf_file(file_path, title, content):
 
 @app.route('/fiche_rider')
 def afficher_rider():
+    """afficher les riders"""
     credentials = service_account.Credentials.from_service_account_file(
         './concertpro-89fff3dd57e8.json',
         scopes=['https://www.googleapis.com/auth/spreadsheets.readonly'])
@@ -820,6 +823,7 @@ def afficher_rider():
 
 @app.route('/fiche_rider/rider')
 def rider():
+    """page du rider"""
     informations = request.args.get('informations')
     informations = unquote(informations).split(',')
     html_content = render_template('rider.html', informations=informations)
@@ -836,6 +840,7 @@ def rider():
 
 @app.route('/fiche_rider/fiche_rider')
 def fiche_rider():
+    """page de la fiche rider"""
     informations = request.args.get('informations')
     informations = unquote(informations).split(',')
     base = request.args.get('base')
@@ -851,11 +856,13 @@ def plan_feu():
 
 @app.template_filter('str')
 def string_filter(value):
+    """filtre pour transformer une valeur en chaine de caractères"""
     return str(value)
 
 
 @app.template_filter('byte_to_image')
 def byte_to_image(byte, id="", classe=""):
+    """filtre pour transformer un byte en image"""
     if(byte == None):
         return Markup(f'<img id="{id}" class="img_acc {classe}"  src="static/images/aucune_image.png" alt="img">')
     image_base64 = base64.b64encode(byte).decode('utf-8')
@@ -863,6 +870,7 @@ def byte_to_image(byte, id="", classe=""):
 
 # à mettre ailleurs
 def getCoordonnee(address):
+    """Obtenir les coordonnées géographiques d'une adresse"""
     try:
         encoded_address = requests.utils.quote(address, safe='')
         api_url = f'https://nominatim.openstreetmap.org/search?format=json&q={encoded_address}'
@@ -880,6 +888,7 @@ def getCoordonnee(address):
 
 
 def convert_date_format(date_str):
+    """Convertir une date de format JJ/MM/AAAA en format AAAA-MM-JJ"""
     print(date_str)
     date_obj = datetime.datetime.strptime(date_str, '%d/%m/%Y')
     nouvelle_date_str = date_obj.strftime('%Y-%m-%d')
@@ -889,6 +898,7 @@ def convert_date_format(date_str):
 # Gestion des erreurs
 @app.errorhandler(404)
 def not_found_error(error):
+    """page d'erreur 404"""
     print(error)
     return render_template('erreur.html',
                            num_erreur=404,
@@ -897,6 +907,7 @@ def not_found_error(error):
 
 @app.errorhandler(500)
 def not_found_error(error):
+    """page d'erreur 500"""
     print(error)
     return render_template('erreur.html',
                            num_erreur=500,
