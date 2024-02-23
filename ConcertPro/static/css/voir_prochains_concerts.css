@@ -1,0 +1,120 @@
+body{
+    background-color: #121212;
+}
+
+.conteneur {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+    justify-content: space-evenly;
+}
+
+.sous-conteneur{
+    display: flex;
+    width: 20%;
+    height: 50vh;
+    flex-direction: column;
+    border: solid 1px white;
+    border-radius: 5px;
+    position: relative;
+    margin: 1em;
+}
+
+.nom_art{
+    z-index: 1;
+}
+
+.addrLogement,.nomLogement{
+    color: black;
+}
+
+.title{
+    color: red;
+    font-size: 2em;
+    text-align: center;
+    margin-top: 1em;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.img_card{
+    width: 50px;
+}
+
+.div_img{
+    width: 100%;
+    overflow: hidden;   
+    height: 50%; 
+    border-radius: 5px;
+}
+
+.img_art{
+    width:70px;
+    height: 70px;
+    border-radius: 50%;
+    position: absolute;
+    top: 21vh;
+    left: 30px;
+}
+
+
+.div_img img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+#copyButton{
+    color: white;
+    border: 0.01em solid white;
+    padding: 0.5em;
+    font-size: 1em;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: color 0.5s;
+    position: absolute;
+    top: 2%;
+    right: 35%;
+}
+
+#copyButton:hover{
+    color: #1DB954;
+}
+
+.personne {
+    display: flex;
+    align-items: center;
+    margin: 10px;
+}
+
+.personne p{
+    font-size: medium;
+}
+
+
+.sous-conteneur h1{
+    font-size: xx-large;
+    color: white;
+    text-align: center;
+}
+
+.sous-conteneur a{
+    display: flex;
+    justify-content: center;
+    font-size: large;
+    color: black;
+    background-color: white;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.sous-conteneur a:hover span{
+    margin-left: 5px;
+    transition: all ease 0.5s;
+}
+
+.no-result{
+    font-size: 2em;
+}

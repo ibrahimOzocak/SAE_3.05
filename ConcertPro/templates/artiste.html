@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/concert.css')}}"> 
+{% endblock %}
+{% block content %}
+<a href="{{url_for('voir_artistes')}}"><img class="retour" src="../static/images/retour.png" alt=""></a>
+<div class="titre">
+    <h2>{{ artiste[3] }} {{ artiste[4] }}</h2>
+</div>
+<div class="container">
+    <div class="sous-container">
+        {% if artiste[-1] is none %}
+        <img class="img_acc" src="{{ url_for('static', filename='images/aucune_image.png') }}" alt="img">
+        {% else %}
+        {{ artiste[-1] | byte_to_image }}
+        {% endif %}
+    </div>
+    <div class="infos">
+        <p> <strong> Nom de scène :</strong> {{ artiste[-2] }}</p>
+        <p> <strong> Styles musicaux :</strong> {% for i in range (styles|length) %}{{ styles[i][1] }}{% if i < styles|length - 1 %}, {% endif %}{% endfor %}{% if styles|length == 0 %}pas de genre{% endif %}</p>
+        <p> <strong> Mail :</strong> {{ artiste[2] }}</p>
+        <p> <strong> Téléphone :</strong> {{ artiste[1] }}</p>
+        <p> <strong> Date de naissance :</strong> {{ dates[0] }}</p>
+        <p> <strong> Lieu de naissance :</strong> {{ artiste[6] }}</p>
+        <p> <strong> Adresse :</strong> {{ artiste[7] }}</p>
+        <p> <strong> Numéro de sécurité sociale :</strong> {{ artiste[8] }}</p>
+        <p> <strong> Cni :</strong> {{ artiste[10] }}</p>
+        <p> <strong> Date de délivrance du cni :</strong> {{ dates[1] }}</p>
+        <p> <strong> Date d'expiration du cni :</strong> {{ dates[2] }}</p>
+        <p> <strong> Carte réduction :</strong> {{ artiste[13] }}</p>
+    </div>
+</div>
+<div class="bouton">
+    <a class="modifier" href="{{ url_for('modifier_artiste', id_artiste=artiste[0]) }} " class="modifier">Modifier l'artiste</a>
+    {% if concerts|length ==  0 %}
+    <a class="supprimer"  href="{{ url_for('supprimer_artiste', id_artiste=artiste[0]) }}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet artiste, cette action est irréversible?');">Supprimer l'artiste</a>
+    {% else %}
+    <a class="supprimer" href="#" onclick="alert('Vous ne pouvez pas supprimer un artiste qui a des concerts.')">Supprimer l'artiste</a>
+    {% endif %}
+</div>
+<h2>Les concerts</h2>
+<div class="conteneur">
+    {% for i in range (concerts|length) %}
+    <div class="sous-conteneur">
+        <a href="{{ url_for('concert', id=concerts[i][0]) }}">
+            {% if concerts[i][-1] is none %}
+            <img class="img_acc"  src="{{ url_for('static', filename='images/aucune_image.png') }}" alt="img">
+            {% else %}
+            {{ concerts[i][-1] | byte_to_image }}
+            {% endif %}
+            <p>{{ concerts[i][1] }}</p>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

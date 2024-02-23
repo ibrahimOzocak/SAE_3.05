@@ -1,0 +1,190 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    background-color: #121212;
+    color: white;
+}
+
+form{
+    margin: 1em;
+    position: relative;
+}
+
+.aide{
+    width: 50px;
+}
+
+.numero{
+    display: flex;
+    flex-direction: column;
+}
+
+.numero button{
+    width: 60px;
+    padding: 5px;
+    background-color: #121212;
+    border: solid 1px white;
+    color: white;
+    border-radius: 5px;
+}
+
+#partie-one,
+#partie-two{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+#partie-principal{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    margin: 1em;
+    margin-top: 5em;
+}
+
+#partie-principal-two{
+    margin-top: 2em;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
+}
+
+.items{
+    display: flex;
+    flex-direction: column;
+    width: 33%;
+    height: 100%;
+    justify-content: center;
+}
+
+#titre{
+    width: 99.7%;
+}
+
+.container {
+    position: relative;
+    width: 20em;
+    height: 20em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+  
+#image-charge {
+    width: 20em;
+    height: 100%;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid white;
+}
+  
+  #image-input {
+    position: absolute;
+    top: 0;
+    width: 20em;
+    height: 100%;
+    opacity: 0;
+    z-index: 2;
+  }
+
+.mettre-dessous{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 1em;
+}
+
+#desc{
+    width: 98.5%;
+    height: 10em;
+}
+
+.mettre-droite{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0.2em;
+}
+
+input, select{
+    color: white;
+    border: none;
+    background: none;
+    border-bottom: 0.1em solid white;
+    height: 3em;
+    outline: none;
+}
+
+textarea{
+    background: none;
+    color: white;
+    outline: none;
+    padding: 0.5em;
+}
+
+.nuits{
+    margin-bottom: 1em;
+}
+
+.lien_blank button{
+    border: transparent;
+    background-color: transparent;
+    color: white;
+    text-decoration: underline;
+    margin: 0.2em;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.lien_blank:hover button{
+    color: #1DB954;
+    transition: color 0.5s;
+}
+
+#ajouter_concert{
+    color: white;
+    border: 0.01em solid white;
+    padding: 0.5em;
+    font-size: 1.5em;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: color 0.5s;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+#ajouter_concert:hover{
+    color: #1DB954;
+}
+
+.padding-top{
+    margin-top: 1em;
+}
+
+.resize{
+    width: 50%;
+}
+
+.rz{
+    width: 25%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+
+.margin{
+    margin: 0.5em;
+}
