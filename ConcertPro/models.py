@@ -1578,7 +1578,7 @@ def supprimer_logement_artiste(id_concert):
     """
     try:
         cursor = get_cursor()
-        requete = "DELETE FROM Loger WHERE AND id_concert=%s;"
+        requete = "DELETE FROM Loger WHERE id_concert=%s;"
         execute_query(cursor, requete, (id_concert,))
         db.commit()
         close_cursor(cursor)
