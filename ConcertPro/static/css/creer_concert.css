@@ -13,6 +13,24 @@ form{
     position: relative;
 }
 
+.aide{
+    width: 50px;
+}
+
+.numero{
+    display: flex;
+    flex-direction: column;
+}
+
+.numero button{
+    width: 60px;
+    padding: 5px;
+    background-color: #121212;
+    border: solid 1px white;
+    color: white;
+    border-radius: 5px;
+}
+
 #partie-one,
 #partie-two{
     display: flex;
