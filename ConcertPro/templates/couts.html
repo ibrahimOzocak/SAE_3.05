@@ -5,7 +5,8 @@
 {% endblock %}
 {% block content %}
 <div class="modif">
-    <form action="{{ url_for('modifier_couts', id=couts[0][0]) }}" method="post">
+<p>{{ couts }}</p>
+    <form action="{{ url_for('modifier_couts', id=couts[0][1]) }}" method="post">
     <p> <strong>Cout matériel :</strong>  <input name="materiel" required value="{{ couts[0][2] }}"> </p>
     <p> <strong>Cout artiste :</strong> <input name="artiste" required value="{{ couts[0][3] }}"> </p>
     <p> <strong>Cout salle :</strong> <input name="salle" required value="{{ couts[0][6] }}"> </p>
