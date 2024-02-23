@@ -20,7 +20,5 @@ Il suffit d'aller dans le dossier ConcertPro et de faire la commande "flask run"
 
 ### Base de données
 
-Les données sont sur la bases de donéés de l'IUT de Maxime Sevellec pour la changer il suffit d'aller dans modele et changer avec l'utilisateur souhaiter
-Puis recrée la bd avec le fichier Create.sql 
-
-
+Les données sont sur la base de données de l'IUT de Maxime Sevellec. Pour la changer, il suffit d'aller dans modele et changer avec l'utilisateur souhaité
+Puis recréer la bd avec le fichier Create.sql
