@@ -16,7 +16,7 @@ Création d'un site web pour la gestion de concerts.
 
 ### Lancer le projet
 
-Il suffit de faire la commande "flask run" dans le dossier courant
+Il suffit d'aller dans le dossier ConcertPro et de faire la commande "flask run" dans le dossier courant
 
 ### Base de données
 
