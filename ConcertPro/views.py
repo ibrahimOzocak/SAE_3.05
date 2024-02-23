@@ -408,12 +408,11 @@ def save_artiste():
     carte_reduction = request.form['carte_train']
     style_musical = request.form.getlist('genre')
     id_artiste = mo.get_id_artiste_max() + 1
-    print(date_de_naissance)
-    print(id_artiste, nom_artiste, prenom_artiste, mail, telephone,
-                    date_de_naissance, lieu_de_naissance, adresse,
-                    securite_sociale, cni, date_delivrance_cni,
-                    date_expiration_cni, carte_reduction, style_musical,
-                    nom_scene)
+    # print(id_artiste, nom_artiste, prenom_artiste, mail, telephone,
+    #                 date_de_naissance, lieu_de_naissance, adresse,
+    #                 securite_sociale, cni, date_delivrance_cni,
+    #                 date_expiration_cni, carte_reduction, style_musical,
+    #                 nom_scene)
     mo.save_artiste(id_artiste, nom_artiste, prenom_artiste, mail, telephone,
                     date_de_naissance, lieu_de_naissance, adresse,
                     securite_sociale, cni, date_delivrance_cni,
