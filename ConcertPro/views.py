@@ -408,11 +408,6 @@ def save_artiste():
     carte_reduction = request.form['carte_train']
     style_musical = request.form.getlist('genre')
     id_artiste = mo.get_id_artiste_max() + 1
-    # print(id_artiste, nom_artiste, prenom_artiste, mail, telephone,
-    #                 date_de_naissance, lieu_de_naissance, adresse,
-    #                 securite_sociale, cni, date_delivrance_cni,
-    #                 date_expiration_cni, carte_reduction, style_musical,
-    #                 nom_scene)
     mo.save_artiste(id_artiste, nom_artiste, prenom_artiste, mail, telephone,
                     date_de_naissance, lieu_de_naissance, adresse,
                     securite_sociale, cni, date_delivrance_cni,
@@ -441,11 +436,26 @@ def save_artiste_to_rider():
     except:
         pass
 
+    # transformer la liste de styles musicaux en liste d'id de styles musicaux
+    styles = informations[-2].split(',')
+    styles_id = []
+    for style in styles:
+        id = mo.get_id_style_musique(style)
+        if id is None:
+            id = mo.get_id_style_musique_max() + 1
+            mo.save_style_musique(id, style)
+        styles_id.append(id)
+
+    # changement des dates en datetime
+    informations[4] = datetime.datetime.strptime(informations[4], '%d/%m/%Y')
+    informations[10] = datetime.datetime.strptime(informations[10], '%d/%m/%Y')
+    informations[11] = datetime.datetime.strptime(informations[11], '%d/%m/%Y')
+
     mo.save_artiste(id_artiste, informations[2], informations[3],
                     informations[20], informations[21], informations[4],
                     informations[5], informations[6], informations[7],
                     informations[9], informations[10], informations[11],
-                    informations[12], informations[-2], informations[22],
+                    informations[12], styles_id, informations[22],
                     informations[8])
 
     return redirect(url_for('creer_concert'))
