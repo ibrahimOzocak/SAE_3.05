@@ -37,7 +37,7 @@ div input[type="text"] {
     margin-bottom: 15px;
     background-color: white;
     color: black;
-    outline: none; /* Retire la bordure de focus */
+    outline: none; 
 }
 
 .valider:hover{

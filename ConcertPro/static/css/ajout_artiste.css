@@ -34,7 +34,7 @@ input, select {
     margin-bottom: 15px;
     background-color: #121212;
     color: white;
-    outline: none; /* Retire la bordure de focus */
+    outline: none; 
 }
 
 button {

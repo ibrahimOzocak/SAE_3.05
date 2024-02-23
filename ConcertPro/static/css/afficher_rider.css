@@ -5,9 +5,9 @@ body{
 
 .fiche{
     width: calc(25% - 20px);
-    padding: 1.25em; /* Espacement intérieur */
+    padding: 1.25em; 
     margin: 0.8em 0;
-    box-shadow: 0 0 0.5em rgba(0, 0, 0, 0.9); /* Ombre légère */
+    box-shadow: 0 0 0.5em rgba(0, 0, 0, 0.9); 
     background-color: #343434;
     justify-content: center;
     align-items: center;

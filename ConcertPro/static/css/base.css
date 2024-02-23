@@ -76,7 +76,6 @@ p {
     filter: blur(0.6em) brightness(1.2);
 }
 
-/* Menu Styles */
 
 #menu {
    position: fixed;
@@ -126,7 +125,6 @@ p {
   transform: translate(260px, 0px);
 }
 
-/* List styling... not necessary for demo */
 
 ul, ol {
   list-style: none;
@@ -166,18 +164,6 @@ ul, ol {
 .menu-item a{
   padding: 2em;
 }
-
-/* Nav Icon */
-
-/*
-.menu-link {
-  transition: transform 1s ease-in-out;
-}
-
-.menu-link:hover {
-  transform: rotate(360deg);
-}
-*/
 
 #nav-icon {
   width: 30px;
@@ -254,8 +240,6 @@ ul, ol {
   -o-transform-origin: left center;
   transform-origin: left center;
 }
-
-/* Icon Animation */
 
 .active #nav-icon span:nth-child(1) {
   -webkit-transform: rotate(45deg);

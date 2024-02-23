@@ -31,8 +31,8 @@ body{
 
 
 .container{
-    padding: 20px; /* Espacement intérieur */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Ombre légère */
+    padding: 20px; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     margin-top: 1em;
     justify-content: center;
     align-items: center;
