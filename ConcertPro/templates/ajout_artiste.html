@@ -16,7 +16,10 @@
                 <input type="text" id="nom" name="nom" required maxlength="42">
                 <label for="nom_scene">Nom de scène:</label>
                 <input type="text" id="nom_scene" name="nom_scene" required maxlength="42">
-                <label for="genre">Styles musicaux :</label>
+                <div>
+                    <label for="genre">Styles musicaux :</label>
+                    <a class="lien_blank" href="{{ url_for('ajout_style_musique') }}" target="_blank"><button type="button">Creer un nouveau style musical</button></a>
+                </div>
                 <select name="genre" id="genre" type="multiple" multiple>
                     {% for style in styles %}
                     <option value="{{ style[0] }}">{{ style[1] }}</option>

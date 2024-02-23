@@ -439,7 +439,9 @@ def save_artiste_to_rider():
         pass
 
     # transformer la liste de styles musicaux en liste d'id de styles musicaux
-    styles = informations[-2].split(',')
+    styles = informations[-2].split(';')
+    print(informations[-2])
+    print(styles)
     styles_id = []
     for style in styles:
         id = mo.get_id_style_musique(style)
@@ -817,7 +819,7 @@ def afficher_rider():
     spreadsheet_id = '1kpj-WOIBMWlcQ0UjUBzClUZHpHbAcNtbs1boWUaYemM'
     result = service.spreadsheets().values().get(
         spreadsheetId=spreadsheet_id, range='reponse_formulaire').execute()
-    values = result.get('values', [])    
+    values = result.get('values', [])
     return render_template('afficher_rider.html',
                            values=values)
 
