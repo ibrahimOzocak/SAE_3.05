@@ -1399,7 +1399,7 @@ def save_artiste(id_artiste,
         lieu_de_naissance (str): Le lieu de naissance de l'artiste
         adresse (str): L'adresse de l'artiste
         securite_sociale (str): Le numéro de sécurité sociale de l'artiste
-        cni (_type_): Le cni de l'artiste
+        cni (str): Le cni de l'artiste
         date_delivrance_cni (str): La date de délivrance du cni de l'artiste
         date_expiration_cni (str): La date d'expiration du cni de l'artiste
         carte_reduction (str): La carte de réduction de l'artiste
@@ -1410,14 +1410,6 @@ def save_artiste(id_artiste,
     try:
         cursor = get_cursor()
 
-        for style in style_musique:
-            req = "SELECT * FROM Style_musique WHERE id_style_musique = %s;"
-            cursor.execute(req, (style, ))
-            info = cursor.fetchall()
-            if info == []:
-                req = "INSERT INTO Style_musique (id_style_musique) VALUES(%s)"
-                cursor.execute(req, (style, ))
-                db.commit()
         req = "INSERT INTO Artiste (id_artiste, nom_artiste, prenom_artiste, mail, telephone, date_de_naissance, lieu_naissance, adresse, securite_sociale, cni, date_delivrance_cni, date_expiration_cni, carte_reduction, nom_scene,conge_spectacle) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s)"
         cursor.execute(
             req,
@@ -1665,6 +1657,27 @@ def get_id_style_musique_max():
         cursor = get_cursor()
         requete = "SELECT MAX(id_style_musique) FROM Style_musique;"
         cursor.execute(requete)
+        info = cursor.fetchall()
+        close_cursor(cursor)
+        return info[0][0]
+    except Exception as e:
+        print(e.args)
+    return None
+
+
+def get_id_style_musique(nom_style_musique):
+    """Fonction permettant de récupérer l'identifiant d'un style de musique
+
+    Args:
+        nom_style_musique (str): Le nom du style de musique
+
+    Returns:
+        int: L'identifiant du style de musique
+    """
+    try:
+        cursor = get_cursor()
+        requete = "SELECT id_style_musique FROM Style_musique WHERE nom_style_musique = %s;"
+        cursor.execute(requete, (nom_style_musique, ))
         info = cursor.fetchall()
         close_cursor(cursor)
         return info[0][0]

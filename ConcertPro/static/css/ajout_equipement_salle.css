@@ -4,10 +4,10 @@ body{
 }
 
 section{
-    padding: 40px; /* Espacement intérieur */
-    border: 1px solid #ccc; /* Bordure */
-    border-radius: 10px; /* Coins arrondis */
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Ombre légère */ 
+    padding: 40px; 
+    border: 1px solid #ccc;
+    border-radius: 10px; 
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); 
     justify-content: center;
     align-items: center;
     display: flex;
@@ -40,7 +40,7 @@ div input[type="text"] {
     margin-bottom: 15px;
     background-color: #121212;
     color: white;
-    outline: none; /* Retire la bordure de focus */
+    outline: none; 
 }
 
 .valider:hover{
@@ -52,7 +52,7 @@ label{
     margin: 10px;
 }
 
-/* Firefox */
+
 input[type=number] {
     -moz-appearance: textfield;
   }
@@ -66,7 +66,7 @@ section input{
     margin-bottom: 15px;
     background-color: #121212;
     color: white;
-    outline: none; /* Retire la bordure de focus */
+    outline: none; 
 }
 .annuler a{
     background-color: red;
